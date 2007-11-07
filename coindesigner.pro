@@ -60,7 +60,7 @@ FORMS	=	ui/mainwindow.ui \
 
 RESOURCES = images/icons.qrc demos/demos.qrc
 
-TRANSLATIONS = coindesigner_es.ts
+TRANSLATIONS = translations/coindesigner_es.ts
 
 #TODO INSTALL = test
 

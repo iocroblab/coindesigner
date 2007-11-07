@@ -31,18 +31,12 @@ coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro
 cdsview : tmp/cdsview.o tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
 	$(CXX) $(LDFLAGS) -o $@ $< 
 
-images.pro : images images/gui images/nodes images/gui/* images/nodes/*
-	echo -n "IMAGES += " > $@
-	echo `ls images/gui/*.png` >> $@
-	echo -n "IMAGES += " >> $@
-	echo `ls images/nodes/*.png` >> $@
-
 tmp/%.o : %.o
 	mkdir -p tmp
 	mv $< $@
 
-%.o : %.cpp coindesigner.pro
-	$(CXX) -c $(CXXFLAGS) $< 
+tmp/%.o : src/%.cpp coindesigner.pro
+	$(CXX) -c -o $@ $(CXXFLAGS) $< 
 
 src/cds_parser.cpp include/cds_parser.h : src/cds_parser.y
 	yacc $(YFLAGS) src/cds_parser.y
@@ -55,12 +49,10 @@ src/cds_scanner.cpp : src/cds_scanner.l include/cds_parser.h
 
 coindesigner.vcproj : coindesigner.pro
 	qmake -t vcapp -o $@ coindesigner.pro
+
+translations : coindesigner.pro
 	lupdate coindesigner.pro
 	lrelease coindesigner.pro
-
-update_doc:
-	wget -r -np -nv -N http://doc.coin3d.org/Coin
-	wget -r -np -nv -N http://doc.coin3d.org/SIMVoleon/
 
 clean : 
 	qmake coindesigner.pro

@@ -25,7 +25,7 @@
 				BuildCommandLine="nmake -f coindesigner.make coindesigner.vcproj"
 				ReBuildCommandLine="nmake -f coindesigner.make clean &amp;&amp; nmake -f coindesigner.make coindesigner.vcproj"
 				CleanCommandLine="nmake -f coindesigner.make clean"
-				Output="coindesigner.vcproj"
+				Output=""
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				IncludeSearchPath=""
 				ForcedIncludes=""
