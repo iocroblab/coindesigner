@@ -71,6 +71,11 @@ public:
 	///Constructor de la clase MainWindow
 	MainWindow (QWidget *p=0, Qt::WindowFlags f=0);
 
+        ///Version de Load/Save/Import que admite un parametro
+	bool on_actionLoad_Scene_activated(QString filename);
+	void on_actionSave_Scene_activated(QString filename);
+	bool on_actionImport_File_activated(QString filename);
+
 public slots:
 
 	//Slots para menu Scene
@@ -120,10 +125,6 @@ public slots:
 	void on_fieldTable_cellChanged(int row, int column);
 
 private:
-        ///Version de Load/Save/Import que admite un parametro
-	bool on_actionLoad_Scene_activated(QString filename);
-	void on_actionSave_Scene_activated(QString filename);
-	bool on_actionImport_File_activated(QString filename);
 
 	///Autogenera la paleta de componentes mediante exploracion de coin3D
 	void generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *padre=0);
