@@ -58,7 +58,7 @@ FORMS	=	ui/mainwindow.ui \
 		ui/qslim_options4.ui
 			
 
-RESOURCES = images/icons.qrc
+RESOURCES = images/icons.qrc demos/demos.qrc
 
 TRANSLATIONS = coindesigner_es.ts
 

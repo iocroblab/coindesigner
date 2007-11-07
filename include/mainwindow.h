@@ -116,6 +116,7 @@ public slots:
 	void actionShow_Node_Reference_activated();
 	void on_actionTutorial_1_activated();
 	void on_actionTutorial_2_activated();
+	void on_actionMirror_demo_activated();
 	void on_actionAbout_activated();
 
 	//Slots para el area de trabajo

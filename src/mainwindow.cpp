@@ -816,6 +816,45 @@ void MainWindow::on_actionTutorial_2_activated()
     this->open_html_viewer(url);
 }
 
+void MainWindow::on_actionMirror_demo_activated()
+{
+        QResource demoRsrc(":/demos/mirror.iv");
+        assert(demoRsrc.isValid());
+
+        long long size =  demoRsrc.size();
+        printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
+
+        char *buf =  new char[size];
+
+	if(demoRsrc.isCompressed())
+        {
+                memcpy(buf, qUncompress(demoRsrc.data(), size).data(), size);
+        }
+        else
+        {
+                memcpy(buf, demoRsrc.data(), size);
+
+        }
+
+	SoInput input;
+        input.setBuffer(buf, size) ;
+                printf("isValidBuffer=%d\n", input.isValidBuffer() );
+                SoSeparator *demo = SoDB::readAll(&input);
+
+	        //Destruimos la escena actual y creamos una nueva
+	        on_actionNew_Scene_activated();
+
+	        //Colgamos el nodo del grafo de escena
+		root->addChild(demo);
+		newSceneGraph(Ui.sceneGraph->currentItem(), demo);
+                Ui.sceneGraph->currentItem()->setExpanded(true);
+	        escena_modificada = false;
+
+        delete buf;
+
+}
+
+
 ///Dialogo About
 void MainWindow::on_actionAbout_activated()
 {

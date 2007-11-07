@@ -124,9 +124,15 @@
      <addaction name="actionTutorial_1" />
      <addaction name="actionTutorial_2" />
     </widget>
+    <widget class="QMenu" name="menu_Demos" >
+     <property name="title" >
+      <string>&amp;Demos</string>
+     </property>
+     <addaction name="actionMirror_demo" />
+    </widget>
     <addaction name="actionCoin3D_Reference" />
     <addaction name="menuTutorials" />
-    <addaction name="actionDemos" />
+    <addaction name="menu_Demos" />
     <addaction name="separator" />
     <addaction name="actionAbout" />
    </widget>
@@ -519,14 +525,6 @@
     <string>&amp;About</string>
    </property>
   </action>
-  <action name="actionDemos" >
-   <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/gui/attach.png</iconset>
-   </property>
-   <property name="text" >
-    <string>&amp;Demos</string>
-   </property>
-  </action>
   <action name="actionShow_Node_Reference" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
@@ -591,6 +589,11 @@
    </property>
    <property name="text" >
     <string>&amp;PlaneViewer Editor</string>
+   </property>
+  </action>
+  <action name="actionMirror_demo" >
+   <property name="text" >
+    <string>Mirror demo</string>
    </property>
   </action>
  </widget>

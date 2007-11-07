@@ -4,6 +4,8 @@
 #include "cds_view.h"
 #include "mainwindow.h"
 #include <qsettings.h>
+#include <qresource.h>
+#include <QByteArray>
 
 ///Objeto para almacenar la configuración de coindesigner
 QSettings *settings;
@@ -12,7 +14,8 @@ int main(int argc, char *argv[])
 {
 	//Inicializamos los resources (iconos, etc...)
 	Q_INIT_RESOURCE(icons);
-
+	Q_INIT_RESOURCE(demos);
+	
 	QApplication app(argc, argv);
 
 	//Abrimos fichero de configuración
@@ -46,12 +49,6 @@ int main(int argc, char *argv[])
 		mw->on_actionLoad_Scene_activated(argv[1]);
         }
 	}// if (argc > 1)
-
-
-
-
-
-
 
 	//Mostramos la ventana principal 
 	mw->show();
