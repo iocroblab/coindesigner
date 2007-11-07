@@ -1,0 +1,161 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>matrix_editor</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>matrix_editor</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>555</width>
+            <height>151</height>
+        </rect>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>510</width>
+            <height>150</height>
+        </size>
+    </property>
+    <property name="maximumSize">
+        <size>
+            <width>800</width>
+            <height>600</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>SFMatrix editor</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QTable">
+            <property name="name">
+                <cstring>table3</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>800</width>
+                    <height>400</height>
+                </size>
+            </property>
+            <property name="resizePolicy">
+                <enum>AutoOneFit</enum>
+            </property>
+            <property name="numRows">
+                <number>4</number>
+            </property>
+            <property name="numCols">
+                <number>4</number>
+            </property>
+            <property name="selectionMode">
+                <enum>Single</enum>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>2</number>
+                </property>
+                <property name="spacing">
+                    <number>2</number>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>pushButton17</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>150</width>
+                            <height>75</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string>OK</string>
+                    </property>
+                    <property name="default">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>pushButton18</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>150</width>
+                            <height>75</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string>Aplicar</string>
+                    </property>
+                    <property name="default">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>pushButton11</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Cancelar</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </hbox>
+</widget>
+<connections>
+    <connection>
+        <sender>pushButton17</sender>
+        <signal>clicked()</signal>
+        <receiver>matrix_editor</receiver>
+        <slot>Aplicar_cambios_a_Matrix()</slot>
+    </connection>
+    <connection>
+        <sender>pushButton17</sender>
+        <signal>clicked()</signal>
+        <receiver>matrix_editor</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>pushButton11</sender>
+        <signal>clicked()</signal>
+        <receiver>matrix_editor</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>pushButton18</sender>
+        <signal>clicked()</signal>
+        <receiver>matrix_editor</receiver>
+        <slot>Aplicar_cambios_a_Matrix()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">Inventor/fields/SoFields.h</include>
+    <include location="local" impldecl="in implementation">matrix_editor.ui.h</include>
+</includes>
+<slots>
+    <slot>Aplicar_cambios_a_Matrix()</slot>
+    <slot>cargarDatos( SoSFMatrix * field )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,1003 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>Form1</class>
+<widget class="QMainWindow">
+    <property name="name">
+        <cstring>Form1</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>701</width>
+            <height>525</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>544</width>
+            <height>191</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>CoinDesigner</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QSplitter">
+            <property name="name">
+                <cstring>splitter3</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>10</horstretch>
+                    <verstretch>10</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <widget class="QLayoutWidget">
+                <property name="name">
+                    <cstring>layout1</cstring>
+                </property>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="spacing">
+                        <number>0</number>
+                    </property>
+                    <widget class="QComboBox">
+                        <item>
+                            <property name="text">
+                                <string>Coin3D</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Coin3D plano</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Simple Inventor</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>SGI OpenInventor</string>
+                            </property>
+                        </item>
+                        <property name="name">
+                            <cstring>comboBox1</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                    <widget class="QListView">
+                        <column>
+                            <property name="text">
+                                <string>Nodos</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <property name="name">
+                            <cstring>nodeTree</cstring>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>0</height>
+                            </size>
+                        </property>
+                        <property name="resizePolicy">
+                            <enum>AutoOneFit</enum>
+                        </property>
+                        <property name="rootIsDecorated">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget class="QListView">
+                <column>
+                    <property name="text">
+                        <string>Grafo de escena</string>
+                    </property>
+                    <property name="clickable">
+                        <bool>true</bool>
+                    </property>
+                    <property name="resizable">
+                        <bool>true</bool>
+                    </property>
+                </column>
+            <item>
+                <property name="text">
+                    <string>ROOT</string>
+                </property>
+                <property name="pixmap">
+                    <pixmap></pixmap>
+                </property>
+            </item>
+                <property name="name">
+                    <cstring>sceneTree</cstring>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>7</hsizetype>
+                        <vsizetype>7</vsizetype>
+                        <horstretch>10</horstretch>
+                        <verstretch>10</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>200</width>
+                        <height>0</height>
+                    </size>
+                </property>
+                <property name="resizePolicy">
+                    <enum>AutoOneFit</enum>
+                </property>
+                <property name="rootIsDecorated">
+                    <bool>true</bool>
+                </property>
+                <property name="showToolTips">
+                    <bool>false</bool>
+                </property>
+                <property name="resizeMode">
+                    <enum>AllColumns</enum>
+                </property>
+                <property name="treeStepSize">
+                    <number>28</number>
+                </property>
+            </widget>
+            <widget class="QTable">
+                <column>
+                    <property name="text">
+                        <string>Valor</string>
+                    </property>
+                </column>
+                <property name="name">
+                    <cstring>fieldTable</cstring>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>180</width>
+                        <height>0</height>
+                    </size>
+                </property>
+                <property name="resizePolicy">
+                    <enum>AutoOneFit</enum>
+                </property>
+                <property name="numRows">
+                    <number>0</number>
+                </property>
+                <property name="numCols">
+                    <number>1</number>
+                </property>
+            </widget>
+        </widget>
+    </vbox>
+</widget>
+<menubar>
+    <property name="name">
+        <cstring>MenuBarEditor</cstring>
+    </property>
+    <item text="Escena" name="PopupMenuEditor">
+        <action name="menuInicializarAction"/>
+        <action name="menuCargar_EscenaAction"/>
+        <action name="menuSalvar_EscenaAction"/>
+        <separator/>
+        <action name="menu_ImportarGeometria"/>
+        <separator/>
+        <action name="exportarVRML2"/>
+	<action name="exportarCPP"/>
+	<action name="fix_scene"/>
+	<action name="incrustar_texturas"/>
+        <separator/>
+        <action name="menu_escena_salir_action"/>
+    </item>
+    <item text="Editar" name="unnamed">
+        <action name="menu_edit_cut"/>
+        <action name="menu_edit_copy"/>
+        <action name="menu_edit_paste"/>
+        <action name="menu_edit_delete"/>
+        <action name="menu_edit_link"/>
+        <separator/>
+        <action name="subir_nodo"/>
+        <action name="bajar_nodo"/>
+        <separator/>
+        <action name="menu_edit_preferences"/>
+    </item>
+    <item text="Ver" name="Ver">
+        <action name="nuevoCdsExaminerViewerAction"/>
+        <action name="nuevoCdsFlyViewerAction"/>
+        <action name="nuevoCdsPlaneViewerAction"/>
+        <action name="nuevoCdsRenderAreaAction"/>
+        <separator/>
+        <action name="cambiar_bgColor_Action"/>
+        <action name="verMostrar_FPSAction"/>
+    </item>
+    <item text="Ayuda" name="PopupMenu">
+        <action name="menu_help_reference"/>
+        <action name="menu_help_tut01"/>
+        <action name="ayudaTutorial_02Action"/>
+        <action name="menu_help_about"/>
+    </item>
+</menubar>
+<toolbars>
+    <toolbar dock="2">
+        <property name="name">
+            <cstring>Toolbar</cstring>
+        </property>
+        <property name="label">
+            <string>Toolbar</string>
+        </property>
+        <action name="menuInicializarAction"/>
+        <action name="menuCargar_EscenaAction"/>
+        <action name="menuSalvar_EscenaAction"/>
+        <separator/>
+        <action name="menu_edit_cut"/>
+        <action name="menu_edit_copy"/>
+        <action name="menu_edit_paste"/>
+        <action name="menu_edit_delete"/>
+        <separator/>
+        <action name="subir_nodo"/>
+        <action name="bajar_nodo"/>
+        <action name="menu_help_about"/>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>refreshGUI_but</cstring>
+            </property>
+            <property name="focusPolicy">
+                <enum>NoFocus</enum>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="toggleButton">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>gear.png</iconset>
+            </property>
+            <property name="flat">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Vigilar cambios en escena</string>
+            </property>
+        </widget>
+    </toolbar>
+</toolbars>
+<actions>
+    <action>
+        <property name="name">
+            <cstring>menuCargar_EscenaAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>fileopen.png</iconset>
+        </property>
+        <property name="text">
+            <string>Cargar Escena</string>
+        </property>
+        <property name="menuText">
+            <string>Cargar Escena</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menuSalvar_EscenaAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>filesave.png</iconset>
+        </property>
+        <property name="text">
+            <string>Salvar Escena</string>
+        </property>
+        <property name="menuText">
+            <string>Salvar Escena</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menuInicializarAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>filenew.png</iconset>
+        </property>
+        <property name="text">
+            <string>Nueva Escena</string>
+        </property>
+        <property name="menuText">
+            <string>Nueva Escena</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_edit_delete</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>stop.png</iconset>
+        </property>
+        <property name="text">
+            <string>Eliminar</string>
+        </property>
+        <property name="menuText">
+            <string>Eliminar</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_ImportarGeometria</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>fileimport.png</iconset>
+        </property>
+        <property name="text">
+            <string>Importar geometría</string>
+        </property>
+        <property name="menuText">
+            <string>Importar geometría</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_edit_copy</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>editcopy.png</iconset>
+        </property>
+        <property name="text">
+            <string>Copiar</string>
+        </property>
+        <property name="menuText">
+            <string>Copiar</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_edit_cut</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>editcut.png</iconset>
+        </property>
+        <property name="text">
+            <string>Cortar</string>
+        </property>
+        <property name="menuText">
+            <string>Cortar</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_edit_preferences</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>editclear.png</iconset>
+        </property>
+        <property name="text">
+            <string>Preferencias</string>
+        </property>
+        <property name="menuText">
+            <string>Preferencias</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_edit_paste</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>editpaste.png</iconset>
+        </property>
+        <property name="text">
+            <string>Pegar</string>
+        </property>
+        <property name="menuText">
+            <string>Pegar</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_edit_link</cstring>
+        </property>
+        <property name="enabled">
+            <bool>true</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>toggle_log.png</iconset>
+        </property>
+        <property name="text">
+            <string>Enlazar</string>
+        </property>
+        <property name="menuText">
+            <string>Enlazar</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_help_about</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>help.png</iconset>
+        </property>
+        <property name="text">
+            <string>Acerca de...</string>
+        </property>
+        <property name="menuText">
+            <string>Acerca de...</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>subir_nodo</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>up.png</iconset>
+        </property>
+        <property name="text">
+            <string>Subir nodo</string>
+        </property>
+        <property name="menuText">
+            <string>Subir nodo</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>bajar_nodo</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>down.png</iconset>
+        </property>
+        <property name="text">
+            <string>Bajar nodo</string>
+        </property>
+        <property name="menuText">
+            <string>Bajar nodo</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_escena_salir_action</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>exit.png</iconset>
+        </property>
+        <property name="text">
+            <string>Salir</string>
+        </property>
+        <property name="menuText">
+            <string>Salir</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_help_reference</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>attach.png</iconset>
+        </property>
+        <property name="text">
+            <string>Referencia COIN</string>
+        </property>
+        <property name="menuText">
+            <string>Referencia COIN</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>menu_help_tut01</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>toggle_log.png</iconset>
+        </property>
+        <property name="text">
+            <string>Tutorial 01</string>
+        </property>
+        <property name="menuText">
+            <string>Tutorial 01</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>ayudaTutorial_02Action</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>toggle_log.png</iconset>
+        </property>
+        <property name="text">
+            <string>Tutorial 02</string>
+        </property>
+        <property name="menuText">
+            <string>Tutorial 02</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>nuevoCdsExaminerViewerAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>launch.png</iconset>
+        </property>
+        <property name="text">
+            <string>SoExaminerViewer</string>
+        </property>
+        <property name="menuText">
+            <string>SoExaminerViewer</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>nuevoCdsFlyViewerAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>launch.png</iconset>
+        </property>
+        <property name="text">
+            <string>SoFlyViewer</string>
+        </property>
+        <property name="menuText">
+            <string>SoFlyViewer</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>nuevoCdsPlaneViewerAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>launch.png</iconset>
+        </property>
+        <property name="text">
+            <string>SoPlaneViewer</string>
+        </property>
+        <property name="menuText">
+            <string>SoPlaneViewer</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>nuevoCdsRenderAreaAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>launch.png</iconset>
+        </property>
+        <property name="text">
+            <string>SoRenderArea</string>
+        </property>
+        <property name="menuText">
+            <string>SoRenderArea</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>cambiar_bgColor_Action</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>colorize.png</iconset>
+        </property>
+        <property name="text">
+            <string>Color de fondo</string>
+        </property>
+        <property name="menuText">
+            <string>Color de fondo</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>exportarVRML2</cstring>
+        </property>
+		<property name="iconSet">
+            <iconset>filesaveas.png</iconset>
+        </property>
+        <property name="text">
+            <string>Exportar a VRML2</string>
+        </property>
+        <property name="menuText">
+            <string>Exportar a VRML2</string>
+        </property>
+    </action>
+	<action>
+		<property name="name">
+			<cstring>exportarCPP</cstring>
+		</property>
+		<property name="iconSet">
+			<iconset>filesaveas.png</iconset>
+		</property>
+		<property name="text">
+			<string>Exportar a C++</string>
+		</property>
+		<property name="menuText">
+			<string>Exportar a C++</string>
+		</property>
+	</action>
+	<action>
+        <property name="name">
+            <cstring>editarnew_itemAction</cstring>
+        </property>
+        <property name="text">
+            <string>new item</string>
+        </property>
+        <property name="menuText">
+            <string>new item</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>fix_scene</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>package_utilities.png</iconset>
+        </property>
+        <property name="text">
+            <string>Simplificar con ivFix</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>incrustar_texturas</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>package_utilities.png</iconset>
+        </property>
+        <property name="text">
+            <string>Incrustar todas las texturas</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>verMostrar_FPSAction</cstring>
+        </property>
+        <property name="toggleAction">
+            <bool>true</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>clock.png</iconset>
+        </property>
+        <property name="text">
+            <string>Mostrar FPS</string>
+        </property>
+        <property name="menuText">
+            <string>Mostrar FPS</string>
+        </property>
+    </action>
+</actions>
+<connections>
+    <connection>
+        <sender>sceneTree</sender>
+        <signal>currentChanged(QListViewItem*)</signal>
+        <receiver>Form1</receiver>
+        <slot>sceneTree_currentChanged(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>nodeTree</sender>
+        <signal>doubleClicked(QListViewItem*)</signal>
+        <receiver>Form1</receiver>
+        <slot>aniadir_nodo_a_escena()</slot>
+    </connection>
+    <connection>
+        <sender>menuSalvar_EscenaAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>SalvarEscena()</slot>
+    </connection>
+    <connection>
+        <sender>sceneTree</sender>
+        <signal>rightButtonClicked(QListViewItem*,const QPoint&amp;,int)</signal>
+        <receiver>Form1</receiver>
+        <slot>showmenu()</slot>
+    </connection>
+    <connection>
+        <sender>sceneTree</sender>
+        <signal>rightButtonPressed(QListViewItem*,const QPoint&amp;,int)</signal>
+        <receiver>Form1</receiver>
+        <slot>showmenu()</slot>
+    </connection>
+    <connection>
+        <sender>menu_edit_copy</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_edit_copy_action()</slot>
+    </connection>
+    <connection>
+        <sender>menu_edit_paste</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_edit_paste_action()</slot>
+    </connection>
+    <connection>
+        <sender>menu_edit_cut</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_edit_cut_action()</slot>
+    </connection>
+    <connection>
+        <sender>menu_edit_preferences</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_edit_preferences_slot()</slot>
+    </connection>
+    <connection>
+        <sender>menu_edit_link</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_edit_link_action()</slot>
+    </connection>
+    <connection>
+        <sender>menu_edit_delete</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_edit_delete_action()</slot>
+    </connection>
+    <connection>
+        <sender>menu_help_about</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_help_about_action()</slot>
+    </connection>
+    <connection>
+        <sender>menuInicializarAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_escena_nueva_action()</slot>
+    </connection>
+    <connection>
+        <sender>bajar_nodo</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>Bajar_nodo_action()</slot>
+    </connection>
+    <connection>
+        <sender>subir_nodo</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>Subir_nodo_action()</slot>
+    </connection>
+    <connection>
+        <sender>menu_escena_salir_action</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_escena_salir()</slot>
+    </connection>
+    <connection>
+        <sender>menu_help_reference</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_help_reference_activated()</slot>
+    </connection>
+    <connection>
+        <sender>menu_help_tut01</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_help_tut01_activated()</slot>
+    </connection>
+    <connection>
+        <sender>ayudaTutorial_02Action</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menu_help_tut02_activated()</slot>
+    </connection>
+    <connection>
+        <sender>nuevoCdsExaminerViewerAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>nuevoCdsExaminerViewer()</slot>
+    </connection>
+    <connection>
+        <sender>nuevoCdsFlyViewerAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>nuevoCdsFlyViewer()</slot>
+    </connection>
+    <connection>
+        <sender>nuevoCdsPlaneViewerAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>nuevoCdsPlaneViewer()</slot>
+    </connection>
+    <connection>
+        <sender>nuevoCdsRenderAreaAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>nuevoCdsRenderArea()</slot>
+    </connection>
+    <connection>
+        <sender>cambiar_bgColor_Action</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>cambiar_bgColor_viewer()</slot>
+    </connection>
+    <connection>
+        <sender>fieldTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>Form1</receiver>
+        <slot>fieldTable_valueChanged(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>fieldTable</sender>
+        <signal>clicked(int,int,int,const QPoint&amp;)</signal>
+        <receiver>Form1</receiver>
+        <slot>fieldTable_clicked(int,int,int)</slot>
+    </connection>
+    <connection>
+        <sender>comboBox1</sender>
+        <signal>activated(int)</signal>
+        <receiver>Form1</receiver>
+        <slot>comboBox1_activated(int)</slot>
+    </connection>
+    <connection>
+        <sender>exportarVRML2</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>exportarVRML2_activated()</slot>
+    </connection>
+	<connection>
+		<sender>exportarCPP</sender>
+		<signal>activated()</signal>
+		<receiver>Form1</receiver>
+		<slot>exportarCPP_activated()</slot>
+	</connection>
+	<connection>
+        <sender>menu_ImportarGeometria</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>ImportarGeometria()</slot>
+    </connection>
+    <connection>
+        <sender>menuCargar_EscenaAction</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>menuCargar_EscenaAction_activated()</slot>
+    </connection>
+    <connection>
+        <sender>fix_scene</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>fix_scene_activated()</slot>
+    </connection>
+    <connection>
+        <sender>incrustar_texturas</sender>
+        <signal>activated()</signal>
+        <receiver>Form1</receiver>
+        <slot>incrustar_texturas_activated()</slot>
+    </connection>
+    <connection>
+        <sender>refreshGUI_but</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Form1</receiver>
+        <slot>refreshGUI_but_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>verMostrar_FPSAction</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Form1</receiver>
+        <slot>verMostrar_FPSAction_toggled(bool)</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>comboBox1</tabstop>
+    <tabstop>nodeTree</tabstop>
+    <tabstop>sceneTree</tabstop>
+    <tabstop>fieldTable</tabstop>
+    <tabstop>refreshGUI_but</tabstop>
+</tabstops>
+<includes>
+    <include location="local" impldecl="in declaration">Inventor/nodes/SoNode.h</include>
+    <include location="local" impldecl="in declaration">Inventor/nodes/SoEventCallback.h</include>
+    <include location="local" impldecl="in declaration">cds_config.h</include>
+    <include location="local" impldecl="in implementation">form1.ui.h</include>
+</includes>
+<slots>
+    <slot>inicializar()</slot>
+    <slot>CargarListaComponentes( ivPadre_t * listaComponentes )</slot>
+    <slot>generarListaComponentes(SoType t, QListViewItem *padre, bool plano)</slot>
+    <slot>getInfo_toggled( bool on )</slot>
+    <slot>nuevoCdsExaminerViewer()</slot>
+    <slot>nuevoCdsFlyViewer()</slot>
+    <slot>nuevoCdsPlaneViewer()</slot>
+    <slot>nuevoCdsRenderArea()</slot>
+    <slot>aniadir_nodo_a_escena()</slot>
+    <slot>SalvarEscena(QString filename ="")</slot>
+    <slot returnType="int">CargarEscena( QString filename )</slot>
+    <slot returnType="SoSeparator *">cargarFichero3D( QString filename )</slot>
+    <slot returnType="int">ImportarVolumenRaw(QString filename)</slot>
+    <slot>InsertarElemento( QListViewItem * padre, SoNode * elemento )</slot>
+    <slot>Subir_nodo_action()</slot>
+    <slot>Bajar_nodo_action()</slot>
+    <slot>Promocionar_hijos()</slot>
+    <slot>incrustarTexture2(SoNode *node = NULL)</slot>
+    <slot>incrustar_texturas_activated()</slot>
+    <slot>convertManip()</slot>
+    <slot>SoTransform_to_SoCenterballManip()</slot>
+    <slot>SoTransform_to_SoJackManip()</slot>
+    <slot>SoTransform_to_SoHandleBoxManip()</slot>
+    <slot>SoTransform_to_SoTrackballManip()</slot>
+    <slot>SoTransform_to_SoTransformerManip()</slot>
+    <slot>SoTransform_to_SoTabBoxManip()</slot>
+    <slot>SoTransform_to_SoTransformBoxManip()</slot>
+    <slot>SoMatrixTransform_to_SoTransform()</slot>
+    <slot>SoRotation_to_SoTrackballManip()</slot>
+    <slot>SoManip_to_SoTransform()</slot>
+    <slot>SoTrackballManip_to_SoRotation()</slot>
+    <slot>SoIndexedFaceSet_to_SoIndexedLineSet()</slot>
+    <slot>SoIndexedLineSet_to_SoIndexedFaceSet()</slot>
+    <slot>SoIndexedFaceSet_to_SMF()</slot>
+    <slot>SoIndexedFaceSet_to_OFF()</slot>
+    <slot>SoIndexedFaceSet_to_STL()</slot>
+    <slot>SoIndexedFaceSet_triangulate()</slot>
+    <slot>SoIndexedFaceSet_change_orientation()</slot>
+    <slot>SoCoordinate3_to_XYZ()</slot>
+    <slot>SoCoordinate3_to_qhull()</slot>
+    <slot>SoCoordinate3_center_new()</slot>
+    <slot>SoIndexedTriangleStripSet_to_SoIndexedFaceSet()</slot>
+    <slot>showmenu()</slot>
+    <slot returnType="int">ImportarGeometria( QString filename )</slot>
+    <slot>menu_edit_copy_action()</slot>
+    <slot>menu_edit_delete_action()</slot>
+    <slot>menu_edit_paste_action()</slot>
+    <slot>menu_edit_cut_action()</slot>
+    <slot>menu_edit_link_action()</slot>
+    <slot>menu_edit_preferences_slot()</slot>
+    <slot>menu_escena_nueva_action()</slot>
+    <slot>menu_escena_salir()</slot>
+    <slot>Form1_destroyed( QObject * )</slot>
+    <slot>menu_help_about_action()</slot>
+    <slot>open_html_viewer(const char *path)</slot>
+    <slot>menu_help_reference_activated()</slot>
+    <slot>Show_Help_Nodo()</slot>
+    <slot>cargar_fichero_locale( const char * fichero )</slot>
+    <slot>menu_help_tut01_activated()</slot>
+    <slot>menu_help_tut02_activated()</slot>
+    <slot>nada()</slot>
+    <slot>sceneTree_currentChanged( QListViewItem * item )</slot>
+    <slot>actualizar_fieldTable( SoNode * nodo )</slot>
+    <slot>fieldTable_clicked( int fila, int columna, int button )</slot>
+    <slot>fieldTable_valueChanged( int fila, int columna )</slot>
+    <slot>comboBox1_activated( int idx )</slot>
+    <slot>exportarVRML2_activated()</slot>
+    <slot>exportarCPP_activated()</slot>
+    <slot>ImportarGeometria( void )</slot>
+    <slot>menuCargar_EscenaAction_activated()</slot>
+    <slot returnType="int">fix_scene_activated()</slot>
+    <slot returnType="int">qslim_activated()</slot>
+    <slot returnType="int">tetgen_activated()</slot>
+    <slot returnType="int">recubrimiento2()</slot>
+    <slot>refreshGUI_but_toggled( bool on )</slot>
+    <slot>cambiar_bgColor_viewer()</slot>
+    <slot>verMostrar_FPSAction_toggled( bool on )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

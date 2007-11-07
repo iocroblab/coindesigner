@@ -1,0 +1,126 @@
+#Inventor V2.1 ascii
+
+
+Separator {
+
+  Rotation {
+    rotation 1 0 0  0.42561802
+
+  }
+  DEF pendulo Separator {
+
+    Transform {
+      translation 0 5 0
+      scaleFactor 1 1 1
+
+    }
+    Pendulum {
+      rotation 0 0 -0.99999696  0.1056256
+      rotation0 -0 -0 -1  1
+      rotation1 0 0 1  1
+
+    }
+    Separator {
+
+      Rotation {
+        rotation 1 0 0  1.5707999
+
+      }
+      Cylinder {
+        radius 0.2
+        height 1
+
+      }
+    }
+    Translation {
+      translation 0 -3 0
+
+    }
+    Separator {
+
+      Translation {
+        translation 0 1.5 0
+
+      }
+      Cylinder {
+        radius 0.1
+        height 3
+
+      }
+    }
+    Sphere {
+      radius 0.5
+
+    }
+  }
+  DEF reflejo Separator {
+
+    Transform {
+      translation 0 -5 0
+      scaleFactor 1 -1 1
+
+    }
+    Pendulum {
+      rotation 0 0 -0.99999696  0.1056256
+      rotation0 -0 -0 -1  1
+      rotation1 0 0 1  1
+      on TRUE
+
+    }
+    Separator {
+
+      Rotation {
+        rotation 1 0 0  1.5707999
+
+      }
+      Cylinder {
+        radius 0.2
+        height 1
+
+      }
+    }
+    Translation {
+      translation 0 -3 0
+
+    }
+    Sphere {
+      radius 0.5
+
+    }
+    Separator {
+
+      Translation {
+        translation 0 1.5 0
+
+      }
+      Cylinder {
+        radius 0.1
+        height 3
+
+      }
+    }
+  }
+  DEF suelo Separator {
+
+    Coordinate3 {
+      point [ -50 0 -50,
+          -50 0 50,
+          50 0 50,
+          50 0 -50 ]
+
+    }
+    TransparencyType {
+      value SORTED_OBJECT_BLEND
+
+    }
+    Material {
+      diffuseColor 0.33000001 0.67000002 1
+      transparency 0.2
+
+    }
+    IndexedFaceSet {
+      coordIndex [ 0, 1, 2, 3, -1 ]
+
+    }
+  }
+}

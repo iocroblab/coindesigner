@@ -1,0 +1,304 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>cppExportDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>cppExportDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>570</width>
+            <height>266</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Exportar a C++</string>
+    </property>
+    <property name="icon">
+        <pixmap>image0</pixmap>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>21</x>
+                <y>141</y>
+                <width>118</width>
+                <height>26</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Nombre de clase:</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>23</x>
+                <y>177</y>
+                <width>82</width>
+                <height>26</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Guardar en:</string>
+        </property>
+    </widget>
+    <widget class="QButtonGroup">
+        <property name="name">
+            <cstring>buttonGroup1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>10</y>
+                <width>142</width>
+                <height>90</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Tipo de código</string>
+        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>radioButton_class</cstring>
+                </property>
+                <property name="text">
+                    <string>Clase C++</string>
+                </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
+                <property name="buttonGroupId">
+                    <number>0</number>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>radioButton_app</cstring>
+                </property>
+                <property name="text">
+                    <string>Aplicacion C++</string>
+                </property>
+            </widget>
+        </vbox>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>buttonOk</cstring>
+        </property>
+        <property name="enabled">
+            <bool>false</bool>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>21</x>
+                <y>221</y>
+                <width>80</width>
+                <height>35</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;OK</string>
+        </property>
+        <property name="accel">
+            <string></string>
+        </property>
+        <property name="autoDefault">
+            <bool>true</bool>
+        </property>
+        <property name="default">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>groupBox1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>170</x>
+                <y>10</y>
+                <width>380</width>
+                <height>120</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Ejemplo de uso</string>
+        </property>
+        <widget class="QTextEdit">
+            <property name="name">
+                <cstring>howtoEdit</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>360</width>
+                    <height>90</height>
+                </rect>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QToolButton">
+        <property name="name">
+            <cstring>fileDialogButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>500</x>
+                <y>180</y>
+                <width>28</width>
+                <height>26</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string></string>
+        </property>
+        <property name="iconSet">
+            <iconset>image0</iconset>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>filenameLineEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>111</x>
+                <y>177</y>
+                <width>380</width>
+                <height>26</height>
+            </rect>
+        </property>
+        <property name="minimumSize">
+            <size>
+                <width>120</width>
+                <height>0</height>
+            </size>
+        </property>
+        <property name="inputMask">
+            <string></string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>classnameLineEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>145</x>
+                <y>141</y>
+                <width>200</width>
+                <height>26</height>
+            </rect>
+        </property>
+        <property name="minimumSize">
+            <size>
+                <width>120</width>
+                <height>0</height>
+            </size>
+        </property>
+        <property name="inputMask">
+            <string></string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>buttonCancel</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>220</y>
+                <width>80</width>
+                <height>35</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;Cancelar</string>
+        </property>
+        <property name="accel">
+            <string>Alt+C</string>
+        </property>
+        <property name="autoDefault">
+            <bool>true</bool>
+        </property>
+    </widget>
+</widget>
+<images>
+    <image name="image0">
+        <data format="PNG" length="1678">89504e470d0a1a0a0000000d4948445200000020000000200806000000737a7af400000655494441545885e5974b8c1c571586bfaaae7e4ccf7b92193cccf841b08301278eb182b0000522272c906c1042426c100b1002c99b2cb2430a0b16082978890912ec908270c4230b228c91c0409c646cd968127b8619884d7b1e66da33dd5d55f79e732f8baaeee9f1bc24f08e924aa7abfa3efef39f73fe7b2af0def320aee51f06737eeccc81bb376eb3f8c61f5e31f5e5b3275ff317779de8bdff9fefe5b37c2abd36e0fdcaafbcafcf787bfb2d3f7bee8c7fed242fee36f78100f8f78ff9bd5f0abc9f1df47ef67bded767bcafcfb4417c6ea7b911c02fceffd15b2b58a3040188282282b5eb76e36f4124b37b4b6ff38dd3411e8755683c0f375e84f4297a6e4f015cd92902d1f9f37ff29f7cea28220e758ec93dc3005c7be7d686818f7d6072cb05e23f7f95ca41a0194023cfa7e50ac4d7b9797784efbae7e64e42b02d002b42925a9aad14d175004f9e7e81f1d1212a9522957291a95fbfb069b25b9bc7c73fcd1e968a107a3021c4bdd4e6ebbc33f1159e9e98647cfc8bbe567b794b1091b58aaac34a66db576fb5cc478eec6778a0cad060754bf4e995efd07338001b425c8550606504809bad7ddc3b7004535b248ac2ed08201251445d768b76fe281523c6c786181aa83234b019803775c2e85582720fd47a208cc094a131c8cad21a377b9ec18a52afafe29cdb34bf8b01419dc35a45bb06ee191d647c6c3007d0bbd9fbab3fa03801483f347a33efd7faa150e25f777b5978ffd3acd657895b09ce6daf359188a2e210dd1882cf3f7b9ca31fdc475fb54c5f6f6593f77eed27140ef6c35201c20268095ac32469ccf0679ea3fec62aadb526a9b1ec2476911541546987a27d7dfbcca96d27c9dc2b941fed075f8066114207ab55082bfc637699c1d3a7685cf83956046becce2110aba87aac38541d37e71770cee3bcc7e7d63987f7e4ef1d876a6719f8e830ace49e850aad1192b8c98de209962f4c618c2022985d19c8632f92d9e999da8667cd13b46d0f9857397aa207822a34da9b9720ac303b3dcf6fed67695d7e1bb18215c158bb730e58919c7eed88517bc36cd38ca1768e1c1c9a22da33090d015c967cad8710355c5a18a73950c48a454472e5dc8501c919c842a09b3ceeb663fa167b0f79a00a0d9b6d1ef74350e59f57ae73b5720a63b3cddb8e59239b0004c1b11e20f47eaa19d9b60ee442f4d0701fce39d4f98e35a925490c4fca2f29ee3b06b1011f4221021980a8c0ebb746e89ddc4f59142bc2fcad45c46621f0de1304c70a1972aa40980329663a90532de238f9f10f7590aa3a5aad943435b8b539469ac3d9fcd8674bd802f87e6ad7afb0ff0bcfb3b77f0f229933df3f771e11c51883aa008c6d11819ea8edf9fd4294a696562bc94f4647f5f68f888e7f0c4c0a62b3da973e8822e6e7057d7c0f62f37216254d52d2d492c4c9ee55205d71f6ded36c2618633bde88283dc134f028c40261059c073f40edcaeb98c7be84b359c9359b31cd664c1c271d7dd905401e827ca34623e6f2e577b38a50ed24e633438728b95e90268465b055888afcfd5dc7b5d171e23b73a4698aaa3239398c15c1e57dc52e4ab87e1ab69a094962d9b76f304f4aed84c02e57c07e02cab36066812a2b73d3d478846a15cae532aa51a79951aba81344b705a0401c8915441d719cd28a1344847abdd5614555292eff956074128222940e43e9306bcbd35cfacdcb2c1ef916d2483b4ca92a7d7d25440515453787c0002defa7e20e03568446a385b559cb55afc71b162cdd4b9189f77456589b9fe677e75e62e691afa36b6957a83caa4ab95c40aca05ebb198881a6f753765312c6ad84d418c42ac6087bf70e747242447152e5c2c5bff178f43eaa77ae72edd29b344e7c93d1bc74db4c75d453147182770eef1c10e0fd547deb1c3096244931a9e4cda670f56a0d55c5e5674279e92e1a5bdefcd94bac257d2c8c3d8bdc5cca842a1fd7cdc0e4e410f8000f38a7c00e49981a8bb59a959dcd404c4cf46f484097f6904cff05f3de13f8839fe661b7ae9cbaa1d402a228a2580c51b72e70bb96a1e435dc6ebb4ba510114f1064b78c4c101dff32e6e10fd3d7559e224a9a1a2a95226158e8d09f698be2445111bc2f6c0fc0c486c6dd15566b8b5811666767ba2aa0eda143c35174a9d6f5beebf0ba7fac2acdc53b38e79134c5fbad9b5a80c07bcf134f7ccddfbbd7c0186168a8da69cdd6bf60e8d0b8f179fdf7fdef161696f3f1207271dbef82e0417d9cfeb7d7f60dfbff0b80ff007bd628ba9517c27c0000000049454e44ae426082</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>cppExportDialog</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>cppExportDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>fileDialogButton</sender>
+        <signal>clicked()</signal>
+        <receiver>cppExportDialog</receiver>
+        <slot>fileDialogButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>classnameLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>cppExportDialog</receiver>
+        <slot>classnameLineEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>cppExportDialog</receiver>
+        <slot>buttonOk_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>buttonGroup1</sender>
+        <signal>clicked(int)</signal>
+        <receiver>cppExportDialog</receiver>
+        <slot>buttonGroup1_clicked(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">cppexport_options.ui.h</include>
+</includes>
+<slots>
+    <slot>fileDialogButton_clicked()</slot>
+    <slot>classnameLineEdit_textChanged( const QString &amp; classname )</slot>
+    <slot>buttonOk_clicked()</slot>
+    <slot>buttonGroup1_clicked( int )</slot>
+</slots>
+<functions>
+    <function access="private" specifier="non virtual">init()</function>
+</functions>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,218 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>mfield_editor</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>mfield_editor</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>510</width>
+            <height>500</height>
+        </rect>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>510</width>
+            <height>500</height>
+        </size>
+    </property>
+    <property name="maximumSize">
+        <size>
+            <width>1024</width>
+            <height>1024</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>MField Editor</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QTable">
+            <property name="name">
+                <cstring>table3</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>5</horstretch>
+                    <verstretch>5</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>200</width>
+                    <height>200</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>1024</width>
+                    <height>1024</height>
+                </size>
+            </property>
+            <property name="numRows">
+                <number>1</number>
+            </property>
+            <property name="numCols">
+                <number>3</number>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>3</number>
+                        </property>
+                        <property name="spacing">
+                            <number>2</number>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pushButton17</cstring>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>150</width>
+                                    <height>75</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>OK</string>
+                            </property>
+                            <property name="default">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pushButton18</cstring>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>150</width>
+                                    <height>75</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>Aplicar</string>
+                            </property>
+                            <property name="default">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>pushButton11</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Cancelar</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Tamaño:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>0</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>40</height>
+                        </size>
+                    </property>
+                </spacer>
+            </vbox>
+        </widget>
+    </hbox>
+</widget>
+<connections>
+    <connection>
+        <sender>table3</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>mfield_editor</receiver>
+        <slot>table3_valueChanged(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>pushButton17</sender>
+        <signal>clicked()</signal>
+        <receiver>mfield_editor</receiver>
+        <slot>Aplicar_cambios_a_MField()</slot>
+    </connection>
+    <connection>
+        <sender>pushButton17</sender>
+        <signal>clicked()</signal>
+        <receiver>mfield_editor</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>pushButton11</sender>
+        <signal>clicked()</signal>
+        <receiver>mfield_editor</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>table3</sender>
+        <signal>clicked(int,int,int,const QPoint&amp;)</signal>
+        <receiver>mfield_editor</receiver>
+        <slot>table3_clicked(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>pushButton18</sender>
+        <signal>clicked()</signal>
+        <receiver>mfield_editor</receiver>
+        <slot>Aplicar_cambios_a_MField()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">Inventor/fields/SoFields.h</include>
+    <include location="local" impldecl="in implementation">mfield_editor.ui.h</include>
+</includes>
+<slots>
+    <slot>table3_valueChanged( int fila, int columna )</slot>
+    <slot>Aplicar_cambios_a_MField()</slot>
+    <slot>table3_clicked( int fila, int columna )</slot>
+    <slot>cargarDatos( SoMField * field )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

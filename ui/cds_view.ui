@@ -1,0 +1,72 @@
+<ui version="4.0" >
+ <class>cds_view</class>
+ <widget class="QMainWindow" name="cds_view" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>516</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" />
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>516</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuPick" >
+    <property name="title" >
+     <string>pick action</string>
+    </property>
+    <addaction name="actionNone" />
+    <addaction name="actionInfo" />
+    <addaction name="actionRemove_face" />
+   </widget>
+   <widget class="QMenu" name="menuView_options" >
+    <property name="title" >
+     <string>view options</string>
+    </property>
+    <addaction name="actionBackground_color" />
+    <addaction name="actionAntialias" />
+   </widget>
+   <addaction name="menuPick" />
+   <addaction name="menuView_options" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionNone" >
+   <property name="text" >
+    <string>None</string>
+   </property>
+  </action>
+  <action name="actionInfo" >
+   <property name="text" >
+    <string>Info</string>
+   </property>
+  </action>
+  <action name="actionRemove_face" >
+   <property name="text" >
+    <string>Remove face</string>
+   </property>
+  </action>
+  <action name="actionBackground_color" >
+   <property name="text" >
+    <string>Background color</string>
+   </property>
+  </action>
+  <action name="actionAntialias" >
+   <property name="text" >
+    <string>Antialias</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

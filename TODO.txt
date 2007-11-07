@@ -1,0 +1,45 @@
+
+
+
+DONE: Visor de codigo fuente
+DONE: Viewers dock-ables
+DONE: Nombres de los docks, que aparezcan en barra titulo
+DONE: Insertar un subgrafo de escena. on_actionLoad_Scene()
+DONE: Copiar un group, modificar el group, pegar
+     -> lo que pegas contiene las modificaciones, y no debe
+DONE: Carga de ficheros .off .smf .vol .xyz .obj
+DONE: Poner nombre a nodos importados (hecho en 1.4)
+     
+BUG: Al copiar, y enlazar se pueden crear bucles infinitos
+     -> Se evita enlazar un nodo con su propio padre
+     -> Pero no es suficiente.
+
+DONE: Edición de valores directos en fieldEditor
+  file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
+  
+* edicion con helpers (SFEnum, ColorDialog, etc...)
+* Insercion de plantillas (help->demos)
+  - Desde un directorio
+  - Desde un qresource
+
+* Settings editor
+  file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
+  
+* activar traduccion al castellano
+
+* salvar esquema de docks en setting
+
+* salvar lista de ultimos archivos abiertos
+
+* uso de regexp para evitar introducir valores no numericos en fieldTable?
+
+* Sintax highlight en src_view
+  file:///C:/Qt/4.3.2/doc/html/richtext-syntaxhighlighter.html
+  
+* Undo
+  file:///C:/Qt/4.3.2/doc/html/tools-undoframework.html
+  
+* Ver texturas como imagenes
+  file:///C:/Qt/4.3.2/doc/html/widgets-imageviewer.html
+  
+* Añadir una consola dockable
