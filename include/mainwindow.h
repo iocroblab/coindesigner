@@ -75,9 +75,9 @@ public slots:
 
 	//Slots para menu Scene
 	void on_actionNew_Scene_activated();
-	bool on_actionLoad_Scene_activated(QString filename = "");
-	void on_actionSave_Scene_activated(QString filename = "");
-	bool on_actionImport_File_activated(QString filename = "");
+	void on_actionLoad_Scene_activated() {on_actionLoad_Scene_activated("");};
+	void on_actionSave_Scene_activated() {on_actionSave_Scene_activated("");};
+	void on_actionImport_File_activated() {on_actionImport_File_activated("");};
 	void on_actionExport_VRML2_activated();
 	void on_actionView_Source_activated();
 	void on_actionQuit_activated();
@@ -118,9 +118,13 @@ public slots:
 	void on_nodePalette_itemDoubleClicked(QTreeWidgetItem *item, int);
 	void on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *prev=0);
 	void on_fieldTable_cellChanged(int row, int column);
-	void on_fieldTable_userChanged(int row, int column);
 
 private:
+        ///Version de Load/Save/Import que admite un parametro
+	bool on_actionLoad_Scene_activated(QString filename);
+	void on_actionSave_Scene_activated(QString filename);
+	bool on_actionImport_File_activated(QString filename);
+
 	///Autogenera la paleta de componentes mediante exploracion de coin3D
 	void generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *padre=0);
 
@@ -141,6 +145,9 @@ private:
 
 	///Carga una escena en cualquier formato conocido
 	SoSeparator *cargarFichero3D(QString file);
+
+        ///Aplica a escena los cambios introducidos en la celda del fieldTable
+	void on_fieldTable_userChanged(int row, int column);
 
 }; //class MainWindow
 
