@@ -205,6 +205,9 @@ bool MainWindow::on_actionLoad_Scene_activated(QString filename)
 		newSceneGraph(qroot, scene->getChild(i));
 	}
 
+	//Expandimos todos los items
+	Ui.sceneGraph->expandAll();
+
 	//Indicamos que la escena no ha sido modificada
 	escena_modificada = false;
 
@@ -310,7 +313,7 @@ bool MainWindow::on_actionImport_File_activated(QString filename)
 	QTreeWidgetItem *item_padre = Ui.sceneGraph->currentItem();
 	while (!mapQTCOIN[item_padre]->getTypeId().isDerivedFrom(SoGroup::getClassTypeId())) 
 	{
-            item_padre=item_padre->parent();
+		item_padre=item_padre->parent();
 	}
  
 	//Buscamos el el nodo donde colgar el buffer
@@ -321,6 +324,9 @@ bool MainWindow::on_actionImport_File_activated(QString filename)
     
 	//Actualizamos el Ui.SceneGraph
 	newSceneGraph(item_padre, scene);
+
+	//Expandimos el item padre
+	item_padre->setExpanded(true);
 
 	//Indicamos que la escena ha sido modificada
 	escena_modificada = true;
@@ -467,7 +473,7 @@ void MainWindow::on_actionPaste_activated()
     QTreeWidgetItem *item_padre = Ui.sceneGraph->currentItem();
     while (!mapQTCOIN[item_padre]->getTypeId().isDerivedFrom(SoGroup::getClassTypeId())) 
     {
-            item_padre=item_padre->parent();
+		item_padre=item_padre->parent();
     }
  
     //Buscamos el el nodo donde colgar el buffer
@@ -538,14 +544,13 @@ void MainWindow::on_actionLink_activated()
 	//BUG: Deberiamo ver que no enlazamos en ningun ancestro de buffer_link
 	if (nodo_padre == node_buffer_link)
 	{
-			//En caso de error escribimos un aviso
-			QString S;
-			QMessageBox::warning( this, tr("Warning"), 
-				tr("You can not paste as link this node here."));
+		//En caso de error escribimos un aviso
+		QString S;
+		QMessageBox::warning( this, tr("Warning"), tr("You can not paste as link this node here."));
 		return;
 	}
 
-    //Insertamos el nodo apuntado por el buffer
+	//Insertamos el nodo apuntado por el buffer
     nodo_padre->addChild(node_buffer_link); 
     
     //Actualizamos el Ui.SceneGraph
@@ -563,12 +568,12 @@ void MainWindow::on_actionMove_Up_activated()
     QTreeWidgetItem *item = Ui.sceneGraph->currentItem(); 
 	SoNode *node=mapQTCOIN[item];
 
-    //No permitimos subir el nodo raiz.
-    if (node == root)
-    {
+	//No permitimos subir el nodo raiz.
+	if (node == root)
+	{
 		//printf("Are you crazy? I'm the root node.\");
-       return;
-    }
+		return;
+	}
 
 	//Miramos si el item es el primero de su grupo
     QTreeWidgetItem *item_padre = item->parent();
@@ -604,11 +609,11 @@ void MainWindow::on_actionMove_Down_activated()
 	SoNode *node=mapQTCOIN[item];
 
     //No permitimos bajar el nodo raiz.
-    if (node == root)
-    {
+	if (node == root)
+	{
 		//printf("Don't let me down!!! I'm the root node.\");
-       return;
-    }
+		return;
+	}
 
 	//Miramos si el item es el ultimo de su grupo
     QTreeWidgetItem *item_padre = item->parent();
@@ -746,7 +751,6 @@ void MainWindow::on_actionShow_FPS_toggled(bool on)
 #ifdef _WIN32
 	_putenv(on?"COIN_SHOW_FPS_COUNTER=1":"COIN_SHOW_FPS_COUNTER=0");
 #else
-	//putenv((on?"COIN_SHOW_FPS_COUNTER=1":"COIN_SHOW_FPS_COUNTER=0"));
         setenv("COIN_SHOW_FPS_COUNTER", on?"1":"0", 1);
 
 #endif
@@ -818,41 +822,40 @@ void MainWindow::on_actionTutorial_2_activated()
 
 void MainWindow::on_actionMirror_demo_activated()
 {
-        QResource demoRsrc(":/demos/mirror.iv");
-        assert(demoRsrc.isValid());
+	QResource demoRsrc(":/demos/mirror.iv");
+	assert(demoRsrc.isValid());
 
-        long long size =  demoRsrc.size();
-        printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
+	long long size =  demoRsrc.size();
+	printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
 
-        char *buf =  new char[size];
+	char *buf =  new char[size];
 
 	if(demoRsrc.isCompressed())
-        {
-                memcpy(buf, qUncompress(demoRsrc.data(), size).data(), size);
-        }
-        else
-        {
-                memcpy(buf, demoRsrc.data(), size);
-
-        }
+	{
+		memcpy(buf, qUncompress(demoRsrc.data(), size).data(), size);
+	}
+	else
+	{
+		memcpy(buf, demoRsrc.data(), size);
+	}
 
 	SoInput input;
-        input.setBuffer(buf, size) ;
-                printf("isValidBuffer=%d\n", input.isValidBuffer() );
-                SoSeparator *demo = SoDB::readAll(&input);
+	input.setBuffer(buf, size) ;
+	printf("isValidBuffer=%d\n", input.isValidBuffer() );
+	SoSeparator *demo = SoDB::readAll(&input);
 
-	        //Destruimos la escena actual y creamos una nueva
-	        on_actionNew_Scene_activated();
+	//Destruimos la escena actual y creamos una nueva
+	on_actionNew_Scene_activated();
 
-	        //Colgamos el nodo del grafo de escena
-		root->addChild(demo);
-		newSceneGraph(Ui.sceneGraph->currentItem(), demo);
-                Ui.sceneGraph->currentItem()->setExpanded(true);
-	        escena_modificada = false;
+	//Colgamos el nodo del grafo de escena
+	root->addChild(demo);
+	newSceneGraph(Ui.sceneGraph->currentItem(), demo);
+	Ui.sceneGraph->currentItem()->setExpanded(true);
+	escena_modificada = false;
 
-        delete buf;
+	delete buf;
 
-}
+}//void MainWindow::on_actionMirror_demo_activated()
 
 
 ///Dialogo About

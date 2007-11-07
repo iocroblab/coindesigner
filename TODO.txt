@@ -18,9 +18,9 @@ DONE: Edición de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
   
 * edicion con helpers (SFEnum, ColorDialog, etc...)
-* Insercion de plantillas (help->demos)
-  - Desde un directorio
-  - Desde un qresource
+
+DONE Insercion de plantillas (help->demos)
+  -> Falta decidir el conjunto de demos a incluir
 
 * Settings editor
   file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
