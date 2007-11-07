@@ -839,17 +839,23 @@ void MainWindow::on_actionMirror_demo_activated()
 		memcpy(buf, demoRsrc.data(), size);
 	}
 
+	//Leemos la escena desde el buffer de memoria
 	SoInput input;
 	input.setBuffer(buf, size) ;
 	printf("isValidBuffer=%d\n", input.isValidBuffer() );
-	SoSeparator *demo = SoDB::readAll(&input);
+	SoSeparator *scene = SoDB::readAll(&input);
 
 	//Destruimos la escena actual y creamos una nueva
 	on_actionNew_Scene_activated();
 
 	//Colgamos el nodo del grafo de escena
-	root->addChild(demo);
-	newSceneGraph(Ui.sceneGraph->currentItem(), demo);
+	QTreeWidgetItem *qroot = Ui.sceneGraph->currentItem();
+	for (int i=0; i<scene->getNumChildren(); i++)
+	{
+		root->addChild(scene->getChild(i));
+		newSceneGraph(qroot, scene->getChild(i));
+	}
+
 	Ui.sceneGraph->currentItem()->setExpanded(true);
 	escena_modificada = false;
 
