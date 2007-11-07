@@ -18,7 +18,7 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 #CXXFLAGS+=-DUSE_VOLEON -I`coin-config --includedir` `soqt-config --cppflags` -g -O0
 #LDFLAGS+=-lSimVoleon `soqt-config --ldflags --libs`
 
-all : coindesigner cdsview
+all : coindesigner
 
 coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro 
 	qmake -o - coindesigner.pro | sed 's/-O2/-O0 -g/g' > Makefile
