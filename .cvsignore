@@ -1,5 +1,9 @@
+coindesigner.vcproj
 coindesigner
 tmp
 Debug
 Release
 coindesigner.ncb
+vc80.idb
+vc80.pdb
+coindesigner.vcproj.*.*.user

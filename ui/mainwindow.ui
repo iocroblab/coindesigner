@@ -61,7 +61,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -171,9 +171,9 @@
    <addaction name="actionCopy" />
    <addaction name="actionPaste" />
    <addaction name="actionDelete" />
-   <addaction name="separator" />
    <addaction name="actionMove_Up" />
    <addaction name="actionMove_Down" />
+   <addaction name="separator" />
   </widget>
   <widget class="QDockWidget" name="nodePalette_dockWidget" >
    <property name="sizePolicy" >
@@ -525,20 +525,6 @@
     <string>&amp;About</string>
    </property>
   </action>
-  <action name="actionShow_Node_Reference" >
-   <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
-   </property>
-   <property name="text" >
-    <string>Show Node Reference</string>
-   </property>
-   <property name="shortcut" >
-    <string>F1</string>
-   </property>
-   <property name="shortcutContext" >
-    <enum>Qt::WindowShortcut</enum>
-   </property>
-  </action>
   <action name="actionView_Source" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/txt.png</iconset>
@@ -592,6 +578,9 @@
    </property>
   </action>
   <action name="actionMirror_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/gear.png</iconset>
+   </property>
    <property name="text" >
     <string>Mirror demo</string>
    </property>
