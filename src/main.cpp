@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	//Inicializamos los resources (iconos, etc...)
 	Q_INIT_RESOURCE(icons);
 	Q_INIT_RESOURCE(demos);
-	
+
 	QApplication app(argc, argv);
 
 	//Abrimos fichero de configuración
@@ -38,16 +38,16 @@ int main(int argc, char *argv[])
 	{
 		if (argc > 2)
 		{
-		for (int i=1; i<argc; i++)
-		{
-			printf("%s\n", argv[i]);
-			mw->on_actionImport_File_activated(argv[i]);
+			for (int i=1; i<argc; i++)
+			{
+				printf("%s\n", argv[i]);
+				mw->import_File(argv[i]);
+			}
 		}
-        }
-        else 
-        {
-		mw->on_actionLoad_Scene_activated(argv[1]);
-        }
+		else 
+		{
+			mw->load_Scene(argv[1]);
+		}
 	}// if (argc > 1)
 
 	//Mostramos la ventana principal 

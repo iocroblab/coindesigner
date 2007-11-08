@@ -92,7 +92,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     {
         recentFileActs[i] = new QAction(this);
         recentFileActs[i]->setVisible(false);
-        connect(recentFileActs[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
+        connect(recentFileActs[i], SIGNAL(triggered()), this, SLOT(on_actionLoad_RecentFile()));
         Ui.menuRecent_Files->addAction(recentFileActs[i]);
     }
     updateRecentFileActions();
@@ -192,7 +192,7 @@ void MainWindow::on_actionNew_Scene_activated()
 }
 
 
-bool MainWindow::on_actionLoad_Scene_activated(QString filename)
+bool MainWindow::load_Scene(QString filename)
 {
     //Si no se ha pasado nombre de fichero, solicitamos uno
     if (filename == "")
@@ -235,8 +235,11 @@ bool MainWindow::on_actionLoad_Scene_activated(QString filename)
     //Salvamos el nombre de la escena
     nombreEscena = filename;
 
+     //Actualiza la barra de titulo de la ventana
+     setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
+
     //Configuramos Ui y recentFiles para reflejar el nombre
-    setCurrentFile(filename);
+    setRecentFile(filename);
 
     //Destruimos la escena actual y creamos una nueva
     on_actionNew_Scene_activated();
@@ -261,22 +264,20 @@ bool MainWindow::on_actionLoad_Scene_activated(QString filename)
 }// int MainWindow::on_actionLoad_Scene_activated(QString filename)
 
 
-void MainWindow::on_actionSave_Scene_activated(QString filename)
+void MainWindow::save_Scene(QString filename)
 {
     //Si no se ha pasado nombre de fichero, solicitamos uno
-    if (filename != "")
-    {
-        nombreEscena = filename;
-    }
-    else
-    {
-        nombreEscena = QFileDialog::getSaveFileName(this, tr("Save File"), nombreEscena,
+    if (filename == "")
+	{
+        filename= QFileDialog::getSaveFileName(this, tr("Save File"), nombreEscena,
                             tr("OpenInventor Files (*.iv *.wrl);;All Files (*)") );
 
         //Miramos si se pulso el boton cancelar
-        if (nombreEscena=="")
+        if (filename == "")
             return;
     }
+
+    nombreEscena = filename;
 
     //Aseguramos que mark_sep NO esta colgado de root
     /* TODO
@@ -286,7 +287,7 @@ void MainWindow::on_actionSave_Scene_activated(QString filename)
 
     //Creamos un SoWriteAction para escribir la escena
     SoWriteAction writeAction;
-    writeAction.getOutput()->openFile(qPrintable(nombreEscena) );
+    writeAction.getOutput()->openFile(qPrintable(filename) );
 
     /* 
     //OPCIONES ELEGIDAS EN NUESTRO FORMULARIO PARA SALVAR
@@ -303,18 +304,24 @@ void MainWindow::on_actionSave_Scene_activated(QString filename)
     */
 
     //Si la escena tiene extension .wrl, usamos la cabecera adecuada
-    if (nombreEscena.endsWith(".wrl", Qt::CaseInsensitive))
+    if (filename.endsWith(".wrl", Qt::CaseInsensitive))
         writeAction.getOutput()->setHeaderString("#VRML V1.0 ascii");
 
     writeAction.apply(root);
     writeAction.getOutput()->closeFile();
+
+    //Actualiza la barra de titulo de la ventana
+    setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
+
+	//Salvamos la escena en el listado de archivos recientes
+	this->setRecentFile(filename);
 
     //Indicamos que la escena ha sido salvada
     escena_modificada = false;
 }//void MainWindow::on_actionSave_Scene_activated(QString filename)
 
 
-bool MainWindow::on_actionImport_File_activated(QString filename)
+bool MainWindow::import_File(QString filename)
 {
     //Si no se ha pasado nombre de fichero, solicitamos uno
     if (filename == "")
@@ -350,6 +357,9 @@ bool MainWindow::on_actionImport_File_activated(QString filename)
         QMessageBox::critical( this, tr("Error"), S);
         return false;
     }
+
+	//Salvamos la escena en el listado de archivos recientes
+	this->setRecentFile(filename);
 
     //Asignamos el nombre del fichero al separator scene
     SoBase_name->setValue(QFileInfo(filename).baseName().toAscii());
@@ -804,14 +814,14 @@ void MainWindow::on_actionField_Editor_toggled(bool on)
 ///Crea un nuevo ExaminerViewer_Editor
 void MainWindow::on_actionExaminerViewer_Editor_activated()
 {
-    CdsExaminerViewer *viewer = new CdsExaminerViewer(root);
+    CdsExaminerEditor *viewer = new CdsExaminerEditor(root);
     viewer->show();
 }
 
 ///Crea un nuevo PlaneViewer_Editor
 void MainWindow::on_actionPlaneViewer_Editor_activated()
 {
-    CdsPlaneViewer *viewer = new CdsPlaneViewer(root);
+    CdsPlaneEditor *viewer = new CdsPlaneEditor(root);
     viewer->show();
 }
 
@@ -2266,14 +2276,8 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 }//SoSeparator * MainWindow::cargarFichero3D(QString filename)
 
 
- void MainWindow::setCurrentFile(const QString &fileName)
+ void MainWindow::setRecentFile(const QString &fileName)
  {
-     //Actualiza la barra de titulo
-     if (fileName.isEmpty())
-         setWindowTitle("Coindesigner");
-     else
-         setWindowTitle(QFileInfo(fileName).fileName() + " - Coindesigner");
-
      //Lee la lista de ficheros recientes
      QStringList files = settings->value("recentFileList").toStringList();
 
@@ -2301,9 +2305,14 @@ void MainWindow::updateRecentFileActions()
     //Configura las acciones del menu menuRecent
     for (int i = 0; i < numRecentFiles; ++i) 
     {
+		//Crea una accion con el nombre del fichero
          QString filename = QFileInfo(files[i]).fileName();
          recentFileActs[i]->setText(QString("&%1 ").arg(i+1)+filename);
+
+		 //Coloca el path completo del fichero en el campo data
          recentFileActs[i]->setData(files[i]);
+
+		 //Hace visible la accion
          recentFileActs[i]->setVisible(true);
     }
 
@@ -2311,11 +2320,11 @@ void MainWindow::updateRecentFileActions()
     for (int j = numRecentFiles; j < 5; ++j)
          recentFileActs[j]->setVisible(false);
 }
-
-void MainWindow::openRecentFile()
+///Abre una escena del menu de escenas recientes
+void MainWindow::on_actionLoad_RecentFile()
 {
      QAction *action = qobject_cast<QAction *>(sender());
      if (action)
-         on_actionLoad_Scene_activated(action->data().toString());
+         load_Scene(action->data().toString());
 }
 

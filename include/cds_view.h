@@ -89,15 +89,15 @@ public :
 
 };//class CdsNoQuitTemplate
 
-///Ventana cds_view() que contiene un SoExaminerViewer
+///Ventana cds_view() que contiene un SOTYPEVIEWER
 template <class SOTYPEVIEWER>
-class CdsTemplateViewer : public cds_view, SOTYPEVIEWER
+class CdsEditorTemplate : public cds_view, SOTYPEVIEWER
 {
 public :
 	/*! @brief Constructor de la clase
 	    @param root: Default sceneGraph for this object
 	*/
-	CdsTemplateViewer(SoNode *root=NULL) :
+	CdsEditorTemplate(SoNode *root=NULL) :
 	   cds_view(), SOTYPEVIEWER(this->centralWidget(), NULL, true )
 	   {
 		   if (root)
@@ -132,8 +132,8 @@ typedef CdsNoQuitTemplate<SoQtFlyViewer> NoQuitFlyViewer;
 typedef CdsNoQuitTemplate<SoQtPlaneViewer> NoQuitPlaneViewer;
 typedef CdsNoQuitTemplate<SoQtRenderArea> NoQuitRenderArea;
 
-typedef CdsTemplateViewer<SoQtExaminerViewer> CdsExaminerViewer;
-typedef CdsTemplateViewer<SoQtFlyViewer> CdsFlyViewer;
-typedef CdsTemplateViewer<SoQtPlaneViewer> CdsPlaneViewer;
+typedef CdsEditorTemplate<SoQtExaminerViewer> CdsExaminerEditor;
+typedef CdsEditorTemplate<SoQtFlyViewer> CdsFlyEditor;
+typedef CdsEditorTemplate<SoQtPlaneViewer> CdsPlaneEditor;
 
 #endif

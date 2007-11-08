@@ -64,7 +64,7 @@ private:
 	std::map<QTreeWidgetItem*,SoNode*>mapQTCOIN;
 
 	///Acciones del menu para ficheros recientes
-    	QAction *recentFileActs[5];
+	QAction *recentFileActs[5];
 
 public:
 
@@ -74,22 +74,26 @@ public:
 	///Constructor de la clase MainWindow
 	MainWindow (QWidget *p=0, Qt::WindowFlags f=0);
 
-        ///Version de Load/Save/Import que admite un parametro
-	bool on_actionLoad_Scene_activated(QString filename);
-	void on_actionSave_Scene_activated(QString filename);
-	bool on_actionImport_File_activated(QString filename);
+    ///Carga una escena 
+	bool load_Scene (QString filename);
+
+	///Salva la escena actual
+	void save_Scene (QString filename);
+
+	///Añade un archivo a la escena actual
+	bool import_File(QString filename);
 
 public slots:
 
 	//Slots para menu Scene
 	void on_actionNew_Scene_activated();
-	void on_actionLoad_Scene_activated() {on_actionLoad_Scene_activated("");};
-	void on_actionSave_Scene_activated() {on_actionSave_Scene_activated("");};
-	void on_actionImport_File_activated() {on_actionImport_File_activated("");};
+	void on_actionLoad_Scene_activated() {load_Scene("");};
+	void on_actionSave_Scene_activated() {save_Scene("");};
+	void on_actionLoad_RecentFile();
+	void on_actionImport_File_activated() {import_File("");};
 	void on_actionExport_VRML2_activated();
 	void on_actionView_Source_activated();
 	void on_actionQuit_activated();
-	void openRecentFile();
 
 	//Slots para menu Edit
 	void on_actionCut_activated();
@@ -155,13 +159,12 @@ private:
 	///Carga una escena en cualquier formato conocido
 	SoSeparator *cargarFichero3D(QString file);
 
-        ///Aplica a escena los cambios introducidos en la celda del fieldTable
+    ///Aplica a escena los cambios introducidos en la celda del fieldTable
 	void on_fieldTable_userChanged(int row, int column);
 
 	///Funciones para soporte de recent files
-	void setCurrentFile(const QString &fileName);
+	void setRecentFile(const QString &fileName);
 	void updateRecentFileActions();
-	QString strippedName(const QString &fullFileName);
 
 }; //class MainWindow
 
