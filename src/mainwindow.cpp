@@ -250,8 +250,7 @@ bool MainWindow::load_Scene(QString filename)
     //Colgamos el contenido de la geometria uno por uno
     for (int i=0; i<scene->getNumChildren(); i++)
     {
-        root->addChild(scene->getChild(i));
-        newSceneGraph(qroot, scene->getChild(i));
+		newSceneGraph(scene->getChild(i), qroot, root);
     }
 
     //Expandimos todos los items
@@ -376,13 +375,7 @@ bool MainWindow::import_File(QString filename)
     SoGroup* nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
     
     //Insertamos el contenido de la escena
-    nodo_padre->addChild(scene); 
-    
-    //Actualizamos el Ui.SceneGraph
-    newSceneGraph(item_padre, scene);
-
-    //Expandimos el item padre
-    item_padre->setExpanded(true);
+    newSceneGraph(scene, item_padre, nodo_padre);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -427,11 +420,9 @@ void MainWindow::load_Scene_Demo(const QString &filename)
     QTreeWidgetItem *qroot = Ui.sceneGraph->currentItem();
     for (int i=0; i<scene->getNumChildren(); i++)
     {
-        root->addChild(scene->getChild(i));
-        newSceneGraph(qroot, scene->getChild(i));
+        newSceneGraph(scene->getChild(i), qroot, root);
     }
 
-    Ui.sceneGraph->currentItem()->setExpanded(true);
     escena_modificada = false;
 
     delete buf;
@@ -566,11 +557,8 @@ void MainWindow::on_actionPaste_activated()
     //Buscamos el el nodo donde colgar el buffer
     SoGroup* nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
     
-    //Insertamos el contenido del buffer, lo cual aumenta su ref()
-    nodo_padre->addChild(node_buffer); 
-    
     //Actualizamos el Ui.SceneGraph
-    newSceneGraph(item_padre, node_buffer);
+    newSceneGraph(node_buffer, item_padre, nodo_padre);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -639,10 +627,7 @@ void MainWindow::on_actionLink_activated()
     path->unref();
 
     //Insertamos el nodo apuntado por el buffer
-    nodo_padre->addChild(node_buffer_link); 
-    
-    //Actualizamos el Ui.SceneGraph
-    newSceneGraph(item_padre, node_buffer_link);
+    newSceneGraph(node_buffer_link, item_padre, nodo_padre);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1968,7 +1953,7 @@ SoPath *MainWindow::getPathFromItem(QTreeWidgetItem *item)
 
 
 ///Crea subgrafo de escena QT a partir de un subgrafo de Coin3D
-void MainWindow::newSceneGraph(QTreeWidgetItem *padre, SoNode *node)
+void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGroup *nodo_padre)
 {
    /*<Depuracion>
     //A partir de un SoNode* , vamos a sacar su lista de campos y tipo
@@ -1999,11 +1984,15 @@ void MainWindow::newSceneGraph(QTreeWidgetItem *padre, SoNode *node)
       }
     } //</Depuracion> */
 
+	//Si se ha indicado un nodo padre, añadimos el nodo hijo
+	if (nodo_padre)
+		nodo_padre->addChild(node);
+
     //Creamos un item para representar este nodo
     QTreeWidgetItem *item =newNodeItem(node);
 
     //Insertamos el nodo y el item dentro del item actual
-    padre->addChild(item);
+    item_padre->addChild(item);
 
     //Miramos si este nodo deriva de SoGroup, directa o indirectamente
     if (node->getTypeId().isDerivedFrom(SoGroup::getClassTypeId())) 
@@ -2012,7 +2001,7 @@ void MainWindow::newSceneGraph(QTreeWidgetItem *padre, SoNode *node)
         //Añadimos los hijos mediante recursividad
         for (int i=0; i<group->getNumChildren(); i++)
         {
-            newSceneGraph(item, group->getChild(i));  
+            newSceneGraph(group->getChild(i), item, NULL);  
         }    
     }//if
 
@@ -2035,10 +2024,10 @@ void MainWindow::newSceneGraph(QTreeWidgetItem *padre, SoNode *node)
           //Miramos si contiene un valor valido, y lo añadimos como hijo
           SoNode *f_node = ((SoSFNode *)fields[f])->getValue();
           if (f_node != NULL)
-            newSceneGraph(item, f_node);  
+            newSceneGraph(f_node, item, NULL);  
        }
 
-       //*  revisar esto... nodos aparecen repetidos
+       //*  revisar esto... nodos aparecen repetidos??
        //Miramos si es un MFNode
        else
        if (tipo.isDerivedFrom(SoMFNode::getClassTypeId())) 
@@ -2051,17 +2040,20 @@ void MainWindow::newSceneGraph(QTreeWidgetItem *padre, SoNode *node)
           {
               SoNode *i_node = soMFNode->getNode(i);
               if (i_node != NULL)
-                  newSceneGraph(item, i_node);  
+                  newSceneGraph(i_node, item, NULL);  
           }//for
   
          } //if 
         //*/
     } //for
 
+	//Expandimos el nodo para que se vean los hijos
+	item_padre->setExpanded(true);
+
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}// void MainWindow::newSceneGraph(QTreeWidgetItem *padre, SoNode *node)
+}//void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGroup *nodo_padre)
 
 ///Carga una escena en cualquier formato conocido
 SoSeparator * MainWindow::cargarFichero3D(QString filename)

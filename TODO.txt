@@ -21,6 +21,8 @@ DONE: salvar lista de ultimos archivos abiertos
 
 * edicion con helpers (SFEnum, ColorDialog, etc...)
 
+* Revision de README.txt
+
 * Settings editor
   file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
   

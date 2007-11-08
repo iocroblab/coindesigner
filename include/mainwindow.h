@@ -147,8 +147,8 @@ private:
 	///Crea y configura un QTreeWidgetItem para representar un SoNode
 	QTreeWidgetItem *newNodeItem(SoNode *node);
 
-	///Crea subgrafo de escena QT a partir de un subgrafo de Coin3D
-	void newSceneGraph(QTreeWidgetItem *padre, SoNode *node);
+	///Añade un nodo a la escena y actualiza el sceneGraph 
+	void newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGroup *nodo_padre);
 
 	///Busca un icono adecuado a esta clase y lo asigna al item
 	bool setNodeIcon(QTreeWidgetItem * item);
