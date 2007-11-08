@@ -13,6 +13,7 @@
 #include <qfiledialog.h>
 #include <QInputDialog>
 #include <QPushButton>
+#include <QCloseEvent>
 
 extern QSettings *settings;
 
@@ -118,13 +119,34 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
 	//Inicializamos el contenido de la paleta de nodos
 	on_paletteComboBox_activated(Ui.paletteComboBox->currentIndex() );
-}
+}// MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
+//Acciones al cerrar la ventana principal
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+	//Si la escena ha sido modificada, pedimos confirmacion
+	if (escena_modificada)
+	{
+		//Solicitamos confirmacion antes de salir de la aplicacion
+		switch( QMessageBox::information( this, "Coindesigner",
+			tr("Current scene has been modified."
+			"<p>Do you want to save the changes to this scene before closing?"),
+			tr("Save"), tr("Discard"), tr("Cancel"),
+			0, 2 )
+			) 
+		{
+		case 0: on_actionSave_Scene_activated(); break;
+		case 1: break;
+		case 2:	event->ignore(); return;
+		}
+	}
+
 	//Salvamos la geometria actual
 	settings->setValue("geometry", saveGeometry());
+
+	//Cerramos la ventana y terminamos el bucle de eventos
 	QMainWindow::closeEvent(event);
+	SoQt::exitMainLoop();
 }
 
 
@@ -389,26 +411,8 @@ void MainWindow::on_actionView_Source_activated()
 
 void MainWindow::on_actionQuit_activated()
 {
-	//Si la escena ha sido modificada, pedimos confirmacion
-	if (escena_modificada)
-	{
-		//Solicitamos confirmacion antes de salir de la aplicacion
-		switch( QMessageBox::information( this, "Coindesigner",
-			tr("Current scene has been modified."
-			"<p>Do you want to save the changes to this scene before closing?"),
-			tr("Save"), tr("Discard"), tr("Cancel"),
-			0, 2 )
-			) 
-		{
-		case 0: on_actionSave_Scene_activated(); break;
-		case 1: break;
-		case 2:	return;
-		}
-	}
-
-	//Cerramos la ventana principal y erminamos el mainLoop, para salir de la aplicacion
+	//Cerramos la ventana principal, lo que produce salir de la aplicacion
 	close();
-	SoQt::exitMainLoop();
 }
 
 ///////////////////////
