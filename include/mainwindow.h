@@ -83,6 +83,9 @@ public:
 	///Añade un archivo a la escena actual
 	bool import_File(QString filename);
 
+	///Carga una escena incrustada como resource
+	void load_Scene_Demo(const QString &filename);
+
 public slots:
 
 	//Slots para menu Scene

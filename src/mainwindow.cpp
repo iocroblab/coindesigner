@@ -391,6 +391,55 @@ bool MainWindow::import_File(QString filename)
 } //bool MainWindow::on_actionImport_File_activated(QString filename)
 
 
+///Carga una escena incrustada como resource
+void MainWindow::load_Scene_Demo(const QString &filename)
+{
+    QResource demoRsrc(filename);
+    assert(demoRsrc.isValid());
+
+    long long size =  demoRsrc.size();
+    //printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
+
+    char *buf =  new char[size];
+
+    if(demoRsrc.isCompressed())
+    {
+        memcpy(buf, qUncompress(demoRsrc.data(), size).data(), size);
+    }
+    else
+    {
+        memcpy(buf, demoRsrc.data(), size);
+    }
+
+    //Leemos la escena desde el buffer de memoria
+    SoInput input;
+    input.setBuffer(buf, size) ;
+    SoSeparator *scene = SoDB::readAll(&input);
+	assert(scene);
+
+    //Actualiza la barra de titulo de la ventana
+    setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
+
+    //Destruimos la escena actual y creamos una nueva
+    on_actionNew_Scene_activated();
+
+    //Colgamos el nodo del grafo de escena
+    QTreeWidgetItem *qroot = Ui.sceneGraph->currentItem();
+    for (int i=0; i<scene->getNumChildren(); i++)
+    {
+        root->addChild(scene->getChild(i));
+        newSceneGraph(qroot, scene->getChild(i));
+    }
+
+    Ui.sceneGraph->currentItem()->setExpanded(true);
+    escena_modificada = false;
+
+    delete buf;
+
+}//void MainWindow::load_Scene_Demo(const QString &filename)
+
+
+
 ///Exporta la escena en formato VRML2
 void MainWindow::on_actionExport_VRML2_activated()
 {
@@ -859,47 +908,13 @@ void MainWindow::on_actionTutorial_2_activated()
     this->open_html_viewer(url);
 }
 
+///Carga la demo mirror.iv
 void MainWindow::on_actionMirror_demo_activated()
 {
-    QResource demoRsrc(":/demos/mirror.iv");
-    assert(demoRsrc.isValid());
+	load_Scene_Demo(":/demos/mirror.iv");
+}
 
-    long long size =  demoRsrc.size();
-    //printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
 
-    char *buf =  new char[size];
-
-    if(demoRsrc.isCompressed())
-    {
-        memcpy(buf, qUncompress(demoRsrc.data(), size).data(), size);
-    }
-    else
-    {
-        memcpy(buf, demoRsrc.data(), size);
-    }
-
-    //Leemos la escena desde el buffer de memoria
-    SoInput input;
-    input.setBuffer(buf, size) ;
-    SoSeparator *scene = SoDB::readAll(&input);
-
-    //Destruimos la escena actual y creamos una nueva
-    on_actionNew_Scene_activated();
-
-    //Colgamos el nodo del grafo de escena
-    QTreeWidgetItem *qroot = Ui.sceneGraph->currentItem();
-    for (int i=0; i<scene->getNumChildren(); i++)
-    {
-        root->addChild(scene->getChild(i));
-        newSceneGraph(qroot, scene->getChild(i));
-    }
-
-    Ui.sceneGraph->currentItem()->setExpanded(true);
-    escena_modificada = false;
-
-    delete buf;
-
-}//void MainWindow::on_actionMirror_demo_activated()
 
 
 ///Dialogo About
