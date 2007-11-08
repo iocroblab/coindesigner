@@ -178,6 +178,7 @@ public :
 			return true;
 		}
 
+		//Pasamos el evento a la clase padre
 		return SOTYPEVIEWER::processSoEvent(event);
 
 	}//SbBool processSoEvent (const SoEvent *const event)
