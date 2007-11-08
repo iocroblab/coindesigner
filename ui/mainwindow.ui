@@ -61,7 +61,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -457,7 +457,7 @@
     <iconset resource="../images/icons.qrc" >:/icons/gui/editpaste.png</iconset>
    </property>
    <property name="text" >
-    <string>Link</string>
+    <string>Paste as Link</string>
    </property>
   </action>
   <action name="actionMove_Up" >

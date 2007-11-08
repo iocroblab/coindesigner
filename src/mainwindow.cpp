@@ -496,20 +496,20 @@ void MainWindow::on_actionDelete_activated()
 {
    //Identificamos el nodo seleccionado
     QTreeWidgetItem *item = Ui.sceneGraph->currentItem(); 
-	SoNode *node=mapQTCOIN[item];
+    SoNode *node=mapQTCOIN[item];
 
     //No permitimos borrar el nodo raiz.
-	if (node == root)
-	{
-		//printf("No way, I'm Connor MacLeod (see http://imdb.com/title/tt0091203/ )");
-		return;
-	}
+    if (node == root)
+    {
+        //printf("No way, I'm Connor MacLeod (see http://imdb.com/title/tt0091203/ )");
+        return;
+    }
 
-	//Si estamos borrando el nodo en buffer_link, invalidamos el buffer
+    //Si estamos borrando el nodo en buffer_link, invalidamos el buffer
     //BUG:Deberiamos certificar que node no es un ancestro de node_buffer_link,
-	//puesto que entonces tambien estariamos eliminandolo
-	if (node == node_buffer_link)
-		node_buffer_link = NULL;
+    //puesto que entonces tambien estariamos eliminandolo
+    if (node == node_buffer_link)
+        node_buffer_link = NULL;
 
     //Identificamos al nodo padre del item a borrar
     QTreeWidgetItem *item_padre = item->parent();
@@ -527,30 +527,31 @@ void MainWindow::on_actionLink_activated()
 {
     //Comprobamos que hay algo en el buffer
     if (!node_buffer_link)
-	    return;
+        return;
 
     //Buscamos el item donde colgar el buffer
     QTreeWidgetItem *item_padre = Ui.sceneGraph->currentItem();
     while (!mapQTCOIN[item_padre]->getTypeId().isDerivedFrom(SoGroup::getClassTypeId())) 
     {
-		item_padre=item_padre->parent();
+        item_padre=item_padre->parent();
     }
  
     //Buscamos el el nodo donde colgar el buffer
     SoGroup* nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
     
-	//Es facil crear un bucle infinito con links, así que evitamos
-	//algunos casos de usuarios inexpertos
-	//BUG: Deberiamo ver que no enlazamos en ningun ancestro de buffer_link
-	if (nodo_padre == node_buffer_link)
-	{
-		//En caso de error escribimos un aviso
-		QString S;
-		QMessageBox::warning( this, tr("Warning"), tr("You can not paste as link this node here."));
-		return;
-	}
+    //Es facil crear un bucle infinito con links, así que evitamos
+    //algunos casos de usuarios inexpertos
+    //BUG: Deberiamo ver que no enlazamos en ningun ancestro de buffer_link
+    SoPath *path=getPathFromItem(item_padre);
+    if (path->containsNode (node_buffer_link))
+    {
+        //En caso de error escribimos un aviso
+        QMessageBox::warning( this, tr("Warning"), tr("You can not paste as link this node here."));
+        return;
+    }
+    path->unref();
 
-	//Insertamos el nodo apuntado por el buffer
+    //Insertamos el nodo apuntado por el buffer
     nodo_padre->addChild(node_buffer_link); 
     
     //Actualizamos el Ui.SceneGraph
@@ -826,7 +827,7 @@ void MainWindow::on_actionMirror_demo_activated()
 	assert(demoRsrc.isValid());
 
 	long long size =  demoRsrc.size();
-	printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
+	//printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
 
 	char *buf =  new char[size];
 
@@ -842,7 +843,6 @@ void MainWindow::on_actionMirror_demo_activated()
 	//Leemos la escena desde el buffer de memoria
 	SoInput input;
 	input.setBuffer(buf, size) ;
-	printf("isValidBuffer=%d\n", input.isValidBuffer() );
 	SoSeparator *scene = SoDB::readAll(&input);
 
 	//Destruimos la escena actual y creamos una nueva
@@ -1904,7 +1904,7 @@ SoPath *MainWindow::getPathFromItem(QTreeWidgetItem *item)
         path->unref();
         path = path2;
     }
-	return path;
+    return path;
 }//SoPath *MainWindow::getPathFromItem(QTreeWidgetItem *item)
 
 
