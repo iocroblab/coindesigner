@@ -28,6 +28,9 @@ coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro
 cdsview : tmp/cdsview.o tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
 	$(CXX) $(LDFLAGS) -o $@ $< 
 
+rebuild: distclean
+	$(MAKE) -f coindesigner.make all 
+
 tmp/%.o : %.o
 	mkdir -p tmp
 	mv $< $@
@@ -56,11 +59,8 @@ clean :
 	$(MAKE) -f Makefile clean
 	rm -rf core Makefile tmp .qmake.internal.cache
 
-distclean : clean 
+distclean : 
 	qmake coindesigner.pro
 	$(MAKE) -f Makefile distclean
-	rm -rf coindesigner cdsview Makefile tmp .qmake.internal.cache 
-
-
-
+	rm -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
 
