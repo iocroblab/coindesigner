@@ -21,12 +21,9 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 all : coindesigner
 
 coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro 
-	qmake -o - coindesigner.pro | sed 's/-O2/-O0 -g/g' > Makefile
-	#qmake -o - coindesigner.pro > Makefile
+	qmake -o - coindesigner.pro > Makefile
 	$(MAKE) -f Makefile 
 	rm Makefile
-	lupdate coindesigner.pro
-	lrelease coindesigner.pro
 
 cdsview : tmp/cdsview.o tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
 	$(CXX) $(LDFLAGS) -o $@ $< 

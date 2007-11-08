@@ -1,6 +1,5 @@
 
 
-
 DONE: Visor de codigo fuente
 DONE: Viewers dock-ables
 DONE: Nombres de los docks, que aparezcan en barra titulo
@@ -42,4 +41,4 @@ DONE Insercion de plantillas (help->demos)
 * Ver texturas como imagenes
   file:///C:/Qt/4.3.2/doc/html/widgets-imageviewer.html
   
-* Añadir una consola dockable
+* Añadir una consola dockable para mensajes
