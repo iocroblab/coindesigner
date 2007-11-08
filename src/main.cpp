@@ -1,7 +1,6 @@
 
 #include <qapplication.h>
 #include "qslim_options.h"
-#include "cds_view.h"
 #include "mainwindow.h"
 #include <qsettings.h>
 #include <qresource.h>

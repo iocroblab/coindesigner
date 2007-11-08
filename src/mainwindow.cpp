@@ -1,6 +1,6 @@
 
 #include "mainwindow.h"
-#include "cds_view.h"
+#include "cds_viewers.h"
 #include "cds_util.h"
 #include "cds_globals.h"
 #include "3dsLoader.h"

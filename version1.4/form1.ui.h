@@ -114,10 +114,6 @@ SbColor bgColor_viewer (0,0,0);
 //la escena o no.
 bool mostrar_pick_info = true;
 
-//Separator donde colgaremos las marcas de puntos pinchados (raypick)
-SoSeparator *mark_sep = NULL;
-SoCoordinate3 *mark_coord3 = NULL;
-
 void Form1::inicializar()
 {
 
@@ -133,28 +129,6 @@ void Form1::inicializar()
 	//Creación del nodeSensor que mantiene el GUI actualizado.
 	refreshGUI_Sensor = new SoTimerSensor (refreshGUI_CB, root);
 	refreshGUI_Sensor->setInterval(1.0);
-
-	//NOTA: Se puede tener un mark_sep por cada visualizador
-	//Cada visualiador tendr�a una scena que consiste en un Separator con su propio mark_sep y root
-	//Creacion de la estructura donde colgaremos las marcas de puntos pinchados (raypick)
-	mark_sep = new SoSeparator;
-	mark_sep->addChild(new SoResetTransform() );
-	SoBaseColor *mark_color = new SoBaseColor;
-	mark_color->rgb.setValue (1.0f, 0.0f, 0.0f);
-	mark_sep->addChild(mark_color);
-	SoDrawStyle *mark_style = new SoDrawStyle;
-	mark_style->pointSize = 10;
-	mark_sep->addChild(mark_style);
-	mark_coord3 = new SoCoordinate3;
-	mark_coord3->point.setValue(0,0,0);
-	mark_sep->addChild(mark_coord3);
-	SoMarkerSet *markerSet = new SoMarkerSet;
-	markerSet->markerIndex.setValue(SoMarkerSet::CIRCLE_FILLED_9_9);
-	mark_sep->addChild(markerSet);
-	//root->addChild(mark_sep);
-
-	//Referenciamos mark_sep para evitar que se destruya al colgarlo/descolgarlo del root
-	mark_sep->ref();
 
 	//Indicamos que la escena no ha sido modificada
 	escena_modificada = false;
@@ -1749,10 +1723,6 @@ void Form1::menuCargar_EscenaAction_activated()
 extern SoNode *ivfix_result;
 int Form1::fix_scene_activated ()
 {
-    //Aseguramos que mark_sep NO está colgado de root
-    while (root->findChild(mark_sep) != -1)
-       root->removeChild(mark_sep);
-
     //indicamos que se aplique a toda la escena
     ivfix_result = root;
 

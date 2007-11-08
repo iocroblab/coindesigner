@@ -36,7 +36,7 @@ unix:LIBS += -lSimVoleon
 win32:LIBS += $(COIN3DDIR)\lib\simvoleon2.lib
 
 # Input
-SOURCES +=	main.cpp	mainwindow.cpp	cds_util.cpp \
+SOURCES +=	main.cpp	mainwindow.cpp	cds_util.cpp	cds_viewers.cpp\
 		cds_parser.cpp	cds_scanner.cpp	3dsLoader.cpp	SoStream.cpp \
 #TODO	IfBuilder.cpp    IfFlattener.cpp  IfReplacer.cpp   IfSorter.cpp \
 #TODO	IfCollector.cpp  IfHasher.cpp     IfReporter.cpp   IfStripper.cpp \
@@ -50,7 +50,7 @@ SOURCES +=	main.cpp	mainwindow.cpp	cds_util.cpp \
 
 HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
 		include/3dsLoader.h \
-		include/qslim_options.h include/cds_view.h 
+		include/qslim_options.h include/cds_viewers.h 
 
 FORMS	=	ui/mainwindow.ui \
 		ui/cds_view.ui \

@@ -28,23 +28,7 @@
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
-
-//Clase base para el resto de visores
-class cds_view : public QMainWindow
-{
-	Q_OBJECT
-	Ui::cds_view Ui;
-public:
-
-	///Constructor
-	cds_view (QWidget *p=0, Qt::WindowFlags f=0) : QMainWindow(p, f)
-	{
-		Ui.setupUi(this);
-	} //Constructor
-
-private slots:
-
-};
+#include <Inventor/nodes/SoNodes.h>
 
 
 //Visor que evita terminar el bucle de eventos al pulsar Q. 
@@ -89,40 +73,115 @@ public :
 
 };//class CdsNoQuitTemplate
 
-///Ventana cds_view() que contiene un SOTYPEVIEWER
-template <class SOTYPEVIEWER>
-class CdsEditorTemplate : public cds_view, SOTYPEVIEWER
+
+//Clase base para todos los editores, Ui diseñado en designer
+class cds_editor : public QMainWindow
 {
+	Q_OBJECT
+	Ui::cds_view Ui;
+public:
+
+	///Constructor
+	cds_editor (QWidget *p=0, Qt::WindowFlags f=0) : QMainWindow(p, f)
+	{
+		Ui.setupUi(this);
+	} //Constructor
+};
+
+
+///Template para todos los editores, 
+template <class SOTYPEVIEWER>
+class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER
+{
+	///Separador intermedio
+	SoSeparator *myRoot;
+
+	///Separador para las marcas
+	SoSeparator *mark_sep;
+
+public:
+
+	///Posiciones de las marcas
+	SoCoordinate3 *mark_coord;
+
 public :
 	/*! @brief Constructor de la clase
-	    @param root: Default sceneGraph for this object
+	@param root: Default sceneGraph for this object
 	*/
-	CdsEditorTemplate(SoNode *root=NULL) :
-	   cds_view(), SOTYPEVIEWER(this->centralWidget(), NULL, true )
-	   {
-		   if (root)
-			   SOTYPEVIEWER::setSceneGraph(root);
-	   }
+	CdsEditorTemplate(SoNode *root=NULL) : cds_editor(), SOTYPEVIEWER(this->centralWidget(), NULL, true )
+	{
+		//Inicializamos nuestro root privado
+		myRoot = new SoSeparator();
 
-	   void show()
-	   {
-		   SOTYPEVIEWER::show();
-		   cds_view::show();
-	   }
+		//Creacion de la estructura donde colgaremos las marcas de puntos pinchados (raypick)
+		mark_sep = new SoSeparator;
+		mark_sep->addChild(new SoResetTransform() );
+		SoBaseColor *mark_color = new SoBaseColor;
+		mark_color->rgb.setValue (1.0f, 0.0f, 0.0f);
+		mark_sep->addChild(mark_color);
+		SoDrawStyle *mark_style = new SoDrawStyle;
+		mark_style->pointSize = 10;
+		mark_sep->addChild(mark_style);
+		mark_coord = new SoCoordinate3;
+		mark_coord->point.setValue(0,0,0);
+		mark_sep->addChild(mark_coord);
+		SoMarkerSet *markerSet = new SoMarkerSet;
+		markerSet->markerIndex.setValue(SoMarkerSet::CIRCLE_FILLED_9_9);
+		mark_sep->addChild(markerSet);
+		mark_sep->ref();
 
-	   SbBool processSoEvent (const SoEvent *const event)
-	   {
-		   //En Unix la tecla Q mata el bucle de eventos
-		   if (SoKeyboardEvent::isKeyPressEvent(event, SoKeyboardEvent::Q))
-		   {
-			   //printf("Eliminando widget %p\n", parent);
-			   cds_view::close();
-			   return true;
-		   }
+		//Si nos han pasado un nodo root, lo colgamos
+		if (root)
+			myRoot->addChild(root);
 
-		   return SOTYPEVIEWER::processSoEvent(event);
+		SOTYPEVIEWER::setSceneGraph(myRoot);
+	}
 
-	   }//SbBool processSoEvent (const SoEvent *const event)
+	~CdsEditorTemplate()
+	{
+		mark_sep->unref();
+	}
+	///Modifica la escena a mostrar en el editor
+	void setSceneGraph(SoSeparator *node)
+	{
+		myRoot->removeAllChildren();
+		myRoot->addChild(node);
+	}
+
+	///Muestra las marcas
+	void showMarks()
+	{
+		if (myRoot->findChild(mark_sep) < 0)
+			myRoot->addChild(mark_sep);
+	}
+
+	///Oculta las marcas
+	void hideMarks()
+	{
+		myRoot->removeChild (mark_sep);
+	}
+
+	void show()
+	{
+		SOTYPEVIEWER::show();
+		cds_editor::show();
+	}
+
+	///Bucle de eventos local al editor
+	SbBool processSoEvent (const SoEvent *const event)
+	{
+		//En Unix la tecla Q mata el bucle de eventos
+		if (SoKeyboardEvent::isKeyPressEvent(event, SoKeyboardEvent::Q))
+		{
+			//printf("Eliminando widget %p\n", parent);
+			cds_editor::close();
+			return true;
+		}
+
+		return SOTYPEVIEWER::processSoEvent(event);
+
+	}//SbBool processSoEvent (const SoEvent *const event)
+
 } ;
 
 
@@ -132,6 +191,7 @@ typedef CdsNoQuitTemplate<SoQtFlyViewer> NoQuitFlyViewer;
 typedef CdsNoQuitTemplate<SoQtPlaneViewer> NoQuitPlaneViewer;
 typedef CdsNoQuitTemplate<SoQtRenderArea> NoQuitRenderArea;
 
+//Instanciacion para los principales editores 
 typedef CdsEditorTemplate<SoQtExaminerViewer> CdsExaminerEditor;
 typedef CdsEditorTemplate<SoQtFlyViewer> CdsFlyEditor;
 typedef CdsEditorTemplate<SoQtPlaneViewer> CdsPlaneEditor;
