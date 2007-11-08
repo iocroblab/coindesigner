@@ -15,7 +15,7 @@ DONE: Edición de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
   
 DONE Insercion de plantillas (help->demos)
-  -> Falta decidir el conjunto de demos a incluir
+  -> TODO: Falta decidir el conjunto de demos a incluir
 
 DONE: salvar lista de ultimos archivos abiertos
 
