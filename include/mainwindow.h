@@ -63,6 +63,9 @@ private:
 	//Mapa que relaciona cada QTreeWidgetItem con un SoNode
 	std::map<QTreeWidgetItem*,SoNode*>mapQTCOIN;
 
+	///Acciones del menu para ficheros recientes
+    	QAction *recentFileActs[5];
+
 public:
 
 	///The one and only.... root node!!!
@@ -86,6 +89,7 @@ public slots:
 	void on_actionExport_VRML2_activated();
 	void on_actionView_Source_activated();
 	void on_actionQuit_activated();
+	void openRecentFile();
 
 	//Slots para menu Edit
 	void on_actionCut_activated();
@@ -153,6 +157,11 @@ private:
 
         ///Aplica a escena los cambios introducidos en la celda del fieldTable
 	void on_fieldTable_userChanged(int row, int column);
+
+	///Funciones para soporte de recent files
+	void setCurrentFile(const QString &fileName);
+	void updateRecentFileActions();
+	QString strippedName(const QString &fullFileName);
 
 }; //class MainWindow
 

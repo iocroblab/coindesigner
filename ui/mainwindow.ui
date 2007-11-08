@@ -74,9 +74,15 @@
      </property>
      <addaction name="actionIvfix" />
     </widget>
+    <widget class="QMenu" name="menuRecent_Files" >
+     <property name="title" >
+      <string>Recent Files</string>
+     </property>
+    </widget>
     <addaction name="actionNew_Scene" />
     <addaction name="actionLoad_Scene" />
     <addaction name="actionSave_Scene" />
+    <addaction name="menuRecent_Files" />
     <addaction name="separator" />
     <addaction name="actionImport_File" />
     <addaction name="actionExport_C" />
