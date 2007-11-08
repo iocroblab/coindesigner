@@ -81,8 +81,10 @@ static void readError_CB(const class SoError *error, void *)
 ///Constructor de la clase MainWindow
 MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 {
-	///Inicializamos UI
+	///Inicializamos UI y restauramos ultima geometria
 	Ui.setupUi(this);
+	if (settings->contains("geometry") )
+		restoreGeometry(settings->value("geometry").toByteArray());
 
 	//Inicialización de COIN y SoQt
 	SoDB::init();
@@ -117,6 +119,14 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 	//Inicializamos el contenido de la paleta de nodos
 	on_paletteComboBox_activated(Ui.paletteComboBox->currentIndex() );
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+	//Salvamos la geometria actual
+	settings->setValue("geometry", saveGeometry());
+	QMainWindow::closeEvent(event);
+}
+
 
 void MainWindow::on_actionNew_Scene_activated()
 {
@@ -1381,8 +1391,8 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
 
     } // for (int f=0; f < num_fields; f++)
 
-	//Aseguramos que las columnas tienen ancho suficiente
-	Ui.fieldTable->resizeColumnsToContents();
+    //Aseguramos que las columnas tienen ancho suficiente
+    Ui.fieldTable->resizeColumnsToContents();
 
     //Preparamos el mensaje a mostrar en la barra de estatus
     SoType tipo = nodo->getTypeId();
@@ -1444,11 +1454,17 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
 
 void MainWindow::on_fieldTable_cellChanged(int row, int column)
 {
-	//Evitamos actualizar si el cambio no lo ha hecho el usuario
-	if (edit_node && Ui.fieldTable->item(row,column) == Ui.fieldTable->currentItem())
-	{
-		on_fieldTable_userChanged(row, column); 
-	}
+    //Evitamos actualizar si el cambio no lo ha hecho el usuario
+    if (edit_node && Ui.fieldTable->item(row,column) == Ui.fieldTable->currentItem())
+    {
+        on_fieldTable_userChanged(row, column); 
+    }
+}
+
+
+void MainWindow::on_sceneGraph_itemClicked(QTreeWidgetItem *item, int column)
+{
+	printf("on_sceneGraph_itemClicked (%p, %d)\n", item, column);
 }
 
 ///Aplica modificaciones del usuario sobre el editor de campos
