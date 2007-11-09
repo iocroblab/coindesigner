@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>cds_view</class>
- <widget class="QMainWindow" name="cds_view" >
+ <class>cds_editor</class>
+ <widget class="QMainWindow" name="cds_editor" >
   <property name="geometry" >
    <rect>
     <x>0</x>

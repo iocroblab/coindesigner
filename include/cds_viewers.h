@@ -20,7 +20,7 @@
 #ifndef __CDS_VIEW_H__
 #define __CDS_VIEW_H__
 
-#include "ui_cds_view.h"
+#include "ui_cds_editor.h"
 
 //SoQt includes
 #include <QWidget>
@@ -31,7 +31,11 @@
 #include <Inventor/nodes/SoNodes.h>
 
 
-//Visor que evita terminar el bucle de eventos al pulsar Q. 
+/*! @brief Template class for creating noQuitxxxxxViewer objects 
+    Template class for creating noQuitxxxxxViewer objects that override the 
+    default behaviour exitMainLoop() when user press "Q" key. Instead, it will
+    send a close signal to a widget.
+*/
 template <class SOTYPEVIEWER>
 class CdsNoQuitTemplate : public SOTYPEVIEWER
 {
@@ -74,11 +78,11 @@ public :
 };//class CdsNoQuitTemplate
 
 
-//Clase base para todos los editores, Ui diseñado en designer
+///Base class for every visual editor with a UI created with Qt Designer
 class cds_editor : public QMainWindow
 {
 	Q_OBJECT
-	Ui::cds_view Ui;
+	Ui::cds_editor Ui;
 public:
 
 	///Constructor

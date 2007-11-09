@@ -53,7 +53,7 @@ HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
 		include/qslim_options.h include/cds_viewers.h 
 
 FORMS	=	ui/mainwindow.ui \
-		ui/cds_view.ui \
+		ui/cds_editor.ui \
 		ui/src_view.ui \
 		ui/qslim_options4.ui
 			
