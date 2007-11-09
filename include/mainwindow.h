@@ -136,6 +136,7 @@ public slots:
 	void on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *prev=0);
 	//void on_sceneGraph_itemClicked(QTreeWidgetItem *item, int column);
 	void on_fieldTable_cellChanged(int row, int column);
+	void on_actionPromote_Children_activated();
 
 	void closeEvent(QCloseEvent *event);
 

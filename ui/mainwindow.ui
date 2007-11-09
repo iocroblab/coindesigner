@@ -591,6 +591,14 @@
     <string>Mirror demo</string>
    </property>
   </action>
+  <action name="actionPromote_Children" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Promote Children</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>
