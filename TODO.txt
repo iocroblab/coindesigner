@@ -16,6 +16,7 @@ DONE: Edición de valores directos en fieldEditor
   
 DONE Insercion de plantillas (help->demos)
   -> TODO: Falta decidir el conjunto de demos a incluir
+  -> TODO: Y preferiblemente añadirlas como iv.gz para ahorrar espacio
 
 DONE: salvar lista de ultimos archivos abiertos
 
@@ -30,12 +31,15 @@ DONE: salvar lista de ultimos archivos abiertos
 
 * salvar esquema de docks en setting
 
-
 * uso de regexp para evitar introducir valores no numericos en fieldTable?
 
 * Sintax highlight en src_view
   file:///C:/Qt/4.3.2/doc/html/richtext-syntaxhighlighter.html
   
+* Compile a source in src_view (will give support for engines and more)
+  -> on_textEdit_change() -> Disable OK button
+  -> Every 1 second -> if( textEdit->text().isValidFile() ) then Enable OK button
+
 * Undo
   file:///C:/Qt/4.3.2/doc/html/tools-undoframework.html
   
