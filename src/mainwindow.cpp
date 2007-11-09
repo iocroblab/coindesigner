@@ -14,6 +14,8 @@
 #include <QInputDialog>
 #include <QPushButton>
 #include <QCloseEvent>
+#include <QMenu>
+#include <QContextMenuEvent>
 
 extern QSettings *settings;
 
@@ -86,6 +88,10 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     Ui.setupUi(this);
     if (settings->contains("geometry") )
         restoreGeometry(settings->value("geometry").toByteArray());
+
+    //No nos gusta la cabecera del sceneGraph, por que hace que el menu de contexto
+    //salga fuera de su lugar
+    Ui.sceneGraph->headerItem()->setHidden(true);
 
     //Acceso a los ficheros recientes
     for (int i = 0; i < 5; ++i) 
@@ -557,8 +563,8 @@ void MainWindow::on_actionPaste_activated()
     //Buscamos el el nodo donde colgar el buffer
     SoGroup* nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
     
-    //Actualizamos el Ui.SceneGraph
-    newSceneGraph(node_buffer, item_padre, nodo_padre);
+    //Pegamos una copia del contenido del buffer
+    newSceneGraph(node_buffer->copy(true), item_padre, nodo_padre);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -566,7 +572,7 @@ void MainWindow::on_actionPaste_activated()
 }//void MainWindow::on_actionPaste_activated()
 
 
-//Borra el nodo actual de la escena
+///Borra el nodo actual de la escena
 void MainWindow::on_actionDelete_activated()
 {
    //Identificamos el nodo seleccionado
@@ -590,13 +596,14 @@ void MainWindow::on_actionDelete_activated()
     QTreeWidgetItem *item_padre = item->parent();
     SoGroup *nodo_padre = (SoGroup *)mapQTCOIN[item_padre];
 
-    //Borramos el node de la escena y del Ui.sceneGraph
+    //Borramos el node de la escena, del mapQTCOIN y del Ui.sceneGraph
     nodo_padre->removeChild(node);
+    mapQTCOIN.erase(item);
     delete item;         
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
-}
+}// void MainWindow::on_actionDelete_activated()
 
 void MainWindow::on_actionLink_activated()
 {
@@ -656,8 +663,10 @@ void MainWindow::on_actionMove_Up_activated()
 
     //Buscamos el item anterior al actual y lo movemos por debajo
     QTreeWidgetItem *item_prev = item_padre->child(item_pos-1);
+    bool item_prev_status = item_prev->isExpanded ();
     item_padre->removeChild (item_prev);
     item_padre->insertChild(item_pos, item_prev);
+    item_prev->setExpanded(item_prev_status);
 
     //Ahora, movemos el nodo de coin delante del nodo anterior
     SoGroup *nodo_padre = (SoGroup *)mapQTCOIN[item_padre];
@@ -709,15 +718,6 @@ void MainWindow::on_actionMove_Down_activated()
     nodo_padre->insertChild(node, pos+2);
 
     //Eliminamos el nodo en la posicion pos
-    nodo_padre->removeChild(pos);
-
-    //Consultamos la posicion del nodo dentro de su padre
-    pos = nodo_padre->findChild(node);
-
-    //Copiamos el nodo actual detras del nodo posterior
-    nodo_padre->insertChild(node, pos+2);
-
-    //Eliminamos el nodo original, quedando desplazado a la posicion pos+1
     nodo_padre->removeChild(pos);
 
     //Indicamos que la escena ha sido modificada
@@ -1489,11 +1489,6 @@ void MainWindow::on_fieldTable_cellChanged(int row, int column)
     }
 }
 
-
-void MainWindow::on_sceneGraph_itemClicked(QTreeWidgetItem *item, int column)
-{
-    printf("on_sceneGraph_itemClicked (%p, %d)\n", item, column);
-}
 
 ///Aplica modificaciones del usuario sobre el editor de campos
 void MainWindow::on_fieldTable_userChanged(int row, int column)
@@ -2335,3 +2330,22 @@ void MainWindow::on_actionLoad_RecentFile()
          load_Scene(action->data().toString());
 }
 
+void MainWindow::contextMenuEvent(QContextMenuEvent *event)
+ {
+    //Miramos si hemos pinchado sobre un item del sceneGraph
+    QPoint pos = Ui.sceneGraph->mapFromGlobal(event->globalPos());
+    QTreeWidgetItem *item = Ui.sceneGraph->itemAt(pos);
+    if (item)
+    {
+         printf("%s %p\n", qPrintable(item->text(0)), item);
+         QMenu menu(this);
+         menu.addAction(Ui.actionCut);
+         menu.addAction(Ui.actionCopy);
+         menu.addAction(Ui.actionPaste);
+         menu.addAction(Ui.actionDelete);
+         menu.addAction(Ui.actionLink);
+         menu.addAction(Ui.actionMove_Up);
+         menu.addAction(Ui.actionMove_Down);
+         menu.exec(event->globalPos());
+     }
+ }

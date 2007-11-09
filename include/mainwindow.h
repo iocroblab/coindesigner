@@ -134,10 +134,13 @@ public slots:
 	void on_paletteComboBox_activated(int idx);
 	void on_nodePalette_itemDoubleClicked(QTreeWidgetItem *item, int);
 	void on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *prev=0);
-	void on_sceneGraph_itemClicked(QTreeWidgetItem *item, int column);
+	//void on_sceneGraph_itemClicked(QTreeWidgetItem *item, int column);
 	void on_fieldTable_cellChanged(int row, int column);
 
 	void closeEvent(QCloseEvent *event);
+
+protected:
+     void contextMenuEvent(QContextMenuEvent *event);
 
 private:
 
@@ -162,7 +165,7 @@ private:
 	///Carga una escena en cualquier formato conocido
 	SoSeparator *cargarFichero3D(QString file);
 
-    ///Aplica a escena los cambios introducidos en la celda del fieldTable
+	///Aplica a escena los cambios introducidos en la celda del fieldTable
 	void on_fieldTable_userChanged(int row, int column);
 
 	///Funciones para soporte de recent files
