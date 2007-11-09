@@ -59,6 +59,7 @@ public :
 			   SOTYPEVIEWER::setSceneGraph(root);
 	   }
 
+	   ///Local event processer. Override default behaviour for Q key
 	   SbBool processSoEvent (const SoEvent *const event)
 	   {
 		   //En Unix la tecla Q mata el bucle de eventos
@@ -152,26 +153,27 @@ public :
 		myRoot->addChild(node);
 	}
 
-	///Muestra las marcas
+	///Show visual marks
 	void showMarks()
 	{
 		if (myRoot->findChild(mark_sep) < 0)
 			myRoot->addChild(mark_sep);
 	}
 
-	///Oculta las marcas
+	///Hide visual marks
 	void hideMarks()
 	{
 		myRoot->removeChild (mark_sep);
 	}
 
+	///Shows the window
 	void show()
 	{
 		SOTYPEVIEWER::show();
 		cds_editor::show();
 	}
 
-	///Bucle de eventos local al editor
+	///Local event processer. Override default behaviour for Q key
 	SbBool processSoEvent (const SoEvent *const event)
 	{
 		//En Unix la tecla Q mata el bucle de eventos
