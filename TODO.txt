@@ -30,6 +30,7 @@ DONE: salvar lista de ultimos archivos abiertos
 * activar traduccion al castellano
 
 * salvar esquema de docks en setting
+  http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
 
 * uso de regexp para evitar introducir valores no numericos en fieldTable?
 
