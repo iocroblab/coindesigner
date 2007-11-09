@@ -134,10 +134,10 @@ public slots:
 	void on_paletteComboBox_activated(int idx);
 	void on_nodePalette_itemDoubleClicked(QTreeWidgetItem *item, int);
 	void on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *prev=0);
-	//void on_sceneGraph_itemClicked(QTreeWidgetItem *item, int column);
 	void on_fieldTable_cellChanged(int row, int column);
 	void on_actionPromote_Children_activated();
 
+	//Evento al cerrar la ventana
 	void closeEvent(QCloseEvent *event);
 
 protected:

@@ -2330,6 +2330,15 @@ void MainWindow::on_actionLoad_RecentFile()
          load_Scene(action->data().toString());
 }
 
+/*
+void MainWindow::on_sceneGraphItem_Pressed( const QModelIndex & index )
+{
+	QMessageBox::critical(NULL, "on_sceneGraphItem_Pressed", "on_sceneGraphItem_Pressed");
+	//QAction *action = qobject_cast<QAction *>(sender());
+
+}
+*/
+
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
  {
     //Miramos si hemos pinchado sobre un item del sceneGraph
@@ -2357,6 +2366,9 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
              menu.addAction(Ui.actionPromote_Children);
          }
 
+		 //DEBUG
+		 //QMenu transfMenu(tr("Transform into"), this);
+		 //menu.addMenu(&transfMenu);
 
          menu.exec(event->globalPos());
      }
