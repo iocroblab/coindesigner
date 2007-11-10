@@ -93,6 +93,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
 		 if (tipo.isDerivedFrom(SoGroup::getClassTypeId()) && nodo != root) 
 		 {
+			 Ui.actionPromote_Children->setData((qulonglong)item);
 			 menu.addAction(Ui.actionPromote_Children);
 		 }
 
@@ -101,7 +102,10 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 			 //Miramos si este nodo tiene algun nombre de fichero asociado
 			 SoTexture2 *tex= (SoTexture2 *)nodo;
 			 if (tex->filename.getValue().getLength() > 0)
+			 {
+				 Ui.actionEmbedTexture->setData((qulonglong)item);
 				 menu.addAction(Ui.actionEmbedTexture);
+			 }
 		 }
 
 		 else if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
@@ -109,7 +113,10 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 			 //Miramos si este nodo tiene algun nombre de fichero asociado
 			 SoBumpMap *tex= (SoBumpMap *)nodo;
 			 if (tex->filename.getValue().getLength() > 0)
+			 {
+				 Ui.actionEmbedTexture->setData((qulonglong)item);
 				 menu.addAction(Ui.actionEmbedTexture);
+			 }
 		 }
 
 		 //DEBUG
@@ -121,10 +128,25 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
      }
  }
 
+///Put all children of a group node on the same level that its parent
 void MainWindow::on_actionPromote_Children_activated()
 {
-    QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
-    SoGroup *nodo = (SoGroup *) mapQTCOIN[item]; 
+	QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
+
+	//Trata de leer el argumento del sender()->data
+	QAction *action = qobject_cast<QAction *>(sender());
+	if (action)
+	{
+		bool ok = false;
+		QTreeWidgetItem *item2 = (QTreeWidgetItem *)action->data().toULongLong(&ok);
+		if (ok && item2)
+			item = item2;
+
+		//Borramos el contenido del action->data(), por si acaso acaba en otra parte
+		action->setData(0);
+	}
+
+	SoGroup *nodo = (SoGroup *) mapQTCOIN[item]; 
 
     //El root no puede promocionar por encima de si mismo
     if(nodo == root)
@@ -167,11 +189,31 @@ void MainWindow::on_actionPromote_Children_activated()
 }// void MainWindow::on_actionPromote_Children_activated()
 
 
+///Embed external texture image files into the node
 void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
 {
   //Miramos si nos han pasado algun nodo o debemos usar el item actual 
-  if (node == NULL)
-      node = mapQTCOIN[Ui.sceneGraph->currentItem()];
+	if (node == NULL)
+	{
+		//Comienza por intentar usar el item actual
+		QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
+
+		//Trata de leer el argumento del sender()->data
+		QAction *action = qobject_cast<QAction *>(sender());
+		if (action)
+		{
+			bool ok = false;
+			QTreeWidgetItem *item2 = (QTreeWidgetItem *)action->data().toULongLong(&ok);
+			if (ok && item2)
+				item = item2;
+
+			//Borramos el contenido del action->data(), por si acaso acaba en otra parte
+			action->setData(0);
+		}
+
+		//Usa el node del item actual, o el pasado como sender()->data()
+		node = mapQTCOIN[item];
+	}
 
   SoType tipo = node->getTypeId();
 

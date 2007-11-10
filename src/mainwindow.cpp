@@ -397,7 +397,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
     assert(demoRsrc.isValid());
 
     long long size =  demoRsrc.size();
-    //printf ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
+    //qDebug ("size=%lld \tisCompressed=%d\n", size, demoRsrc.isCompressed());
 
     char *buf =  new char[size];
 
@@ -498,7 +498,7 @@ void MainWindow::on_actionCut_activated()
     //No permitimos borrar el nodo raiz.
     if (node == root)
     {
-        //printf("Are you crazy? I'm the root node.\");
+        //qDebug("Are you crazy? I'm the root node.\");
        return;
     }
 
@@ -582,7 +582,7 @@ void MainWindow::on_actionDelete_activated()
     //No permitimos borrar el nodo raiz.
     if (node == root)
     {
-        //printf("No way, I'm Connor MacLeod (see http://imdb.com/title/tt0091203/ )");
+        //qDebug("No way, I'm Connor MacLeod (see http://imdb.com/title/tt0091203/ )");
         return;
     }
 
@@ -651,7 +651,7 @@ void MainWindow::on_actionMove_Up_activated()
     //No permitimos subir el nodo raiz.
     if (node == root)
     {
-        //printf("Are you crazy? I'm the root node.\");
+        //qDebug("Are you crazy? I'm the root node.\");
         return;
     }
 
@@ -693,7 +693,7 @@ void MainWindow::on_actionMove_Down_activated()
     //No permitimos bajar el nodo raiz.
     if (node == root)
     {
-        //printf("Don't let me down!!! I'm the root node.\");
+        //qDebug("Don't let me down!!! I'm the root node.\");
         return;
     }
 
@@ -1097,7 +1097,7 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
         //Leemos el tipo de este campo
          SoType tipo=fields[f]->getTypeId();
          const char*nombre_tipo = tipo.getName();  
-         //printf("EL tipo es %s\n",nombre_tipo);
+         //qDebug("EL tipo es %s\n",nombre_tipo);
          //Leemos el nombre de este campo
          SbName nombre_field;
          SoField *field = fields[f];
@@ -1105,7 +1105,7 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
          const char*nombre_campo = nombre_field.getString();  
 
          //Escribimos el nombre del tipo y del campo
-         //fprintf(stderr, ".%s (%s)\n", nombre_campo, nombre_tipo);
+         //qDebug(".%s (%s)\n", nombre_campo, nombre_tipo);
 
          //Añadimos una fila con el correspondiente campo
          Ui.fieldTable->setRowCount (numRows+1);
@@ -1154,7 +1154,7 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
                //Actualizamos el campo segun el contenido
                Ui.fieldTable->item(numRows,0)->setText(valueString.getString() );
 
-               //printf("Usando tipoBasico %s (%s) -> %s\n", nombre_campo, nombre_tipo, valueString.getString());
+               //qDebug("Usando tipoBasico %s (%s) -> %s\n", nombre_campo, nombre_tipo, valueString.getString());
                campoRelleno = true;
                break;
             }
@@ -1174,7 +1174,7 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
                    Ui.fieldTable->item(numRows,0)->setText(valueString.getString() );
                }
            
-               //printf("Usando tipoBasico %s (%s) -> %s\n", nombre_campo, nombre_tipo, valueString.getString());
+               //qDebug("Usando tipoBasico %s (%s) -> %s\n", nombre_campo, nombre_tipo, valueString.getString());
                campoRelleno = true;
                break;
             }
@@ -1567,7 +1567,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
                     QMessageBox::warning( this, tr("Warning"), S);
                 }
 
-                //printf("Escrito tipoBasico %s (%s) -> %s\n", nombre_field.getString(), nombre_tipo, txt);
+                //qDebug("Escrito tipoBasico %s (%s) -> %s\n", nombre_field.getString(), nombre_tipo, txt);
 
                 //Salimos de la funcion inmediatamente
                 escena_modificada = true;
@@ -1598,7 +1598,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
             if (!label.contains(".axis"))
             {
                 __chivato__;
-                fprintf(stderr, "Error interno: no encuentro campo .axis\n");
+				qDebug("Error interno: no encuentro campo .axis\n");
             }
 
             //Extraemos el contenido de ambas celdas
@@ -1648,7 +1648,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
 
             if (!label.contains(".norm"))
             {
-                fprintf(stderr, "Error interno: no encuentro campo .norm\n");
+                qDebug("Error interno: no encuentro campo .norm\n");
             }
 
             //Extraemos el contenido de ambas celdas
@@ -1809,7 +1809,7 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
                 //y aplicamos recursividad
                 generarListaComponentes(tl[j], plano, item);
 
-                //printf("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
+                //qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
             }//if
         }//for
     }
@@ -1841,7 +1841,7 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
                     //TODO item->setSelectable(tl[j].canCreateInstance());
                 }
 
-                //printf("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
+                //qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
 
                 //Aplica recursividad a los hijos directos
                 generarListaComponentes(tl[j], plano, item);
@@ -1961,7 +1961,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
       SoType tipo = node->getTypeId();
       const char*nombre_tipo = tipo.getName();  
 
-      fprintf(stderr, "Clase %s\n", nombre_tipo);
+      qDebug("Clase %s\n", nombre_tipo);
       SoFieldList  fields;
       node->getFields(fields);
 
@@ -1980,7 +1980,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
          const char*nombre_campo = nombre_field.getString();  
 
          //Escribimos el nombre del tipo y del campo
-         fprintf(stderr, ".%s (%s)\n", nombre_campo, nombre_tipo);
+         qDebug(".%s (%s)\n", nombre_campo, nombre_tipo);
       }
     } //</Depuracion> */
 

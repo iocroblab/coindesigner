@@ -123,6 +123,7 @@ public slots:
 	void on_actionPlaneViewer_Editor_activated();
 
 	//Slots para el menu Help
+
 	void on_actionCoin3D_Reference_activated();
 	void actionShow_Node_Reference_activated();
 	void on_actionTutorial_1_activated();
@@ -131,12 +132,17 @@ public slots:
 	void on_actionPlanet_Earth_demo_activated();
 	void on_actionAbout_activated();
 
-	//Slots para el area de trabajo
+	//Working area slots
+
 	void on_paletteComboBox_activated(int idx);
 	void on_nodePalette_itemDoubleClicked(QTreeWidgetItem *item, int);
 	void on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *prev=0);
 	void on_fieldTable_cellChanged(int row, int column);
+
+	///Put all children of a group node on the same level that its parent
 	void on_actionPromote_Children_activated();
+
+	///Embed external texture image files into the node
 	void on_actionEmbedTexture_activated(SoNode *node=NULL);
 
 	//Evento al cerrar la ventana
