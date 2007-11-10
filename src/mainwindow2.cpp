@@ -85,22 +85,39 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
          menu.addAction(Ui.actionPaste);
          menu.addAction(Ui.actionDelete);
          menu.addAction(Ui.actionMove_Up);
-         menu.addAction(Ui.actionMove_Down);
-         menu.addSeparator();
+		 menu.addAction(Ui.actionMove_Down);
+		 menu.addSeparator();
 
-         SoNode *nodo = mapQTCOIN[item];
-         SoType  tipo = nodo->getTypeId();
+		 SoNode *nodo = mapQTCOIN[item];
+		 SoType  tipo = nodo->getTypeId();
 
-         if (tipo.isDerivedFrom(SoGroup::getClassTypeId()) && nodo != root) 
-         {
-             menu.addAction(Ui.actionPromote_Children);
-         }
+		 if (tipo.isDerivedFrom(SoGroup::getClassTypeId()) && nodo != root) 
+		 {
+			 menu.addAction(Ui.actionPromote_Children);
+		 }
+
+		 if (tipo.isDerivedFrom(SoTexture2::getClassTypeId()) )
+		 {
+			 //Miramos si este nodo tiene algun nombre de fichero asociado
+			 SoTexture2 *tex= (SoTexture2 *)nodo;
+			 if (tex->filename.getValue().getLength() > 0)
+				 menu.addAction(Ui.actionEmbedTexture);
+		 }
+
+		 else if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
+		 {
+			 //Miramos si este nodo tiene algun nombre de fichero asociado
+			 SoBumpMap *tex= (SoBumpMap *)nodo;
+			 if (tex->filename.getValue().getLength() > 0)
+				 menu.addAction(Ui.actionEmbedTexture);
+		 }
 
 		 //DEBUG
 		 //QMenu transfMenu(tr("Transform into"), this);
 		 //menu.addMenu(&transfMenu);
 
-         menu.exec(event->globalPos());
+		 //Mostramos el menu popup
+		 menu.exec(event->globalPos());
      }
  }
 
@@ -149,3 +166,58 @@ void MainWindow::on_actionPromote_Children_activated()
     
 }// void MainWindow::on_actionPromote_Children_activated()
 
+
+void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
+{
+  //Miramos si nos han pasado algun nodo o debemos usar el item actual 
+  if (node == NULL)
+      node = mapQTCOIN[Ui.sceneGraph->currentItem()];
+
+  SoType tipo = node->getTypeId();
+
+  if (tipo == SoTexture2::getClassTypeId())
+  {
+	//Convertimos en un nodo SoTexture2
+	SoTexture2 *tex= (SoTexture2 *)node;
+
+	//Miramos si este nodo tiene algun nombre de fichero asociado
+	if (tex->filename.getValue().getLength() == 0)
+		return;
+
+	//Aplicamos touch al campo image
+	tex->image.touch();
+   
+	//Limpiamos el contenido del campo filename
+	tex->filename.setValue(NULL);
+  }
+  else if (tipo == SoBumpMap::getClassTypeId())
+  {
+	//Convertimos en un nodo SoTexture2
+	SoBumpMap *tex= (SoBumpMap *)node;
+
+	//Miramos si este nodo tiene algun nombre de fichero asociado
+	if (tex->filename.getValue().getLength() == 0)
+		return;
+
+	//Aplicamos touch al campo image
+	tex->image.touch();
+   
+	//Limpiamos el contenido del campo filename
+	tex->filename.setValue(NULL);
+  }
+  else
+  {
+	  __chivato__
+	  QString S;
+	  S.sprintf("No puedo incrustar en %s", node->getTypeId().getName().getString() );
+	  QMessageBox::warning( this, tr("Error"), S);
+	  return;
+  }
+  
+  //Mostramos el nodo en la tabla de edicion de campos
+  //TODO: actualizar_fieldTable (node);
+
+  //Indicamos que la escena ha sido modificada
+  escena_modificada = true;
+
+}//void MainWindow::on_actionEmbedTexture_activated()

@@ -122,9 +122,9 @@ void Form1::inicializar()
 
 	//inicializo las listas para que se ordenen de manera correcta 
 	//sobre todo es importante la que representa el arbol de Open Inventor
-	sceneTree->viewport()->setFocusPolicy(QWidget::ClickFocus);
-	sceneTree->setSorting(-1);
-	sceneTree->setSorting(-1,false);
+	Ui.sceneGraph->viewport()->setFocusPolicy(QWidget::ClickFocus);
+	Ui.sceneGraph->setSorting(-1);
+	Ui.sceneGraph->setSorting(-1,false);
 
 	//Creación del nodeSensor que mantiene el GUI actualizado.
 	refreshGUI_Sensor = new SoTimerSensor (refreshGUI_CB, root);
@@ -283,7 +283,7 @@ int Form1::ImportarVolumenRaw(QString filename)
     vol->setName(SoBase_name->getValue());
 
     //Colgamos el nodo vol del grafo de escena
-    QTreeWidgetItem *padre=sceneTree->currentItem();
+    QTreeWidgetItem *padre=Ui.sceneGraph->currentItem();
 
     //Miramos si este nodo deriva de SoGroup, directa o indirectamente
     SoNode *nodo = mapQTCOIN[padre];
@@ -316,7 +316,7 @@ void Form1::Promocionar_hijos()
     //El metodo mas rapido es sacar el padre e ir bajando almacenando un
     //elemento y el anterior,
     //cuando encuentre mi item los cambio el superior por el inferior
-    QTreeWidgetItem *item=sceneTree->currentItem();
+    QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
     SoGroup *nodo = (SoGroup *) mapQTCOIN[item]; 
 
     //El root no puede promocionar por encima de si mismo
@@ -370,7 +370,7 @@ void Form1::incrustarTexture2(SoNode *node)
 {
   //Miramos si nos han pasado algun nodo o debemos usar el item actual 
   if (node == NULL)
-      node = mapQTCOIN[sceneTree->currentItem()];
+      node = mapQTCOIN[Ui.sceneGraph->currentItem()];
 
   SoType tipo = node->getTypeId();
 
@@ -459,7 +459,7 @@ void Form1::incrustar_texturas_activated ()
     }
 
 	//Refrescamos el editor de campos
-	actualizar_fieldTable(mapQTCOIN[sceneTree->currentItem()]);
+	actualizar_fieldTable(mapQTCOIN[Ui.sceneGraph->currentItem()]);
 
 }//int Form1::incrustar_texturas_activated ()
 
@@ -468,7 +468,7 @@ void Form1::incrustar_texturas_activated ()
 void Form1::convertManip()
 {
     
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
     SoNode *nodo = mapQTCOIN[item];
     SoNode *newNode = NULL;
 
@@ -584,7 +584,7 @@ void Form1::convertManip()
 void Form1::SoTransform_to_SoCenterballManip()
 {
    //Esta funcion tranforma el Transform en SoCenterballManip
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoCenterballManip * Manip=new SoCenterballManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
 
@@ -615,7 +615,7 @@ void Form1::SoTransform_to_SoCenterballManip()
 void Form1::SoTransform_to_SoJackManip()
 {
    //tranforma el Transform en SoJackManip
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoJackManip * Manip=new SoJackManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
 
@@ -645,7 +645,7 @@ void Form1::SoTransform_to_SoJackManip()
    //transforma el Transform en SoTrackballManip
 void Form1::SoTransform_to_SoHandleBoxManip()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoHandleBoxManip * Manip=new SoHandleBoxManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
    //Ya tengo los dos elementos, paso a copiar los campos
@@ -672,7 +672,7 @@ void Form1::SoTransform_to_SoHandleBoxManip()
 
 void Form1::SoTransform_to_SoTrackballManip()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTrackballManip * Manip=new SoTrackballManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
    //Ya tengo los dos elementos, paso a copiar los campos
@@ -699,7 +699,7 @@ void Form1::SoTransform_to_SoTrackballManip()
 
 void Form1::SoTransform_to_SoTransformerManip()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransformerManip * Manip=new SoTransformerManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
    //Ya tengo los dos elementos, paso a copiar los campos
@@ -726,7 +726,7 @@ void Form1::SoTransform_to_SoTransformerManip()
 
 void Form1::SoTransform_to_SoTabBoxManip()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTabBoxManip * Manip=new SoTabBoxManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
    //Ya tengo los dos elementos, paso a copiar los campos
@@ -752,7 +752,7 @@ void Form1::SoTransform_to_SoTabBoxManip()
 
 void Form1::SoTransform_to_SoTransformBoxManip()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransformBoxManip * Manip=new SoTransformBoxManip;
    SoTransform * Trans=(SoTransform*)mapQTCOIN[item];
    //Ya tengo los dos elementos, paso a copiar los campos
@@ -778,7 +778,7 @@ void Form1::SoTransform_to_SoTransformBoxManip()
 
 void Form1::SoMatrixTransform_to_SoTransform()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransform* trans=new SoTransform;
    SoMatrixTransform * matTrans=(SoMatrixTransform*)mapQTCOIN[item];
 
@@ -806,7 +806,7 @@ void Form1::SoMatrixTransform_to_SoTransform()
 
 void Form1::SoRotation_to_SoTrackballManip()
 {
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTrackballManip *Manip=new SoTrackballManip;
    SoRotation *rot=(SoRotation*)mapQTCOIN[item];
    //Ya tengo los dos elementos, paso a copiar los campos
@@ -832,7 +832,7 @@ void Form1::SoRotation_to_SoTrackballManip()
 void Form1::SoManip_to_SoTransform()
 {
     
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransform * Trans=new SoTransform;
    SoTransform *old= (SoTransform*)mapQTCOIN[item];
    Trans->rotation.setValue(old->rotation.getValue());
@@ -858,7 +858,7 @@ void Form1::SoManip_to_SoTransform()
 void Form1::SoTrackballManip_to_SoRotation()
 {
     
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoRotation *rot=new SoRotation;
    SoTrackballManip *old= (SoTrackballManip*)mapQTCOIN[item];
    rot->rotation.setValue(old->rotation.getValue());
@@ -881,7 +881,7 @@ void Form1::SoTrackballManip_to_SoRotation()
 void Form1::SoIndexedFaceSet_to_SoIndexedLineSet()
 {
     
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoIndexedFaceSet *oldNode= (SoIndexedFaceSet*)mapQTCOIN[item];
 
    SoIndexedLineSet *newNode=new SoIndexedLineSet;
@@ -910,7 +910,7 @@ void Form1::SoIndexedFaceSet_to_SoIndexedLineSet()
 void Form1::SoIndexedLineSet_to_SoIndexedFaceSet()
 {
     
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoIndexedLineSet *oldNode= (SoIndexedLineSet*)mapQTCOIN[item];
 
    SoIndexedFaceSet *newNode = new SoIndexedFaceSet;
@@ -969,7 +969,7 @@ void Form1::SoIndexedFaceSet_to_SMF()
     nombre_fich = fd.selectedFile();
 	*/
 
-	QTreeWidgetItem * item=sceneTree->currentItem(); 
+	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 	SoNode *nodo = mapQTCOIN[item];
 
     //Abrimos el fichero de salida
@@ -996,7 +996,7 @@ void Form1::SoIndexedFaceSet_to_SMF()
 ///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero OFF
 void Form1::SoIndexedFaceSet_to_OFF()
 {
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
     //Construimos un path  segun la información del arbol de QT
 	SoNode *nodo = mapQTCOIN[item];
@@ -1036,7 +1036,7 @@ void Form1::SoIndexedFaceSet_to_OFF()
 ///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero STL
 void Form1::SoIndexedFaceSet_to_STL()
 {
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
     //Construimos un path  segun la información del arbol de QT
 	SoNode *nodo = mapQTCOIN[item];
@@ -1076,7 +1076,7 @@ void Form1::SoIndexedFaceSet_to_STL()
 ///Triangula las facetas de más de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
 void Form1::SoIndexedFaceSet_triangulate()
 {
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
     SoNode *nodo = mapQTCOIN[item];
 
     if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
@@ -1101,7 +1101,7 @@ void Form1::SoIndexedFaceSet_triangulate()
 
 void Form1::SoIndexedFaceSet_change_orientation()
 {
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
     SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)mapQTCOIN[item];
    
    IndexedFaceSet_change_orientation (ifs->coordIndex);
@@ -1115,7 +1115,7 @@ void Form1::SoIndexedFaceSet_change_orientation()
 void Form1::SoCoordinate3_center_new()
 {
     //Identificamos el item actual
-    QTreeWidgetItem * item=sceneTree->currentItem();
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
     if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoCoordinate3::getClassTypeId())) 
     {
         SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item];
@@ -1163,7 +1163,7 @@ void Form1::SoCoordinate3_to_XYZ()
     FILE *file = fopen(nombre_XYZ.ascii(), "w");
 
     //Identificamos el item actual
-    QTreeWidgetItem * item=sceneTree->currentItem();
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
 
     //Escribimos el contenido en el fichero XYZ
     if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoCoordinate3::getClassTypeId())) 
@@ -1186,7 +1186,7 @@ void Form1::SoCoordinate3_to_XYZ()
 void Form1::SoCoordinate3_to_qhull()
 {
     //Identificamos el item actual
-    QTreeWidgetItem * item=sceneTree->currentItem();
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
     SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item];
 
     //Creamos un coordinate3 y un indexedFaceSet para el cierre
@@ -1233,7 +1233,7 @@ void Form1::SoCoordinate3_to_qhull()
 void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
 {
     
-   QTreeWidgetItem * item=sceneTree->currentItem(); 
+   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoIndexedTriangleStripSet *oldNode= (SoIndexedTriangleStripSet*)mapQTCOIN[item];
 
    SoIndexedFaceSet *newNode= IndexedTriangleStripSet_to_IndexedFaceSet (oldNode);
@@ -1257,189 +1257,6 @@ void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
 
 
 
-void Form1::showmenu()
-{
-    //Creamos un menu generico
-    QPopupMenu* pm = new QPopupMenu( this );
-    pm->insertItem(QPixmap::fromMimeSource("editcut.png"), tr("&Cortar"),  this, SLOT(menu_edit_cut_action()), CTRL+Key_X );
-    pm->insertItem(QPixmap::fromMimeSource("editcopy.png"), tr("&Copiar"),  this, SLOT(menu_edit_copy_action()), CTRL+Key_C);
-    pm->insertItem(QPixmap::fromMimeSource("editpaste.png"), tr("&Pegar"),  this, SLOT(menu_edit_paste_action()), CTRL+Key_V );
-    pm->insertItem(QPixmap::fromMimeSource("editdelete.png"), tr("&Eliminar"),  this, SLOT(menu_edit_delete_action()), Key_Delete);
-    pm->insertItem(QPixmap::fromMimeSource("up.png"), tr("&Subir"),  this, SLOT(Subir_nodo_action()), CTRL+Key_Up );
-    pm->insertItem(QPixmap::fromMimeSource("down.png"), tr("&Bajar"),  this, SLOT(Bajar_nodo_action()), CTRL+Key_Down );
-
-    //Identificamos el item actual
-    QTreeWidgetItem * item=sceneTree->currentItem();
-    SoNode *nodo = mapQTCOIN[item];
-    SoType  tipo = nodo->getTypeId();
-
-    //Añadimos opciones dependiendo del tipo de nodo
-    
-    if (tipo.isDerivedFrom(SoGroup::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Promocionar hijos"),  this, SLOT(Promocionar_hijos()));
-    }
-
-    if (tipo.isDerivedFrom(SoTransform::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoCenterballManip"),  this, SLOT(SoTransform_to_SoCenterballManip()));
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoHandleBoxManip"), this, SLOT(SoTransform_to_SoHandleBoxManip()));
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoJackManip"), this, SLOT(SoTransform_to_SoJackManip()));
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTabBoxManip"), this, SLOT(SoTransform_to_SoTabBoxManip()));
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTrackballManip"),  this, SLOT(SoTransform_to_SoTrackballManip()));
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransformBoxManip"), this, SLOT(SoTransform_to_SoTransformBoxManip()));
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransformerManip"), this, SLOT(SoTransform_to_SoTransformerManip()));
-      
-       //Manipuladores
-       if (tipo.isDerivedFrom(SoTransformManip::getClassTypeId())) 
-       {
-         pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransform"), this, 
-			         SLOT(SoManip_to_SoTransform()) );
-
-         if (tipo == SoTrackballManip::getClassTypeId()) 
-         {
-           pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoRotation"), this, 
-			           SLOT(SoTrackballManip_to_SoRotation()));
-         }
-       }
-
-    }
-    else 
-
-    if (tipo == SoMatrixTransform::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransform"),  this, SLOT(SoMatrixTransform_to_SoTransform()) );
-    }
-    else 
-
-    if (tipo == SoRotation::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTrackballManip"),  this, SLOT(SoRotation_to_SoTrackballManip()) );
-    }
-
-    if (tipo == SoDirectionalLight::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoDirectionalLightManip"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoSpotLight::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoSpotLightManip"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoPointLight::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoPointLightManip"),  this, SLOT(convertManip()) );
-    }
-    else
-
-    if (tipo == SoDirectionalLightManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoDirectionalLight"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoSpotLightManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoSpotLight"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoPointLightManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoPointLight"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoClipPlaneManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoClipPlane"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoClipPlane::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoClipPlaneManip"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo.isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Triangular facetas"),this,SLOT(SoIndexedFaceSet_triangulate()) );
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Cambiar orientacion facetas"),this,SLOT(SoIndexedFaceSet_change_orientation()) );
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedLineSet"),this,SLOT(SoIndexedFaceSet_to_SoIndexedLineSet()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero SMF/OBJ"),this,SLOT(SoIndexedFaceSet_to_SMF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero OFF"),this,SLOT(SoIndexedFaceSet_to_OFF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero STL"),this,SLOT(SoIndexedFaceSet_to_STL()));
-      if (settings.readEntry("/coindesigner/qslim_app"))
-	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
-      if (settings.readEntry("/coindesigner/tetgen_app"))
-	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Tetrahedralizar con TETGEN"),this,SLOT(tetgen_activated ()));
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Recubrimiento"),this,SLOT(recubrimiento2()));
-    }
-    else 
-    
-    if (tipo.isDerivedFrom(SoIndexedLineSet::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedFaceSet"),  this, SLOT(SoIndexedLineSet_to_SoIndexedFaceSet()) );
-    }
-    else 
-    
-    if (tipo.isDerivedFrom(SoCoordinate3::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Centrar en origen"),  this, SLOT(SoCoordinate3_center_new()) );
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Calcular cierre convexo"),  this, SLOT(SoCoordinate3_to_qhull()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero XYZ"),  this, SLOT(SoCoordinate3_to_XYZ()) );
-    }
-    else 
-    
-    if (tipo.isDerivedFrom(SoVertexProperty::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Centrar en origen"),  this, SLOT(SoCoordinate3_center_new()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero XYZ"),  this, SLOT(SoCoordinate3_to_XYZ()) );
-    }
-    else 
-    
-    if (tipo.isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
-    {
-      pm->insertItem(tr("Triangular facetas"),    this,SLOT(SoIndexedFaceSet_triangulate()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero SMF/OBJ"),this,SLOT(SoIndexedFaceSet_to_SMF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero OFF"),this,SLOT(SoIndexedFaceSet_to_OFF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero STL"),this,SLOT(SoIndexedFaceSet_to_STL()));
-      if (settings.readEntry("/coindesigner/qslim_app"))
-	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
-      if (settings.readEntry("/coindesigner/tetgen_app"))
-	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Tetrahedralizar con TETGEN"),this,SLOT(tetgen_activated ()));
-    }
-    else 
-    
-    if (tipo.isDerivedFrom(SoIndexedTriangleStripSet::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedFaceSet"),  this, SLOT(SoIndexedTriangleStripSet_to_SoIndexedFaceSet()) );
-    }
-   
-    if (tipo.isDerivedFrom(SoTexture2::getClassTypeId()) )
-    {
-       //Miramos si este nodo tiene algun nombre de fichero asociado
-       SoTexture2 *tex= (SoTexture2 *)nodo;
-       if (tex->filename.getValue().getLength() > 0)
-          pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Incrustar fichero de imagen"),  this, SLOT(incrustarTexture2()) );
-    }
-    else
-    if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
-    {
-       //Miramos si este nodo tiene algun nombre de fichero asociado
-       SoBumpMap *tex= (SoBumpMap *)nodo;
-       if (tex->filename.getValue().getLength() > 0)
-          pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Incrustar fichero de imagen"),  this, SLOT(incrustarTexture2()) );
-    }
-   
- //Mostramos el menu contextual
- pm->exec( QCursor::pos() );
-           
-} //void Form1::showmenu()
 
 void Form1::Form1_destroyed( QObject * )
 {
@@ -1501,7 +1318,7 @@ void Form1::fieldTable_clicked(int fila, int , int button)
    refreshGUI_but->setOn(false);
 
     //Buscamos el nodo que estamos editando
-    SoNode *nodo=mapQTCOIN[sceneTree->currentItem()];
+    SoNode *nodo=mapQTCOIN[Ui.sceneGraph->currentItem()];
     nodo = edit_node;
     assert(nodo);
 
@@ -1737,7 +1554,7 @@ int Form1::fix_scene_activated ()
        Form1::menu_escena_nueva_action();
     
        //Colgamos el nodo del grafo de escena
-       QTreeWidgetItem *padre=sceneTree->firstChild();
+       QTreeWidgetItem *padre=Ui.sceneGraph->firstChild();
  
        root->addChild(ivfix_result);  
        InsertarElemento(padre, ivfix_result);
@@ -1769,7 +1586,7 @@ int Form1::qslim_activated ()
     }
 
     //Buscamos el nodo actual
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
     //Construimos un path  segun la información del arbol de QT
     SoNode *nodo = mapQTCOIN[item];
@@ -1810,7 +1627,7 @@ int Form1::qslim_activated ()
     qslim_result->setName(SoBase_name->getValue());
 
     //Buscamos el primer SoGroup que contiene al nodo actual
-    QTreeWidgetItem *padre=sceneTree->currentItem()->parent();
+    QTreeWidgetItem *padre=Ui.sceneGraph->currentItem()->parent();
     nodo = mapQTCOIN[padre];
     while (!nodo->getTypeId().isDerivedFrom(SoGroup::getClassTypeId()) && 
            !nodo->getTypeId().isDerivedFrom(SoVRMLGroup::getClassTypeId()) ) 
@@ -1848,7 +1665,7 @@ int Form1::tetgen_activated ()
     }
 
     //Buscamos el nodo actual
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
     //Construimos un path  segun la información del arbol de QT
     SoNode *nodo = mapQTCOIN[item];
@@ -1889,7 +1706,7 @@ int Form1::tetgen_activated ()
     tetgen_result->setName(SoBase_name->getValue());
 
     //Buscamos el primer SoGroup que contiene al nodo actual
-    QTreeWidgetItem *padre=sceneTree->currentItem()->parent();
+    QTreeWidgetItem *padre=Ui.sceneGraph->currentItem()->parent();
     nodo = mapQTCOIN[padre];
     while (!nodo->getTypeId().isDerivedFrom(SoGroup::getClassTypeId()) && 
            !nodo->getTypeId().isDerivedFrom(SoVRMLGroup::getClassTypeId()) ) 
@@ -1926,7 +1743,7 @@ int Form1::recubrimiento2()
 		return -1;
 
     //Buscamos el nodo actual
-    QTreeWidgetItem * item=sceneTree->currentItem(); 
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
     //Construimos un path  segun la información del arbol de QT
     SoNode *nodo = mapQTCOIN[item];
@@ -1946,7 +1763,7 @@ int Form1::recubrimiento2()
     recubr_result->setName(SoBase_name->getValue());
 
     //Buscamos el primer SoGroup que contiene al nodo actual
-    QTreeWidgetItem *padre=sceneTree->currentItem()->parent();
+    QTreeWidgetItem *padre=Ui.sceneGraph->currentItem()->parent();
     nodo = mapQTCOIN[padre];
     while (!nodo->getTypeId().isDerivedFrom(SoGroup::getClassTypeId()) && 
            !nodo->getTypeId().isDerivedFrom(SoVRMLGroup::getClassTypeId()) ) 
@@ -2012,3 +1829,151 @@ void Form1::menu_edit_preferences_slot()
     cds_config_form.exec();
 }
 
+void Form1::showmenu()
+{
+
+    if (tipo.isDerivedFrom(SoTransform::getClassTypeId())) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoCenterballManip"),  this, SLOT(SoTransform_to_SoCenterballManip()));
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoHandleBoxManip"), this, SLOT(SoTransform_to_SoHandleBoxManip()));
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoJackManip"), this, SLOT(SoTransform_to_SoJackManip()));
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTabBoxManip"), this, SLOT(SoTransform_to_SoTabBoxManip()));
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTrackballManip"),  this, SLOT(SoTransform_to_SoTrackballManip()));
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransformBoxManip"), this, SLOT(SoTransform_to_SoTransformBoxManip()));
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransformerManip"), this, SLOT(SoTransform_to_SoTransformerManip()));
+      
+       //Manipuladores
+       if (tipo.isDerivedFrom(SoTransformManip::getClassTypeId())) 
+       {
+         pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransform"), this, 
+			         SLOT(SoManip_to_SoTransform()) );
+
+         if (tipo == SoTrackballManip::getClassTypeId()) 
+         {
+           pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoRotation"), this, 
+			           SLOT(SoTrackballManip_to_SoRotation()));
+         }
+       }
+
+    }
+    else 
+
+    if (tipo == SoMatrixTransform::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTransform"),  this, SLOT(SoMatrixTransform_to_SoTransform()) );
+    }
+    else 
+
+    if (tipo == SoRotation::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTrackballManip"),  this, SLOT(SoRotation_to_SoTrackballManip()) );
+    }
+
+    if (tipo == SoDirectionalLight::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoDirectionalLightManip"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo == SoSpotLight::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoSpotLightManip"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo == SoPointLight::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoPointLightManip"),  this, SLOT(convertManip()) );
+    }
+    else
+
+    if (tipo == SoDirectionalLightManip::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoDirectionalLight"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo == SoSpotLightManip::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoSpotLight"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo == SoPointLightManip::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoPointLight"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo == SoClipPlaneManip::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoClipPlane"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo == SoClipPlane::getClassTypeId()) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoClipPlaneManip"),  this, SLOT(convertManip()) );
+    }
+    else 
+
+    if (tipo.isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Triangular facetas"),this,SLOT(SoIndexedFaceSet_triangulate()) );
+      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Cambiar orientacion facetas"),this,SLOT(SoIndexedFaceSet_change_orientation()) );
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedLineSet"),this,SLOT(SoIndexedFaceSet_to_SoIndexedLineSet()) );
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero SMF/OBJ"),this,SLOT(SoIndexedFaceSet_to_SMF()));
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero OFF"),this,SLOT(SoIndexedFaceSet_to_OFF()));
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero STL"),this,SLOT(SoIndexedFaceSet_to_STL()));
+      if (settings.readEntry("/coindesigner/qslim_app"))
+	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
+      if (settings.readEntry("/coindesigner/tetgen_app"))
+	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Tetrahedralizar con TETGEN"),this,SLOT(tetgen_activated ()));
+      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Recubrimiento"),this,SLOT(recubrimiento2()));
+    }
+    else 
+    
+    if (tipo.isDerivedFrom(SoIndexedLineSet::getClassTypeId())) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedFaceSet"),  this, SLOT(SoIndexedLineSet_to_SoIndexedFaceSet()) );
+    }
+    else 
+    
+    if (tipo.isDerivedFrom(SoCoordinate3::getClassTypeId())) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Centrar en origen"),  this, SLOT(SoCoordinate3_center_new()) );
+      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Calcular cierre convexo"),  this, SLOT(SoCoordinate3_to_qhull()) );
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero XYZ"),  this, SLOT(SoCoordinate3_to_XYZ()) );
+    }
+    else 
+    
+    if (tipo.isDerivedFrom(SoVertexProperty::getClassTypeId())) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Centrar en origen"),  this, SLOT(SoCoordinate3_center_new()) );
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero XYZ"),  this, SLOT(SoCoordinate3_to_XYZ()) );
+    }
+    else 
+    
+    if (tipo.isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
+    {
+      pm->insertItem(tr("Triangular facetas"),    this,SLOT(SoIndexedFaceSet_triangulate()) );
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero SMF/OBJ"),this,SLOT(SoIndexedFaceSet_to_SMF()));
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero OFF"),this,SLOT(SoIndexedFaceSet_to_OFF()));
+      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero STL"),this,SLOT(SoIndexedFaceSet_to_STL()));
+      if (settings.readEntry("/coindesigner/qslim_app"))
+	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
+      if (settings.readEntry("/coindesigner/tetgen_app"))
+	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Tetrahedralizar con TETGEN"),this,SLOT(tetgen_activated ()));
+    }
+    else 
+    
+    if (tipo.isDerivedFrom(SoIndexedTriangleStripSet::getClassTypeId())) 
+    {
+      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedFaceSet"),  this, SLOT(SoIndexedTriangleStripSet_to_SoIndexedFaceSet()) );
+    }
+   
+   
+ //Mostramos el menu contextual
+ pm->exec( QCursor::pos() );
+           
+} //void Form1::showmenu()

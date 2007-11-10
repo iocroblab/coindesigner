@@ -899,6 +899,11 @@ void MainWindow::on_actionMirror_demo_activated()
 	load_Scene_Demo(":/demos/mirror.iv");
 }
 
+///Carga la demo planetEarth.iv.gz
+void MainWindow::on_actionPlanet_Earth_demo_activated()
+{
+	load_Scene_Demo(":/demos/planetEarth.iv.gz");
+}
 
 
 

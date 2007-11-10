@@ -61,7 +61,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -135,6 +135,7 @@
       <string>&amp;Demos</string>
      </property>
      <addaction name="actionMirror_demo" />
+     <addaction name="actionPlanet_Earth_demo" />
     </widget>
     <addaction name="actionCoin3D_Reference" />
     <addaction name="menuTutorials" />
@@ -597,6 +598,22 @@
    </property>
    <property name="text" >
     <string>Promote Children</string>
+   </property>
+  </action>
+  <action name="actionEmbedTexture" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Embed Texture File</string>
+   </property>
+  </action>
+  <action name="actionPlanet_Earth_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/gear.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Planet Earth demo</string>
    </property>
   </action>
  </widget>

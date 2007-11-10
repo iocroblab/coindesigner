@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/demos" >
         <file>mirror.iv</file>
+        <file>planetEarth.iv.gz</file>
     </qresource>
 </RCC>

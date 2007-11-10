@@ -128,6 +128,7 @@ public slots:
 	void on_actionTutorial_1_activated();
 	void on_actionTutorial_2_activated();
 	void on_actionMirror_demo_activated();
+	void on_actionPlanet_Earth_demo_activated();
 	void on_actionAbout_activated();
 
 	//Slots para el area de trabajo
@@ -136,6 +137,7 @@ public slots:
 	void on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *prev=0);
 	void on_fieldTable_cellChanged(int row, int column);
 	void on_actionPromote_Children_activated();
+	void on_actionEmbedTexture_activated(SoNode *node=NULL);
 
 	//Evento al cerrar la ventana
 	void closeEvent(QCloseEvent *event);
