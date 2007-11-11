@@ -1051,14 +1051,18 @@ void MainWindow::on_nodePalette_itemDoubleClicked(QTreeWidgetItem * item, int)
 ///Orden de actualizar la tabla Ui.fieldTable con un nuevo item
 void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *)
 {
-
-    if(!item)
+	if(!item)
         return;
 
     //Buscamos el nodo que hay que mostrar en el editor Ui.fieldTable
     SoNode *nodo=mapQTCOIN[item];
     assert(nodo);
 
+	updateFieldEditor(nodo);
+}//void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *)
+
+void MainWindow::updateFieldEditor(SoNode *nodo)
+{
     //Indicamos que estamos modificando la tabla
     edit_node = NULL;
 
@@ -1483,7 +1487,7 @@ void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWi
     //Indicamos que el nodo representado en el fieldTable es este nodo
     edit_node = nodo;
 
-}//void MainWindow::on_sceneGraph_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *)
+}//void MainWindow::updateFieldEditor(SoNode *nodo)
 
 void MainWindow::on_fieldTable_cellChanged(int row, int column)
 {
@@ -2203,7 +2207,13 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
     //Probamos nuestro parser interno (OOGL, OBJ, XYZ, SMF, etc...)
 
     //Abrimos el fichero de entrada
-    yyin = fopen( strFilename, "r" );
+#ifdef _WIN32
+	fopen_s(&yyin, strFilename, "r");
+#else
+	yyin = fopen( strFilename, "r" );
+#endif
+
+	//Comprobamos que se pudo abrir correctamente
     if (!yyin) 
     {
       perror(strFilename);
