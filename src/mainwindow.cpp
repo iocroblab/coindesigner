@@ -284,12 +284,6 @@ void MainWindow::save_Scene(QString filename)
 
     nombreEscena = filename;
 
-    //Aseguramos que mark_sep NO esta colgado de root
-    /* TODO
-    while (root->findChild(mark_sep) != -1)
-       root->removeChild(mark_sep);
-    */
-
     //Creamos un SoWriteAction para escribir la escena
     SoWriteAction writeAction;
     writeAction.getOutput()->openFile(qPrintable(filename) );
@@ -447,10 +441,6 @@ void MainWindow::on_actionExport_VRML2_activated()
     //Miramos si se pulso el boton cancelar
     if (filename=="")
         return;
-
-    //Aseguramos que mark_sep NO esta colgado de root
-    //TODO while (root->findChild(mark_sep) != -1)
-    //TODO    root->removeChild(mark_sep);
 
     SoToVRML2Action wrlAction;
     wrlAction.apply(root);

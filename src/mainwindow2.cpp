@@ -119,6 +119,56 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 			 }
 		 }
 
+		 else if (tipo == SoDirectionalLight::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLightManip"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoSpotLight::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoSpotLightManip"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoPointLight::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoPointLightManip"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoDirectionalLightManip::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLight"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoSpotLightManip::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoSpotLight"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoPointLightManip::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoPointLight"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoClipPlaneManip::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoClipPlane"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+		 else if (tipo == SoClipPlane::getClassTypeId()) 
+		 {
+			 Ui.Convert_Manip->setData((qulonglong)item);
+			 Ui.Convert_Manip->setText(tr("Convert in SoClipPlaneManip"));
+			 menu.addAction(Ui.Convert_Manip);
+		 }
+
+
 		 //DEBUG
 		 //QMenu transfMenu(tr("Transform into"), this);
 		 //menu.addMenu(&transfMenu);
@@ -256,10 +306,137 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
 	  return;
   }
   
-  //Mostramos el nodo en la tabla de edicion de campos
-  //TODO: actualizar_fieldTable (node);
+  //Mostramos el nodo modificado en la tabla de edicion de campos
+  updateFieldEditor(node);
 
   //Indicamos que la escena ha sido modificada
   escena_modificada = true;
 
 }//void MainWindow::on_actionEmbedTexture_activated()
+
+
+///Convert a node into its correspondent manip 
+void MainWindow::on_Convert_Manip_activated(QTreeWidgetItem *item)
+{
+  //Miramos si nos han pasado algun nodo o debemos usar el item actual 
+	if (item == NULL)
+	{
+		//Comienza por intentar usar el item actual
+		item=Ui.sceneGraph->currentItem();
+
+		//Trata de leer el argumento del sender()->data
+		QAction *action = qobject_cast<QAction *>(sender());
+		if (action)
+		{
+			bool ok = false;
+			QTreeWidgetItem *item2 = (QTreeWidgetItem *)action->data().toULongLong(&ok);
+			if (ok && item2)
+				item = item2;
+
+			//Borramos el contenido del action->data(), por si acaso acaba en otra parte
+			action->setData(0);
+		}
+	}
+
+	//Creacion del nuevo nodo sustituto del anterior
+	SoNode *node = mapQTCOIN[item];
+    SoNode *newNode = NULL;
+
+    if (node->getTypeId() == SoSpotLightManip::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoSpotLight();
+    }  
+	else if (node->getTypeId() == SoSpotLight::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoSpotLightManip();
+    }  
+    else if (node->getTypeId() == SoPointLightManip::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoPointLight();
+    }  
+    else if (node->getTypeId() == SoPointLight::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoPointLightManip();
+    }  
+    else if (node->getTypeId() == SoDirectionalLightManip::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoDirectionalLight();
+    }  
+    else if (node->getTypeId() == SoDirectionalLight::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoDirectionalLightManip();
+    }  
+    else if (node->getTypeId() == SoClipPlaneManip::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoClipPlane();
+    }  
+    else if (node->getTypeId() == SoClipPlane::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoClipPlaneManip();
+
+		/* Intento de resolver un bug de coin3D. No funciona.
+		//Calcula el path del nodo
+		SoPath *path =getPathFromItem(item);
+		((SoClipPlaneManip*)newNode)->replaceNode(path);
+		path->unref();
+
+		//Configuramos el icono y el texto del item
+		mapQTCOIN[item] = newNode;
+		setNodeIcon(item);
+		//Actualizamos la tabla  de campos
+		updateFieldEditor (newNode);
+		//Indicamos que la escena ha sido modificada
+		escena_modificada = true
+		return;
+		//*/
+    }  
+	else
+	{
+		//Me han pasado un nodo no soportado
+		QString S;
+		S.sprintf("Can't convert %s into a manip", node->getTypeId().getName().getString());
+		QMessageBox::warning( this, tr("Warning"), S);
+
+		return;
+	}
+
+	//Copiamos los fields del nodo original que se llamen igual en newNode
+	//Extraemos su lista de campos
+	SoFieldList  fields;
+	node->getFields(fields);
+	int num_fields=fields.getLength();
+	//Recorremos todos los fields del nodo antiguo
+	for (int f=0; f < num_fields; f++)
+	{
+		//Leemos el nombre de este field
+		SoField *field = fields[f];
+		SbName nombre_field;
+		node->getFieldName(field, nombre_field);
+		//Miramos si el nuevo nodo tiene un field llamado igual
+		SoField *dst_field = newNode->getField(nombre_field);
+		if(dst_field && dst_field->isOfType(field->getTypeId()) )
+		{
+			//Copiamos el valor del campo
+			dst_field->copyFrom(*field);
+		}
+	}//for (int f=0; f < num_fields; f++)
+
+	//Reemplazamos el nodo en node por newNode
+    QTreeWidgetItem *item_padre=item->parent();
+    SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
+    nodo_padre->replaceChild(node, newNode);
+
+    //Configuramos el icono y el texto del item
+    mapQTCOIN[item] = newNode;
+    setNodeIcon(item);
+	item->setText(0, QString(newNode->getTypeId().getName() ));
+    //TODO item->setToolTip(0, QString(t.getName()));
+
+    //Actualizamos la tabla  de campos
+    updateFieldEditor (newNode);
+
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+
+}//void MainWindow::on_actionConvert_Manip_activated(QTreeWidgetItem *item)
+

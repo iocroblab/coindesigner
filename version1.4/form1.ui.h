@@ -298,7 +298,7 @@ int Form1::ImportarVolumenRaw(QString filename)
     InsertarElemento(padre, vol);
 
     //Actualizamos la tabla  de campos
-    actualizar_fieldTable (vol);
+    updateFieldEditor (vol);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -347,127 +347,11 @@ void Form1::incrustar_texturas_activated ()
     }
 
 	//Refrescamos el editor de campos
-	actualizar_fieldTable(mapQTCOIN[Ui.sceneGraph->currentItem()]);
+	updateFieldEditor(mapQTCOIN[Ui.sceneGraph->currentItem()]);
 
 }//int Form1::incrustar_texturas_activated ()
 
 
-//Esta funcion intercambia de un nodo a su manipulador más directo y viceversa
-void Form1::convertManip()
-{
-    
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-    SoNode *nodo = mapQTCOIN[item];
-    SoNode *newNode = NULL;
-
-    if (nodo->getTypeId() == SoSpotLightManip::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoSpotLight();
-    }  
-    else
-       
-    if (nodo->getTypeId() == SoSpotLight::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoSpotLightManip();
-    }  
-    else
-
-    if (nodo->getTypeId() == SoPointLightManip::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoPointLight();
-    }  
-    else
-       
-    if (nodo->getTypeId() == SoPointLight::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoPointLightManip();
-    }  
-    else
-      
-    if (nodo->getTypeId() == SoDirectionalLightManip::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoDirectionalLight();
-    }  
-    else
-       
-    if (nodo->getTypeId() == SoDirectionalLight::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoDirectionalLightManip();
-    }  
-
-    else
-    if (nodo->getTypeId() == SoClipPlaneManip::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoClipPlane();
-    }  
-
-    else
-    if (nodo->getTypeId() == SoClipPlane::getClassTypeId()) 
-    {
-        newNode=(SoNode*)new SoClipPlaneManip();
-
-		/* Intento de resolver un bug de coin3D. No funciona
-		//Calcula el path del nodo
-		SoPath *path =getPathFromItem(item);
-		((SoClipPlaneManip*)newNode)->replaceNode(path);
-		path->unref();
-
-		//Configuramos el icono y el texto del item
-		mapQTCOIN[item] = newNode;
-		setNodeIcon(item);
-		//Actualizamos la tabla  de campos
-		actualizar_fieldTable (newNode);
-		//Indicamos que la escena ha sido modificada
-		escena_modificada = true
-		return;
-		//*/
-    }  
-	else
-	{
-		//Me han pasado un nodo no soportado
-		QString S;
-		S.sprintf("No puedo convertir %s en manip", nodo->getTypeId().getName().getString());
-		QMessageBox::warning( this, tr("Warning"), S);
-
-		return;
-	}
-
-	//Copiamos los fields del nodo original  que se llamen igual en newNode
-	//Extraemos su lista de campos
-	SoFieldList  fields;
-	nodo->getFields(fields);
-	int num_fields=fields.getLength();
-	//Recorremos todos los fields del nodo antiguo
-	for (int f=0; f < num_fields; f++)
-	{
-		//Leemos el nombre de este field
-		SoField *field = fields[f];
-		SbName nombre_field;
-		nodo->getFieldName(field, nombre_field);
-		//Miramos si el nuevo nodo tiene un field llamado igual
-		SoField *dst_field = newNode->getField(nombre_field);
-		if(dst_field && dst_field->isOfType(field->getTypeId()) )
-		{
-			//Copiamos el valor del campo
-			dst_field->copyFrom(*field);
-		}
-	}//for (int f=0; f < num_fields; f++)
-
-	//Reemplazamos el nodo en el grafo de escena
-    QTreeWidgetItem *padre=item->parent();
-    SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
-    nodo_padre->replaceChild(nodo, newNode);
-
-    //Configuramos el icono y el texto del item
-    mapQTCOIN[item] = newNode;
-    setNodeIcon(item);
-
-    //Actualizamos la tabla  de campos
-    actualizar_fieldTable (newNode);
-
-    //Indicamos que la escena ha sido modificada
-    escena_modificada = true;
-}
 
 void Form1::SoTransform_to_SoCenterballManip()
 {
@@ -492,7 +376,7 @@ void Form1::SoTransform_to_SoCenterballManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
    //Indicamos que la escena ha sido modificada
    escena_modificada = true;
@@ -523,7 +407,7 @@ void Form1::SoTransform_to_SoJackManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -551,7 +435,7 @@ void Form1::SoTransform_to_SoHandleBoxManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -578,7 +462,7 @@ void Form1::SoTransform_to_SoTrackballManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -605,7 +489,7 @@ void Form1::SoTransform_to_SoTransformerManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -632,7 +516,7 @@ void Form1::SoTransform_to_SoTabBoxManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -658,7 +542,7 @@ void Form1::SoTransform_to_SoTransformBoxManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -684,7 +568,7 @@ void Form1::SoMatrixTransform_to_SoTransform()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (trans);
+   updateFieldEditor (trans);
 
    //Indicamos que la escena ha sido modificada
    escena_modificada = true;
@@ -709,7 +593,7 @@ void Form1::SoRotation_to_SoTrackballManip()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Manip);
+   updateFieldEditor (Manip);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -736,7 +620,7 @@ void Form1::SoManip_to_SoTransform()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (Trans);
+   updateFieldEditor (Trans);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -758,7 +642,7 @@ void Form1::SoTrackballManip_to_SoRotation()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (rot);
+   updateFieldEditor (rot);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -788,7 +672,7 @@ void Form1::SoIndexedFaceSet_to_SoIndexedLineSet()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (newNode);
+   updateFieldEditor (newNode);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -817,7 +701,7 @@ void Form1::SoIndexedLineSet_to_SoIndexedFaceSet()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (newNode);
+   updateFieldEditor (newNode);
 
    //Indicamos que la escena ha sido modificada
    escena_modificada = true;
@@ -1026,7 +910,7 @@ void Form1::SoCoordinate3_center_new()
     }
 
     //Actualizamos la tabla  de campos
-    actualizar_fieldTable (mapQTCOIN[item]);
+    updateFieldEditor (mapQTCOIN[item]);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1110,7 +994,7 @@ void Form1::SoCoordinate3_to_qhull()
     InsertarElemento(padre, ifs);
 
     //Actualizamos la tabla  de campos
-    actualizar_fieldTable (ifs);
+    updateFieldEditor (ifs);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1135,7 +1019,7 @@ void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
    setNodeIcon(item);
 
    //Actualizamos la tabla  de campos
-   actualizar_fieldTable (newNode);
+   updateFieldEditor (newNode);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1144,14 +1028,6 @@ void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
 
 
 
-
-
-void Form1::Form1_destroyed( QObject * )
-{
-    __chivato__;
-    Form1::menu_escena_salir();
-}
-                          
 
 void Form1::cargar_fichero_locale(const char *fichero)
 {
@@ -1313,7 +1189,7 @@ void Form1::fieldTable_clicked(int fila, int , int button)
             if (node)
             {
                 //Mostramos el nodo en la tabla de edicion de campos
-                actualizar_fieldTable (node);
+                updateFieldEditor (node);
                 return;
             }
        }
@@ -1338,7 +1214,7 @@ void Form1::fieldTable_clicked(int fila, int , int button)
             if (node)
             {
                 //Mostramos el nodo en la tabla de edicion de campos
-                actualizar_fieldTable (node);
+                updateFieldEditor (node);
                 return;
             }
        }
@@ -1398,30 +1274,13 @@ void Form1::fieldTable_clicked(int fila, int , int button)
     }
 
     //Actualizamos el contenido de la tabla
-    actualizar_fieldTable(nodo);
+    updateFieldEditor(nodo);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
 } // void Form1::fieldTable_clicked(int fila, int columna, int button)
 
-
-void Form1::exportarVRML2_activated()
-{
-
-} //void Form1::exportarVRML2_activated()
-
-
-void Form1::ImportarGeometria(void)
-{
-  ImportarGeometria("");
-}
-
-
-void Form1::menuCargar_EscenaAction_activated()
-{
-  CargarEscena("");
-}// void Form1::menuCargar_EscenaAction_activated()
 
 
 //Aplica ivfix sobre una escena de coindesigner
@@ -1448,7 +1307,7 @@ int Form1::fix_scene_activated ()
        InsertarElemento(padre, ivfix_result);
 
        //Actualizamos la tabla  de campos
-       actualizar_fieldTable (ivfix_result);
+       updateFieldEditor (ivfix_result);
 
        //Indicamos que la escena ha sido modificada
        escena_modificada = true;
@@ -1530,7 +1389,7 @@ int Form1::qslim_activated ()
     InsertarElemento(padre, qslim_result);
 
     //Actualizamos la tabla  de campos
-    actualizar_fieldTable (qslim_result);
+    updateFieldEditor (qslim_result);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1609,7 +1468,7 @@ int Form1::tetgen_activated ()
     InsertarElemento(padre, tetgen_result);
 
     //Actualizamos la tabla  de campos
-    actualizar_fieldTable (tetgen_result);
+    updateFieldEditor (tetgen_result);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1666,7 +1525,7 @@ int Form1::recubrimiento2()
     InsertarElemento(padre, recubr_result);
 
     //Actualizamos la tabla  de campos
-    actualizar_fieldTable (recubr_result);
+    updateFieldEditor (recubr_result);
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
@@ -1679,7 +1538,7 @@ int Form1::recubrimiento2()
 static void refreshGUI_CB(void *data, SoSensor *)
 {
     //Mostramos el nodo en la tabla de ediciÃ³n de campos
-    form1->actualizar_fieldTable((SoNode *)data);
+    form1->updateFieldEditor((SoNode *)data);
 }
 
 
@@ -1757,53 +1616,6 @@ void Form1::showmenu()
       pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoTrackballManip"),  this, SLOT(SoRotation_to_SoTrackballManip()) );
     }
 
-    if (tipo == SoDirectionalLight::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoDirectionalLightManip"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoSpotLight::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoSpotLightManip"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoPointLight::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoPointLightManip"),  this, SLOT(convertManip()) );
-    }
-    else
-
-    if (tipo == SoDirectionalLightManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoDirectionalLight"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoSpotLightManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoSpotLight"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoPointLightManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoPointLight"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoClipPlaneManip::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoClipPlane"),  this, SLOT(convertManip()) );
-    }
-    else 
-
-    if (tipo == SoClipPlane::getClassTypeId()) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"), tr("Convertir en SoClipPlaneManip"),  this, SLOT(convertManip()) );
-    }
-    else 
 
     if (tipo.isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
     {

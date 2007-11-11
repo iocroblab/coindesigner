@@ -145,7 +145,10 @@ public slots:
 	///Embed external texture image files into the node
 	void on_actionEmbedTexture_activated(SoNode *node=NULL);
 
-	//Evento al cerrar la ventana
+	///Convert a node into its correspondent manip 
+	void on_Convert_Manip_activated(QTreeWidgetItem *item=NULL);
+
+	///Close mainwindow Event
 	void closeEvent(QCloseEvent *event);
 
 protected:

@@ -616,6 +616,14 @@
     <string>Planet Earth demo</string>
    </property>
   </action>
+  <action name="Convert_Manip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to Manip</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>
