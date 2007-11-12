@@ -76,7 +76,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
     QTreeWidgetItem *item = Ui.sceneGraph->itemAt(pos);
     if (item)
     {
-         printf("%s %p\n", qPrintable(item->text(0)), item);
+         //printf("%s %p\n", qPrintable(item->text(0)), item);
 
          //Creacion del menu comun a todos los nodos
          QMenu menu(this);
