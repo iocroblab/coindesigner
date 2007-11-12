@@ -271,6 +271,9 @@
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QTableWidget" name="fieldTable" >
+       <property name="contextMenuPolicy" >
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <column>
         <property name="text" >
          <string>Value</string>

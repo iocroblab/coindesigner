@@ -154,6 +154,7 @@ public slots:
 
 	///Context Menu for sceneGraph
 	void on_contextMenuSceneGraph(QPoint pos);
+	void on_contextMenuFieldEditor(QPoint pos);
 
 protected:
 

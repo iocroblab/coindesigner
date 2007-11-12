@@ -91,6 +91,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
 	//Conectamos el menu contextual de sceneGraph
 	connect(Ui.sceneGraph, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_contextMenuSceneGraph(QPoint)));
+	connect(Ui.fieldTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_contextMenuFieldEditor(QPoint)));
 
     //No nos gusta la cabecera del sceneGraph, por que hace que el menu de contexto
     //salga fuera de su lugar

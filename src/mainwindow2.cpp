@@ -68,8 +68,19 @@ extern QSettings *settings;
 #include "SIOUX.h"
 #endif // macintosh
 
+void MainWindow::on_contextMenuFieldEditor(QPoint pos)
+{
+    QTableWidgetItem *item = Ui.fieldTable->itemAt(pos);
+	if (!item)
+		return;
+
+	QMenu menu(this);
+	menu.exec(Ui.fieldTable->mapToGlobal(pos));
+
+}
+
 void MainWindow::on_contextMenuSceneGraph(QPoint pos)
- {
+{
     //Miramos si hemos pinchado sobre un item del sceneGraph
     //QPoint pos = Ui.sceneGraph->mapFromGlobal(event->globalPos());
     QTreeWidgetItem *item = Ui.sceneGraph->itemAt(pos);
