@@ -22,6 +22,7 @@
 #define __MAINWINDOW_H__
 
 #include "ui_mainwindow.h"
+#include <qmessagebox.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/fields/SoSFName.h>
 #include <Inventor/Qt/SoQt.h>
@@ -151,8 +152,10 @@ public slots:
 	///Close mainwindow Event
 	void closeEvent(QCloseEvent *event);
 
+	///Context Menu for sceneGraph
+	void on_contextMenuSceneGraph(QPoint pos);
+
 protected:
-     void contextMenuEvent(QContextMenuEvent *event);
 
 private:
 

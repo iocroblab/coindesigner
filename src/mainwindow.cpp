@@ -89,6 +89,9 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     if (settings->contains("geometry") )
         restoreGeometry(settings->value("geometry").toByteArray());
 
+	//Conectamos el menu contextual de sceneGraph
+	connect(Ui.sceneGraph, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_contextMenuSceneGraph(QPoint)));
+
     //No nos gusta la cabecera del sceneGraph, por que hace que el menu de contexto
     //salga fuera de su lugar
     Ui.sceneGraph->headerItem()->setHidden(true);

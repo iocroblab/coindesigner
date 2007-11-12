@@ -42,6 +42,9 @@
        <layout class="QVBoxLayout" >
         <item>
          <widget class="QTreeWidget" name="sceneGraph" >
+          <property name="contextMenuPolicy" >
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <column>
            <property name="text" >
             <string>Scene Graph</string>
@@ -622,6 +625,11 @@
    </property>
    <property name="text" >
     <string>Convert to Manip</string>
+   </property>
+  </action>
+  <action name="contextMenuSceneGraph" >
+   <property name="text" >
+    <string>contextMenuSceneGraph</string>
    </property>
   </action>
  </widget>

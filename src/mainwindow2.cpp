@@ -68,115 +68,120 @@ extern QSettings *settings;
 #include "SIOUX.h"
 #endif // macintosh
 
-
-void MainWindow::contextMenuEvent(QContextMenuEvent *event)
+void MainWindow::on_contextMenuSceneGraph(QPoint pos)
  {
     //Miramos si hemos pinchado sobre un item del sceneGraph
-    QPoint pos = Ui.sceneGraph->mapFromGlobal(event->globalPos());
+    //QPoint pos = Ui.sceneGraph->mapFromGlobal(event->globalPos());
     QTreeWidgetItem *item = Ui.sceneGraph->itemAt(pos);
-    if (item)
+	if (!item)
+		return;
+
+	//qDebug("%s %p\n", qPrintable(item->text(0)), item);
+	SoNode *nodo = mapQTCOIN[item];
+	SoType  tipo = nodo->getTypeId();
+
+	//Creacion del menu comun a todos los nodos (con excepciones para root)
+	QMenu menu(this);
+	if (nodo != root)
+	{
+		menu.addAction(Ui.actionCut);
+	}
+	menu.addAction(Ui.actionCopy);
+	menu.addAction(Ui.actionPaste);
+	if (nodo != root)
+	{
+		menu.addAction(Ui.actionDelete);
+		menu.addAction(Ui.actionMove_Up);
+		menu.addAction(Ui.actionMove_Down);
+	}
+	menu.addSeparator();
+
+	if (tipo.isDerivedFrom(SoGroup::getClassTypeId()) && nodo != root) 
     {
-         //printf("%s %p\n", qPrintable(item->text(0)), item);
+		Ui.actionPromote_Children->setData((qulonglong)item);
+		menu.addAction(Ui.actionPromote_Children);
+	}
 
-         //Creacion del menu comun a todos los nodos
-         QMenu menu(this);
-         menu.addAction(Ui.actionCut);
-         menu.addAction(Ui.actionCopy);
-         menu.addAction(Ui.actionPaste);
-         menu.addAction(Ui.actionDelete);
-         menu.addAction(Ui.actionMove_Up);
-		 menu.addAction(Ui.actionMove_Down);
-		 menu.addSeparator();
+	if (tipo.isDerivedFrom(SoTexture2::getClassTypeId()) )
+	{
+		//Miramos si este nodo tiene algun nombre de fichero asociado
+		SoTexture2 *tex= (SoTexture2 *)nodo;
+		if (tex->filename.getValue().getLength() > 0)
+		{
+			Ui.actionEmbedTexture->setData((qulonglong)item);
+			menu.addAction(Ui.actionEmbedTexture);
+		}
+	}
 
-		 SoNode *nodo = mapQTCOIN[item];
-		 SoType  tipo = nodo->getTypeId();
+	else if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
+	{
+		//Miramos si este nodo tiene algun nombre de fichero asociado
+		SoBumpMap *tex= (SoBumpMap *)nodo;
+		if (tex->filename.getValue().getLength() > 0)
+		{
+			Ui.actionEmbedTexture->setData((qulonglong)item);
+			menu.addAction(Ui.actionEmbedTexture);
+		}
+	}
 
-		 if (tipo.isDerivedFrom(SoGroup::getClassTypeId()) && nodo != root) 
-		 {
-			 Ui.actionPromote_Children->setData((qulonglong)item);
-			 menu.addAction(Ui.actionPromote_Children);
-		 }
-
-		 if (tipo.isDerivedFrom(SoTexture2::getClassTypeId()) )
-		 {
-			 //Miramos si este nodo tiene algun nombre de fichero asociado
-			 SoTexture2 *tex= (SoTexture2 *)nodo;
-			 if (tex->filename.getValue().getLength() > 0)
-			 {
-				 Ui.actionEmbedTexture->setData((qulonglong)item);
-				 menu.addAction(Ui.actionEmbedTexture);
-			 }
-		 }
-
-		 else if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
-		 {
-			 //Miramos si este nodo tiene algun nombre de fichero asociado
-			 SoBumpMap *tex= (SoBumpMap *)nodo;
-			 if (tex->filename.getValue().getLength() > 0)
-			 {
-				 Ui.actionEmbedTexture->setData((qulonglong)item);
-				 menu.addAction(Ui.actionEmbedTexture);
-			 }
-		 }
-
-		 else if (tipo == SoDirectionalLight::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLightManip"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoSpotLight::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoSpotLightManip"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoPointLight::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoPointLightManip"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoDirectionalLightManip::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLight"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoSpotLightManip::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoSpotLight"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoPointLightManip::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoPointLight"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoClipPlaneManip::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoClipPlane"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
-		 else if (tipo == SoClipPlane::getClassTypeId()) 
-		 {
-			 Ui.Convert_Manip->setData((qulonglong)item);
-			 Ui.Convert_Manip->setText(tr("Convert in SoClipPlaneManip"));
-			 menu.addAction(Ui.Convert_Manip);
-		 }
+	else if (tipo == SoDirectionalLight::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLightManip"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoSpotLight::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoSpotLightManip"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoPointLight::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoPointLightManip"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoDirectionalLightManip::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLight"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoSpotLightManip::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoSpotLight"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoPointLightManip::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoPointLight"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoClipPlaneManip::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoClipPlane"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoClipPlane::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoClipPlaneManip"));
+		menu.addAction(Ui.Convert_Manip);
+	}
 
 
-		 //DEBUG
-		 //QMenu transfMenu(tr("Transform into"), this);
-		 //menu.addMenu(&transfMenu);
+	//DEBUG
+	//QMenu transfMenu(tr("Transform into"), this);
+	//menu.addMenu(&transfMenu);
 
-		 //Mostramos el menu popup
-		 menu.exec(event->globalPos());
-     }
- }
+	//Mostramos el menu popup
+	menu.exec(Ui.sceneGraph->mapToGlobal(pos));
+
+}//void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 
 ///Put all children of a group node on the same level that its parent
 void MainWindow::on_actionPromote_Children_activated()
