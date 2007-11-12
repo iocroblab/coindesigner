@@ -421,7 +421,9 @@ void MainWindow::on_Convert_Manip_activated(QTreeWidgetItem *item)
 		}
 	}//for (int f=0; f < num_fields; f++)
 
-	//Reemplazamos el nodo en node por newNode
+	newNode->setName(node->getName());
+
+    //Reemplazamos el nodo en node por newNode
     QTreeWidgetItem *item_padre=item->parent();
     SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
     nodo_padre->replaceChild(node, newNode);
@@ -429,7 +431,7 @@ void MainWindow::on_Convert_Manip_activated(QTreeWidgetItem *item)
     //Configuramos el icono y el texto del item
     mapQTCOIN[item] = newNode;
     setNodeIcon(item);
-	item->setText(0, QString(newNode->getTypeId().getName() ));
+    item->setText(0, QString(newNode->getTypeId().getName() ));
     //TODO item->setToolTip(0, QString(t.getName()));
 
     //Actualizamos la tabla  de campos
