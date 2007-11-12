@@ -1128,7 +1128,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
          //Lista con tipos SF basicos que pueden describirse con una llamada a .get()
          const char *tipoBasicoSF[] = {"SFBool", "SFDouble", "SFFloat", "SFInt32", "SFString", "SFName",
-                                       "SFShort", "SFUInt32", "SFUShort", "SFVec",
+                                       "SFShort", "SFUInt32", "SFUShort", "SFVec", 
                                        NULL};
 
          //Lista con tipos MF basicos que pueden describirse con una llamada a .get1()
@@ -1520,7 +1520,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
 
     //Lista con tipos SF basicos que pueden leerse con una llamada a .set()
     const char *tipoBasicoSF[] = {"SFBool", "SFDouble", "SFFloat", "SFInt32", "SFString", "SFName",
-                                  "SFShort", "SFUInt32", "SFUShort", "SFVec",
+                                  "SFShort", "SFUInt32", "SFUShort", "SFVec", "SFColor",
                                   NULL};
 
     //Tratamiento especial para el SoBase_name, que no es un campo real del nodo
