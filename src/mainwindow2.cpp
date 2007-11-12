@@ -75,9 +75,215 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
 		return;
 
 	QMenu menu(this);
+
+   //Si estamos vigilando la escena, dejamos de hacerlo para
+   //poder editar los valores de la misma.
+   //TODO: refreshGUI_but->setOn(false);
+
+    //Buscamos el nodo que estamos editando
+	if (!edit_node)
+		return;
+    SoNode *nodo = edit_node;
+
+    //Buscamos el SoField que estamos editando
+    SoField* field= map_fieldTable[item->row()];
+
+    //Leemos el nombre de este campo
+    SbName nombre_field;
+    nodo->getFieldName(field, nombre_field);
+    //const char*nombre_campo = nombre_field.getString();  
+
+    //Leemos el tipo de este campo
+    SoType tipo=field->getTypeId();
+    const char*nombre_tipo = tipo.getName();  
+      
+    //Miramos si hay algun ayudante para este tipo...
+
+    //Edicion de cualquier campo tipo SoSFBool
+    if (!strcmp(nombre_tipo, "SFBool") )
+    {
+       //Conversion del SoField que estamos editando
+       SoSFBool *soSFBool= (SoSFBool *)field;
+
+       //Preparamos un menu flotante con opciones true/false
+       QMenu popm(this);
+	   QAction actTrue("TRUE", this);
+	   QAction actFalse("FALSE", this);
+	   popm.addAction(&actTrue);
+	   popm.addAction(&actFalse);
+
+       //Mostramos el menu flotante y recogemos la opci贸n escogida
+       QAction *idx = popm.exec(Ui.fieldTable->mapToGlobal(pos));
+
+       //Comprobamos que se ha seleccionado una opci髇 v醠ida.
+       if (idx)
+		   soSFBool->setValue(idx == &actTrue);
+    }
+    
+ /* TODO
+    //Edicion de cualquier campo tipo SoSFEnum
+    //Edicion de cualquier campo tipo SoSFBitMask
+    else if (!strcmp(nombre_tipo, "SFEnum") ||
+        !strcmp(nombre_tipo, "SFBitMask") )
+    {
+       //Convertimos el tipo de field
+       SoSFEnum *soSFEnum= (SoSFEnum *)field;
+
+       //Preparamos un menu flotante 
+       QMenu popm(this);
+
+       SbName nombre;
+       int idx;
+       //Probamos todos los indices y creamos una accion por cada
+       for (idx=0; idx < soSFEnum->getNumEnums(); idx++)
+       {
+           soSFEnum->getEnum(idx, nombre);
+		   popm.addAction((nombre.getString());
+           //popm->insertItem(nombre.getString(),this, SLOT(nada()),0,idx);
+       }
+
+       //Mostramos el menu flotante y recogemos la opci贸n escogida
+       idx = popm->exec(QCursor::pos());
+
+       //Comprobamos que se ha seleccionado una opci髇 v醠ida.
+       if (idx < 0)
+           return;
+
+       //Asignamos la opcion escogida
+       soSFEnum->getEnum(idx, nombre);
+       soSFEnum->setValue(nombre);
+    }
+    else
+    
+    //Edicion de cualquier campo tipo SoSFString
+    if (!strcmp(nombre_tipo, "SFString") )
+    {
+       //Miramos si hace falta la asistencia de un QFileDialog
+       //Si pulsamos con el boton derecho, lanzamos el QFileDialog
+       if (button==2)
+       {
+          QString s = QFileDialog::getOpenFileName(currentDir.ascii(),
+                  tr("Im&aacute;genes (*.jpg *.gif *.png *.rgb);;"
+                     "Ficheros openInventor (*.iv *.wrl);;"
+                     "Todos los ficheros (*)"),
+                  this,
+                  tr("Fichero a cargar") );
+
+          //Asignamos el valor escogido
+          SoSFString *soSFString = (SoSFString *)field;
+          soSFString->setValue(s.ascii());
+       }
+    }
+    else
+
+    //Edicion de cualquier campo tipo SoSFNode
+    if (!strcmp(nombre_tipo, "SFNode") )
+    {
+       //Con el boton 2, editamos este nodo
+       if (button==2)
+       {
+            //Convertimos el tipo de field
+            SoSFNode *soSFNode= (SoSFNode *)field;
+            SoNode *node = soSFNode->getValue();
+
+            if (node)
+            {
+                //Mostramos el nodo en la tabla de edicion de campos
+                updateFieldEditor (node);
+                return;
+            }
+       }
+    }
+    else
+  
+    //Edicion de cualquier campo tipo SoMFNode
+    if (!strcmp(nombre_tipo, "MFNode") )
+    {
+       //Con el boton 2, editamos este nodo
+       if (button==2)
+       {
+             //Buscamos la posicion contando cuentas filas por
+             //encima de nosotros apuntan al mismo campo
+             int pos=0;
+             while(map_fieldTable[fila-pos-1] == field)
+               pos++;
+
+             //Le damos el valor adecuado en la posici贸n pos
+            SoNode *node = ((SoMFNode *)field)->getNode(pos);
+
+            if (node)
+            {
+                //Mostramos el nodo en la tabla de edicion de campos
+                updateFieldEditor (node);
+                return;
+            }
+       }
+    }
+    else
+  
+    //Edicion de cualquier campo tipo SoSFColor
+    if (!strcmp(nombre_tipo, "SFColor"))
+    {
+        //Convertimos el tipo de field
+       SoSFColor *color= (SoSFColor *)field;
+       //Lo convertimos en valores RGB y en un QColor
+       const float*rgb = color->getValue().getValue();
+       QColor c( int(255*rgb[0]), int(255*rgb[1]), int(255*rgb[2]) );
+
+       //Solicitamos un color mediante QColorDialog
+       c=QColorDialog::getColor(c);
+       if (c.isValid() )
+       {           
+           //Modificamos el field
+           color->setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
+       }
+    }
+    else
+
+    //Edicion de cualquier campo tipo SoMF....
+    if (!strcmp(nombre_tipo, "MFColor") ||
+        !strcmp(nombre_tipo, "MFVec2f") ||
+        !strcmp(nombre_tipo, "MFVec3f") ||
+        !strcmp(nombre_tipo, "MFVec4f") ||
+        !strcmp(nombre_tipo, "MFFloat") ||
+        !strcmp(nombre_tipo, "MFInt32") ||
+        !strcmp(nombre_tipo, "MFUInt32") ||
+        !strcmp(nombre_tipo, "MFShort") ||
+        !strcmp(nombre_tipo, "MFString") )
+    {
+        //Usamos el formulario auxiliar
+        mfield_editor mfield_ed(this);
+        mfield_ed.cargarDatos((SoMField *)field);
+        mfield_ed.exec();
+    }
+    else
+
+    //Edicion de cualquier campo tipo SoSFMatrix
+    if (!strcmp(nombre_tipo, "SFMatrix") )
+    {
+        //Usamos el formulario auxiliar
+        matrix_editor matrix_ed(this);
+        matrix_ed.cargarDatos((SoSFMatrix *)field);
+        matrix_ed.exec();
+    }
+TODO */
+    else
+    {
+      //No hay ayudante para este campo
+      return;
+    }
+
+    //Actualizamos el contenido de la tabla
+    updateFieldEditor(nodo);
+
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+
+
 	menu.exec(Ui.fieldTable->mapToGlobal(pos));
 
-}
+}//void MainWindow::on_contextMenuFieldEditor(QPoint pos)
+
 
 void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 {
@@ -87,12 +293,14 @@ void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 	if (!item)
 		return;
 
+	QMenu menu(this);
+	QMenu menuExport(tr("Export to..."), &menu);
+
 	//qDebug("%s %p\n", qPrintable(item->text(0)), item);
 	SoNode *nodo = mapQTCOIN[item];
 	SoType  tipo = nodo->getTypeId();
 
 	//Creacion del menu comun a todos los nodos (con excepciones para root)
-	QMenu menu(this);
 	if (nodo != root)
 	{
 		menu.addAction(Ui.actionCut);
@@ -113,7 +321,7 @@ void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 		menu.addAction(Ui.actionPromote_Children);
 	}
 
-	if (tipo.isDerivedFrom(SoTexture2::getClassTypeId()) )
+	else if (tipo.isDerivedFrom(SoTexture2::getClassTypeId()) )
 	{
 		//Miramos si este nodo tiene algun nombre de fichero asociado
 		SoTexture2 *tex= (SoTexture2 *)nodo;
@@ -123,7 +331,6 @@ void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 			menu.addAction(Ui.actionEmbedTexture);
 		}
 	}
-
 	else if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
 	{
 		//Miramos si este nodo tiene algun nombre de fichero asociado
@@ -134,7 +341,6 @@ void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 			menu.addAction(Ui.actionEmbedTexture);
 		}
 	}
-
 	else if (tipo == SoDirectionalLight::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
@@ -182,6 +388,24 @@ void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 		Ui.Convert_Manip->setData((qulonglong)item);
 		Ui.Convert_Manip->setText(tr("Convert in SoClipPlaneManip"));
 		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoIndexedFaceSet::getClassTypeId()) 
+	{
+		menu.addAction(Ui.IndexedFaceSet_to_IndexedLineSet);
+
+		//Submenu con las opciones de exportacion
+		menuExport.addAction(Ui.Export_to_SMF);
+		menuExport.addAction(Ui.Export_to_OFF);
+		menuExport.addAction(Ui.Export_to_STL);
+		menu.addMenu(&menuExport);
+	}
+	else if (tipo == SoIndexedLineSet::getClassTypeId()) 
+	{
+		menu.addAction(Ui.IndexedLineSet_to_IndexedFaceSet);
+	}
+	else if (tipo == SoCoordinate3::getClassTypeId()) 
+	{
+		menu.addAction(Ui.Export_to_XYZ);
 	}
 
 
@@ -458,3 +682,238 @@ void MainWindow::on_Convert_Manip_activated(QTreeWidgetItem *item)
 
 }//void MainWindow::on_actionConvert_Manip_activated(QTreeWidgetItem *item)
 
+
+
+void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_activated()
+{    
+	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+	SoIndexedFaceSet *oldNode= (SoIndexedFaceSet*)mapQTCOIN[item];
+
+	SoIndexedLineSet *newNode=new SoIndexedLineSet;
+	newNode->vertexProperty.copyFrom(oldNode->vertexProperty);
+	newNode->coordIndex.copyFrom(oldNode->coordIndex);
+	newNode->materialIndex.copyFrom(oldNode->materialIndex);
+	newNode->normalIndex.copyFrom(oldNode->normalIndex);
+	newNode->textureCoordIndex.copyFrom(oldNode->textureCoordIndex);
+
+	mapQTCOIN[item]=(SoNode*)newNode;
+	QTreeWidgetItem *padre=item->parent();
+	SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
+	nodo_padre->replaceChild(oldNode,newNode);
+
+	//Configuramos el icono y el texto del item
+	setNodeIcon(item);
+
+	//Actualizamos la tabla  de campos
+	updateFieldEditor (newNode);
+
+	//Indicamos que la escena ha sido modificada
+	escena_modificada = true;
+
+} // void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_activated()
+
+void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_activated()
+{    
+	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+	SoIndexedLineSet *oldNode= (SoIndexedLineSet*)mapQTCOIN[item];
+
+	SoIndexedFaceSet *newNode = new SoIndexedFaceSet;
+	newNode->vertexProperty.copyFrom(oldNode->vertexProperty);
+	newNode->coordIndex.copyFrom(oldNode->coordIndex);
+	newNode->materialIndex.copyFrom(oldNode->materialIndex);
+	newNode->normalIndex.copyFrom(oldNode->normalIndex);
+	newNode->textureCoordIndex.copyFrom(oldNode->textureCoordIndex);
+
+	mapQTCOIN[item]=(SoNode*)newNode;
+	QTreeWidgetItem *padre=item->parent();
+	SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
+	nodo_padre->replaceChild(oldNode,newNode);
+
+	//Configuramos el icono y el texto del item
+	setNodeIcon(item);
+
+	//Actualizamos la tabla  de campos
+	updateFieldEditor (newNode);
+
+	//Indicamos que la escena ha sido modificada
+	escena_modificada = true;
+
+} // void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_activated()
+
+///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero SMF
+void MainWindow::on_Export_to_SMF_activated()
+{
+	//Nombre del fichero donde escribir
+    QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
+		tr("OBJ/SMF Files")+" (*.obj *.smf);;"+tr("All Files")+" (*)");
+
+    //Miramos si se pulso el boton cancelar
+    if (filename=="")
+        return;
+
+	/* 
+	//PLAN B. NUESTRO DIALOGO 
+	cdsFileDialog fd(this, tr("Exportar a fichero SMF/OBJ"), cdsFileDialog::saveNormal);
+    fd.setMode( QFileDialog::AnyFile );
+	//fd->setViewMode( QFileDialog::Detail );
+	fd.setFilter( tr("Ficheros SMF (*.smf *.obj)"));
+	fd.addFilter( tr("Todos los ficheros (*)") );
+	fd.setSelectedFilter(0);
+
+	//Ejecutamos el dialogo y miramos si se pulso el boton aceptar
+	if (fd.exec() != QDialog::Accepted )
+		return;
+
+	//Leemos el fichero seleccionado
+    nombre_fich = fd.selectedFile();
+	*/
+
+	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+	SoNode *nodo = mapQTCOIN[item];
+
+    //Abrimos el fichero de salida
+#ifdef _WIN32
+    FILE *file;
+	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+#else
+    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+#endif
+
+    //Escribimos el contenido en el fichero SMF
+    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
+    {
+		SoPath *path =getPathFromItem(item);
+		//PLAN B. IndexedFaceSet_to_SMF(path, file, fd.normal->isChecked());
+		IndexedFaceSet_to_SMF(path, file, true);
+		path->unref();
+    }
+    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
+    {
+      VRMLIndexedFaceSet_to_SMF((SoVRMLIndexedFaceSet *)nodo, file);
+    }
+
+    //Cerramos el fichero
+    fclose(file);
+
+}// void MainWindow::on_Export_to_SMF_activated()
+
+///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero OFF
+void MainWindow::on_Export_to_OFF_activated()
+{
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+
+    //Construimos un path  segun la informacion del arbol de QT
+	SoNode *nodo = mapQTCOIN[item];
+
+	//Nombre del fichero donde escribir
+    QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
+		tr("OFF Files")+" (*.off);;"+tr("All Files")+" (*)");
+
+    //Miramos si se pulso el boton cancelar
+    if (filename=="")
+        return;
+
+    //Abrimos el fichero de salida
+#ifdef _WIN32
+    FILE *file;
+	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+#else
+    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+#endif
+
+    //Escribimos el contenido en el fichero OFF
+    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
+    {
+		SoPath *path =getPathFromItem(item);
+		IndexedFaceSet_to_OFF(path, file);
+		path->unref();
+    }
+    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
+    {
+      VRMLIndexedFaceSet_to_OFF((SoVRMLIndexedFaceSet *)nodo, file);
+    }
+
+    //Cerramos el fichero
+    fclose(file);
+
+}// void MainWindow::on_Export_to_OFF_activated()
+
+
+///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero STL
+void MainWindow::on_Export_to_STL_activated()
+{
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+
+    //Construimos un path  segun la informaci贸n del arbol de QT
+	SoNode *nodo = mapQTCOIN[item];
+
+	//Nombre del fichero donde escribir
+    QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
+		tr("STL Files")+" (*.stl);;"+tr("All Files")+" (*)");
+
+    //Miramos si se pulso el boton cancelar
+    if (filename=="")
+        return;
+
+    //Abrimos el fichero de salida
+#ifdef _WIN32
+    FILE *file;
+	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+#else
+    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+#endif
+
+    //Escribimos el contenido en el fichero OFF
+    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
+    {
+		SoPath *path =getPathFromItem(item);
+		IndexedFaceSet_to_STL(path, file, true);
+		path->unref();
+    }
+    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
+    {
+      VRMLIndexedFaceSet_to_STL((SoVRMLIndexedFaceSet *)nodo, file, true);
+    }
+
+    //Cerramos el fichero
+    fclose(file);
+
+}// void MainWindow::on_Export_to_STL_activated()
+
+void MainWindow::on_Export_to_XYZ_activated()
+{
+	//Nombre del fichero donde escribir
+    QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
+		tr("XYZ Files")+" (*.xyz);;"+tr("All Files")+" (*)");
+
+    //Miramos si se pulso el boton cancelar
+    if (filename=="")
+        return;
+
+    //Abrimos el fichero de salida
+#ifdef _WIN32
+    FILE *file;
+	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+#else
+    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+#endif
+
+    //Identificamos el item actual
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
+
+    //Escribimos el contenido en el fichero XYZ
+    if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoCoordinate3::getClassTypeId())) 
+    {
+       SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item];
+       SoMFVec3f_to_XYZ(nodo->point, file);
+    }
+    else if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoVertexProperty::getClassTypeId())) 
+    {
+       SoVertexProperty *nodo = (SoVertexProperty *)mapQTCOIN[item];
+       SoMFVec3f_to_XYZ(nodo->vertex, file);
+    }
+
+    //Cerramos el fichero
+    fclose(file);
+
+}// void MainWindow::on_Export_to_XYZ_activated()

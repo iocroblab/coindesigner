@@ -71,12 +71,6 @@
     <property name="title" >
      <string>&amp;Scene</string>
     </property>
-    <widget class="QMenu" name="menuOptimize_ivfix" >
-     <property name="title" >
-      <string>Optimize</string>
-     </property>
-     <addaction name="actionIvfix" />
-    </widget>
     <widget class="QMenu" name="menuRecent_Files" >
      <property name="title" >
       <string>Recent Files</string>
@@ -91,8 +85,6 @@
     <addaction name="actionExport_C" />
     <addaction name="actionExport_VRML2" />
     <addaction name="actionView_Source" />
-    <addaction name="separator" />
-    <addaction name="menuOptimize_ivfix" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
    </widget>
@@ -150,11 +142,20 @@
     <property name="title" >
      <string>&amp;Tools</string>
     </property>
+    <widget class="QMenu" name="menuOptimize" >
+     <property name="title" >
+      <string>Optimize</string>
+     </property>
+     <addaction name="actionIvfix" />
+     <addaction name="actionEmbed_all_textures" />
+    </widget>
     <addaction name="actionNode_Palette" />
     <addaction name="actionField_Editor" />
     <addaction name="separator" />
     <addaction name="actionExaminerViewer_Editor" />
     <addaction name="actionPlaneViewer_Editor" />
+    <addaction name="separator" />
+    <addaction name="menuOptimize" />
    </widget>
    <addaction name="menuScene" />
    <addaction name="menuEdit" />
@@ -630,9 +631,60 @@
     <string>Convert to Manip</string>
    </property>
   </action>
-  <action name="contextMenuSceneGraph" >
+  <action name="IndexedFaceSet_to_IndexedLineSet" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
    <property name="text" >
-    <string>contextMenuSceneGraph</string>
+    <string>Convert to IndexedLineSet</string>
+   </property>
+  </action>
+  <action name="IndexedLineSet_to_IndexedFaceSet" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to IndexedFaceSet</string>
+   </property>
+  </action>
+  <action name="actionEmbed_all_textures" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Embed all textures</string>
+   </property>
+  </action>
+  <action name="Export_to_STL" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to STL</string>
+   </property>
+  </action>
+  <action name="Export_to_OFF" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to OFF</string>
+   </property>
+  </action>
+  <action name="Export_to_SMF" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to OBJ/SMF</string>
+   </property>
+  </action>
+  <action name="Export_to_XYZ" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to XYZ</string>
    </property>
   </action>
  </widget>

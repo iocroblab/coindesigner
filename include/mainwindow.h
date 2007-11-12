@@ -146,6 +146,9 @@ public slots:
 	///Embed external texture image files into the node
 	void on_actionEmbedTexture_activated(SoNode *node=NULL);
 
+	///Embed all textures in the scene
+	void on_actionEmbed_all_textures_activated ();
+
 	///Convert a node into its correspondent manip 
 	void on_Convert_Manip_activated(QTreeWidgetItem *item=NULL);
 
@@ -155,6 +158,16 @@ public slots:
 	///Context Menu for sceneGraph
 	void on_contextMenuSceneGraph(QPoint pos);
 	void on_contextMenuFieldEditor(QPoint pos);
+
+	///Convert a IndexedFaceSet to IndexedLineSet
+	void on_IndexedFaceSet_to_IndexedLineSet_activated();
+	///Convert a IndexedLineSet to IndexedFaceSet
+	void on_IndexedLineSet_to_IndexedFaceSet_activated();
+
+	void on_Export_to_SMF_activated();
+	void on_Export_to_OFF_activated();
+	void on_Export_to_STL_activated();
+	void on_Export_to_XYZ_activated();
 
 protected:
 

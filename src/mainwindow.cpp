@@ -2339,12 +2339,46 @@ void MainWindow::on_actionLoad_RecentFile()
          load_Scene(action->data().toString());
 }
 
-/*
-void MainWindow::on_sceneGraphItem_Pressed( const QModelIndex & index )
+//Incrusta todas las texturas de la escena
+void MainWindow::on_actionEmbed_all_textures_activated ()
 {
-	QMessageBox::critical(NULL, "on_sceneGraphItem_Pressed", "on_sceneGraphItem_Pressed");
-	//QAction *action = qobject_cast<QAction *>(sender());
+	if (QMessageBox::question( this, tr("Warning"), 
+		tr("Embed all textures of the scene will increase the size of the scene file "
+		   "because textures are stored uncompressed. This method will affect all "
+		   "SoTexture2 and SoBumpMap nodes in the scene.\n"
+		   "Are you sure you want to embed all textures?"),
+		QMessageBox::Yes, QMessageBox::No) == QMessageBox::No)
+		return;
 
-}
-*/
+	//Buscamos todos los nodos de tipo SoTexture2
+    SoSearchAction sa;
+    sa.setType(SoTexture2::getClassTypeId());
+    sa.setSearchingAll(TRUE);
+    sa.setInterest(SoSearchAction::ALL);
+    sa.apply(root);
+
+	//Aplicamos touch a cada nodo
+    for (int i=0; i < sa.getPaths().getLength(); i++) 
+	{
+      SoFullPath * fp = (SoFullPath *)sa.getPaths()[i];
+	  on_actionEmbedTexture_activated(fp->getTail());
+    }
+
+	//Buscamos todos los nodos de tipo SoBumpMap
+	sa.setType(SoBumpMap::getClassTypeId());
+    sa.setSearchingAll(TRUE);
+    sa.setInterest(SoSearchAction::ALL);
+    sa.apply(root);
+
+	//Aplicamos touch a cada nodo
+    for (int i=0; i < sa.getPaths().getLength(); i++) 
+	{
+      SoFullPath * fp = (SoFullPath *)sa.getPaths()[i];
+	  on_actionEmbedTexture_activated(fp->getTail());
+    }
+
+	//Refrescamos el editor de campos
+	updateFieldEditor(mapQTCOIN[Ui.sceneGraph->currentItem()]);
+
+}//int MainWindow::on_actionEmbed_all_textures_activated ()
 

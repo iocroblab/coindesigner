@@ -98,7 +98,7 @@ int comboBox1_simVoleon_idx = -1;
 #endif
 
 //Un puntero al formulario principal, necesario para llamadas desde exterior
-Form1 *form1=NULL;
+MainWindow *form1=NULL;
 
 // Sensor que actualiza el GUI a intervalos constantes, por si ha
 // cambiado el valor del nodo.
@@ -114,19 +114,13 @@ SbColor bgColor_viewer (0,0,0);
 //la escena o no.
 bool mostrar_pick_info = true;
 
-void Form1::inicializar()
+void MainWindow::inicializar()
 {
 
 	//Salvo una referencia a este formulario
 	form1 = this;
 
-	//inicializo las listas para que se ordenen de manera correcta 
-	//sobre todo es importante la que representa el arbol de Open Inventor
-	Ui.sceneGraph->viewport()->setFocusPolicy(QWidget::ClickFocus);
-	Ui.sceneGraph->setSorting(-1);
-	Ui.sceneGraph->setSorting(-1,false);
-
-	//CreaciÃ³n del nodeSensor que mantiene el GUI actualizado.
+	//Creacion del nodeSensor que mantiene el GUI actualizado.
 	refreshGUI_Sensor = new SoTimerSensor (refreshGUI_CB, root);
 	refreshGUI_Sensor->setInterval(1.0);
 
@@ -136,12 +130,12 @@ void Form1::inicializar()
 	//Creamos un nuevo SoExaminerViewer
 	//nuevoCdsExaminerViewer();
 
-}// void Form1::inicializar()
+}// void MainWindow::inicializar()
 
 
 
 //Composicion del ListView2 a partir de una tabla de componentes
-void Form1::CargarListaComponentes(ivPadre_t *listaComponentes)
+void MainWindow::CargarListaComponentes(ivPadre_t *listaComponentes)
 {
 	unsigned numComp,j;
 	QTreeWidgetItem *item;
@@ -223,19 +217,19 @@ void Form1::CargarListaComponentes(ivPadre_t *listaComponentes)
 		numComp++;
 	}//while
 
-} // void Form1::CargarListaComponentes()
+} // void MainWindow::CargarListaComponentes()
 
 
 
 ///Callback activada al cambiar el estado del boton getInfo
-void Form1::getInfo_toggled(bool on)
+void MainWindow::getInfo_toggled(bool on)
 {
 	mostrar_pick_info = on;
 }
 
 
 
-void Form1::exportarCPP_activated()
+void MainWindow::exportarCPP_activated()
 {
 
     //Mostramos el dialogo de cppexport
@@ -245,115 +239,7 @@ void Form1::exportarCPP_activated()
 }
 
 
-
-//Importa un fichero raw en un nodo SoVolumeData
-int Form1::ImportarVolumenRaw(QString filename)
-{
-#ifdef USE_VOLEON
-    //Si no se ha pasado nombre de fichero, solicitamos uno
-    if (filename == "")
-       filename = QFileDialog::getOpenFileName(currentDir.ascii(),
-             tr("Todos los ficheros (*)"),
-                 this, tr("Importar geometr&iacute;a") );
-    
-    if (filename == "")
-        return 0;
-
-	//Cargamos el fichero en memoria
-	QFile fich(filename);
-	fich.open(IO_ReadOnly);
-	QByteArray buff = fich.readAll();
-	if ( buff.isNull() )
-       return -1;
-
-    //Creamos un nuevo nodo SoVolumeData
-	SoVolumeData *vol = new SoVolumeData();
-  
-    //Si hubo error,  salimos inmediatamente
-	if (!vol)
-       return -1;
-
-	//Rellenamos el contenido del nodo
-	SbVec3s dims(128, 128, 128);
-	vol->setVolumeData(dims, buff.data() );
-
-
-    //Asignamos el nombre del fichero al separator
-    SoBase_name->setValue(QFileInfo(filename).baseName().ascii());
-    vol->setName(SoBase_name->getValue());
-
-    //Colgamos el nodo vol del grafo de escena
-    QTreeWidgetItem *padre=Ui.sceneGraph->currentItem();
-
-    //Miramos si este nodo deriva de SoGroup, directa o indirectamente
-    SoNode *nodo = mapQTCOIN[padre];
-    if (!nodo->getTypeId().isDerivedFrom(SoGroup::getClassTypeId())) 
-    {
-            padre=padre->parent();
-    }
- 
-    //donde corresponda, y luego insertar en los mapas y en el QlistView
-    SoGroup* Anclaje=(SoGroup*)mapQTCOIN[padre];
-    Anclaje->addChild(vol);  
-    InsertarElemento(padre, vol);
-
-    //Actualizamos la tabla  de campos
-    updateFieldEditor (vol);
-
-    //Indicamos que la escena ha sido modificada
-    escena_modificada = true;
-
-#endif
-    return 0;
-
-} //int Form1::ImportarVolumenRaw(QString filename)
-
-
-
-//Incrusta todas las texturas de la escena
-void Form1::incrustar_texturas_activated ()
-{
-	if (QMessageBox::question( this, tr("Warning"), 
-		tr("Incrustar las texturas puede incrementar considerablemente el tamaño "
-		"de la escena.\n¿Está seguro de desear incrustar todas las texturas?"),
-		QMessageBox::Yes, QMessageBox::No) == QMessageBox::No)
-		return;
-
-	//Buscamos todos los nodos de tipo SoTexture2
-    SoSearchAction sa;
-    sa.setType(SoTexture2::getClassTypeId());
-    sa.setSearchingAll(TRUE);
-    sa.setInterest(SoSearchAction::ALL);
-    sa.apply(root);
-
-	//Aplicamos touch a cada nodo
-    for (int i=0; i < sa.getPaths().getLength(); i++) 
-	{
-      SoFullPath * fp = (SoFullPath *)sa.getPaths()[i];
-	  incrustarTexture2(fp->getTail());
-    }
-
-	//Buscamos todos los nodos de tipo SoBumpMap
-	sa.setType(SoBumpMap::getClassTypeId());
-    sa.setSearchingAll(TRUE);
-    sa.setInterest(SoSearchAction::ALL);
-    sa.apply(root);
-
-	//Aplicamos touch a cada nodo
-    for (int i=0; i < sa.getPaths().getLength(); i++) 
-	{
-      SoFullPath * fp = (SoFullPath *)sa.getPaths()[i];
-	  incrustarTexture2(fp->getTail());
-    }
-
-	//Refrescamos el editor de campos
-	updateFieldEditor(mapQTCOIN[Ui.sceneGraph->currentItem()]);
-
-}//int Form1::incrustar_texturas_activated ()
-
-
-
-void Form1::SoTransform_to_SoCenterballManip()
+void MainWindow::SoTransform_to_SoCenterballManip()
 {
    //Esta funcion tranforma el Transform en SoCenterballManip
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
@@ -384,7 +270,7 @@ void Form1::SoTransform_to_SoCenterballManip()
 
 
 
-void Form1::SoTransform_to_SoJackManip()
+void MainWindow::SoTransform_to_SoJackManip()
 {
    //tranforma el Transform en SoJackManip
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
@@ -415,7 +301,7 @@ void Form1::SoTransform_to_SoJackManip()
 
 
    //transforma el Transform en SoTrackballManip
-void Form1::SoTransform_to_SoHandleBoxManip()
+void MainWindow::SoTransform_to_SoHandleBoxManip()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoHandleBoxManip * Manip=new SoHandleBoxManip;
@@ -442,7 +328,7 @@ void Form1::SoTransform_to_SoHandleBoxManip()
 }
 
 
-void Form1::SoTransform_to_SoTrackballManip()
+void MainWindow::SoTransform_to_SoTrackballManip()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTrackballManip * Manip=new SoTrackballManip;
@@ -469,7 +355,7 @@ void Form1::SoTransform_to_SoTrackballManip()
 }
 
 
-void Form1::SoTransform_to_SoTransformerManip()
+void MainWindow::SoTransform_to_SoTransformerManip()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransformerManip * Manip=new SoTransformerManip;
@@ -496,7 +382,7 @@ void Form1::SoTransform_to_SoTransformerManip()
 }
 
 
-void Form1::SoTransform_to_SoTabBoxManip()
+void MainWindow::SoTransform_to_SoTabBoxManip()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTabBoxManip * Manip=new SoTabBoxManip;
@@ -522,7 +408,7 @@ void Form1::SoTransform_to_SoTabBoxManip()
     escena_modificada = true;
 }
 
-void Form1::SoTransform_to_SoTransformBoxManip()
+void MainWindow::SoTransform_to_SoTransformBoxManip()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransformBoxManip * Manip=new SoTransformBoxManip;
@@ -548,7 +434,7 @@ void Form1::SoTransform_to_SoTransformBoxManip()
     escena_modificada = true;
 }
 
-void Form1::SoMatrixTransform_to_SoTransform()
+void MainWindow::SoMatrixTransform_to_SoTransform()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTransform* trans=new SoTransform;
@@ -576,7 +462,7 @@ void Form1::SoMatrixTransform_to_SoTransform()
 
 
 
-void Form1::SoRotation_to_SoTrackballManip()
+void MainWindow::SoRotation_to_SoTrackballManip()
 {
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
    SoTrackballManip *Manip=new SoTrackballManip;
@@ -598,10 +484,10 @@ void Form1::SoRotation_to_SoTrackballManip()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-} // void Form1::SoRotation_to_SoTrackballManip()
+} // void MainWindow::SoRotation_to_SoTrackballManip()
 
 
-void Form1::SoManip_to_SoTransform()
+void MainWindow::SoManip_to_SoTransform()
 {
     
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
@@ -624,10 +510,10 @@ void Form1::SoManip_to_SoTransform()
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
-}// void Form1::SoManip_to_SoTransform()
+}// void MainWindow::SoManip_to_SoTransform()
 
 
-void Form1::SoTrackballManip_to_SoRotation()
+void MainWindow::SoTrackballManip_to_SoRotation()
 {
     
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
@@ -647,206 +533,13 @@ void Form1::SoTrackballManip_to_SoRotation()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-} //void Form1::SoTrackballManip_to_SoRotation()
+} //void MainWindow::SoTrackballManip_to_SoRotation()
 
 
-void Form1::SoIndexedFaceSet_to_SoIndexedLineSet()
-{
-    
-   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-   SoIndexedFaceSet *oldNode= (SoIndexedFaceSet*)mapQTCOIN[item];
-
-   SoIndexedLineSet *newNode=new SoIndexedLineSet;
-   newNode->vertexProperty.copyFrom(oldNode->vertexProperty);
-   newNode->coordIndex.copyFrom(oldNode->coordIndex);
-   newNode->materialIndex.copyFrom(oldNode->materialIndex);
-   newNode->normalIndex.copyFrom(oldNode->normalIndex);
-   newNode->textureCoordIndex.copyFrom(oldNode->textureCoordIndex);
-
-   mapQTCOIN[item]=(SoNode*)newNode;
-   QTreeWidgetItem *padre=item->parent();
-   SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
-   nodo_padre->replaceChild(oldNode,newNode);
-
-   //Configuramos el icono y el texto del item
-   setNodeIcon(item);
-
-   //Actualizamos la tabla  de campos
-   updateFieldEditor (newNode);
-
-    //Indicamos que la escena ha sido modificada
-    escena_modificada = true;
-
-} // void Form1::SoIndexedFaceSet_to_SoIndexedLineSet()
-
-void Form1::SoIndexedLineSet_to_SoIndexedFaceSet()
-{
-    
-   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-   SoIndexedLineSet *oldNode= (SoIndexedLineSet*)mapQTCOIN[item];
-
-   SoIndexedFaceSet *newNode = new SoIndexedFaceSet;
-   newNode->vertexProperty.copyFrom(oldNode->vertexProperty);
-   newNode->coordIndex.copyFrom(oldNode->coordIndex);
-   newNode->materialIndex.copyFrom(oldNode->materialIndex);
-   newNode->normalIndex.copyFrom(oldNode->normalIndex);
-   newNode->textureCoordIndex.copyFrom(oldNode->textureCoordIndex);
-
-   mapQTCOIN[item]=(SoNode*)newNode;
-   QTreeWidgetItem *padre=item->parent();
-   SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
-   nodo_padre->replaceChild(oldNode,newNode);
-
-   //Configuramos el icono y el texto del item
-   setNodeIcon(item);
-
-   //Actualizamos la tabla  de campos
-   updateFieldEditor (newNode);
-
-   //Indicamos que la escena ha sido modificada
-   escena_modificada = true;
-
-} // void Form1::SoIndexedFaceSet_to_SoIndexedLineSet()
 
 
-///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero SMF
-void Form1::SoIndexedFaceSet_to_SMF()
-{
-	//Nombre del fichero donde escribir
-    QString nombre_fich;
-
-    nombre_fich = QFileDialog::getSaveFileName("",
-             tr("Ficheros SMF (*.smf *.obj);;Todos los ficheros (*)"),
-             this,
-             tr("Exportar a fichero SMF/OBJ"));
-
-    //Miramos si se pulso el boton cancelar
-    if (nombre_fich=="")
-        return;
-
-	/* 
-	//PLAN B. NUESTRO DIALOGO 
-	cdsFileDialog fd(this, tr("Exportar a fichero SMF/OBJ"), cdsFileDialog::saveNormal);
-    fd.setMode( QFileDialog::AnyFile );
-	//fd->setViewMode( QFileDialog::Detail );
-	fd.setFilter( tr("Ficheros SMF (*.smf *.obj)"));
-	fd.addFilter( tr("Todos los ficheros (*)") );
-	fd.setSelectedFilter(0);
-
-	//Ejecutamos el dialogo y miramos si se pulso el boton aceptar
-	if (fd.exec() != QDialog::Accepted )
-		return;
-
-	//Leemos el fichero seleccionado
-    nombre_fich = fd.selectedFile();
-	*/
-
-	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-	SoNode *nodo = mapQTCOIN[item];
-
-    //Abrimos el fichero de salida
-    FILE *file = fopen(nombre_fich.ascii(), "w");
-
-    //Escribimos el contenido en el fichero SMF
-    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
-    {
-		SoPath *path =getPathFromItem(item);
-		//PLAN B. IndexedFaceSet_to_SMF(path, file, fd.normal->isChecked());
-		IndexedFaceSet_to_SMF(path, file, true);
-		path->unref();
-    }
-    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
-    {
-      VRMLIndexedFaceSet_to_SMF((SoVRMLIndexedFaceSet *)nodo, file);
-    }
-
-    //Cerramos el fichero
-    fclose(file);
-
-}// void Form1::SoIndexedFaceSet_to_SMF()
-
-///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero OFF
-void Form1::SoIndexedFaceSet_to_OFF()
-{
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-
-    //Construimos un path  segun la informaciÃ³n del arbol de QT
-	SoNode *nodo = mapQTCOIN[item];
-
-    //Solicitamos un nombre de fichero
-    QString nombre_fich;
-    nombre_fich = QFileDialog::getSaveFileName("",
-             tr("Ficheros OFF (*.off);;Todos los ficheros (*)"),
-             this,
-             tr("Exportar a fichero OFF"));
-
-    //Miramos si se pulso el boton cancelar
-    if (nombre_fich=="")
-        return;
-
-    //Abrimos el fichero de salida
-    FILE *file = fopen(nombre_fich.ascii(), "w");
-
-    //Escribimos el contenido en el fichero OFF
-    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
-    {
-		SoPath *path =getPathFromItem(item);
-		IndexedFaceSet_to_OFF(path, file);
-		path->unref();
-    }
-    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
-    {
-      VRMLIndexedFaceSet_to_OFF((SoVRMLIndexedFaceSet *)nodo, file);
-    }
-
-    //Cerramos el fichero
-    fclose(file);
-
-}// void Form1::SoIndexedFaceSet_to_OFF()
-
-
-///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero STL
-void Form1::SoIndexedFaceSet_to_STL()
-{
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-
-    //Construimos un path  segun la informaciÃ³n del arbol de QT
-	SoNode *nodo = mapQTCOIN[item];
-
-    //Solicitamos un nombre de fichero
-    QString nombre_fich;
-    nombre_fich = QFileDialog::getSaveFileName("",
-             tr("Ficheros STL (*.stl);;Todos los ficheros (*)"),
-             this,
-             tr("Exportar a fichero STL"));
-
-    //Miramos si se pulso el boton cancelar
-    if (nombre_fich=="")
-        return;
-
-    //Abrimos el fichero de salida
-    FILE *file = fopen(nombre_fich.ascii(), "w");
-
-    //Escribimos el contenido en el fichero OFF
-    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
-    {
-		SoPath *path =getPathFromItem(item);
-		IndexedFaceSet_to_STL(path, file, true);
-		path->unref();
-    }
-    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
-    {
-      VRMLIndexedFaceSet_to_STL((SoVRMLIndexedFaceSet *)nodo, file, true);
-    }
-
-    //Cerramos el fichero
-    fclose(file);
-
-}// void Form1::SoIndexedFaceSet_to_STL()
-
-
-///Triangula las facetas de mÃ¡s de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
-void Form1::SoIndexedFaceSet_triangulate()
+///Triangula las facetas de mas de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
+void MainWindow::SoIndexedFaceSet_triangulate()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
     SoNode *nodo = mapQTCOIN[item];
@@ -868,10 +561,10 @@ void Form1::SoIndexedFaceSet_triangulate()
 		IndexedFaceSet_triangulate (ifs->texCoordIndex);
     }
 
-}// void Form1::SoIndexedFaceSet_triangulate()
+}// void MainWindow::SoIndexedFaceSet_triangulate()
 
 
-void Form1::SoIndexedFaceSet_change_orientation()
+void MainWindow::SoIndexedFaceSet_change_orientation()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
     SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)mapQTCOIN[item];
@@ -881,10 +574,10 @@ void Form1::SoIndexedFaceSet_change_orientation()
    IndexedFaceSet_change_orientation (ifs->normalIndex);
    IndexedFaceSet_change_orientation (ifs->textureCoordIndex);
 
-}// void Form1::SoIndexedFaceSet_change_orientation()
+}// void MainWindow::SoIndexedFaceSet_change_orientation()
 
 
-void Form1::SoCoordinate3_center_new()
+void MainWindow::SoCoordinate3_center_new()
 {
     //Identificamos el item actual
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
@@ -915,47 +608,12 @@ void Form1::SoCoordinate3_center_new()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}// void Form1::SoCoordinate3_center_new()
+}// void MainWindow::SoCoordinate3_center_new()
 
 
-void Form1::SoCoordinate3_to_XYZ()
-{
-    //Solicitamos un nombre de fichero
-    QString nombre_XYZ;
-    nombre_XYZ = QFileDialog::getSaveFileName("",
-             tr("Ficheros XYZ (*.xyz);;Todos los ficheros (*)"),
-             this,
-             tr("Exportar a fichero XYZ"));
-
-    //Miramos si se pulso el boton cancelar
-    if (nombre_XYZ=="")
-        return;
-
-    //Abrimos el fichero de salida
-    FILE *file = fopen(nombre_XYZ.ascii(), "w");
-
-    //Identificamos el item actual
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
-
-    //Escribimos el contenido en el fichero XYZ
-    if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoCoordinate3::getClassTypeId())) 
-    {
-       SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item];
-       SoMFVec3f_to_XYZ(nodo->point, file);
-    }
-    else if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoVertexProperty::getClassTypeId())) 
-    {
-       SoVertexProperty *nodo = (SoVertexProperty *)mapQTCOIN[item];
-       SoMFVec3f_to_XYZ(nodo->vertex, file);
-    }
-
-    //Cerramos el fichero
-    fclose(file);
-
-}// void Form1::SoCoordinate3_to_XYZ()
 
 
-void Form1::SoCoordinate3_to_qhull()
+void MainWindow::SoCoordinate3_to_qhull()
 {
     //Identificamos el item actual
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
@@ -999,10 +657,10 @@ void Form1::SoCoordinate3_to_qhull()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}// void Form1::SoCoordinate3_to_qhull()
+}// void MainWindow::SoCoordinate3_to_qhull()
 
 
-void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
+void MainWindow::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
 {
     
    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
@@ -1024,12 +682,12 @@ void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-} // void Form1::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
+} // void MainWindow::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
 
 
 
 
-void Form1::cargar_fichero_locale(const char *fichero)
+void MainWindow::cargar_fichero_locale(const char *fichero)
 {
     //Leemos el locale y extraemos la parte del lenguaje
     QString loc = QTextCodec::locale();
@@ -1062,10 +720,10 @@ void Form1::cargar_fichero_locale(const char *fichero)
     //QString path = settings.readEntry("/coindesigner/tutorial_dir")+filename+".html";
     this->open_html_viewer(Path);
 
-} // void Form1::cargar_fichero_locale(const char *fichero)
+} // void MainWindow::cargar_fichero_locale(const char *fichero)
 
  
-void Form1::nada()
+void MainWindow::nada()
 {
 }
 
@@ -1074,7 +732,7 @@ void Form1::nada()
 //que nos permita editar fÃ¡cilmente el campo. Los ayudantes son 
 //dialogos del tipo QFileDialog, QColorDialog o PopupMenus
 //El resto de campos se dejan para la funcion fieldTable_valueChanged()
-void Form1::fieldTable_clicked(int fila, int , int button)
+void MainWindow::fieldTable_clicked(int fila, int , int button)
 {
     
    //Si estamos vigilando la escena, dejamos de hacerlo para
@@ -1279,13 +937,13 @@ void Form1::fieldTable_clicked(int fila, int , int button)
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-} // void Form1::fieldTable_clicked(int fila, int columna, int button)
+} // void MainWindow::fieldTable_clicked(int fila, int columna, int button)
 
 
 
 //Aplica ivfix sobre una escena de coindesigner
 extern SoNode *ivfix_result;
-int Form1::fix_scene_activated ()
+int MainWindow::fix_scene_activated ()
 {
     //indicamos que se aplique a toda la escena
     ivfix_result = root;
@@ -1298,7 +956,7 @@ int Form1::fix_scene_activated ()
     if (ivfix_result != NULL)
     {
        //Ahora destruimos la escena actual...
-       Form1::menu_escena_nueva_action();
+       MainWindow::menu_escena_nueva_action();
     
        //Colgamos el nodo del grafo de escena
        QTreeWidgetItem *padre=Ui.sceneGraph->firstChild();
@@ -1317,12 +975,12 @@ int Form1::fix_scene_activated ()
     else
        return -1;
 
-} // int Form1::fix_scene_activated ()
+} // int MainWindow::fix_scene_activated ()
 
 
 //Aplica qslim a un nodo de la escena
 extern SoNode *qslim_result;
-int Form1::qslim_activated ()
+int MainWindow::qslim_activated ()
 {
     if (!settings.readEntry("/coindesigner/qslim_app"))
     {
@@ -1396,12 +1054,12 @@ int Form1::qslim_activated ()
 
     return 0;
 
-} // int Form1::qslim_activated ()
+} // int MainWindow::qslim_activated ()
 
 
 //Aplica tetgen a un nodo de la escena
 extern SoNode *tetgen_result;
-int Form1::tetgen_activated ()
+int MainWindow::tetgen_activated ()
 {
     if (!settings.readEntry("/coindesigner/tetgen_app"))
     {
@@ -1475,12 +1133,12 @@ int Form1::tetgen_activated ()
 
     return 0;
 
-} // int Form1::tetgen_activated ()
+} // int MainWindow::tetgen_activated ()
 
 
 
 
-int Form1::recubrimiento2()
+int MainWindow::recubrimiento2()
 {
 	//Consultamos la cantidad que queremos hinchar
 	bool ok;
@@ -1531,7 +1189,7 @@ int Form1::recubrimiento2()
     escena_modificada = true;
 
        return 0;
-}//int Form1::recubrimiento2()
+}//int MainWindow::recubrimiento2()
 
 
 //! Callback que se activa cuando hay algun cambio en el nodo seleccionado.
@@ -1543,7 +1201,7 @@ static void refreshGUI_CB(void *data, SoSensor *)
 
 
 //!Callback para encender/apagar el refresco del GUI
-void Form1::refreshGUI_but_toggled( bool on)
+void MainWindow::refreshGUI_but_toggled( bool on)
 {
     if (on)
         refreshGUI_Sensor->schedule();
@@ -1553,7 +1211,7 @@ void Form1::refreshGUI_but_toggled( bool on)
 
 
 //!Callback para cambiar el color de fondo de los visores
-void Form1::cambiar_bgColor_viewer()
+void MainWindow::cambiar_bgColor_viewer()
 {
    //Lo convertimos en valores RGB y en un QColor
    const float*rgb = bgColor_viewer.getValue();
@@ -1569,14 +1227,14 @@ void Form1::cambiar_bgColor_viewer()
 }
 
 
-void Form1::menu_edit_preferences_slot()
+void MainWindow::menu_edit_preferences_slot()
 {
     //Mostramos el dialogo de cds_config_form
     cds_config_form cds_config_form(this);
     cds_config_form.exec();
 }
 
-void Form1::showmenu()
+void MainWindow::showmenu()
 {
 
     if (tipo.isDerivedFrom(SoTransform::getClassTypeId())) 
@@ -1621,10 +1279,6 @@ void Form1::showmenu()
     {
       pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Triangular facetas"),this,SLOT(SoIndexedFaceSet_triangulate()) );
       pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Cambiar orientacion facetas"),this,SLOT(SoIndexedFaceSet_change_orientation()) );
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedLineSet"),this,SLOT(SoIndexedFaceSet_to_SoIndexedLineSet()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero SMF/OBJ"),this,SLOT(SoIndexedFaceSet_to_SMF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero OFF"),this,SLOT(SoIndexedFaceSet_to_OFF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero STL"),this,SLOT(SoIndexedFaceSet_to_STL()));
       if (settings.readEntry("/coindesigner/qslim_app"))
 	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
       if (settings.readEntry("/coindesigner/tetgen_app"))
@@ -1633,17 +1287,10 @@ void Form1::showmenu()
     }
     else 
     
-    if (tipo.isDerivedFrom(SoIndexedLineSet::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedFaceSet"),  this, SLOT(SoIndexedLineSet_to_SoIndexedFaceSet()) );
-    }
-    else 
-    
     if (tipo.isDerivedFrom(SoCoordinate3::getClassTypeId())) 
     {
       pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Centrar en origen"),  this, SLOT(SoCoordinate3_center_new()) );
       pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Calcular cierre convexo"),  this, SLOT(SoCoordinate3_to_qhull()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"), tr("Exportar a fichero XYZ"),  this, SLOT(SoCoordinate3_to_XYZ()) );
     }
     else 
     
@@ -1676,4 +1323,4 @@ void Form1::showmenu()
  //Mostramos el menu contextual
  pm->exec( QCursor::pos() );
            
-} //void Form1::showmenu()
+} //void MainWindow::showmenu()
