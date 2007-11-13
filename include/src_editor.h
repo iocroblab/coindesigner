@@ -17,11 +17,7 @@
 
 */
 
-#include <QMessageBox>
-
 #include "ui_src_view.h"
-#include <cds_util.h>
-#include <QDialogButtonBox>
 #include <Inventor/nodes/SoSeparator.h>
 #include <QSyntaxHighlighter>
 
@@ -42,56 +38,10 @@ class Highlighter : public QSyntaxHighlighter
 	 QTextCharFormat quotationFormat;
 
  public:
-	 Highlighter(QTextDocument *parent = 0) : QSyntaxHighlighter(parent)
-	 {
-		 HighlightingRule rule;
-
-		 //Palabras reservadas
-		 SoTypeList tl;
-		 keywordFormat.setForeground(Qt::darkBlue);
-		 keywordFormat.setFontWeight(QFont::Bold);
-
-		 //Recorre todos los tipos derivados de SoNode
-		 SoType::getAllDerivedFrom(SoNode::getClassTypeId(), tl);
-		 for (int j=0; j < tl.getLength(); j++) 
-		 {
-			 QString pattern ="\\b"+QString(tl[j].getName().getString())+"\\b";
-			 rule.pattern = QRegExp(pattern);
-			 rule.format = keywordFormat;
-			 highlightingRules.append(rule);
-		 }
-
-		 //Comentarios con #
-		 singleLineCommentFormat.setForeground(Qt::red);
-		 rule.pattern = QRegExp("#[^\n]*");
-		 rule.format = singleLineCommentFormat;
-		 highlightingRules.append(rule);
-
-		 //Cadenas de texto
-		 quotationFormat.setForeground(Qt::darkGreen);
-		 rule.pattern = QRegExp("\".*\"");
-		 rule.format = quotationFormat;
-		 highlightingRules.append(rule);
-
-	 }
+	 Highlighter(QTextDocument *parent = 0);
 
  protected:
-     void highlightBlock(const QString &text)
-	 {
-		 foreach (HighlightingRule rule, highlightingRules) 
-		 {
-			 QRegExp expression(rule.pattern);
-			 int index = text.indexOf(expression);
-			 while (index >= 0) 
-			 {
-				 int length = expression.matchedLength();
-				 setFormat(index, length, rule.format);
-				 index = text.indexOf(expression, index + length);
-			 }
-		 }
-		 setCurrentBlockState(0);
-
-	 }
+     void highlightBlock(const QString &text);
 
 };
 
@@ -106,78 +56,12 @@ public:
 	SoSeparator *result;
 
 	///Constructor
-	SrcEditor (SoSeparator *scene, bool readOnly=false, QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
-	{
-		Ui.setupUi(this);
-		if (readOnly)
-		{
-			//Marcamos el editText como readonly y solo dejamos el boton cerrar
-			Ui.textEdit->setReadOnly(true);
-			Ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
-		}
-		else
-		{
-			//Añadimos el boton Test
-			Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
-		}
+	SrcEditor (SoSeparator *scene, bool readOnly=false, QWidget *p=0, Qt::WindowFlags f=0);
 
-		hl.setDocument(Ui.textEdit->document());
+private slots:
+	void on_buttonBox_clicked(QAbstractButton * button);
 
-		result=NULL;
-
-		//Rellenamos el textEdit con la escena
-		Ui.textEdit->setText(cds_export_string(scene));
-	}
-
-	private slots:
-		void on_buttonBox_clicked(QAbstractButton * button)
-		{
-			if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
-			{
-				//Copia el src a un buffer de memoria
-				QString src = Ui.textEdit->toPlainText();
-				char *buf = new char[src.size()];
-				memcpy(buf, src.toAscii(), src.size() );
-
-				//Leemos la escena desde el buffer de memoria
-				SoInput input;
-				input.setBuffer(buf, src.size() ) ;
-				result = SoDB::readAll(&input);
-
-				//Liberamos la memoria de la escena 
-				if(result)
-				{
-					result->ref();
-					result->unref();
-					result = NULL;
-
-					QMessageBox::information(this, tr("Test"), tr("The scene is valid")); 
-				}
-
-				delete buf;
-				qDebug("Apply=%p\n", result);
-
-			}//if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
-
-		}
-
-		void accept()
-		{
-			//Copia el src a un buffer de memoria
-			QString src = Ui.textEdit->toPlainText();
-			char *buf = new char[src.size()];
-			memcpy(buf, src.toAscii(), src.size() );
-
-			//Leemos la escena desde el buffer de memoria
-			SoInput input;
-			input.setBuffer(buf, src.size() ) ;
-			result = SoDB::readAll(&input);
-			delete buf;
-
-			//Solo aceptamos el dialogo si se compiló correctamente
-			if (result)
-				QDialog::accept();
-		}
+	void accept();
 
 }; //class SrcEditor
 
