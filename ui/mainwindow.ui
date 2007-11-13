@@ -84,7 +84,6 @@
     <addaction name="actionImport_File" />
     <addaction name="actionExport_C" />
     <addaction name="actionExport_VRML2" />
-    <addaction name="actionView_Source" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
    </widget>
@@ -154,6 +153,7 @@
     <addaction name="separator" />
     <addaction name="actionExaminerViewer_Editor" />
     <addaction name="actionPlaneViewer_Editor" />
+    <addaction name="actionEdit_Source" />
     <addaction name="separator" />
     <addaction name="menuOptimize" />
    </widget>
@@ -539,12 +539,12 @@
     <string>&amp;About</string>
    </property>
   </action>
-  <action name="actionView_Source" >
+  <action name="actionEdit_Source" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/txt.png</iconset>
    </property>
    <property name="text" >
-    <string>&amp;View Source</string>
+    <string>&amp;Edit Source</string>
    </property>
    <property name="whatsThis" >
     <string>Show current scene source in OpenInventor file format</string>

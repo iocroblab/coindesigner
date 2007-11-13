@@ -29,24 +29,29 @@ class SrcEditor : public QDialog
 {
 	Q_OBJECT
 	Ui::src_view Ui;
-	//QTimer timer;
 public:
 	SoSeparator *result;
 
 	///Constructor
-	SrcEditor (SoSeparator *scene, QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
+	SrcEditor (SoSeparator *scene, bool readOnly=false, QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
 	{
 		Ui.setupUi(this);
-		Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
+		if (readOnly)
+		{
+			//Marcamos el editText como readonly y solo dejamos el boton cerrar
+			Ui.textEdit->setReadOnly(true);
+			Ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
+		}
+		else
+		{
+			//Añadimos el boton Test
+			Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
+		}
 
 		result=NULL;
 
 		//Rellenamos el textEdit con la escena
 		Ui.textEdit->setText(cds_export_string(scene));
-
-		//connect(Ui.textEdit, SIGNAL(textChanged()), this, SLOT(compile()));
-		//connect(&timer, SIGNAL(timeout()), this, SLOT(compile()));
-		//timer.start(1000);
 	}
 
 	private slots:

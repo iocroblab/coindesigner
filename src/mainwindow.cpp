@@ -463,7 +463,7 @@ void MainWindow::on_actionExport_VRML2_activated()
 }
 
 ///Muestra un dialogo donde visualizar el codigo fuente de la escena
-void MainWindow::on_actionView_Source_activated()
+void MainWindow::on_actionEdit_Source_activated()
 {
 	SrcEditor srcEditor(root);
 	srcEditor.exec();
