@@ -2057,6 +2057,15 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
 SoSeparator * MainWindow::cargarFichero3D(QString filename)
 {
     
+    QFileInfo fileInfo(filename);
+    if (!fileInfo.isFile() || !fileInfo.isReadable ())
+    {
+         QString S;
+         S = filename + tr(": Error while opening file.");
+         QMessageBox::critical( this, tr("Error"), S, QMessageBox::Abort); 
+         return NULL;
+    }
+
     //Convertimos el fichero a char *
     const char *strFilename = SbName(filename.toAscii()).getString();
 
