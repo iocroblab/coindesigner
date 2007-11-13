@@ -24,6 +24,7 @@
 #include "ui_mainwindow.h"
 #include <qmessagebox.h>
 #include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/SbColor.h>
 #include <Inventor/fields/SoSFName.h>
 #include <Inventor/Qt/SoQt.h>
 #ifdef USE_VOLEON
@@ -66,6 +67,9 @@ private:
 
 	///Acciones del menu para ficheros recientes
 	QAction *recentFileActs[5];
+
+	///Color de fondo de los viewers
+	SbColor bgColor_viewer; 
 
 public:
 
@@ -115,6 +119,7 @@ public slots:
 	void on_actionRenderArea_activated();
 	///Configura la variable de entorno COIN_SHOW_FPS_COUNTER
 	void on_actionShow_FPS_toggled(bool on);
+	void on_actionChange_BG_color_activated();
 
 	//Slots para menu Tools
 	void on_actionNode_Palette_toggled(bool on);

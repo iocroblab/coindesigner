@@ -16,6 +16,7 @@
 #include <QCloseEvent>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QColorDialog>
 
 extern QSettings *settings;
 
@@ -135,7 +136,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     node_buffer = NULL;
     node_buffer_link = NULL;
 
-
+	bgColor_viewer.setValue(0,0,0);
     nombreEscena = "scene001.iv";
 
     //Inicializamos el contenido de la paleta de nodos
@@ -765,6 +766,7 @@ void MainWindow::on_actionExaminerViewer_activated()
     //Creacion del Viewer
     NoQuitExaminerViewer *viewer = new NoQuitExaminerViewer(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
+	viewer->setBackgroundColor(bgColor_viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -787,6 +789,7 @@ void MainWindow::on_actionFlyViewer_activated()
     //Creacion del Viewer
     NoQuitFlyViewer *viewer = new NoQuitFlyViewer(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
+	viewer->setBackgroundColor(bgColor_viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -809,6 +812,7 @@ void MainWindow::on_actionPlaneViewer_activated()
     //Creacion del Viewer
     NoQuitPlaneViewer *viewer = new NoQuitPlaneViewer(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
+	viewer->setBackgroundColor(bgColor_viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -831,6 +835,7 @@ void MainWindow::on_actionRenderArea_activated()
     //Creacion del Viewer
     NoQuitRenderArea *viewer = new NoQuitRenderArea(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
+	viewer->setBackgroundColor(bgColor_viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -2416,4 +2421,20 @@ void MainWindow::on_actionEmbed_all_textures_activated ()
 	updateFieldEditor(mapQTCOIN[Ui.sceneGraph->currentItem()]);
 
 }//int MainWindow::on_actionEmbed_all_textures_activated ()
+
+///Callback to change background color in the viewers
+void MainWindow::on_actionChange_BG_color_activated()
+{
+   //Lo convertimos en valores RGB y en un QColor
+   const float*rgb = bgColor_viewer.getValue();
+   QColor c( int(255*rgb[0]), int(255*rgb[1]), int(255*rgb[2]) );
+
+   //Solicitamos un color mediante QColorDialog
+   c=QColorDialog::getColor(c,this);
+   if (c.isValid() )
+   {           
+       //Modificamos el field
+       bgColor_viewer.setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
+   }
+}//void MainWindow::on_actionChange_BG_color_activated()
 

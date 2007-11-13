@@ -97,6 +97,7 @@
     <addaction name="actionRenderArea" />
     <addaction name="separator" />
     <addaction name="actionShow_FPS" />
+    <addaction name="actionChange_BG_color" />
    </widget>
    <widget class="QMenu" name="menuEdit" >
     <property name="title" >
@@ -685,6 +686,14 @@
    </property>
    <property name="text" >
     <string>Export to XYZ</string>
+   </property>
+  </action>
+  <action name="actionChange_BG_color" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/colorize.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Change BG color</string>
    </property>
   </action>
  </widget>

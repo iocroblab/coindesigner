@@ -107,8 +107,6 @@ SoTimerSensor *refreshGUI_Sensor = NULL;
 /// Callback que actualiza el GUI 
 static void refreshGUI_CB(void *data, SoSensor *sensor);
 
-//Color de fondo de los viewers
-SbColor bgColor_viewer (0,0,0); 
 
 //Variable que indica si debemos mostrar información al picar en
 //la escena o no.
@@ -758,28 +756,6 @@ void MainWindow::fieldTable_clicked(int fila, int , int button)
       
     //Miramos si hay algun ayudante para este tipo...
     
-    
-    //Edicion de cualquier campo tipo SoSFString
-    if (!strcmp(nombre_tipo, "SFString") )
-    {
-       //Miramos si hace falta la asistencia de un QFileDialog
-       //Si pulsamos con el boton derecho, lanzamos el QFileDialog
-       if (button==2)
-       {
-          QString s = QFileDialog::getOpenFileName(currentDir.ascii(),
-                  tr("Im&aacute;genes (*.jpg *.gif *.png *.rgb);;"
-                     "Ficheros openInventor (*.iv *.wrl);;"
-                     "Todos los ficheros (*)"),
-                  this,
-                  tr("Fichero a cargar") );
-
-          //Asignamos el valor escogido
-          SoSFString *soSFString = (SoSFString *)field;
-          soSFString->setValue(s.ascii());
-       }
-    }
-    else
-
     //Edicion de cualquier campo tipo SoSFNode
     if (!strcmp(nombre_tipo, "SFNode") )
     {
@@ -1135,23 +1111,6 @@ void MainWindow::refreshGUI_but_toggled( bool on)
         refreshGUI_Sensor->schedule();
     else
         refreshGUI_Sensor->unschedule();
-}
-
-
-//!Callback para cambiar el color de fondo de los visores
-void MainWindow::cambiar_bgColor_viewer()
-{
-   //Lo convertimos en valores RGB y en un QColor
-   const float*rgb = bgColor_viewer.getValue();
-   QColor c( int(255*rgb[0]), int(255*rgb[1]), int(255*rgb[2]) );
-
-   //Solicitamos un color mediante QColorDialog
-   c=QColorDialog::getColor(c);
-   if (c.isValid() )
-   {           
-       //Modificamos el field
-       bgColor_viewer.setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
-   }
 }
 
 
