@@ -15,6 +15,7 @@
 #include <QCloseEvent>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QColorDialog>
 
 extern QSettings *settings;
 
@@ -70,11 +71,10 @@ extern QSettings *settings;
 
 void MainWindow::on_contextMenuFieldEditor(QPoint pos)
 {
+	//Miramos si se ha pulsado sobre algun item valido
     QTableWidgetItem *item = Ui.fieldTable->itemAt(pos);
 	if (!item)
 		return;
-
-	QMenu menu(this);
 
    //Si estamos vigilando la escena, dejamos de hacerlo para
    //poder editar los valores de la misma.
@@ -94,90 +94,116 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
     //const char*nombre_campo = nombre_field.getString();  
 
     //Leemos el tipo de este campo
-    SoType tipo=field->getTypeId();
-    const char*nombre_tipo = tipo.getName();  
-      
-    //Miramos si hay algun ayudante para este tipo...
+	SoType tipo=field->getTypeId();
+	const char*nombre_tipo = tipo.getName();  
 
-    //Edicion de cualquier campo tipo SoSFBool
-    if (!strcmp(nombre_tipo, "SFBool") )
-    {
-       //Conversion del SoField que estamos editando
-       SoSFBool *soSFBool= (SoSFBool *)field;
+	//Miramos si hay algun ayudante para este tipo...
 
-       //Preparamos un menu flotante con opciones true/false
-       QMenu popm(this);
-	   QAction actTrue("TRUE", this);
-	   QAction actFalse("FALSE", this);
-	   popm.addAction(&actTrue);
-	   popm.addAction(&actFalse);
+	//Edicion de cualquier campo tipo SoSFBool
+	if (!strcmp(nombre_tipo, "SFBool") )
+	{
+		//Conversion del SoField que estamos editando
+		SoSFBool *soSFBool= (SoSFBool *)field;
 
-       //Mostramos el menu flotante y recogemos la opciÃ³n escogida
-       QAction *idx = popm.exec(Ui.fieldTable->mapToGlobal(pos));
+		//Preparamos un menu flotante con opciones true/false
+		QMenu popm(this);
+		QAction actTrue("TRUE", this);
+		QAction actFalse("FALSE", this);
+		popm.addAction(&actTrue);
+		popm.addAction(&actFalse);
 
-       //Comprobamos que se ha seleccionado una opción válida.
-       if (idx)
-		   soSFBool->setValue(idx == &actTrue);
-    }
+		//Mostramos el menu flotante y recogemos la opcion escogida
+		QAction *idx = popm.exec(QCursor::pos());
+
+		//Comprobamos que se ha seleccionado una opción válida.
+		if (idx)
+			soSFBool->setValue(idx == &actTrue);
+	}
+
+	//Edicion de cualquier campo tipo SoSFEnum
+	//Edicion de cualquier campo tipo SoSFBitMask
+	else if (!strcmp(nombre_tipo, "SFEnum") ||
+		!strcmp(nombre_tipo, "SFBitMask") )
+	{
+		//Convertimos el tipo de field
+		SoSFEnum *soSFEnum= (SoSFEnum *)field;
+
+		//Preparamos un menu flotante 
+		QMenu popm(this);
+
+		SbName nombre;
+		int idx;
+		//Probamos todos los indices y creamos una accion por cada
+		for (idx=0; idx < soSFEnum->getNumEnums(); idx++)
+		{
+			soSFEnum->getEnum(idx, nombre);
+			QAction *acc = new QAction(nombre.getString(), this);
+			popm.addAction(acc);
+		}
+
+		//Mostramos el menu flotante y recogemos la opcion escogida
+		QAction *acc = popm.exec(QCursor::pos());
+
+		//Comprobamos que se ha seleccionado una opción válida.
+		if (!acc)
+			return;
+
+		//Asignamos la opcion escogida
+		idx = popm.actions().indexOf(acc);
+		soSFEnum->getEnum(idx, nombre);
+		soSFEnum->setValue(nombre);
+	}
+
+	//Edicion de cualquier campo tipo SoSFColor
+	else if (!strcmp(nombre_tipo, "SFColor"))
+	{
+		//Convertimos el tipo de field
+		SoSFColor *color= (SoSFColor *)field;
+
+		//Lo convertimos en valores RGB y en un QColor
+		const float*rgb = color->getValue().getValue();
+		QColor c( int(255*rgb[0]), int(255*rgb[1]), int(255*rgb[2]) );
+
+		//Solicitamos un color mediante QColorDialog
+		c=QColorDialog::getColor(c, this);
+		if (c.isValid() )
+		{           
+			//Modificamos el field
+			color->setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
+		}
+	}
+
+
+	//Edicion de cualquier campo tipo SoSFString
+	else if (!strcmp(nombre_tipo, "SFString") )
+	{
+		SoSFString *soSFString = (SoSFString *)field;
+		//Preparamos un menu flotante
+		QMenu popm(this);
+		QAction actFile(tr("Insert filename"), this);
+		popm.addAction(&actFile);
+
+		//Mostramos el menu flotante y recogemos la opcion escogida
+		QAction *act = popm.exec(QCursor::pos());
+
+		//Si se ha escogido la opcion filename
+		if (act == &actFile)
+		{
+			QString filename = QFileDialog::getOpenFileName(this, 
+				tr("Choose Filename"), soSFString->getValue().getString(), 
+				tr("Image files")+" (*.jpg *.gif *.png *.rgb);;" +
+				tr("OpenInventor Files")+" (*.iv *.wrl);;"+
+				tr("All Files")+" (*)");
+
+			//Asignamos el valor escogido
+			soSFString->setValue(filename.toAscii());
+		}
+	}
     
  /* TODO
-    //Edicion de cualquier campo tipo SoSFEnum
-    //Edicion de cualquier campo tipo SoSFBitMask
-    else if (!strcmp(nombre_tipo, "SFEnum") ||
-        !strcmp(nombre_tipo, "SFBitMask") )
-    {
-       //Convertimos el tipo de field
-       SoSFEnum *soSFEnum= (SoSFEnum *)field;
-
-       //Preparamos un menu flotante 
-       QMenu popm(this);
-
-       SbName nombre;
-       int idx;
-       //Probamos todos los indices y creamos una accion por cada
-       for (idx=0; idx < soSFEnum->getNumEnums(); idx++)
-       {
-           soSFEnum->getEnum(idx, nombre);
-		   popm.addAction((nombre.getString());
-           //popm->insertItem(nombre.getString(),this, SLOT(nada()),0,idx);
-       }
-
-       //Mostramos el menu flotante y recogemos la opciÃ³n escogida
-       idx = popm->exec(QCursor::pos());
-
-       //Comprobamos que se ha seleccionado una opción válida.
-       if (idx < 0)
-           return;
-
-       //Asignamos la opcion escogida
-       soSFEnum->getEnum(idx, nombre);
-       soSFEnum->setValue(nombre);
-    }
-    else
-    
-    //Edicion de cualquier campo tipo SoSFString
-    if (!strcmp(nombre_tipo, "SFString") )
-    {
-       //Miramos si hace falta la asistencia de un QFileDialog
-       //Si pulsamos con el boton derecho, lanzamos el QFileDialog
-       if (button==2)
-       {
-          QString s = QFileDialog::getOpenFileName(currentDir.ascii(),
-                  tr("Im&aacute;genes (*.jpg *.gif *.png *.rgb);;"
-                     "Ficheros openInventor (*.iv *.wrl);;"
-                     "Todos los ficheros (*)"),
-                  this,
-                  tr("Fichero a cargar") );
-
-          //Asignamos el valor escogido
-          SoSFString *soSFString = (SoSFString *)field;
-          soSFString->setValue(s.ascii());
-       }
-    }
-    else
 
     //Edicion de cualquier campo tipo SoSFNode
-    if (!strcmp(nombre_tipo, "SFNode") )
+    else if (!strcmp(nombre_tipo, "SFNode") )
     {
        //Con el boton 2, editamos este nodo
        if (button==2)
@@ -194,10 +220,9 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
             }
        }
     }
-    else
   
     //Edicion de cualquier campo tipo SoMFNode
-    if (!strcmp(nombre_tipo, "MFNode") )
+    else if (!strcmp(nombre_tipo, "MFNode") )
     {
        //Con el boton 2, editamos este nodo
        if (button==2)
@@ -219,29 +244,10 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
             }
        }
     }
-    else
   
-    //Edicion de cualquier campo tipo SoSFColor
-    if (!strcmp(nombre_tipo, "SFColor"))
-    {
-        //Convertimos el tipo de field
-       SoSFColor *color= (SoSFColor *)field;
-       //Lo convertimos en valores RGB y en un QColor
-       const float*rgb = color->getValue().getValue();
-       QColor c( int(255*rgb[0]), int(255*rgb[1]), int(255*rgb[2]) );
-
-       //Solicitamos un color mediante QColorDialog
-       c=QColorDialog::getColor(c);
-       if (c.isValid() )
-       {           
-           //Modificamos el field
-           color->setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
-       }
-    }
-    else
 
     //Edicion de cualquier campo tipo SoMF....
-    if (!strcmp(nombre_tipo, "MFColor") ||
+    else if (!strcmp(nombre_tipo, "MFColor") ||
         !strcmp(nombre_tipo, "MFVec2f") ||
         !strcmp(nombre_tipo, "MFVec3f") ||
         !strcmp(nombre_tipo, "MFVec4f") ||
@@ -278,9 +284,6 @@ TODO */
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
-
-
-	menu.exec(Ui.fieldTable->mapToGlobal(pos));
 
 }//void MainWindow::on_contextMenuFieldEditor(QPoint pos)
 

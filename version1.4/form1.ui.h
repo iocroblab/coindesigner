@@ -757,61 +757,7 @@ void MainWindow::fieldTable_clicked(int fila, int , int button)
     const char*nombre_tipo = tipo.getName();  
       
     //Miramos si hay algun ayudante para este tipo...
-
-    //Edicion de cualquier campo tipo SoSFBool
-    if (!strcmp(nombre_tipo, "SFBool") )
-    {
-       //ConversiÃ³n del SoField que estamos editando
-       SoSFBool *soSFBool= (SoSFBool *)field;
-
-       //Preparamos un menu flotante con opciones true/false
-       QPopupMenu* popm = new QPopupMenu( this );
-       popm->insertItem("TRUE",this, SLOT(nada()), CTRL+Key_T,1);
-       popm->insertItem("FALSE",this,SLOT(nada()), CTRL+Key_F,0);
-
-       //Mostramos el menu flotante y recogemos la opciÃ³n escogida
-       int idx = popm->exec(QCursor::pos());
-
-       //Comprobamos que se ha seleccionado una opción válida.
-       if (idx < 0)
-           return;
-
-       soSFBool->setValue(idx);
-    }
-    else
     
-    //Edicion de cualquier campo tipo SoSFEnum
-    //Edicion de cualquier campo tipo SoSFBitMask
-    if (!strcmp(nombre_tipo, "SFEnum") ||
-        !strcmp(nombre_tipo, "SFBitMask") )
-    {
-       //Convertimos el tipo de field
-       SoSFEnum *soSFEnum= (SoSFEnum *)field;
-
-       //Preparamos un menu flotante 
-       QPopupMenu* popm = new QPopupMenu( this );
-
-       SbName nombre;
-       int idx;
-       //Probamos todos los indices y creamos una opcion por cada
-       for (idx=0; idx < soSFEnum->getNumEnums(); idx++)
-       {
-           soSFEnum->getEnum(idx, nombre);
-           popm->insertItem(nombre.getString(),this, SLOT(nada()),0,idx);
-       }
-
-       //Mostramos el menu flotante y recogemos la opciÃ³n escogida
-       idx = popm->exec(QCursor::pos());
-
-       //Comprobamos que se ha seleccionado una opción válida.
-       if (idx < 0)
-           return;
-
-       //Asignamos la opcion escogida
-       soSFEnum->getEnum(idx, nombre);
-       soSFEnum->setValue(nombre);
-    }
-    else
     
     //Edicion de cualquier campo tipo SoSFString
     if (!strcmp(nombre_tipo, "SFString") )
@@ -879,24 +825,6 @@ void MainWindow::fieldTable_clicked(int fila, int , int button)
     }
     else
   
-    //Edicion de cualquier campo tipo SoSFColor
-    if (!strcmp(nombre_tipo, "SFColor"))
-    {
-        //Convertimos el tipo de field
-       SoSFColor *color= (SoSFColor *)field;
-       //Lo convertimos en valores RGB y en un QColor
-       const float*rgb = color->getValue().getValue();
-       QColor c( int(255*rgb[0]), int(255*rgb[1]), int(255*rgb[2]) );
-
-       //Solicitamos un color mediante QColorDialog
-       c=QColorDialog::getColor(c);
-       if (c.isValid() )
-       {           
-           //Modificamos el field
-           color->setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
-       }
-    }
-    else
 
     //Edicion de cualquier campo tipo SoMF....
     if (!strcmp(nombre_tipo, "MFColor") ||

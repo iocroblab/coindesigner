@@ -150,8 +150,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         //Solicitamos confirmacion antes de salir de la aplicacion
         switch( QMessageBox::information( this, "Coindesigner",
-            tr("Current scene has been modified."
-            "<p>Do you want to save the changes to this scene before closing?"),
+            tr("Current scene has been modified.")+"\n"+
+            tr("Do you want to save the changes to this scene?"),
             tr("Save"), tr("Discard"), tr("Cancel"),
             0, 2 )
             ) 
@@ -217,7 +217,7 @@ bool MainWindow::load_Scene(QString filename)
 #ifdef USE_VOLEON
         fileMasks += tr("Volume Data Files")+"(*.vol);;";
 #endif
-        fileMasks += tr("All Files (*)");
+        fileMasks += tr("All Files")+" (*)";
 
         filename = QFileDialog::getOpenFileName(this, tr("Load Scene"),
             nombreEscena, fileMasks);
