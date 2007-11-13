@@ -468,6 +468,33 @@ void MainWindow::on_actionView_Source_activated()
 	SrcEditor srcEditor(root);
 	srcEditor.exec();
 
+	if (!srcEditor.result)
+		return;
+
+    //Referenciamos el nodo scene
+    srcEditor.result->ref();
+
+    //Destruimos la escena actual y creamos una nueva
+    on_actionNew_Scene_activated();
+
+    //Colgamos el nodo del grafo de escena
+    QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
+
+    //Colgamos el contenido de la geometria uno por uno
+    for (int i=0; i<srcEditor.result->getNumChildren(); i++)
+    {
+		newSceneGraph(srcEditor.result->getChild(i), qroot, root);
+    }
+
+    //Expandimos todos los items
+    Ui.sceneGraph->expandAll();
+
+	//Liberamos la memoria de la escena
+    srcEditor.result->unref();
+
+    //Indicamos que la escena no ha sido modificada
+    escena_modificada = true;
+
 }//void MainWindow::on_actionView_Source_activated()
 
 

@@ -29,7 +29,7 @@ class SrcEditor : public QDialog
 {
 	Q_OBJECT
 	Ui::src_view Ui;
-	QTimer timer;
+	//QTimer timer;
 public:
 	SoSeparator *result;
 
@@ -37,62 +37,67 @@ public:
 	SrcEditor (SoSeparator *scene, QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
 	{
 		Ui.setupUi(this);
-		Ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
+		Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
 
-                result=NULL;
+		result=NULL;
 
-                //Rellenamos con la escena
-                Ui.textEdit->setText(cds_export_string(scene));
+		//Rellenamos el textEdit con la escena
+		Ui.textEdit->setText(cds_export_string(scene));
 
-     		//connect(Ui.textEdit, SIGNAL(textChanged()), this, SLOT(compile()));
-     		connect(&timer, SIGNAL(timeout()), this, SLOT(compile()));
-     		timer.start(1000);
+		//connect(Ui.textEdit, SIGNAL(textChanged()), this, SLOT(compile()));
+		//connect(&timer, SIGNAL(timeout()), this, SLOT(compile()));
+		//timer.start(1000);
 	}
 
- private slots:
-	void compile()
-	{
-    		//Leemos la escena desde el buffer de memoria
-    		QString src = Ui.textEdit->toPlainText();
-		char *buf = new char[src.size()];
-                memcpy(buf, src.toAscii(), src.size() );
-
-    		SoInput input;
-    		input.setBuffer(buf, src.size() ) ;
-    		result = SoDB::readAll(&input);
-		if(result)
+	private slots:
+		void on_buttonBox_clicked(QAbstractButton * button)
 		{
-			result->ref();
-			result->unref();
+			if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
+			{
+				//Copia el src a un buffer de memoria
+				QString src = Ui.textEdit->toPlainText();
+				char *buf = new char[src.size()];
+				memcpy(buf, src.toAscii(), src.size() );
+
+				//Leemos la escena desde el buffer de memoria
+				SoInput input;
+				input.setBuffer(buf, src.size() ) ;
+				result = SoDB::readAll(&input);
+
+				//Liberamos la memoria de la escena 
+				if(result)
+				{
+					result->ref();
+					result->unref();
+					result = NULL;
+
+					QMessageBox::information(this, tr("Test"), tr("The scene is valid")); 
+				}
+
+				delete buf;
+				qDebug("Apply=%p\n", result);
+
+			}//if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
+
 		}
 
+		void accept()
+		{
+			//Copia el src a un buffer de memoria
+			QString src = Ui.textEdit->toPlainText();
+			char *buf = new char[src.size()];
+			memcpy(buf, src.toAscii(), src.size() );
 
-                if (result)
-			Ui.buttonBox->setStandardButtons(QDialogButtonBox::Ok);
-		else
-			Ui.buttonBox->setStandardButtons(QDialogButtonBox::Close);
+			//Leemos la escena desde el buffer de memoria
+			SoInput input;
+			input.setBuffer(buf, src.size() ) ;
+			result = SoDB::readAll(&input);
+			delete buf;
 
-                delete buf;
-		printf("OK=%p\n", result);
-
-	}
-
-	void accept()
-	{
-    		//Leemos la escena desde el buffer de memoria
-    		QString src = Ui.textEdit->toPlainText();
-		char *buf = new char[src.size()];
-                memcpy(buf, src.toAscii(), src.size() );
-
-    		SoInput input;
-    		input.setBuffer(buf, src.size() ) ;
-    		result = SoDB::readAll(&input);
-                delete buf;
-
-		qDebug("HOLA\n");
-
-		QDialog::accept();
-	}
+			//Solo aceptamos el dialogo si se compiló correctamente
+			if (result)
+				QDialog::accept();
+		}
 
 }; //class SrcEditor
 
