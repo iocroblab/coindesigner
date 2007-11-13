@@ -2325,15 +2325,16 @@ void MainWindow::updateRecentFileActions()
     //Configura las acciones del menu menuRecent
     for (int i = 0; i < numRecentFiles; ++i) 
     {
-		//Crea una accion con el nombre del fichero
+	//Crea una accion con el nombre del fichero
          QString filename = QFileInfo(files[i]).fileName();
          recentFileActs[i]->setText(QString("&%1 ").arg(i+1)+filename);
 
-		 //Coloca el path completo del fichero en el campo data
+	 //Coloca el path completo del fichero en el campo data
          recentFileActs[i]->setData(files[i]);
 
-		 //Hace visible la accion
-         recentFileActs[i]->setVisible(true);
+	 //Hace visible la accion si el fichero sigue existiendo
+         QFileInfo fileInfo(files[i]);
+         recentFileActs[i]->setVisible(fileInfo.isFile() && fileInfo.isReadable());
     }
 
     //Oculta el resto de acciones
