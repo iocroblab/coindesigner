@@ -23,12 +23,85 @@
 #include <cds_util.h>
 #include <QDialogButtonBox>
 #include <Inventor/nodes/SoSeparator.h>
-#include <QTimer>
+#include <QSyntaxHighlighter>
+
+class Highlighter : public QSyntaxHighlighter
+ {
+     Q_OBJECT
+
+ private:
+     struct HighlightingRule
+     {
+         QRegExp pattern;
+         QTextCharFormat format;
+     };
+     QVector<HighlightingRule> highlightingRules;
+
+	 QTextCharFormat keywordFormat;
+     QTextCharFormat singleLineCommentFormat;
+	 QTextCharFormat quotationFormat;
+
+ public:
+	 Highlighter(QTextDocument *parent = 0) : QSyntaxHighlighter(parent)
+	 {
+		 HighlightingRule rule;
+
+		 //Palabras reservadas
+		 SoTypeList tl;
+		 keywordFormat.setForeground(Qt::darkBlue);
+		 keywordFormat.setFontWeight(QFont::Bold);
+
+		 //Recorre todos los tipos derivados de SoNode
+		 SoType::getAllDerivedFrom(SoNode::getClassTypeId(), tl);
+		 for (int j=0; j < tl.getLength(); j++) 
+		 {
+			 QString pattern ="\\b"+QString(tl[j].getName().getString())+"\\b";
+			 rule.pattern = QRegExp(pattern);
+			 rule.format = keywordFormat;
+			 highlightingRules.append(rule);
+		 }
+
+		 //Comentarios con #
+		 singleLineCommentFormat.setForeground(Qt::red);
+		 rule.pattern = QRegExp("#[^\n]*");
+		 rule.format = singleLineCommentFormat;
+		 highlightingRules.append(rule);
+
+		 //Cadenas de texto
+		 quotationFormat.setForeground(Qt::darkGreen);
+		 rule.pattern = QRegExp("\".*\"");
+		 rule.format = quotationFormat;
+		 highlightingRules.append(rule);
+
+	 }
+
+ protected:
+     void highlightBlock(const QString &text)
+	 {
+		 foreach (HighlightingRule rule, highlightingRules) 
+		 {
+			 QRegExp expression(rule.pattern);
+			 int index = text.indexOf(expression);
+			 while (index >= 0) 
+			 {
+				 int length = expression.matchedLength();
+				 setFormat(index, length, rule.format);
+				 index = text.indexOf(expression, index + length);
+			 }
+		 }
+		 setCurrentBlockState(0);
+
+	 }
+
+};
 
 class SrcEditor : public QDialog
 {
 	Q_OBJECT
 	Ui::src_view Ui;
+
+	Highlighter hl;
+
 public:
 	SoSeparator *result;
 
@@ -47,6 +120,8 @@ public:
 			//Añadimos el boton Test
 			Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
 		}
+
+		hl.setDocument(Ui.textEdit->document());
 
 		result=NULL;
 

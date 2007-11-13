@@ -96,7 +96,6 @@ public slots:
 	void on_actionLoad_RecentFile();
 	void on_actionImport_File_activated() {import_File("");};
 	void on_actionExport_VRML2_activated();
-	void on_actionEdit_Source_activated();
 	void on_actionQuit_activated();
 
 	//Slots para menu Edit
@@ -122,6 +121,7 @@ public slots:
 	void on_actionField_Editor_toggled(bool on);
 	void on_actionExaminerViewer_Editor_activated();
 	void on_actionPlaneViewer_Editor_activated();
+	void on_actionEdit_Source_activated();
 
 	//Slots para el menu Help
 
