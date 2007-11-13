@@ -49,7 +49,7 @@ SOURCES +=	main.cpp	mainwindow.cpp	mainwindow2.cpp	cds_util.cpp	cds_viewers.cpp\
 	
 
 HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
-		include/3dsLoader.h \
+		include/3dsLoader.h include/src_editor.h\
 		include/qslim_options.h include/cds_viewers.h 
 
 FORMS	=	ui/mainwindow.ui \

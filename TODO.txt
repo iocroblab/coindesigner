@@ -7,9 +7,8 @@ DONE: Insertar un subgrafo de escena. on_actionLoad_Scene()
 DONE: Copiar un group, modificar el group, pegar
      -> lo que pegas contiene las modificaciones, y no debe
 DONE: Carga de ficheros .off .smf .vol .xyz .obj
-DONE: Poner nombre a nodos importados (hecho en 1.4)
-     
-DONE: Al copiar, y enlazar se pueden crear bucles infinitos
+DONE: Poner nombre a nodos importados 
+DONE: Al copiar, y enlazar evitar crear bucles infinitos
 
 DONE: Edición de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
@@ -29,9 +28,6 @@ DONE: salvar lista de ultimos archivos abiertos
   
 * activar traduccion al castellano
 
-* salvar esquema de docks en setting
-  http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
-
 * uso de regexp para evitar introducir valores no numericos en fieldTable?
 
 * Sintax highlight en src_view
@@ -48,3 +44,7 @@ DONE: salvar lista de ultimos archivos abiertos
   file:///C:/Qt/4.3.2/doc/html/widgets-imageviewer.html
   
 * Añadir una consola dockable para mensajes
+
+* salvar esquema de docks en setting
+  http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
+

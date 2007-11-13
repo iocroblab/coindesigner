@@ -4,7 +4,7 @@
 #include "cds_util.h"
 #include "cds_globals.h"
 #include "3dsLoader.h"
-#include "ui_src_view.h"
+#include "src_editor.h"
 
 #include <qsettings.h>
 #include <qmessagebox.h>
@@ -465,11 +465,9 @@ void MainWindow::on_actionExport_VRML2_activated()
 ///Muestra un dialogo donde visualizar el codigo fuente de la escena
 void MainWindow::on_actionView_Source_activated()
 {
-    QDialog src_viewer;
-    Ui_src_view ui_src_view;
-    ui_src_view.setupUi(&src_viewer);
-    ui_src_view.textEdit->setText(cds_export_string(root));
-    src_viewer.exec();
+	SrcEditor srcEditor(root);
+	srcEditor.exec();
+
 }//void MainWindow::on_actionView_Source_activated()
 
 
