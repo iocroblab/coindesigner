@@ -19,6 +19,7 @@
 
 #include "src_editor.h"
 #include <QMessageBox>
+#include <QCheckBox>
 #include <cds_util.h>
 #include <QDialogButtonBox>
 
@@ -48,6 +49,14 @@ Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
 	rule.format = singleLineCommentFormat;
 	highlightingRules.append(rule);
 
+	//DEF y USE
+	defUseFormat.setForeground(Qt::red);
+	rule.pattern = QRegExp("\\bDEF\\s+[\\w+]*\\b");
+	rule.format = defUseFormat;
+	highlightingRules.append(rule);
+	rule.pattern = QRegExp("\\bUSE\\s+[\\w+]*\\b");
+	highlightingRules.append(rule);
+	
 	//Cadenas de texto
 	quotationFormat.setForeground(Qt::darkGreen);
 	rule.pattern = QRegExp("\".*\"");
@@ -87,14 +96,29 @@ SrcEditor::SrcEditor (SoSeparator *scene, bool readOnly, QWidget *p, Qt::WindowF
 		Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
 	}
 
-	hl.setDocument(Ui.textEdit->document());
+	//Rellenamos el textEdit con la escena
+	char *src = cds_export_string(scene);
+	Ui.textEdit->setText(src);
 
+	//Inicializamos highlight dependiendo del tamaño del fuente
+	Ui.enableHL->setChecked(strlen(src) < 50000);
+
+	//hl.setDocument(Ui.textEdit->document());
+
+	free (src);
 	result=NULL;
 
-	//Rellenamos el textEdit con la escena
-	Ui.textEdit->setText(cds_export_string(scene));
 }
 
+
+void SrcEditor::on_enableHL_stateChanged(int state)
+{
+	qDebug("%s %d\n", __FUNCTION__, state);
+	if (state == Qt::Checked)
+		hl.setDocument(Ui.textEdit->document());
+	else
+		hl.setDocument(NULL);
+}
 
 void SrcEditor::on_buttonBox_clicked(QAbstractButton * button)
 {

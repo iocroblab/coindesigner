@@ -33,9 +33,10 @@ class Highlighter : public QSyntaxHighlighter
      };
      QVector<HighlightingRule> highlightingRules;
 
-	 QTextCharFormat keywordFormat;
+     QTextCharFormat keywordFormat;
      QTextCharFormat singleLineCommentFormat;
-	 QTextCharFormat quotationFormat;
+     QTextCharFormat defUseFormat;
+     QTextCharFormat quotationFormat;
 
  public:
 	 Highlighter(QTextDocument *parent = 0);
@@ -59,6 +60,7 @@ public:
 	SrcEditor (SoSeparator *scene, bool readOnly=false, QWidget *p=0, Qt::WindowFlags f=0);
 
 private slots:
+	void on_enableHL_stateChanged(int state);
 	void on_buttonBox_clicked(QAbstractButton * button);
 
 	void accept();

@@ -466,11 +466,11 @@ void MainWindow::on_actionExport_VRML2_activated()
 ///Muestra un dialogo donde visualizar el codigo fuente de la escena
 void MainWindow::on_actionEdit_Source_activated()
 {
-	SrcEditor srcEditor(root);
-	srcEditor.exec();
+    SrcEditor srcEditor(root);
+    srcEditor.exec();
 
-	if (!srcEditor.result)
-		return;
+    if (srcEditor.result == NULL)
+        return;
 
     //Referenciamos el nodo scene
     srcEditor.result->ref();
@@ -484,13 +484,13 @@ void MainWindow::on_actionEdit_Source_activated()
     //Colgamos el contenido de la geometria uno por uno
     for (int i=0; i<srcEditor.result->getNumChildren(); i++)
     {
-		newSceneGraph(srcEditor.result->getChild(i), qroot, root);
+        newSceneGraph(srcEditor.result->getChild(i), qroot, root);
     }
 
     //Expandimos todos los items
     Ui.sceneGraph->expandAll();
 
-	//Liberamos la memoria de la escena
+    //Liberamos la memoria de la escena
     srcEditor.result->unref();
 
     //Indicamos que la escena no ha sido modificada
