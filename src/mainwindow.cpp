@@ -2012,9 +2012,9 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
       }
     } //</Depuracion> */
 
-	//Si se ha indicado un nodo padre, añadimos el nodo hijo
-	if (nodo_padre)
-		nodo_padre->addChild(node);
+    //Si se ha indicado un nodo padre, añadimos el nodo hijo
+    if (nodo_padre)
+        nodo_padre->addChild(node);
 
     //Creamos un item para representar este nodo
     QTreeWidgetItem *item =newNodeItem(node);
@@ -2052,7 +2052,15 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
           //Miramos si contiene un valor valido, y lo añadimos como hijo
           SoNode *f_node = ((SoSFNode *)fields[f])->getValue();
           if (f_node != NULL)
-            newSceneGraph(f_node, item, NULL);  
+          {
+             newSceneGraph(f_node, item, NULL);
+
+             //Asignamos icono "field.png"
+             for (int i=0; i< item->childCount(); i++)
+		if (mapQTCOIN[item->child(i)] == f_node)
+                    item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
+
+          }
        }
 
        //*  revisar esto... nodos aparecen repetidos??
@@ -2068,7 +2076,14 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
           {
               SoNode *i_node = soMFNode->getNode(i);
               if (i_node != NULL)
-                  newSceneGraph(i_node, item, NULL);  
+              {
+                  newSceneGraph(i_node, item, NULL);
+
+                  //Asignamos icono "field.png"
+                  for (int i=0; i< item->childCount(); i++)
+		     if (mapQTCOIN[item->child(i)] == i_node)
+                         item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
+              }
           }//for
   
          } //if 

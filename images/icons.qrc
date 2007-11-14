@@ -90,6 +90,5 @@
         <file>nodes/transformation.png</file>
         <file>nodes/transparencytype.png</file>
         <file>nodes/units.png</file>
-        <file>nodes/vertexproperty.png</file>
     </qresource>
 </RCC>
