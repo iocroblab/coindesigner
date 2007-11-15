@@ -2114,17 +2114,16 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
     //Convertimos el fichero a char *
     const char *strFilename = SbName(filename.toAscii()).getString();
 
-    /* TODO
     //Miramos si tiene pinta de ser un fichero de tetgen
-    if (filename.endsWith(".wrl", Qt::CaseInsensitive))
+    if (filename.endsWith(".node", Qt::CaseInsensitive))
     {
         //Tratamos de cargarlo como un conjunto de ficheros de tetgen
         SoSeparator *sep=import_tetgen(strFilename);
+
         //Miramos si se cargo correctamente
-        if (sep)
+        if (sep != NULL)
             return sep;
     }
-    */
 
     //Abrimos el fichero desde openInventor
     SoInput input;

@@ -113,7 +113,7 @@ SrcEditor::SrcEditor (SoSeparator *scene, bool readOnly, QWidget *p, Qt::WindowF
 
 void SrcEditor::on_enableHL_stateChanged(int state)
 {
-	qDebug("%s %d\n", __FUNCTION__, state);
+	//qDebug("%s %d\n", __FUNCTION__, state);
 	if (state == Qt::Checked)
 		hl.setDocument(Ui.textEdit->document());
 	else
