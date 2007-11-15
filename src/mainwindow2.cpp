@@ -4,6 +4,7 @@
 #include "cds_globals.h"
 #include "3dsLoader.h"
 #include "ui_src_view.h"
+#include <mfield_editor.h>
 
 #include <qsettings.h>
 #include <qmessagebox.h>
@@ -199,6 +200,22 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
 			soSFString->setValue(filename.toAscii());
 		}
 	}
+
+	//Edicion de cualquier campo tipo SoMF....
+    else if (!strcmp(nombre_tipo, "MFColor") ||
+        !strcmp(nombre_tipo, "MFVec2f") ||
+        !strcmp(nombre_tipo, "MFVec3f") ||
+        !strcmp(nombre_tipo, "MFVec4f") ||
+        !strcmp(nombre_tipo, "MFFloat") ||
+        !strcmp(nombre_tipo, "MFInt32") ||
+        !strcmp(nombre_tipo, "MFUInt32") ||
+        !strcmp(nombre_tipo, "MFShort") ||
+        !strcmp(nombre_tipo, "MFString") )
+    {
+        //Usamos el formulario auxiliar
+        MFieldEditor mfield_ed((SoMField *)field, this);
+        mfield_ed.exec();
+    }
     
  /* TODO
 
@@ -244,36 +261,19 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
             }
        }
     }
-  
+  TODO */
 
-    //Edicion de cualquier campo tipo SoMF....
-    else if (!strcmp(nombre_tipo, "MFColor") ||
-        !strcmp(nombre_tipo, "MFVec2f") ||
-        !strcmp(nombre_tipo, "MFVec3f") ||
-        !strcmp(nombre_tipo, "MFVec4f") ||
-        !strcmp(nombre_tipo, "MFFloat") ||
-        !strcmp(nombre_tipo, "MFInt32") ||
-        !strcmp(nombre_tipo, "MFUInt32") ||
-        !strcmp(nombre_tipo, "MFShort") ||
-        !strcmp(nombre_tipo, "MFString") )
-    {
-        //Usamos el formulario auxiliar
-        mfield_editor mfield_ed(this);
-        mfield_ed.cargarDatos((SoMField *)field);
-        mfield_ed.exec();
-    }
-    else
-
+	/* TODO
     //Edicion de cualquier campo tipo SoSFMatrix
-    if (!strcmp(nombre_tipo, "SFMatrix") )
+    else if (!strcmp(nombre_tipo, "SFMatrix") )
     {
         //Usamos el formulario auxiliar
         matrix_editor matrix_ed(this);
         matrix_ed.cargarDatos((SoSFMatrix *)field);
         matrix_ed.exec();
     }
-TODO */
-    else
+	*/
+	else
     {
       //No hay ayudante para este campo
       return;

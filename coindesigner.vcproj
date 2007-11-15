@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath="src\mfield_editor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="src\SoStream.cpp"
 				>
 			</File>
@@ -315,6 +319,10 @@
 						Outputs="tmp\moc_mainwindow.cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="include\mfield_editor.h"
+				>
 			</File>
 			<File
 				RelativePath="include\qslim_options.h"
@@ -399,37 +407,15 @@
 				>
 			</File>
 			<File
-				RelativePath="tmp\src_editor.moc"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC src\src_editor.cpp"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 src\src_editor.cpp -o tmp\src_editor.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;src\src_editor.cpp"
-						Outputs="tmp\src_editor.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC src\src_editor.cpp"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 src\src_editor.cpp -o tmp\src_editor.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;src\src_editor.cpp"
-						Outputs="tmp\src_editor.moc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="tmp\ui_cds_editor.h"
 				>
 			</File>
 			<File
 				RelativePath="tmp\ui_mainwindow.h"
+				>
+			</File>
+			<File
+				RelativePath="tmp\ui_mfield_editor.h"
 				>
 			</File>
 			<File
@@ -496,6 +482,32 @@
 						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\mainwindow.ui -o tmp\ui_mainwindow.h&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\mainwindow.ui"
 						Outputs="tmp\ui_mainwindow.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="ui\mfield_editor.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\mfield_editor.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\mfield_editor.ui -o tmp\ui_mfield_editor.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\mfield_editor.ui"
+						Outputs="tmp\ui_mfield_editor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\mfield_editor.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\mfield_editor.ui -o tmp\ui_mfield_editor.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\mfield_editor.ui"
+						Outputs="tmp\ui_mfield_editor.h"
 					/>
 				</FileConfiguration>
 			</File>

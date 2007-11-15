@@ -39,7 +39,7 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
         //Columnas para R, G, B
         Ui.table->setColumnCount(3);
 		hh << "R" << "G" << "B";
-        Ui.table->setVerticalHeaderLabels(hh);
+        Ui.table->setHorizontalHeaderLabels(hh);
 
         SoMFColor* soMFColor=(SoMFColor *)field;
 
@@ -60,7 +60,7 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
         //Columnas para R, G, B
         Ui.table->setColumnCount(3);
 		hh << "X" << "Y" << "Z";
-        Ui.table->setVerticalHeaderLabels(hh);
+        Ui.table->setHorizontalHeaderLabels(hh);
 
         SoMFVec3f* soMFVec3f=(SoMFVec3f *)field;
 
