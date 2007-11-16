@@ -5,9 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>341</width>
+    <width>416</width>
     <height>509</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle" >
    <string>MField Editor</string>
@@ -18,6 +24,11 @@
      <row>
       <property name="text" >
        <string>0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text" >
+       <string>new</string>
       </property>
      </row>
      <column>
