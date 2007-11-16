@@ -175,6 +175,16 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
 }
 
 
+void MFieldEditor::on_table_cellChanged(int row, int column)
+{
+    //Evitamos actualizar si el cambio no lo ha hecho el usuario
+    if (Ui.table->item(row,column) != Ui.table->currentItem())
+    {
+		return;
+    }
+}
+
+
 void MFieldEditor::on_buttonBox_clicked(QAbstractButton * button)
 {
 	if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
