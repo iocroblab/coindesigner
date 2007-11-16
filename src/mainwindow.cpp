@@ -5,6 +5,7 @@
 #include "cds_globals.h"
 #include "3dsLoader.h"
 #include "src_editor.h"
+#include <mfield_editor.h>
 
 #include <qsettings.h>
 #include <qmessagebox.h>
@@ -1538,6 +1539,20 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
     if (!field)
        return;
 
+    //Si se ha modificado un SoMField, sacamos el editor de Mfield (y perdemos el cambio)
+	//salvo que sea MFNode, que si lo gestionamos aqui
+	if (field->getTypeId().isDerivedFrom(SoMField::getClassTypeId()) 
+	    && field->getTypeId() != SoMFNode::getClassTypeId() ) 
+	{
+	    //Usamos el mfield_editor
+        MFieldEditor mfield_ed((SoMField *)field, this);
+        mfield_ed.exec();
+
+		//Actualizamos el Ui
+		updateFieldEditor(nodo);
+		return;
+	}
+
     //Leemos el nombre de este campo
     SbName nombre_field;
     nodo->getFieldName(field, nombre_field);
@@ -1705,10 +1720,9 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
                 QMessageBox::warning( this, tr("Warning"), S);
             }
         }
-        else
 
         //Edicion de cualquier campo SFNode
-        if (!strcmp(nombre_tipo, "SFNode") )
+        else if (!strcmp(nombre_tipo, "SFNode") )
         {
             //Buscamos los nodos con ese nombre
             SoSearchAction searchAction;
@@ -1730,8 +1744,8 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
                 {
                     ((SoSFNode *)field)->setValue(node);
                 }
+                //Si es un MFNode, hay que buscar la posicion
                 else if (!strcmp(nombre_tipo, "MFNode") )
-                    //Si es un MFNode, hay que buscar la posicion
                 { 
                     //Buscamos la posicion contando cuentas filas por
                     //encima de nosotros apuntan al mismo campo

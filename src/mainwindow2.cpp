@@ -3,7 +3,7 @@
 #include "cds_util.h"
 #include "cds_globals.h"
 #include "3dsLoader.h"
-#include "ui_src_view.h"
+#include <src_editor.h>
 #include <mfield_editor.h>
 
 #include <qsettings.h>
@@ -212,7 +212,7 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
         !strcmp(nombre_tipo, "MFShort") ||
         !strcmp(nombre_tipo, "MFString") )
     {
-        //Usamos el formulario auxiliar
+        //Usamos el mfield_editor
         MFieldEditor mfield_ed((SoMField *)field, this);
         mfield_ed.exec();
     }
