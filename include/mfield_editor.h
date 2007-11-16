@@ -22,7 +22,7 @@
 
 class MFieldEditor : public QDialog
 {
-//	Q_OBJECT
+	Q_OBJECT
 	Ui::MField_editor Ui;
 
 	///Copia del field que estamos editando actualmente
@@ -32,7 +32,9 @@ public:
 	///Constructor
 	MFieldEditor (SoMField *field, QWidget *p=0, Qt::WindowFlags f=0);
 
-private slots:
+public slots:
+	///Callback que se ejecuta cada vez que modificamos la tabla
+	void on_cellChanged(int row, int column);
 	void on_buttonBox_clicked(QAbstractButton * button);
 	void accept();
 

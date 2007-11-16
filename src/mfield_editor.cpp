@@ -5,7 +5,8 @@
 #include <QColorDialog>
 #include <QMessageBox>
 #include <Inventor/fields/SoFields.h>
-
+#include <QPushButton>
+#include <QDialogButtonBox>
 
 MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDialog(p,f)
 {
@@ -13,8 +14,8 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
 
 	Ui.setupUi(this);
 
-	//Salvamos una copia del puntero
-	current_mfield = field;
+	//Indicamos que no estamos listos para actualizar
+	current_mfield = NULL;
 
     //Leemos el tipo de este campo
     SoType tipo=field->getTypeId();
@@ -90,7 +91,7 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
            Ui.table->setItem(i,1, new QTableWidgetItem(S.setNum(y,'g',5)));   
            Ui.table->setItem(i,2, new QTableWidgetItem(S.setNum(z,'g',5)));   
 
-			/* Esto tambien funciona, pero talvez es menos eficiente
+			/* Esto tambien funciona, pero tal vez es menos eficiente
 			//Leemos el campo y lo partimos en valores
 			SbString valueString;
 			field->get1(i, valueString);
@@ -122,13 +123,14 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
            Ui.table->setItem(i,1, new QTableWidgetItem(S.setNum(y,'g',5)));   
            Ui.table->setItem(i,2, new QTableWidgetItem(S.setNum(z,'g',5)));   
            Ui.table->setItem(i,3, new QTableWidgetItem(S.setNum(t,'g',5)));   
-		   //TODO ¿hay que liberar luego los items?
         }      
     }
 
     //Tratamiento de campos SoMFFloat, SoMFUInt32, SoMFInt32
     else if (!strcmp(nombre_tipo, "MFFloat") || !strcmp(nombre_tipo, "MFUInt32") 
-                                             || !strcmp(nombre_tipo, "MFInt32") )
+          || !strcmp(nombre_tipo, "MFShort") || !strcmp(nombre_tipo, "MFInt32") 
+          || !strcmp(nombre_tipo, "MFDouble") || !strcmp(nombre_tipo, "MFBool") 
+          || !strcmp(nombre_tipo, "MFUShort") || !strcmp(nombre_tipo, "MFName") )
     {
         //Hace falta una columna
         Ui.table->setColumnCount(1);
@@ -164,7 +166,7 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
            valueString.deleteSubString(ln-1,ln-1);
 
            Ui.table->setItem(i,0, new QTableWidgetItem(valueString.getString()));
-        }      
+        }//for
     }
 
 	else
@@ -172,16 +174,33 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
 		qDebug("Falta soporte para tipo %s\n", nombre_tipo);
 	}
 
+	connect(Ui.table, SIGNAL(cellChanged(int, int)), this, SLOT(on_cellChanged(int, int)));
+	//Salvamos una copia del puntero
+	current_mfield = field;
 }
 
-
-void MFieldEditor::on_table_cellChanged(int row, int column)
+///Callback que se ejecuta cada vez que modificamos la tabla
+void MFieldEditor::on_cellChanged(int row, int column)
 {
     //Evitamos actualizar si el cambio no lo ha hecho el usuario
-    if (Ui.table->item(row,column) != Ui.table->currentItem())
-    {
+    if (current_mfield == NULL || Ui.table->item(row,column) != Ui.table->currentItem())
 		return;
-    }
+
+	QString S;
+	int numRows = Ui.table->rowCount();
+
+	//Si cambio algun valor de la última fila, aumentamos la tabla
+	if (row+1 == numRows)
+	{
+		//Hacemos crecer la tabla una nueva fila
+		Ui.sizeLabel->setText(S.setNum(numRows) + " " + tr("elements"));
+
+		Ui.table->setRowCount(numRows+1);
+
+		Ui.table->verticalHeaderItem(numRows-1)->setText(S.setNum(numRows-1));
+		Ui.table->setVerticalHeaderItem(numRows, new QTableWidgetItem(tr("new")));	
+	}         
+
 }
 
 
@@ -189,11 +208,83 @@ void MFieldEditor::on_buttonBox_clicked(QAbstractButton * button)
 {
 	if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
 	{
+		QString S;
+		SbString oldValue;
+
+		//Buscamos el SoMField que estamos editando
+		SoMField *field = current_mfield;
+
+		//Leemos el tipo de este campo
+		SoType tipo=field->getTypeId();
+		const char*nombre_tipo = tipo.getName();  
+
+		//Actualizamos el contenido del SoMField
+
+		//Si es necesario, ampliamos el tamaño del SoMField
+		field->setNum(Ui.table->rowCount()-1);
+
+		//Miramos cuantas columnas tiene la tabla
+		int numComp = Ui.table->columnCount();
+
+		//Tratamiento de los campos SoMFString
+		if (!strcmp(nombre_tipo, "MFString") )
+		{
+			//Convertimos el campo a SoMFString
+			SoMFString *soMFString = (SoMFString *)field;
+
+			//Recorremos las filas de la tabla
+			for(int i=0;i<Ui.table->rowCount()-1;i++)
+			{
+				//Extraemos el contenido de las celdas
+				S = Ui.table->item(i,0)->text();
+
+				//Aplicamos el valor al campo
+				soMFString->set1Value(i, SbString(qPrintable(S)));
+
+			} // for(int i=0;i<Ui.table->rowCount()-1;i++)
+		}
+		else
+
+			//Recorremos las filas de la tabla
+			for(int i=0;i<Ui.table->rowCount()-1;i++)
+			{
+				//Sacamos una copia del field actual, por si hay errores
+				field->get1(i, oldValue);
+				//qDebug("old: %s\n", oldValue.getString());
+
+				//Extraemos el contenido de la primera celda
+				S = Ui.table->item(i,0)->text();
+
+				//Concatenamos el resto de celdas de la fila
+				for (int j=1; j < numComp; j++)
+				{
+					S.append(' ');
+					S.append(Ui.table->item(i,j)->text());
+				}
+
+				//Leemos la cadena mediante el parser de openInventor
+				//fprintf(stderr, "Introduciendo: %s\n", txt);
+				if (!field->set1(i, qPrintable(S)))
+				{
+					//Si hubo un error en la lectura, restablecemos el valor anterior
+					field->set1(i, oldValue.getString() );
+					QMessageBox::warning( this, tr("Warning"), tr("Error on row:")+S.setNum(i));
+					qDebug("Error leyendo campo en fila %d\n", i);
+				}
+
+			}//for
+
 	}//if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
 }
 
 void MFieldEditor::accept()
 {
+
+	//Simulamos que se ha pulsado el boton Aplicar
+	Ui.buttonBox->button(QDialogButtonBox::Apply)->click();
+
+//	if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
+
 	QDialog::accept();
 }
 

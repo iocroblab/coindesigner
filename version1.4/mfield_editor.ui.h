@@ -29,27 +29,6 @@
 #include <qcolordialog.h>
 #include <qmessagebox.h>
 
-//Copia del field que estamos editando actualmente
-SoMField *current_mfield = NULL;
-
-
-//Si ha cambiado un valor de la tabla, miramos si es necesario
-//hacerla crecer.
-void mfield_editor::Ui.table_valueChanged( int fila, int /*columna*/ )
-{  
-   QString S;
-
-    //Si cambio algun valor de la última fila, aumentamos la tabla
-    if (fila+1==Ui.table->numRows())
-    {
-        Ui.table->setNumRows(Ui.table->numRows()+1);
-        Ui.table->verticalHeader()->setLabel(fila+1, S.setNum(fila+1) );
-
-    }         
-
-    //Actualizamos el label con el numero de elementos
-    textLabel2->setText(S.setNum(Ui.table->numRows()-1));
-}
 
 void mfield_editor::Aplicar_cambios_a_MField()
 {           
@@ -66,7 +45,7 @@ void mfield_editor::Aplicar_cambios_a_MField()
     //Actualizamos el contenido del SoMField
 
     //Si es necesario, ampliamos el tamaño del SoMField
-    field->setNum(Ui.table->numRows()-1);
+    field->setNum(Ui.table->rowCount()-1);
 
     //Miramos cuantas columnas tiene la tabla
     int numComp = Ui.table->numCols();
@@ -78,7 +57,7 @@ void mfield_editor::Aplicar_cambios_a_MField()
         SoMFString *soMFString = (SoMFString *)field;
 
         //Recorremos las filas de la tabla
-        for(int i=0;i<Ui.table->numRows()-1;i++)
+        for(int i=0;i<Ui.table->rowCount()-1;i++)
         {
            //Extraemos el contenido de las celdas
            S = Ui.table->text(i,0);
@@ -89,12 +68,12 @@ void mfield_editor::Aplicar_cambios_a_MField()
            //Aplicamos el valor al campo
            soMFString->set1Value(i, SbString(txt));
 
-       } // for(int i=0;i<Ui.table->numRows()-1;i++)
+       } // for(int i=0;i<Ui.table->rowCount()-1;i++)
     }
     else
 
     //Recorremos las filas de la tabla
-    for(int i=0;i<Ui.table->numRows()-1;i++)
+    for(int i=0;i<Ui.table->rowCount()-1;i++)
     {
        //Sacamos una copia del field actual, por si hay errores
        field->get1(i, oldValue);
