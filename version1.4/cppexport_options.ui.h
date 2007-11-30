@@ -1,5 +1,5 @@
 
-void cppexport_options::buttonGroup1_clicked( int )
+void cppexport_options::on_groupBox_clicked( int )
 {
 
   QString msj;

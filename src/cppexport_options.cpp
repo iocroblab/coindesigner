@@ -92,8 +92,30 @@ void cppexport_options::on_classnameLineEdit_textChanged( const QString &classna
    //buttonOk->setEnabled(true);
    
    //Actualizamos el howto
-   //buttonGroup1_clicked(0);
+   on_groupBox_clicked(0);
 
 }
 
+void cppexport_options::on_groupBox_clicked( int )
+{
+
+  QString msj;
+  if (Ui.classnameLineEdit->text().isEmpty())
+  {
+    msj += tr("Input a name for your class");
+  }
+  else if (Ui.radioButton_app->isChecked())
+  {
+    msj += QString("soqt-config --build ")+Ui.classnameLineEdit->text()+".exe ";
+    msj += Ui.classnameLineEdit->text()+".cpp\n";
+  }
+  else if (Ui.radioButton_class->isChecked())
+  {
+    msj += QString("#include \"")+Ui.classnameLineEdit->text()+".h\"\n";
+    msj += "....\n";
+    msj += QString("root->addChild(new ")+Ui.classnameLineEdit->text()+"() );\n";
+  }
+ 
+  Ui.howtoEdit->setText(msj);
+}
 

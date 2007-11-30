@@ -37,14 +37,14 @@ public:
     	Ui.classnameLineEdit->setValidator( validator );
 
 		//Actualizamos el howto
-		//buttonGroup1_clicked(0);
-
+		on_groupBox_clicked(0);
 	}
 
  private slots:
 	void on_accept();
 	void on_fileDialogButton_clicked();
 	void on_classnameLineEdit_textChanged(const QString &classname );
+	void on_groupBox_clicked( int );
 
 }; //class cppexport_options
 
