@@ -21,6 +21,9 @@
   <layout class="QVBoxLayout" >
    <item>
     <widget class="QTableWidget" name="table" >
+     <property name="contextMenuPolicy" >
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <row>
       <property name="text" >
        <string>0</string>

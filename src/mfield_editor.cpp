@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QColorDialog>
+#include <QMenu>
 #include <QMessageBox>
 #include <Inventor/fields/SoFields.h>
 #include <QPushButton>
@@ -174,7 +175,18 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
 		qDebug("Falta soporte para tipo %s\n", nombre_tipo);
 	}
 
+    //Creamos los items para la ultima fila
+	for (int j=0; j<Ui.table->columnCount(); j++)
+	{
+           Ui.table->setItem(Ui.table->rowCount()-1,j, new QTableWidgetItem());
+	}
+	
+	//Conectamos el menu contextual de la tabla
+	connect(Ui.table, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_contextMenuFieldEditor(QPoint)));
+
+	//Conectamos la accion en caso de cambio
 	connect(Ui.table, SIGNAL(cellChanged(int, int)), this, SLOT(on_cellChanged(int, int)));
+
 	//Salvamos una copia del puntero
 	current_mfield = field;
 }
@@ -199,8 +211,13 @@ void MFieldEditor::on_cellChanged(int row, int column)
 
 		Ui.table->verticalHeaderItem(numRows-1)->setText(S.setNum(numRows-1));
 		Ui.table->setVerticalHeaderItem(numRows, new QTableWidgetItem(tr("new")));	
+	
+    	//Creamos los items para la ultima fila
+		for (int j=0; j<Ui.table->columnCount(); j++)
+		{
+			Ui.table->setItem(Ui.table->rowCount()-1,j, new QTableWidgetItem());
+		}
 	}         
-
 }
 
 
@@ -283,8 +300,100 @@ void MFieldEditor::accept()
 	//Simulamos que se ha pulsado el boton Aplicar
 	Ui.buttonBox->button(QDialogButtonBox::Apply)->click();
 
-//	if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
-
 	QDialog::accept();
 }
+
+
+void MFieldEditor::on_contextMenuFieldEditor(QPoint pos)
+{
+	//Miramos si se ha pulsado sobre algun item valido
+    QTableWidgetItem *item = Ui.table->itemAt(pos);
+	if (!item || current_mfield == NULL)
+		return;
+
+    int row = Ui.table->row(item);
+    //int column = Ui.table->column(item);
+
+    //Leemos el tipo de este campo
+	SoType tipo=current_mfield->getTypeId();
+	const char*nombre_tipo = tipo.getName();  
+
+	//Miramos si hay algun ayudante para este tipo...
+
+	//Edicion de cualquier campo tipo SoMFBool
+	if (!strcmp(nombre_tipo, "MFBool") )
+	{
+		//Preparamos un menu flotante con opciones true/false
+		QMenu popm(this);
+		QAction actTrue("TRUE", this);
+		QAction actFalse("FALSE", this);
+		popm.addAction(&actTrue);
+		popm.addAction(&actFalse);
+
+		//Mostramos el menu flotante y recogemos la opcion escogida
+		QAction *idx = popm.exec(QCursor::pos());
+
+		//Comprobamos que se ha seleccionado una opción válida.
+		if (idx)
+			item->setText(idx->text());
+	}
+
+	//Edicion de cualquier campo tipo SoMFEnum
+	//Edicion de cualquier campo tipo SoMFBitMask
+	else if (!strcmp(nombre_tipo, "MFEnum") ||
+		!strcmp(nombre_tipo, "MFBitMask") )
+	{
+		//Convertimos el tipo de field
+		SoMFEnum *soMFEnum= (SoMFEnum *)current_mfield;
+
+		//Preparamos un menu flotante 
+		QMenu popm(this);
+
+		SbName nombre;
+		int idx;
+		//Probamos todos los indices y creamos una accion por cada
+		for (idx=0; idx < soMFEnum->getNumEnums(); idx++)
+		{
+			soMFEnum->getEnum(idx, nombre);
+			QAction *acc = new QAction(nombre.getString(), this);
+			popm.addAction(acc);
+		}
+
+		//Mostramos el menu flotante y recogemos la opcion escogida
+		QAction *acc = popm.exec(QCursor::pos());
+
+		//Comprobamos que se ha seleccionado una opción válida.
+		if (!acc)
+			return;
+
+		item->setText(acc->text());
+	}
+
+	//Edicion de cualquier campo tipo SoMFColor
+	else if (!strcmp(nombre_tipo, "MFColor"))
+	{
+		//Lo convertimos en valores RGB y en un QColor
+		QColor c (int(255*Ui.table->item(row,0)->text().toFloat()),
+			      int(255*Ui.table->item(row,1)->text().toFloat()),
+			      int(255*Ui.table->item(row,2)->text().toFloat()) );
+
+		//Solicitamos un color mediante QColorDialog
+		c=QColorDialog::getColor(c, this);
+		if (c.isValid() )
+		{           
+			QString S;
+			//Modificamos la tabla
+            Ui.table->item(row,0)->setText(S.setNum(c.red()/255.0, 'g',2));
+            Ui.table->item(row,1)->setText(S.setNum(c.green()/255.0, 'g',2));
+            Ui.table->item(row,2)->setText(S.setNum(c.blue()/255.0, 'g',2));
+		}
+	}
+
+	else
+    {
+      //No hay ayudante para este campo
+      return;
+    }
+
+}//void MFieldEditor::on_contextMenuFieldEditor(QPoint pos)
 

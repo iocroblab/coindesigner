@@ -37,6 +37,7 @@ public slots:
 	void on_cellChanged(int row, int column);
 	void on_buttonBox_clicked(QAbstractButton * button);
 	void accept();
+	void on_contextMenuFieldEditor(QPoint pos);
 
 }; //class SrcEditor
 
