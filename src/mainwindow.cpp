@@ -6,6 +6,7 @@
 #include "3dsLoader.h"
 #include "src_editor.h"
 #include <mfield_editor.h>
+#include <cppexport_options.h>
 
 #include <qsettings.h>
 #include <qmessagebox.h>
@@ -389,6 +390,15 @@ bool MainWindow::import_File(QString filename)
     return true; 
 } //bool MainWindow::on_actionImport_File_activated(QString filename)
 
+
+///Export to c++ action
+void MainWindow::on_actionExport_C_activated()
+{
+
+    cppexport_options cppexportDialog;
+    cppexportDialog.exec();
+
+}// void MainWindow::on_actionExport_C_activated()
 
 ///Carga una escena incrustada como resource
 void MainWindow::load_Scene_Demo(const QString &filename)

@@ -99,6 +99,7 @@ public slots:
 	void on_actionSave_Scene_activated() {save_Scene("");};
 	void on_actionLoad_RecentFile();
 	void on_actionImport_File_activated() {import_File("");};
+	void on_actionExport_C_activated();
 	void on_actionExport_VRML2_activated();
 	void on_actionQuit_activated();
 
