@@ -17,6 +17,7 @@
 
 */
 
+#include <Inventor/nodes/SoNode.h>
 #include "ui_cppexport_options.h"
 #include <QValidator>
 
@@ -24,10 +25,11 @@ class cppexport_options : public QDialog
 {
 	Q_OBJECT
 	Ui::cppexport_options Ui;
+	SoNode *node;
 public:
 
 	///Constructor
-	cppexport_options (QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
+	cppexport_options (SoNode *root, QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
 	{
 		Ui.setupUi(this);
 		
@@ -38,13 +40,16 @@ public:
 
 		//Actualizamos el howto
 		on_groupBox_clicked(0);
+
+		//Salvamos puntero al nodo
+		node = root;
 	}
 
  private slots:
-	void on_accept();
+	void accept();
 	void on_fileDialogButton_clicked();
 	void on_classnameLineEdit_textChanged(const QString &classname );
-	void on_groupBox_clicked( int );
+	void on_groupBox_clicked( bool );
 
 }; //class cppexport_options
 

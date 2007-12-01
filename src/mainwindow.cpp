@@ -394,8 +394,7 @@ bool MainWindow::import_File(QString filename)
 ///Export to c++ action
 void MainWindow::on_actionExport_C_activated()
 {
-
-    cppexport_options cppexportDialog;
+    cppexport_options cppexportDialog(root);
     cppexportDialog.exec();
 
 }// void MainWindow::on_actionExport_C_activated()

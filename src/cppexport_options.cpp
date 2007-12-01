@@ -27,41 +27,35 @@
 #include <QMessageBox>
 #include "cds_util.h"
 
-void cppexport_options::on_accept()
+void cppexport_options::accept()
 {
-  //TODO: apuntar a root
-  SoSeparator *root;
+	if (!cds_export_hppFile(node, qPrintable(Ui.classnameLineEdit->text()), 
+		qPrintable(Ui.filenameLineEdit->text()) ))
+	{
+		//En caso de error escribimos un aviso
+		QString S;
+		S=tr("Error while creating file")+ " " + Ui.filenameLineEdit->text();
+		QMessageBox::warning( this, tr("Warning"), S);
+		return;
+	} // if
 
-  if (!cds_export_hppFile((SoNode*)root, qPrintable(Ui.classnameLineEdit->text()), 
-  										 qPrintable(Ui.filenameLineEdit->text()) ))
-  {
-	  //En caso de error escribimos un aviso
-	  QString S;
-	  S=tr("Error al escribir el fichero")+ " " + Ui.filenameLineEdit->text();
-	  QMessageBox::warning( this, tr("Aviso"), S,
-		  QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
-	  return;
-  } // if
+	//Si es necesario, creamos un .ccp para lanzar visualizar la nueva clase
+	if (Ui.radioButton_app->isChecked())
+	{
+		QString cppFilename = Ui.filenameLineEdit->text();
+		int extPos = cppFilename.lastIndexOf(".h",-1, Qt::CaseInsensitive);
+		cppFilename.replace(extPos, 999, QString(".cpp"));
+		if (!cds_export_cppFile(qPrintable(Ui.classnameLineEdit->text()), qPrintable(cppFilename) ))
+		{
+			//En caso de error escribimos un aviso
+			QString S;
+			S=tr("Error while creating file")+ " " + cppFilename;
+			QMessageBox::warning( this, tr("Warning"), S);
+			return;
+		} // if
+	}//if (Ui.radioButton_app->isChecked())
 
-  
-  //Si es necesario, creamos un .ccp para lanzar visualizar la nueva clase
-  if (Ui.radioButton_app->isChecked())
-  {
-	  QString cppFilename = Ui.filenameLineEdit->text();
-	  int extPos = cppFilename.lastIndexOf(".h",-1, Qt::CaseInsensitive);
-	  cppFilename.replace(extPos, 999, QString(".cpp"));
-	  if (!cds_export_cppFile(qPrintable(Ui.classnameLineEdit->text()), qPrintable(cppFilename) ))
-	  {
-		  //En caso de error escribimos un aviso
-		  QString S;
-		  S=tr("Error al escribir el fichero")+ " " + cppFilename;
-		  QMessageBox::warning( this, tr("Aviso"), S,
-			  QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
-		  return;
-	  } // if
-
-  }//if (Ui.radioButton_app->isChecked())
-
+	QDialog::accept();
 }
 
 void cppexport_options::on_fileDialogButton_clicked()
@@ -96,7 +90,7 @@ void cppexport_options::on_classnameLineEdit_textChanged( const QString &classna
 
 }
 
-void cppexport_options::on_groupBox_clicked( int )
+void cppexport_options::on_groupBox_clicked( bool )
 {
 
   QString msj;

@@ -227,6 +227,10 @@
 				>
 			</File>
 			<File
+				RelativePath="src\cppexport_options.cpp"
+				>
+			</File>
+			<File
 				RelativePath="src\main.cpp"
 				>
 			</File>
@@ -291,6 +295,32 @@
 						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cds_viewers.h -o tmp\moc_cds_viewers.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cds_viewers.h"
 						Outputs="tmp\moc_cds_viewers.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="include\cppexport_options.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC include\cppexport_options.h"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cppexport_options.h -o tmp\moc_cppexport_options.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cppexport_options.h"
+						Outputs="tmp\moc_cppexport_options.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC include\cppexport_options.h"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cppexport_options.h -o tmp\moc_cppexport_options.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cppexport_options.h"
+						Outputs="tmp\moc_cppexport_options.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -409,6 +439,10 @@
 				>
 			</File>
 			<File
+				RelativePath="tmp\moc_cppexport_options.cpp"
+				>
+			</File>
+			<File
 				RelativePath="tmp\moc_mainwindow.cpp"
 				>
 			</File>
@@ -434,6 +468,10 @@
 			</File>
 			<File
 				RelativePath="tmp\ui_cds_editor.h"
+				>
+			</File>
+			<File
+				RelativePath="tmp\ui_cppexport_options.h"
 				>
 			</File>
 			<File
@@ -482,6 +520,32 @@
 						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\cds_editor.ui -o tmp\ui_cds_editor.h&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\cds_editor.ui"
 						Outputs="tmp\ui_cds_editor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="ui\cppexport_options.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\cppexport_options.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\cppexport_options.ui -o tmp\ui_cppexport_options.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\cppexport_options.ui"
+						Outputs="tmp\ui_cppexport_options.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\cppexport_options.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\cppexport_options.ui -o tmp\ui_cppexport_options.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\cppexport_options.ui"
+						Outputs="tmp\ui_cppexport_options.h"
 					/>
 				</FileConfiguration>
 			</File>
