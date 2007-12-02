@@ -933,9 +933,6 @@ void MainWindow::on_actionIvfix_activated()
 	//Miramos si hay resultados en ivfix_result
 	if (ivfix_result != NULL)
 	{
-		//Referenciamos el nodo scene
-		ivfix_result->ref();
-
 		//Destruimos la escena actual y creamos una nueva
 		on_actionNew_Scene_activated();
 
@@ -946,12 +943,12 @@ void MainWindow::on_actionIvfix_activated()
 		//Expandimos todos los items
 		Ui.sceneGraph->expandAll();
 
-       //Actualizamos la tabla  de campos
-       updateFieldEditor (root);
+		//Actualizamos la tabla  de campos
+		updateFieldEditor (root);
 
-       //Indicamos que la escena ha sido modificada
-       escena_modificada = true;
-    }
+		//Indicamos que la escena ha sido modificada
+		escena_modificada = true;
+	}
 
 }//void MainWindow::on_actionIvfix_activated()
 
