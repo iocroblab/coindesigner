@@ -25,10 +25,35 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QValidator>
 #include "cds_util.h"
+
+cppexport_options::cppexport_options (SoNode *root, QWidget *p, Qt::WindowFlags f) : QDialog(p, f)
+{
+	Ui.setupUi(this);
+
+	//Creamos un validador para el nombre de la clase
+	QRegExp rx( "[_a-zA-Z0-9]{1,64}" );
+	QValidator* validator = new QRegExpValidator( rx, this );
+	Ui.classnameLineEdit->setValidator( validator );
+
+	//Configuramos el campo de ayuda
+	connect(Ui.radioButton_app, SIGNAL(clicked(bool)), this, SLOT(on_groupBox_clicked(bool)));
+	connect(Ui.radioButton_class, SIGNAL(clicked(bool)), this, SLOT(on_groupBox_clicked(bool)));
+	on_groupBox_clicked(0);
+
+	//Salvamos puntero al nodo
+	node = root;
+}
 
 void cppexport_options::accept()
 {
+	if (Ui.classnameLineEdit->text().isEmpty())
+	{
+		QMessageBox::warning( this, tr("Warning"), tr("Input a name for your class"));
+		return;
+	}
+
 	if (!cds_export_hppFile(node, qPrintable(Ui.classnameLineEdit->text()), 
 		qPrintable(Ui.filenameLineEdit->text()) ))
 	{

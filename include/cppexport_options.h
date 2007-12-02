@@ -19,7 +19,6 @@
 
 #include <Inventor/nodes/SoNode.h>
 #include "ui_cppexport_options.h"
-#include <QValidator>
 
 class cppexport_options : public QDialog
 {
@@ -29,21 +28,7 @@ class cppexport_options : public QDialog
 public:
 
 	///Constructor
-	cppexport_options (SoNode *root, QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
-	{
-		Ui.setupUi(this);
-		
-    	//Creamos un validador para el nombre de la clase
-    	QRegExp rx( "[_a-zA-Z0-9]{1,64}" );
-    	QValidator* validator = new QRegExpValidator( rx, this );
-    	Ui.classnameLineEdit->setValidator( validator );
-
-		//Actualizamos el howto
-		on_groupBox_clicked(0);
-
-		//Salvamos puntero al nodo
-		node = root;
-	}
+	cppexport_options (SoNode *root, QWidget *p=0, Qt::WindowFlags f=0);
 
  private slots:
 	void accept();

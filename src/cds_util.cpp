@@ -1856,7 +1856,9 @@ bool cds_export_hppFile (SoNode *node, const char *className, const char *filena
 
 #ifdef QPROGRESSDIALOG_H
     int s_size = s.getLength();
-    QProgressDialog progress(QProgressDialog::tr("Exporting..."), "", 0, s_size);
+    QProgressDialog progress(QProgressDialog::tr("Exporting..."), 0, 0, s_size);
+	progress.setWindowModality(Qt::WindowModal);
+	progress.show();
 #endif
 
    //Buscamos un caracter de fin de linea en s
