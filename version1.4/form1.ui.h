@@ -845,42 +845,6 @@ void MainWindow::fieldTable_clicked(int fila, int , int button)
 
 
 
-//Aplica ivfix sobre una escena de coindesigner
-extern SoNode *ivfix_result;
-int MainWindow::fix_scene_activated ()
-{
-    //indicamos que se aplique a toda la escena
-    ivfix_result = root;
-
-    //Mostramos el dialogo de ivfix
-    ivfix_options ivfix_options_dlg(this);
-    ivfix_options_dlg.exec();
-    
-    //Miramos si hay resultados en ivfix_result
-    if (ivfix_result != NULL)
-    {
-       //Ahora destruimos la escena actual...
-       MainWindow::menu_escena_nueva_action();
-    
-       //Colgamos el nodo del grafo de escena
-       QTreeWidgetItem *padre=Ui.sceneGraph->firstChild();
- 
-       root->addChild(ivfix_result);  
-       InsertarElemento(padre, ivfix_result);
-
-       //Actualizamos la tabla  de campos
-       updateFieldEditor (ivfix_result);
-
-       //Indicamos que la escena ha sido modificada
-       escena_modificada = true;
-
-       return 0;
-    }
-    else
-       return -1;
-
-} // int MainWindow::fix_scene_activated ()
-
 
 //Aplica qslim a un nodo de la escena
 extern SoNode *qslim_result;

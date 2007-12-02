@@ -128,9 +128,9 @@ public slots:
 	void on_actionExaminerViewer_Editor_activated();
 	void on_actionPlaneViewer_Editor_activated();
 	void on_actionEdit_Source_activated();
+	void on_actionIvfix_activated();
 
 	//Slots para el menu Help
-
 	void on_actionCoin3D_Reference_activated();
 	void actionShow_Node_Reference_activated();
 	void on_actionTutorial_1_activated();

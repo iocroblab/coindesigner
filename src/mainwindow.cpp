@@ -7,6 +7,7 @@
 #include "src_editor.h"
 #include <mfield_editor.h>
 #include <cppexport_options.h>
+#include <ivfix_options.h>
 
 #include <qsettings.h>
 #include <qmessagebox.h>
