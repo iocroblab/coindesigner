@@ -211,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath="src\cds_globals.cpp"
+				>
+			</File>
+			<File
 				RelativePath="src\cds_parser.cpp"
 				>
 			</File>
@@ -312,6 +316,10 @@
 			</File>
 			<File
 				RelativePath="src\mfield_editor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\settingsDialog.cpp"
 				>
 			</File>
 			<File
@@ -497,6 +505,32 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="include\settingsDialog.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC include\settingsDialog.h"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\settingsDialog.h -o tmp\moc_settingsDialog.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\settingsDialog.h"
+						Outputs="tmp\moc_settingsDialog.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC include\settingsDialog.h"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\settingsDialog.h -o tmp\moc_settingsDialog.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\settingsDialog.h"
+						Outputs="tmp\moc_settingsDialog.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="include\src_editor.h"
 				>
 				<FileConfiguration
@@ -553,6 +587,10 @@
 				>
 			</File>
 			<File
+				RelativePath="tmp\moc_settingsDialog.cpp"
+				>
+			</File>
+			<File
 				RelativePath="tmp\moc_src_editor.cpp"
 				>
 			</File>
@@ -586,6 +624,10 @@
 			</File>
 			<File
 				RelativePath="tmp\ui_qslim_options4.h"
+				>
+			</File>
+			<File
+				RelativePath="tmp\ui_settingsDialog.h"
 				>
 			</File>
 			<File
@@ -752,6 +794,32 @@
 						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\qslim_options4.ui -o tmp\ui_qslim_options4.h&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\qslim_options4.ui"
 						Outputs="tmp\ui_qslim_options4.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="ui\settingsDialog.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\settingsDialog.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\settingsDialog.ui -o tmp\ui_settingsDialog.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\settingsDialog.ui"
+						Outputs="tmp\ui_settingsDialog.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\settingsDialog.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\settingsDialog.ui -o tmp\ui_settingsDialog.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\settingsDialog.ui"
+						Outputs="tmp\ui_settingsDialog.h"
 					/>
 				</FileConfiguration>
 			</File>

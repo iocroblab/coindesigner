@@ -7,6 +7,7 @@
 #include <mfield_editor.h>
 #include <cppexport_options.h>
 #include <ivfix_options.h>
+#include <settingsDialog.h>
 
 #include <qsettings.h>
 #include <qmessagebox.h>
@@ -756,6 +757,8 @@ void MainWindow::on_actionMove_Down_activated()
 
 void MainWindow::on_actionPreferences_activated()
 {
+	settingsDialog settinsDlg;
+	settinsDlg.exec();
 }
 
 
