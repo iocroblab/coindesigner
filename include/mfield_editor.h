@@ -38,5 +38,5 @@ public slots:
 	void accept();
 	void on_table_customContextMenuRequested(QPoint pos);
 
-}; //class SrcEditor
+}; //class MFieldEditor
 
