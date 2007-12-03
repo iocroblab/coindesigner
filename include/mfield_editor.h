@@ -33,11 +33,10 @@ public:
 	MFieldEditor (SoMField *field, QWidget *p=0, Qt::WindowFlags f=0);
 
 public slots:
-	///Callback que se ejecuta cada vez que modificamos la tabla
-	void on_cellChanged(int row, int column);
+	void on_table_cellChanged(int row, int column);
 	void on_buttonBox_clicked(QAbstractButton * button);
 	void accept();
-	void on_contextMenuFieldEditor(QPoint pos);
+	void on_table_customContextMenuRequested(QPoint pos);
 
 }; //class SrcEditor
 

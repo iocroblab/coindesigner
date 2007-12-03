@@ -156,14 +156,15 @@ public slots:
 	void on_actionEmbed_all_textures_activated ();
 
 	///Convert a node into its correspondent manip 
-	void on_Convert_Manip_activated(QTreeWidgetItem *item=NULL);
+	void on_Convert_Manip_activated();
 
 	///Close mainwindow Event
 	void closeEvent(QCloseEvent *event);
 
 	///Context Menu for sceneGraph
-	void on_contextMenuSceneGraph(QPoint pos);
-	void on_contextMenuFieldEditor(QPoint pos);
+	void on_sceneGraph_customContextMenuRequested(QPoint pos);
+	///Context Menu for fieldTable
+	void on_fieldTable_customContextMenuRequested(QPoint pos);
 
 	///Convert a IndexedFaceSet to IndexedLineSet
 	void on_IndexedFaceSet_to_IndexedLineSet_activated();

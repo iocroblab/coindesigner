@@ -72,7 +72,7 @@ extern QSettings *settings;
 #include "SIOUX.h"
 #endif // macintosh
 
-void MainWindow::on_contextMenuFieldEditor(QPoint pos)
+void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
 {
 	//Miramos si se ha pulsado sobre algun item valido
     QTableWidgetItem *item = Ui.fieldTable->itemAt(pos);
@@ -287,10 +287,10 @@ void MainWindow::on_contextMenuFieldEditor(QPoint pos)
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_contextMenuFieldEditor(QPoint pos)
+}//void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
 
 
-void MainWindow::on_contextMenuSceneGraph(QPoint pos)
+void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 {
     //Miramos si hemos pinchado sobre un item del sceneGraph
     //QPoint pos = Ui.sceneGraph->mapFromGlobal(event->globalPos());
@@ -421,7 +421,7 @@ void MainWindow::on_contextMenuSceneGraph(QPoint pos)
 	//Mostramos el menu popup
 	menu.exec(Ui.sceneGraph->mapToGlobal(pos));
 
-}//void MainWindow::on_contextMenuSceneGraph(QPoint pos)
+}//void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 
 ///Put all children of a group node on the same level that its parent
 void MainWindow::on_actionPromote_Children_activated()
@@ -561,9 +561,11 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
 
 
 ///Convert a node into its correspondent manip 
-void MainWindow::on_Convert_Manip_activated(QTreeWidgetItem *item)
+void MainWindow::on_Convert_Manip_activated()
 {
-  //Miramos si nos han pasado algun nodo o debemos usar el item actual 
+    QTreeWidgetItem *item = NULL;
+
+	//Miramos si nos han pasado algun nodo o debemos usar el item actual 
 	if (item == NULL)
 	{
 		//Comienza por intentar usar el item actual

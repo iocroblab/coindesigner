@@ -181,18 +181,16 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
            Ui.table->setItem(Ui.table->rowCount()-1,j, new QTableWidgetItem());
 	}
 	
-	//Conectamos el menu contextual de la tabla
-	connect(Ui.table, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_contextMenuFieldEditor(QPoint)));
-
-	//Conectamos la accion en caso de cambio
-	connect(Ui.table, SIGNAL(cellChanged(int, int)), this, SLOT(on_cellChanged(int, int)));
+	//Conectamos las señales de la tabla
+	//connect(Ui.table, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_table_customContextMenuRequested(QPoint)));
+	//connect(Ui.table, SIGNAL(cellChanged(int, int)), this, SLOT(on_table_cellChanged(int, int)));
 
 	//Salvamos una copia del puntero
 	current_mfield = field;
 }
 
 ///Callback que se ejecuta cada vez que modificamos la tabla
-void MFieldEditor::on_cellChanged(int row, int column)
+void MFieldEditor::on_table_cellChanged(int row, int column)
 {
     //Evitamos actualizar si el cambio no lo ha hecho el usuario
     if (current_mfield == NULL || Ui.table->item(row,column) != Ui.table->currentItem())
@@ -304,7 +302,7 @@ void MFieldEditor::accept()
 }
 
 
-void MFieldEditor::on_contextMenuFieldEditor(QPoint pos)
+void MFieldEditor::on_table_customContextMenuRequested(QPoint pos)
 {
 	//Miramos si se ha pulsado sobre algun item valido
     QTableWidgetItem *item = Ui.table->itemAt(pos);
@@ -395,5 +393,5 @@ void MFieldEditor::on_contextMenuFieldEditor(QPoint pos)
       return;
     }
 
-}//void MFieldEditor::on_contextMenuFieldEditor(QPoint pos)
+}//void MFieldEditor::on_table_customContextMenuRequested(QPoint pos)
 
