@@ -1858,6 +1858,18 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
                     item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
                 //TODO item->setSelectable(tl[j].canCreateInstance());
 
+				if (item)
+				{
+					//Asignamos un tooltip
+					QString S;
+					S += QString("Type: %1\n").arg(tl[j].getName().getString());
+					S += QString("Derives from: %1\n").arg(t.getName().getString());
+					//S += QString("Key: %1\n").arg(tl[j].getKey());
+					S += QString("CanCreateInstance: %1").arg(tl[j].canCreateInstance()?"Yes":"No" );
+    				item->setToolTip(0, S);
+				}
+
+
                 //y aplicamos recursividad
                 generarListaComponentes(tl[j], plano, item);
 
@@ -1893,6 +1905,17 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
                     //TODO item->setSelectable(tl[j].canCreateInstance());
                 }
 
+				if (item)
+				{
+					//Asignamos un tooltip
+					QString S;
+					S += QString("Type: %1\n").arg(tl[j].getName().getString());
+					S += QString("Derives from: %1\n").arg(t.getName().getString());
+					//S += QString("Key: %1\n").arg(tl[j].getKey());
+					S += QString("CanCreateInstance: %1").arg(tl[j].canCreateInstance()?"Yes":"No" );
+    				item->setToolTip(0, S);
+				}
+
                 //qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
 
                 //Aplica recursividad a los hijos directos
@@ -1919,7 +1942,9 @@ QTreeWidgetItem *MainWindow::newNodeItem(SoNode *node)
     //Asignamos el texto del item
     item->setText(0, QString(node->getTypeId().getName() ));
 
-    //TODO item->setToolTip(0, QString(t.getName()));
+	//Asignamos un tooltip
+	//QString S;
+	//TODO item->setToolTip(0, S.setNum(node->getRefCount()));
 
     return item;
 }
