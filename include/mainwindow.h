@@ -22,6 +22,8 @@
 #define __MAINWINDOW_H__
 
 #include "ui_mainwindow.h"
+#include "cds_globals.h"
+
 #include <qmessagebox.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/SbColor.h>
@@ -179,6 +181,9 @@ public slots:
 protected:
 
 private:
+
+	///Genera la paleta de componentes mediante una lista predefinida
+	void generarListaComponentes(const ivPadre_t *st);
 
 	///Autogenera la paleta de componentes mediante exploracion de coin3D
 	void generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *padre=0);

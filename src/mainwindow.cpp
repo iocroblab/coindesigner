@@ -2,7 +2,6 @@
 #include "mainwindow.h"
 #include "cds_viewers.h"
 #include "cds_util.h"
-#include "cds_globals.h"
 #include "3dsLoader.h"
 #include "src_editor.h"
 #include <mfield_editor.h>
@@ -1001,13 +1000,13 @@ void MainWindow::on_paletteComboBox_activated(int idx)
     case -1: break;
     case 0: generarListaComponentes(SoNode::getClassTypeId(), false); break;
     case 1: generarListaComponentes(SoNode::getClassTypeId(), true); break;
-//TODO    case 2: CargarListaComponentes(comp_simple); break;
-//TODO    case 3: CargarListaComponentes(comp_SGI); break;
+    case 2: generarListaComponentes(comp_simple); break;
+    case 3: generarListaComponentes(comp_SGI); break;
     default:
 #ifdef USE_VOLEON
         if (Ui.paletteComboBox->currentText() == QString("SIM Voleon"))
         {
-//TODO            CargarListaComponentes(comp_simVoleon); break;
+            generarListaComponentes(comp_simVoleon); break;
         }
         else
 #endif
@@ -1811,6 +1810,62 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
         escena_modificada = true;
 
 }//void on_fieldTable_cellChanged(int row, int column)
+
+///Genera la paleta de componentes mediante una lista predefinida
+void MainWindow::generarListaComponentes(const ivPadre_t *st)
+{
+
+  //Vaciamos el arbol actual
+  Ui.nodePalette->clear();
+
+  while (st && st->clase)
+  {
+    //qDebug("%s %s\n", st->clase, st->padre);
+
+	QString tName(st->clase);
+	QString pName(st->padre);
+
+    SoType t=SoType::fromName (st->clase);
+    if (t.isBad())
+    {
+        QString S;
+        S = tName + " type.isBad()";
+        QMessageBox::critical(this, tr("Critical Error"), S, QMessageBox::Abort);
+        assert (!t.isBad());
+    }
+
+    QTreeWidgetItem *item = NULL;
+
+    //Si el tipo deriva de SoNode
+	if (pName == "Node")
+	{
+       //Insertamos este tipo
+       item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
+       //TODO item->setSelectable(t.canCreateInstance());
+    }
+    else
+    {
+	   //Buscamos el item padre
+	   QList<QTreeWidgetItem *> il = Ui.nodePalette->findItems(pName, Qt::MatchRecursive);
+	   assert(il.size() == 1);
+       item = new QTreeWidgetItem(il.first(), QStringList(tName));
+       //TODO item->setSelectable(t.canCreateInstance());
+    }//else
+
+	//Asignamos un tooltip
+	QString S;
+	S += QString("Type: %1\n").arg(tName);
+	S += QString("Derives from: %1\n").arg(pName);
+	//S += QString("Key: %1\n").arg(t.getKey());
+	S += QString("CanCreateInstance: %1").arg(t.canCreateInstance()?"Yes":"No" );
+	item->setToolTip(0, S);
+
+	//Apuntamos al siguiente elemento de la lista
+	st++;
+
+  } //while
+}
+
 
 ///Autogenera la paleta de componentes mediante exploracion de coin3D
 void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *padre)

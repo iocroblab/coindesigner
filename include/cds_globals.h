@@ -17,8 +17,8 @@
 
 */
 
-#ifndef _CDS_CONFIG_H__
-#define _CDS_CONFIG_H__
+#ifndef _CDS_GLOBALS_H_
+#define _CDS_GLOBALS_H_
 
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
