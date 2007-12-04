@@ -1,10 +1,11 @@
 
 #include <qapplication.h>
-#include "qslim_options.h"
-#include "mainwindow.h"
 #include <qsettings.h>
 #include <qresource.h>
 #include <QByteArray>
+
+#include <mainwindow.h>
+#include <settingsDialog.h>
 
 ///Objeto para almacenar la configuración de coindesigner
 QSettings *settings;
@@ -20,14 +21,11 @@ int main(int argc, char *argv[])
 	//Abrimos fichero de configuración
 	settings = new QSettings("coindesigner.sf.net", "coindesigner");
 
-	//TODO: Configuracion de verdad
-	settings->setValue("tetgen_app", "tetgen.exe");
-#ifdef _WIN32
-	settings->setValue("helpViewer_app", "explorer.exe");
-#else
-	settings->setValue("helpViewer_app", "firefox");
-#endif
-	settings->setValue("reference_dir", "http://coindesigner.sf.net/reference");
+	//Cargamos la configuracion por defecto, sin sobreescribir valores
+	{
+		settingsDialog settingDlg;
+		settingDlg.setToDefault(false);
+	}
 
 	//Creamos la ventana principal (esto inicializa SoDB y SoQt)
 	MainWindow *mw = new MainWindow();

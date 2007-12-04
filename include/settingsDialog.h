@@ -29,7 +29,7 @@ class settingsDialog : public QDialog
 public:
 	///Constructor
 	settingsDialog (QWidget *p=0, Qt::WindowFlags f=0);
-	void resetToDefault();
+	void setToDefault(bool reset=false);
 	void updateTable();
 
 public slots:
