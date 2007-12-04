@@ -12,11 +12,14 @@ QSettings *settings;
 
 int main(int argc, char *argv[])
 {
+	QApplication app(argc, argv);
+
 	//Inicializamos los resources (iconos, etc...)
 	Q_INIT_RESOURCE(icons);
 	Q_INIT_RESOURCE(demos);
 
-	QApplication app(argc, argv);
+	//Inicializamos el path de la aplicacion
+	cds_dir = strdup(qPrintable(QCoreApplication::applicationDirPath()));
 
 	//Abrimos fichero de configuración
 	settings = new QSettings("coindesigner.sf.net", "coindesigner");

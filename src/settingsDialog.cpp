@@ -18,6 +18,7 @@
 */
 
 #include <settingsDialog.h>
+#include <cds_globals.h>
 #include <QTableWidget>
 #include <QColorDialog>
 #include <QMenu>
@@ -26,6 +27,7 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 #include <QVariant>
+#include <QDir>
 #include <QDebug>
 
 settingsDialog::settingsDialog(QWidget *p, Qt::WindowFlags f) : QDialog(p,f)
@@ -108,6 +110,7 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 	QAction actDir(tr("Select directory"), this);
 	QAction actRef("http://coindesigner.sf.net/reference/", this);
 	QAction actTut("http://coindesigner.sf.net/tutorials/", this);
+	QAction actRefDir(QString(cds_dir)+"/reference", this);
 	#ifdef _WIN32
 	QAction actNavig("explorer.exe", this);
 	#else
@@ -117,6 +120,10 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
     if (key == "reference_dir")
 	{
 		popm.addAction(&actRef);
+		//Miramos si existe el directorio de referencia
+		QDir refDir(actRefDir.text());
+		if (refDir.exists () && refDir.isReadable ())
+			popm.addAction(&actRefDir);
 	}
 
     else if (key == "tutorial_dir")
@@ -173,7 +180,7 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 		}
 
 		//Si se ha escogido alguna opcion con un URL
-		else if (act == &actRef || act == &actTut || act == &actNavig)
+		else if (act == &actRef || act == &actTut || act == &actNavig || act == &actRefDir)
 		{
 			item->setText(act->text());
 		}
@@ -188,8 +195,6 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 void settingsDialog::setToDefault(bool reset)
 {
    QString key, value;
-   //TODO cds_dir
-   char cds_dir[] = ".";
 
    //Navegador por defecto
    key = "helpViewer_app";
@@ -210,10 +215,9 @@ void settingsDialog::setToDefault(bool reset)
    value = settings->value(key).toString();
    if (reset || value.isEmpty())
    {
-	   QString reference_dir;
+	   QString reference_dir=QString(cds_dir)+"/reference";
 
 	  //Buscamos el directorio de ayuda en el directorio de coindesigner
-	  reference_dir.sprintf("%s/reference", cds_dir);
 #ifdef _WIN32
 	  reference_dir.replace( QChar('/'), "\\" );
 #endif

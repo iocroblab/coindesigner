@@ -1,6 +1,8 @@
 
 #include <cds_globals.h>
 
+const char *cds_dir = NULL;
+
 //Configuracion de coin230
 ivPadre_t comp_coin230 [] =
 {

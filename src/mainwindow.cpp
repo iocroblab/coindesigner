@@ -954,7 +954,7 @@ void MainWindow::on_actionAbout_activated()
 
     //System Info
     msj += "<hr><b>"+tr("System info:")+"</b>";
-    //TODO    msj += "<br>CDS_DIR="; msj += cds_dir;
+    msj += "<br>Coindesigner dir="; msj += cds_dir;
     msj += "<br>OpenInventor version="; msj += SoDB::getVersion();
     msj += "<br>SoQt version="; msj += SoQt::getVersionString();
     msj += "<br>Qt version="; msj += qVersion();
@@ -982,7 +982,7 @@ void MainWindow::on_actionAbout_activated()
     }
 
     //Información de settings
-    msj += "<hr><b>"+tr("Setting:")+"</b>";
+    msj += "<hr><b>"+tr("Debug Info:")+"</b>";
     QStringList keys = settings->allKeys();
     for ( QStringList::Iterator it = keys.begin(); it != keys.end(); ++it ) 
     {
