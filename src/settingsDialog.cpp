@@ -69,19 +69,30 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 		return;
 
     int row = Ui.table->row(item);
-    //int column = Ui.table->column(item);
 
 	//Leemos la clave
 	QString key = Ui.table->verticalHeaderItem(row)->text();
 	QString value = item->text();
 
+	//Preparamos un menu flotante
+	QMenu popm(this);
+	QAction actFile(tr("Insert filename"), this);
+	QAction actDir(tr("Insert directory"), this);
+
+	//Miramos si es el path de un ejecutable
 	if (key.endsWith("_app"))
 	{
-		//Preparamos un menu flotante
-		QMenu popm(this);
-		QAction actFile(tr("Insert filename"), this);
 		popm.addAction(&actFile);
+	}
 
+	else if (key.endsWith("_dir"))
+	{
+		popm.addAction(&actDir);
+	}
+
+    //Si hay opciones en el menu, lo mostramos
+	if (!popm.isEmpty())
+	{
 		//Mostramos el menu flotante y recogemos la opcion escogida
 		QAction *act = popm.exec(QCursor::pos());
 
@@ -90,32 +101,30 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 		{
 			QString filename = QFileDialog::getOpenFileName(this, 
 				tr("Choose Filename"), value, 
-				tr("Image files")+" (*.exe);;" +
-				tr("OpenInventor Files")+" (*.iv *.wrl);;"+
+				#ifdef _WIN32
+				tr("Executable files")+" (*.exe *.bat);;" +
+				#endif
 				tr("All Files")+" (*)");
 
 			//Asignamos el valor escogido
-			item->setText(filename);
+			if (filename != "")
+				item->setText(filename);
+		}
+
+		//Si se ha escogido la opcion filename
+		else if (act == &actDir)
+		{
+			QString dir = QFileDialog::getExistingDirectory(this, 
+				tr("Choose Directory"), value);
+
+			//Asignamos el valor escogido
+			if (dir != "")
+				item->setText(dir);
 		}
 	}
-
-/*
-		//Preparamos un menu flotante con opciones true/false
-		QMenu popm(this);
-		QAction actTrue("TRUE", this);
-		QAction actFalse("FALSE", this);
-		popm.addAction(&actTrue);
-		popm.addAction(&actFalse);
-
-		//Mostramos el menu flotante y recogemos la opcion escogida
-		QAction *idx = popm.exec(QCursor::pos());
-
-		//Comprobamos que se ha seleccionado una opción válida.
-		if (idx)
-			item->setText(idx->text());
-	}
-
-*/
+	
+    //Aseguramos que las columnas tienen ancho suficiente
+    Ui.table->resizeColumnsToContents();
 
 }//void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 
