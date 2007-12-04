@@ -2053,11 +2053,20 @@ void MainWindow::open_html_viewer(const QString &url)
 {
     //DEBUG std::cerr << "URL=" << url << std::endl;
 
+	QString protocol("");
+	//Si es un fichero local añadimos el protocolo file:
+	if (!url.startsWith("http:", Qt::CaseInsensitive) && 
+		!url.startsWith("file:", Qt::CaseInsensitive) &&
+		!url.startsWith("ftp:", Qt::CaseInsensitive)  )
+	{
+		protocol = "file://";
+	}
+
     //Leemos la aplicacion para visualizar html
     QString helpApp = settings->value("helpViewer_app").toString();
 
     //Creamos un nuevo proceso con el visor de ayuda
-    if ( !QProcess::startDetached(helpApp, QStringList(url), "") ) 
+    if ( !QProcess::startDetached(helpApp, QStringList(protocol+url), "") ) 
     {
         QString S;
         S = tr("Error while executing: ") + helpApp;

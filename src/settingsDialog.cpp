@@ -172,11 +172,13 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 		else if (act == &actDir)
 		{
 			QString dir = QFileDialog::getExistingDirectory(this, 
-				tr("Choose Directory"), value);
+				tr("Choose Directory"), cds_dir);
 
 			//Asignamos el valor escogido
-			if (dir != "")
+			if (!dir.isEmpty())
+			{
 				item->setText(dir);
+			}
 		}
 
 		//Si se ha escogido alguna opcion con un URL
