@@ -2053,13 +2053,13 @@ void MainWindow::open_html_viewer(const QString &url)
 {
     //DEBUG std::cerr << "URL=" << url << std::endl;
 
-	QString protocol("");
-	//Si es un fichero local añadimos el protocolo file:
-	if (!url.startsWith("http:", Qt::CaseInsensitive) && 
-		!url.startsWith("file:", Qt::CaseInsensitive) &&
-		!url.startsWith("ftp:", Qt::CaseInsensitive)  )
+	//Miramos si el url incluye un protocolo
+	QString protocol("file://");
+	if (url.startsWith("http:", Qt::CaseInsensitive) ||
+		url.startsWith("file:", Qt::CaseInsensitive) ||
+		url.startsWith("ftp:",  Qt::CaseInsensitive) )
 	{
-		protocol = "file://";
+		protocol = "";
 	}
 
     //Leemos la aplicacion para visualizar html
