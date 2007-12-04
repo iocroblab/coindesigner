@@ -23,11 +23,11 @@ DONE: Sintax highlight en src_editor
 
 DONE: edicion con helpers (SFEnum, ColorDialog, etc...)
 
-* Revision de README.txt
-
-* Settings editor
+DONE: Settings editor
   file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
   
+* Revision de README.txt
+
 * activar traduccion al castellano
 
 * uso de regexp para evitar introducir valores no numericos en fieldTable?
