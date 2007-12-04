@@ -39,7 +39,7 @@ win32:LIBS += $(COIN3DDIR)\lib\simvoleon2.lib
 SOURCES +=	main.cpp	mainwindow.cpp	mainwindow2.cpp	cds_util.cpp	cds_viewers.cpp \
 		cds_parser.cpp	cds_scanner.cpp	cds_globals.cpp	3dsLoader.cpp	settingsDialog.cpp\
 		SoStream.cpp	src_editor.cpp	cppexport_options.cpp			mfield_editor.cpp\
-		ivfix_options.cpp \
+		ivfix_options.cpp	qslim_options.cpp \
 		IfBuilder.cpp    IfFlattener.cpp  IfReplacer.cpp   IfSorter.cpp \
 		IfCollector.cpp  IfHasher.cpp     IfReporter.cpp   IfStripper.cpp \
 		IfCondenser.cpp  IfHolder.cpp     IfShape.cpp      IfTypes.cpp \
@@ -57,7 +57,7 @@ HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
 
 FORMS	=	ui/mainwindow.ui ui/cds_editor.ui ui/src_view.ui ui/mfield_editor.ui \
 			ui/cppexport_options.ui ui/ivfix_options.ui\
-			ui/qslim_options4.ui ui/settingsDialog.ui
+			ui/qslim_options.ui ui/settingsDialog.ui
 			
 
 RESOURCES = images/icons.qrc demos/demos.qrc

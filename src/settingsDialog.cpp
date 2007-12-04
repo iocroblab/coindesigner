@@ -347,6 +347,7 @@ void settingsDialog::setToDefault(bool reset)
 #else
 			   tetgen_app = "tetgen";
 #endif
+				//Trata de ejecutar tetgen desde el path
 			   if (QProcess::startDetached(tetgen_app, QStringList("-h"), "") ) 
 			   {
 				   value = tetgen_app;

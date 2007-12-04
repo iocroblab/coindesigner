@@ -17,13 +17,8 @@
 
 */
 
-#include <qprocess.h>
-#include <qmessagebox.h>
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
-#include "ui_qslim_options4.h"
+#include "ui_qslim_options.h"
+#include <Inventor/nodes/SoSeparator.h>
 
 class qslim_options : public QDialog
 {
@@ -31,33 +26,20 @@ class qslim_options : public QDialog
 	Ui::qslim_options Ui;
 public:
 
-	///Constructor
-	qslim_options (QWidget *p=0, Qt::WindowFlags f=0) : QDialog(p, f)
-	{
-		Ui.setupUi(this);
+	///Nodo de entrada
+	SoNode *input;
 
-		//Resto de configuracion aquí, por ejemplo
-		//Ui.chkbox_F->setChecked(true);	
-	}
+	///Nodo resultado
+	SoSeparator *output;
+
+	///Constructor
+	qslim_options (SoNode *node, QWidget *p=0, Qt::WindowFlags f=0);
 
  private slots:
-	//Aplica el algoritmo qslim al nodo qslim_result, dejando el resultado
-	//en el mismo nodo. El procedimiento llamante será el encargado de 
-	//haber dejado en qslim_result un valor valido.
-	void on_buttonOk_clicked()
-	{
 
-		//Ejemplo de lectura de valores así
-		int idx=Ui.comboBox_O->currentIndex();
-
-		QString S;
-		S.sprintf("comboBox_O->currentIndex = %d\n", idx);
-		S+= Ui.comboBox_O->currentText();
-
-		QMessageBox::warning (this, tr ("Error"), S, QMessageBox::Ok,
-			QMessageBox::NoButton, QMessageBox::NoButton);
-		return;
-	}
+	//Aplica el algoritmo qslim al nodo input, dejando el resultado
+	//en el nodo output.
+	void accept();
 
 }; //class qslim_options
 

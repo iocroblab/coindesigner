@@ -33,8 +33,6 @@ void qslim_options::buttonOk_clicked ()
 {
 
   //Aplicamos los algoritmos de qslim y dejamos el resultado en qslim_result
-
-
   if (!settings.readEntry("/coindesigner/qslim_app"))
   {
     QString S;

@@ -319,6 +319,10 @@
 				>
 			</File>
 			<File
+				RelativePath="src\qslim_options.cpp"
+				>
+			</File>
+			<File
 				RelativePath="src\settingsDialog.cpp"
 				>
 			</File>
@@ -623,7 +627,7 @@
 				>
 			</File>
 			<File
-				RelativePath="tmp\ui_qslim_options4.h"
+				RelativePath="tmp\ui_qslim_options.h"
 				>
 			</File>
 			<File
@@ -772,17 +776,17 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ui\qslim_options4.ui"
+				RelativePath="ui\qslim_options.ui"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="UIC ui\qslim_options4.ui"
-						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\qslim_options4.ui -o tmp\ui_qslim_options4.h&#x0D;&#x0A;"
-						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\qslim_options4.ui"
-						Outputs="tmp\ui_qslim_options4.h"
+						Description="UIC ui\qslim_options.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\qslim_options.ui -o tmp\ui_qslim_options.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\qslim_options.ui"
+						Outputs="tmp\ui_qslim_options.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -790,10 +794,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="UIC ui\qslim_options4.ui"
-						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\qslim_options4.ui -o tmp\ui_qslim_options4.h&#x0D;&#x0A;"
-						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\qslim_options4.ui"
-						Outputs="tmp\ui_qslim_options4.h"
+						Description="UIC ui\qslim_options.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\qslim_options.ui -o tmp\ui_qslim_options.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\qslim_options.ui"
+						Outputs="tmp\ui_qslim_options.h"
 					/>
 				</FileConfiguration>
 			</File>
