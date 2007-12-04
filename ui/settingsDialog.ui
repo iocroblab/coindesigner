@@ -16,7 +16,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle" >
-   <string>MField Editor</string>
+   <string>Coindesigner Settings</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>

@@ -29,6 +29,7 @@
 #include <QVariant>
 #include <QDir>
 #include <QDebug>
+#include <QProcess>
 
 settingsDialog::settingsDialog(QWidget *p, Qt::WindowFlags f) : QDialog(p,f)
 {
@@ -111,12 +112,14 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 	QAction actRef("http://coindesigner.sf.net/reference/", this);
 	QAction actTut("http://coindesigner.sf.net/tutorials/", this);
 	QAction actRefDir(QString(cds_dir)+"/reference", this);
+	QAction actTutDir(QString(cds_dir)+"/tutorials", this);
 	#ifdef _WIN32
 	QAction actNavig("explorer.exe", this);
 	#else
 	QAction actNavig("firefox", this);
 	#endif
 
+	//Añadimos acciones segun la variable
     if (key == "reference_dir")
 	{
 		popm.addAction(&actRef);
@@ -129,6 +132,11 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
     else if (key == "tutorial_dir")
 	{
 		popm.addAction(&actTut);
+
+		//Miramos si existe el directorio de tutoriales
+		QDir tutDir(actTutDir.text());
+		if (tutDir.exists () && tutDir.isReadable ())
+			popm.addAction(&actTutDir);
 	}
 
     else if (key == "helpViewer_app")
@@ -258,7 +266,8 @@ void settingsDialog::setToDefault(bool reset)
 
 	   //Miramos si existe una variable de entorno adecuada
 	   qslim_app = getenv("QSLIM");
-   	   if (!qslim_app.isEmpty() && QFile::exists(qslim_app) && !QFileInfo(qslim_app).isDir() && QFileInfo(qslim_app).isExecutable())
+   	   if (!qslim_app.isEmpty() && QFile::exists(qslim_app) && !QFileInfo(qslim_app).isDir() 
+		   && QFileInfo(qslim_app).isExecutable())
 	   {
 			value = qslim_app;
 	   }
@@ -283,18 +292,12 @@ void settingsDialog::setToDefault(bool reset)
 #else
 			   qslim_app = "qslim";
 #endif
-/* TODO
-			   //Buscamos qslim en el path
-			   QProcess *proc = new QProcess( NULL );
-			   proc->addArgument( qslim_app );
-			   proc->addArgument( "-h" );
-			   if (proc->start() ) 
+
+			   //Tratamos de ejecutar QSlim desde el path
+			   if (QProcess::startDetached(qslim_app, QStringList("-h"), "") ) 
 			   {
 				   value = qslim_app;
 			   }
-			   proc->tryTerminate();
-			   delete proc;
-*/
 		   }
 	   }
 
@@ -344,18 +347,10 @@ void settingsDialog::setToDefault(bool reset)
 #else
 			   tetgen_app = "tetgen";
 #endif
-/* TODO
-			   //Buscamos tetgen en el path
-			   QProcess *proc = new QProcess( NULL );
-			   proc->addArgument( tetgen_app );
-			   proc->addArgument( "-h" );
-			   if (proc->start() ) 
+			   if (QProcess::startDetached(tetgen_app, QStringList("-h"), "") ) 
 			   {
 				   value = tetgen_app;
 			   }
-			   proc->tryTerminate();
-			   delete proc;
-*/
 		   }
 	   }
 

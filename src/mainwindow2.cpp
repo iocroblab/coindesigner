@@ -8,11 +8,11 @@
 #include <cppexport_options.h>
 #include <ivfix_options.h>
 
-#include <qsettings.h>
-#include <qmessagebox.h>
-#include <qprocess.h>
-#include <qresource.h>
-#include <qfiledialog.h>
+#include <QSettings>
+#include <QMessagebox>
+#include <QProcess>
+#include <QResource>
+#include <QFiledialog>
 #include <QInputDialog>
 #include <QPushButton>
 #include <QCloseEvent>

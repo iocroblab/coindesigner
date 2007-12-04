@@ -9,11 +9,11 @@
 #include <ivfix_options.h>
 #include <settingsDialog.h>
 
-#include <qsettings.h>
-#include <qmessagebox.h>
-#include <qprocess.h>
-#include <qresource.h>
-#include <qfiledialog.h>
+#include <QSettings>
+#include <QMessagebox>
+#include <QProcess>
+#include <QResource>
+#include <QFiledialog>
 #include <QInputDialog>
 #include <QPushButton>
 #include <QCloseEvent>
@@ -2051,7 +2051,7 @@ bool MainWindow::setNodeIcon(QTreeWidgetItem *item)
 ///Abre un url en un visor de HTML externo
 void MainWindow::open_html_viewer(const QString &url)
 {
-    //DEBUG std::cerr << "URL=" << url << std::endl;
+    //DEBUG qDebug() << "URL=" << url;
 
 	//Miramos si el url incluye un protocolo
 	QString protocol("file://");
