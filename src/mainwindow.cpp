@@ -2586,8 +2586,9 @@ void MainWindow::on_actionQSlim_activated()
 	qslim_options qslimDlg(path);
 	qslimDlg.exec();
 
-    //Creamos un nodo del tipo indicado 
     SoNode *newNode = qslimDlg.output;
+	if (newNode == NULL)
+		return;
 
     //Buscamos el item actualmente seleccionado en el sceneGraph y 
     //el primer item que pueda actuar como contenedor para colgar newNode
