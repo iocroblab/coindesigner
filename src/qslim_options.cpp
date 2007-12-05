@@ -19,7 +19,8 @@
 
 #include <QProcess>
 #include <QSettings>
-#include <QMessagebox>
+#include <QMessageBox>
+#include <QDebug>
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -29,15 +30,12 @@
 extern QSettings *settings;
 
 ///Constructor
-qslim_options::qslim_options(SoNode *node, QWidget *p, Qt::WindowFlags f) : QDialog(p, f)
+qslim_options::qslim_options(SoPath *path, QWidget *p, Qt::WindowFlags f) : QDialog(p, f)
 {
 	Ui.setupUi(this);
 
-	input = node;
+	input = path;
 	output = NULL;
-
-	//Resto de configuracion aquí, por ejemplo
-	//Ui.chkbox_F->setChecked(true);	
 }
 
 void qslim_options::accept()
@@ -68,6 +66,7 @@ void qslim_options::accept()
 	args << "-q";
 	args << "qslim_in.smf";
 
+	qDebug() << qslim_app + " " + args.join (" ");
 
 	int result = QProcess::execute(qslim_app, args);
 

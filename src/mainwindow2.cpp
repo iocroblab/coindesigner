@@ -9,10 +9,10 @@
 #include <ivfix_options.h>
 
 #include <QSettings>
-#include <QMessagebox>
+#include <QMessageBox>
 #include <QProcess>
 #include <QResource>
-#include <QFiledialog>
+#include <QFileDialog>
 #include <QInputDialog>
 #include <QPushButton>
 #include <QCloseEvent>

@@ -27,13 +27,13 @@ class qslim_options : public QDialog
 public:
 
 	///Nodo de entrada
-	SoNode *input;
+	SoPath *input;
 
 	///Nodo resultado
 	SoSeparator *output;
 
 	///Constructor
-	qslim_options (SoNode *node, QWidget *p=0, Qt::WindowFlags f=0);
+	qslim_options (SoPath *path, QWidget *p=0, Qt::WindowFlags f=0);
 
  private slots:
 
