@@ -398,6 +398,10 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	{
 		menu.addAction(Ui.IndexedFaceSet_to_IndexedLineSet);
 
+		//Opcion para simplificar la geometria con QSlim
+		if (!settings->value("qslim_app").toString().isEmpty())
+			menu.addAction(Ui.actionQSlim);
+
 		//Submenu con las opciones de exportacion
 		menuExport.addAction(Ui.Export_to_SMF);
 		menuExport.addAction(Ui.Export_to_OFF);

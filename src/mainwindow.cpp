@@ -8,6 +8,7 @@
 #include <cppexport_options.h>
 #include <ivfix_options.h>
 #include <settingsDialog.h>
+#include <qslim_options.h>
 
 #include <QSettings>
 #include <QMessageBox>
@@ -1044,8 +1045,8 @@ void MainWindow::on_nodePalette_itemDoubleClicked(QTreeWidgetItem * item, int)
         return;
 
     //Creamos un nodo del tipo indicado 
-    SoNode *newNodo = (SoNode *)tipo.createInstance();
-    QTreeWidgetItem *newItem = newNodeItem(newNodo);
+    SoNode *newNode = (SoNode *)tipo.createInstance();
+    QTreeWidgetItem *newItem = newNodeItem(newNode);
 
     //Buscamos el item actualmente seleccionado en el sceneGraph y 
     //el primer item que pueda actuar como contenedor para colgar newNode
@@ -1064,7 +1065,7 @@ void MainWindow::on_nodePalette_itemDoubleClicked(QTreeWidgetItem * item, int)
     {
         //Insertamos el nodo y el item dentro del item actual
         item_padre->addChild(newItem);
-        nodo_padre->addChild(newNodo);
+        nodo_padre->addChild(newNode);
     }
     else
     {
@@ -1073,7 +1074,7 @@ void MainWindow::on_nodePalette_itemDoubleClicked(QTreeWidgetItem * item, int)
 
         //Insertamos detras del item_current
         item_padre->insertChild(pos+1, newItem);
-        nodo_padre->insertChild(newNodo, pos+1);
+        nodo_padre->insertChild(newNode, pos+1);
     }
 
     //Seleccionamos el nodo y aseguramos que es visible
@@ -2567,4 +2568,53 @@ void MainWindow::on_actionChange_BG_color_activated()
        bgColor_viewer.setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
    }
 }//void MainWindow::on_actionChange_BG_color_activated()
+
+///Callback to simplify a shape with QSlim
+void MainWindow::on_actionQSlim_activated()
+{
+	//Leemos el path del nodo actual y lo pasamos a qslim_options
+    SoPath *path=getPathFromItem(Ui.sceneGraph->currentItem());
+	qslim_options qslimDlg(path);
+	qslimDlg.exec();
+
+    //Creamos un nodo del tipo indicado 
+    SoNode *newNode = qslimDlg.output;
+
+    //Buscamos el item actualmente seleccionado en el sceneGraph y 
+    //el primer item que pueda actuar como contenedor para colgar newNode
+    QTreeWidgetItem *item_current = Ui.sceneGraph->currentItem();
+    QTreeWidgetItem *item_padre = item_current;
+    while (!mapQTCOIN[item_padre]->getTypeId().isDerivedFrom(SoGroup::getClassTypeId()) )
+    {
+        item_padre=item_padre->parent();
+    }  
+
+    //Buscamos el nodo de coin correspondiente al item_padre
+    SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
+
+/* TODO Insertar tras item_current, no al final de item_padre
+    //Comprobamos si vamos a insertar dentro de item_current o detras de item_current
+    if (item_current == item_padre)
+    {
+        //Insertamos el nodo y el item dentro del item actual
+        item_padre->addChild(newItem);
+        nodo_padre->addChild(newNode);
+    }
+    else
+    {
+        //Buscamos la posicion del nodo_current dentro de su padre
+        int pos = nodo_padre->findChild(mapQTCOIN[item_current]);
+
+        //Insertamos detras del item_current
+        item_padre->insertChild(pos+1, newItem);
+        nodo_padre->insertChild(newNode, pos+1);
+    }
+*/
+    //Insertamos el contenido de la escena
+    newSceneGraph(newNode, item_padre, nodo_padre);
+
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+
+}
 

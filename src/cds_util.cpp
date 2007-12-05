@@ -1010,6 +1010,75 @@ int IndexedFaceSet_to_SMF (SoPath *path, FILE *out, bool with_normals)
 }// int IndexedFaceSet_to_SMF (SoPath *path, FILE *out)
 
 
+//Volcado de un SoIndexedFaceSet a string SMF
+int IndexedFaceSet_to_SMF (SoPath *path, std::string &out, bool with_normals)
+{
+	int i;
+	char line[1024];
+
+   //Extraemos el IndexedFaceSet de la cola del path
+   SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)path->getTail();
+
+   //Buscamos el ultimo nodo de coordenadas que afecte a este nodo
+   SoMFVec3f coords;
+   SoNode *nodeCoord = buscaCoordenadas (path, coords);
+
+   if (!nodeCoord)
+	   return -1;
+
+   //Volcado de los vertices
+   int numVert = coords.getNum();
+   for (i=0; i<numVert; i++)
+   {
+       float x, y, z;
+       coords.getValues(i)->getValue(x,y,z);
+       sprintf(line, "v %g %g %g\n", x, y, z);
+	   out.append(line);
+   }
+
+   //Volcado de las normales
+   if (with_normals)
+   {
+		//Calculamos las normales por cara y vértice de la malla original
+		SoMFVec3f normals_face;
+		SoMFVec3f normals_vertex;
+		ifs_normals(path, normals_face, normals_vertex);
+
+		//Escribimos todas las normales por vertice
+		for (i=0; i<numVert; i++)
+		{
+			float x, y, z;
+			normals_vertex.getValues(i)->getValue(x,y,z);
+			sprintf(line, "vn %g %g %g\n", x, y, z);
+			out.append(line);
+		}
+   }
+
+   //Volcado de las facetas
+   int numIdx = ifs->coordIndex.getNum();
+   for (i=0; i<numIdx; i++)
+   {
+	   out.append("f");
+       int idx = ifs->coordIndex[i];
+       while (idx > -1)
+	   {
+		   if (with_normals)
+			  sprintf(line, " %d//%d", idx+1,idx+1);
+		   else
+			  sprintf(line, " %d", idx+1);
+
+           out.append(line);
+		   i++;
+		   idx = ifs->coordIndex[i];
+       }
+	   out.append("\n");
+   }
+
+   return 0;
+
+}// int IndexedFaceSet_to_SMF (SoPath *path, std::string &out, bool with_normals)
+
+
 //Volcado de un IndexedFaceSet a fichero OFF
 int IndexedFaceSet_to_OFF (SoPath *path, FILE *out)
 {

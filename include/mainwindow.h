@@ -173,12 +173,11 @@ public slots:
 	///Convert a IndexedLineSet to IndexedFaceSet
 	void on_IndexedLineSet_to_IndexedFaceSet_activated();
 
+	void on_actionQSlim_activated();
 	void on_Export_to_SMF_activated();
 	void on_Export_to_OFF_activated();
 	void on_Export_to_STL_activated();
 	void on_Export_to_XYZ_activated();
-
-protected:
 
 private:
 

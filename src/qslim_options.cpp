@@ -21,12 +21,12 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QDebug>
-#ifdef _WIN32
-#include <windows.h>
-#endif
+#include <Inventor/SoInput.h>
+#include <string.h>
 
 #include "qslim_options.h"
 #include "cds_globals.h"
+#include "cds_util.h"
 extern QSettings *settings;
 
 ///Constructor
@@ -41,7 +41,7 @@ qslim_options::qslim_options(SoPath *path, QWidget *p, Qt::WindowFlags f) : QDia
 void qslim_options::accept()
 {
 	//Aplicamos los algoritmos de qslim y dejamos el resultado en qslim_result
-	QString qslim_app = settings->value("qslim_app").toString(); 
+	QString qslim_app = settings->value("qslim_app").toString();
 	if (qslim_app.isEmpty())
 	{
 		QMessageBox::warning (this, tr ("Error"), tr("Path to QSlim not defined in settings"));
@@ -61,67 +61,67 @@ void qslim_options::accept()
 	args << "iv";
 	if (Ui.chkbox_F->isChecked ())
 		args << "-F";
-	args << "-o";
-	args << "qslim_out.iv";
 	args << "-q";
-	args << "qslim_in.smf";
 
-	qDebug() << qslim_app + " " + args.join (" ");
+	//qDebug() << qslim_app << " " << args.join (" ");
 
-	int result = QProcess::execute(qslim_app, args);
+	//Iniciamos QSlim
+	QProcess myProcess(this);
+	myProcess.start(qslim_app, args);
 
-	if (result)
-	{
-	}
-	else
+	//Esperamos hasta que comience el proceso y verificamos que lo hizo bien
+	if (!myProcess.waitForStarted())
 	{
 		// error handling
 		QString S;
 		S = tr ("Error executing: ");
 		S += qslim_app + args.join (" ");
 		QMessageBox::warning (this, tr ("Error"), S);
-		return;
-	}
-/*
-	while (proc->isRunning ())
-	{
-#ifdef _WIN32
-		Sleep (1000);
-#else
-		sleep (1);
-#endif
-	}
-
-	//Leemos el resultado en qslim_result
-	SoInput input;
-	if (!input.openFile ("qslim_out.iv"))
-	{
-		QString S;
-		S = tr ("No encuentro qslim_out.iv ");
-		S += proc->arguments ().join (" ");
-		QMessageBox::warning (this, tr ("Error"), S, QMessageBox::Ok,
-			QMessageBox::NoButton, QMessageBox::NoButton);
-		delete proc;
+		QDialog::accept();
 		return;
 	}
 
-	//Miramos si es un fichero nativo de openInventor
-	if (input.isValidFile ())
+	//Convertimos el nodo a formato SMF
+    std::string SMFString;
+
+   //Escribimos el contenido en el fichero SMF
+    if (input->getTail()->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
+    {
+    	IndexedFaceSet_to_SMF (input, SMFString);
+    }
+    else if (input->getTail()->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
+    {
+		//TODO VRMLIndexedFaceSet_to_SMF(input, SMFString);
+    }
+    
+	//qDebug() << SMFString.c_str();
+
+	//Introducimos la cadena en entrada estandar
+	myProcess.write(SMFString.c_str());
+	myProcess.closeWriteChannel();
+
+	//Esperamos hasta que haya finalizado
+	if (!myProcess.waitForFinished (-1))
 	{
-		//Lo leemos sobre qslim_result
-		qslim_result = SoDB::readAll (&input);
-	}
-	else
-	{
+		// error handling
 		QString S;
-		S = tr ("qslim_out.iv no es valido");
-		S += proc->arguments ().join (" ");
-		QMessageBox::warning (this, tr ("Error"), S, QMessageBox::Ok,
-			QMessageBox::NoButton, QMessageBox::NoButton);
+		S = tr ("QSlim returned an error");
+		S += myProcess.readAllStandardError (); 
+		QMessageBox::warning (this, tr ("Error"), S);
+		QDialog::accept();
+		return;
 	}
 
-	//Borramos el fichero de entrada
-	QFile::remove("qslim_out.iv");
-	delete proc;
-*/
-}
+    //Leemos la salida estandar del proceso mediante el parser de openInventor
+	SoInput in;
+	QByteArray stdoutup = myProcess.readAllStandardOutput ();
+    in.setBuffer(stdoutup.data(), stdoutup.size());
+	output = SoDB::readAll(&in);
+    //qDebug("Qslim returned node %p", output);
+
+	assert(output);
+	output->setName("qslim_output");
+
+	QDialog::accept();
+} // void qslim_options::accept()
+

@@ -64,7 +64,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -694,6 +694,14 @@
    </property>
    <property name="text" >
     <string>Change BG color</string>
+   </property>
+  </action>
+  <action name="actionQSlim" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Simplify with QSlim</string>
    </property>
   </action>
  </widget>

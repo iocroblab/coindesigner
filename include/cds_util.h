@@ -25,6 +25,7 @@
 #include <Inventor/VRMLnodes/SoVRMLIndexedFaceSet.h>
 #include <Inventor/nodes/SoIndexedFaceSet.h>
 #include <Inventor/nodes/SoIndexedTriangleStripSet.h>
+#include <string>
 
 ///Cuenta el numero de facetas de un VRMLIndexedFaceSet
 int count_facets (const SoVRMLIndexedFaceSet *node);
@@ -64,6 +65,9 @@ int VRMLIndexedFaceSet_to_STL (SoVRMLIndexedFaceSet *ifs, FILE *out, bool with_n
 
 //! Volcado de un IndexedFaceSet a fichero SMF
 int IndexedFaceSet_to_SMF (SoPath *path, FILE *out, bool with_normals=false);
+
+//! Volcado de un IndexedFaceSet a std::string SMF
+int IndexedFaceSet_to_SMF (SoPath *path, std::string &out, bool with_normals=false);
 
 //! Volcado de un IndexedFaceSet a fichero OFF
 int IndexedFaceSet_to_OFF (SoPath *path, FILE *out);
