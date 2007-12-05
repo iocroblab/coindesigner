@@ -1477,6 +1477,11 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
     if (strlen(name.getString()) > 0)
       M += QString(" <> ") + tr("Name=") + QString(name.getString());
 
+	//Refcount
+	int refcount = nodo->getRefCount(); 
+	if (refcount != 1)
+    	M += QString(" <> ") + tr("rc=") + QString::number(refcount);
+
     //Si es un indexedFaceset, numero de facetas
     if (tipo.isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
     {
