@@ -271,6 +271,9 @@ bool MainWindow::load_Scene(QString filename)
     //Expandimos todos los items
     Ui.sceneGraph->expandAll();
 
+	//Liberamos memoria
+    scene->unref();
+
     //Indicamos que la escena no ha sido modificada
     escena_modificada = false;
 
@@ -426,6 +429,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
     input.setBuffer(buf, size) ;
     SoSeparator *scene = SoDB::readAll(&input);
 	assert(scene);
+	scene->ref();
 
     //Actualiza la barra de titulo de la ventana
     setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
@@ -440,6 +444,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
         newSceneGraph(scene->getChild(i), qroot, root);
     }
 
+	scene->unref();
     escena_modificada = false;
 
     delete buf;
@@ -2178,10 +2183,9 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
              newSceneGraph(f_node, item, NULL);
 
              //Asignamos icono "field.png"
-             for (int i=0; i< item->childCount(); i++)
-		if (mapQTCOIN[item->child(i)] == f_node)
-                    item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
-
+			for (int i=0; i< item->childCount(); i++)
+				if (mapQTCOIN[item->child(i)] == f_node)
+					item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
           }
        }
 
