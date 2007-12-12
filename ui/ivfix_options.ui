@@ -5,14 +5,38 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
-    <height>160</height>
+    <width>438</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Ivfix options</string>
   </property>
   <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Warning</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <item>
+       <widget class="QTextBrowser" name="textBrowser" >
+        <property name="html" >
+         <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">ivfix&lt;/span> will restructure Inventor scene graphs for improved rendering performance.&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">This process may change your scene hierarchy to take advantage of coherence, will pregenerate normal nodes for all shapes  and will reduce the number of nodes in the scene by combining transformation nodes. Also, all shapes will be tesselated into triangles and organized into triangle strips.&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">This may drastically change your scene hierarchy, so save and keep a copy of your work before of applying ivfix.&lt;/p>
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;/p>&lt;/body>&lt;/html></string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QCheckBox" name="strips_chkbox" >
      <property name="text" >
