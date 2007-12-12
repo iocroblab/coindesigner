@@ -41,7 +41,7 @@ class CdsNoQuitTemplate : public SOTYPEVIEWER
 {
 	QWidget *closeWidget;
 public :
-	/*! @brief Constructor de la clase
+	/*! @brief Constructor 
 	    @param parent: Parent widget (container) for the SoExaminerViewer
 	    @param _closeWidget: Widget which will receive the close() signal (if any)
 	    @param root: Default sceneGraph for this object
@@ -59,12 +59,22 @@ public :
 			   SOTYPEVIEWER::setSceneGraph(root);
 	   }
 
+	   ///Destructor. Automatically unrefs the sceneGraph
+	   ~CdsNoQuitTemplate()
+	   {
+		   //Unref the scene
+		   SOTYPEVIEWER::setSceneGraph(NULL);
+	   }
+
 	   ///Local event processer. Override default behaviour for Q key
 	   SbBool processSoEvent (const SoEvent *const event)
 	   {
 		   //En Unix la tecla Q mata el bucle de eventos
 		   if (SoKeyboardEvent::isKeyPressEvent(event, SoKeyboardEvent::Q))
 		   {
+			   //Unref the scene
+			   SOTYPEVIEWER::setSceneGraph(NULL);
+
 			   //printf("Eliminando widget %p\n", closeWidget);
 			   if (closeWidget)
 				   closeWidget->close();
@@ -140,12 +150,17 @@ public :
 			myRoot->addChild(root);
 
 		SOTYPEVIEWER::setSceneGraph(myRoot);
+
+		connect(this, SIGNAL(close), this, SLOT(unref));
 	}
 
 	~CdsEditorTemplate()
 	{
+		//Unrefs
 		mark_sep->unref();
+		SOTYPEVIEWER::setSceneGraph(NULL);
 	}
+
 	///Modifica la escena a mostrar en el editor
 	void setSceneGraph(SoSeparator *node)
 	{
