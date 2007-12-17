@@ -9,6 +9,7 @@
 #include <ivfix_options.h>
 #include <settingsDialog.h>
 #include <qslim_options.h>
+#include <tetgen_options.h>
 
 #include <QSettings>
 #include <QMessageBox>
@@ -2626,5 +2627,55 @@ void MainWindow::on_actionQSlim_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}
+}//void MainWindow::on_actionQSlim_activated()
 
+
+///Callback to tetrahedralize with tetgen
+void MainWindow::on_actionTetgen_activated()
+{
+	//Leemos el path del nodo actual y lo pasamos a tetgen_options
+    SoPath *path=getPathFromItem(Ui.sceneGraph->currentItem());
+	tetgen_options tetgenDlg(path);
+	tetgenDlg.exec();
+
+    SoNode *newNode = tetgenDlg.output;
+	if (newNode == NULL)
+		return;
+
+    //Buscamos el item actualmente seleccionado en el sceneGraph y 
+    //el primer item que pueda actuar como contenedor para colgar newNode
+    QTreeWidgetItem *item_current = Ui.sceneGraph->currentItem();
+    QTreeWidgetItem *item_padre = item_current;
+    while (!mapQTCOIN[item_padre]->getTypeId().isDerivedFrom(SoGroup::getClassTypeId()) )
+    {
+        item_padre=item_padre->parent();
+    }  
+
+    //Buscamos el nodo de coin correspondiente al item_padre
+    SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
+
+/* TODO Insertar tras item_current, no al final de item_padre
+    //Comprobamos si vamos a insertar dentro de item_current o detras de item_current
+    if (item_current == item_padre)
+    {
+        //Insertamos el nodo y el item dentro del item actual
+        item_padre->addChild(newItem);
+        nodo_padre->addChild(newNode);
+    }
+    else
+    {
+        //Buscamos la posicion del nodo_current dentro de su padre
+        int pos = nodo_padre->findChild(mapQTCOIN[item_current]);
+
+        //Insertamos detras del item_current
+        item_padre->insertChild(pos+1, newItem);
+        nodo_padre->insertChild(newNode, pos+1);
+    }
+*/
+    //Insertamos el contenido de la escena
+    newSceneGraph(newNode, item_padre, nodo_padre);
+
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+
+}//void MainWindow::on_actionTetgen_activated()

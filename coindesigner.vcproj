@@ -334,6 +334,10 @@
 				RelativePath="src\src_editor.cpp"
 				>
 			</File>
+			<File
+				RelativePath="src\tetgen_options.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -560,6 +564,32 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="include\tetgen_options.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC include\tetgen_options.h"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\tetgen_options.h -o tmp\moc_tetgen_options.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\tetgen_options.h"
+						Outputs="tmp\moc_tetgen_options.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC include\tetgen_options.h"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\tetgen_options.h -o tmp\moc_tetgen_options.cpp&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\tetgen_options.h"
+						Outputs="tmp\moc_tetgen_options.cpp"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
@@ -596,6 +626,10 @@
 			</File>
 			<File
 				RelativePath="tmp\moc_src_editor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="tmp\moc_tetgen_options.cpp"
 				>
 			</File>
 			<File
@@ -636,6 +670,10 @@
 			</File>
 			<File
 				RelativePath="tmp\ui_src_view.h"
+				>
+			</File>
+			<File
+				RelativePath="tmp\ui_tetgen_options.h"
 				>
 			</File>
 		</Filter>
@@ -850,6 +888,32 @@
 						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\src_view.ui -o tmp\ui_src_view.h&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\src_view.ui"
 						Outputs="tmp\ui_src_view.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="ui\tetgen_options.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\tetgen_options.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\tetgen_options.ui -o tmp\ui_tetgen_options.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\tetgen_options.ui"
+						Outputs="tmp\ui_tetgen_options.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="UIC ui\tetgen_options.ui"
+						CommandLine="C:\Qt\4.3.2\bin\uic.exe ui\tetgen_options.ui -o tmp\ui_tetgen_options.h&#x0D;&#x0A;"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\uic.exe;ui\tetgen_options.ui"
+						Outputs="tmp\ui_tetgen_options.h"
 					/>
 				</FileConfiguration>
 			</File>

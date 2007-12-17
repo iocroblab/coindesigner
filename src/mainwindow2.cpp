@@ -7,6 +7,8 @@
 #include <mfield_editor.h>
 #include <cppexport_options.h>
 #include <ivfix_options.h>
+#include <qslim_options.h>
+#include <tetgen_options.h>
 
 #include <QSettings>
 #include <QMessageBox>
@@ -401,6 +403,10 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 		//Opcion para simplificar la geometria con QSlim
 		if (!settings->value("qslim_app").toString().isEmpty())
 			menu.addAction(Ui.actionQSlim);
+
+		//Opcion para ejecutar tetgen
+		if (!settings->value("tetgen_app").toString().isEmpty())
+			menu.addAction(Ui.actionTetgen);
 
 		//Submenu con las opciones de exportacion
 		menuExport.addAction(Ui.Export_to_SMF);
