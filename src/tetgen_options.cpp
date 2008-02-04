@@ -21,6 +21,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QDebug>
+#include <QFile>
 #include <Inventor/SoInput.h>
 #include <string.h>
 
@@ -69,9 +70,15 @@ void tetgen_options::accept()
 	qDebug() << tetgen_app << " " << args.join (" ");
 
 	//Escribimos el nodo en el fichero OFF
-	QString offFilename;
-	QFile offFile(offFilename);
-	offFile.open(QIODevice::WriteOnly);
+	char offFilename[] = "tempfile.off";
+	FILE *offFile = fopen(offFilename, "w");
+
+	if (offFile == NULL)
+	{
+		QMessageBox::warning (this, tr ("Error"), tr("Could not create file ")+QString(offFilename));
+		output = NULL;
+		return;
+	}
 
     if (input->getTail()->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
     {
@@ -98,7 +105,7 @@ void tetgen_options::accept()
 		return;
 	}
 
-    
+/*
 	qDebug() << SMFString.c_str();
 
 	//Introducimos la cadena en entrada estandar
@@ -123,7 +130,7 @@ void tetgen_options::accept()
     in.setBuffer(stdoutup.data(), stdoutup.size());
 	output = SoDB::readAll(&in);
     //qDebug("tetgen returned node %p", output);
-
+*/
 	assert(output);
 	output->setName("tetgen_output");
 

@@ -184,6 +184,9 @@ public slots:
 	///Callback to tetrahedralize with tetgen
 	void on_actionTetgen_activated();
 
+	///Callback to centre XYZ data in the origin
+	void on_Center_on_Origin_activated();
+
 private:
 
 	///Genera la paleta de componentes mediante una lista predefinida

@@ -688,6 +688,14 @@
     <string>Export to XYZ</string>
    </property>
   </action>
+  <action name="Center_on_Origin" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Center on Origin</string>
+   </property>
+  </action>
   <action name="actionChange_BG_color" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/colorize.png</iconset>

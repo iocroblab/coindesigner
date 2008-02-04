@@ -421,6 +421,15 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	else if (tipo == SoCoordinate3::getClassTypeId()) 
 	{
 		menu.addAction(Ui.Export_to_XYZ);
+		menu.addAction(Ui.Center_on_Origin);
+	}
+	else if (tipo == SoVRMLIndexedFaceSet::getClassTypeId()) 
+	{
+		//Submenu con las opciones de exportacion
+		menuExport.addAction(Ui.Export_to_SMF);
+		menuExport.addAction(Ui.Export_to_OFF);
+		menuExport.addAction(Ui.Export_to_STL);
+		menu.addMenu(&menuExport);
 	}
 
 
@@ -935,6 +944,39 @@ void MainWindow::on_Export_to_XYZ_activated()
 
 }// void MainWindow::on_Export_to_XYZ_activated()
 
+void MainWindow::on_Center_on_Origin_activated()
+{
+    //Identificamos el item actual
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
+
+    if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoCoordinate3::getClassTypeId())) 
+	{
+        SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item];
+
+        //Calculamos su centroide
+        SbVec3f cdm = centroid (nodo->point);
+
+        //Centramos los vertices sobre el centroide
+        center_new(nodo->point, cdm);
+    }
+    else if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoVertexProperty::getClassTypeId())) 
+    {
+        SoVertexProperty *nodo = (SoVertexProperty *)mapQTCOIN[item];
+    
+        //Calculamos su centroide
+        SbVec3f cdm = centroid (nodo->vertex);
+
+        //Centramos los vertices sobre el centroide
+        center_new(nodo->vertex, cdm);
+    }
+
+	//Actualizamos la tabla  de campos
+	updateFieldEditor (mapQTCOIN[item]);
+
+	//Indicamos que la escena ha sido modificada
+	escena_modificada = true;
+
+}// void MainWindow::on_Center_on_Origin_activated()
 
 void MainWindow::on_actionIvfix_activated()
 {

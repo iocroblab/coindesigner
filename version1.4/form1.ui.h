@@ -575,42 +575,6 @@ void MainWindow::SoIndexedFaceSet_change_orientation()
 }// void MainWindow::SoIndexedFaceSet_change_orientation()
 
 
-void MainWindow::SoCoordinate3_center_new()
-{
-    //Identificamos el item actual
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
-    if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoCoordinate3::getClassTypeId())) 
-    {
-        SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item];
-
-        //Calculamos su centroide
-        SbVec3f cdm = centroid (nodo->point);
-
-        //Centramos los vertices sobre el centroide
-        center_new(nodo->point, cdm);
-    }
-    else if (mapQTCOIN[item]->getTypeId().isDerivedFrom(SoVertexProperty::getClassTypeId())) 
-    {
-        SoVertexProperty *nodo = (SoVertexProperty *)mapQTCOIN[item];
-    
-        //Calculamos su centroide
-        SbVec3f cdm = centroid (nodo->vertex);
-
-        //Centramos los vertices sobre el centroide
-        center_new(nodo->vertex, cdm);
-    }
-
-    //Actualizamos la tabla  de campos
-    updateFieldEditor (mapQTCOIN[item]);
-
-    //Indicamos que la escena ha sido modificada
-    escena_modificada = true;
-
-}// void MainWindow::SoCoordinate3_center_new()
-
-
-
-
 void MainWindow::SoCoordinate3_to_qhull()
 {
     //Identificamos el item actual
