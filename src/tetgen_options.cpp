@@ -86,7 +86,7 @@ void tetgen_options::accept()
     }
     else if (input->getTail()->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
     {
-		//TODO VRMLIndexedFaceSet_to_OFF(input, SMFString);
+		VRMLIndexedFaceSet_to_OFF((SoVRMLIndexedFaceSet *)input->getTail(), offFile);
     }
 
 	//Iniciamos tetgen

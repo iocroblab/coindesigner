@@ -720,6 +720,14 @@
     <string>Tetrahedralize with tetgen</string>
    </property>
   </action>
+  <action name="actionCenter_XYZ" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Center XYZ</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>
