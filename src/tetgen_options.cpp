@@ -105,6 +105,7 @@ void tetgen_options::accept()
 		return;
 	}
 
+	//TODO: continuar la funcion de llamada a tetgen
 /*
 	qDebug() << SMFString.c_str();
 

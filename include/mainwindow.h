@@ -187,6 +187,9 @@ public slots:
 	///Callback to centre XYZ data in the origin
 	void on_Center_on_Origin_activated();
 
+	///Rellena el contenido del fieldEditor con los datos de un SoNode
+	void updateFieldEditor(SoNode *nodo);
+
 private:
 
 	///Genera la paleta de componentes mediante una lista predefinida
@@ -203,9 +206,6 @@ private:
 
 	///Busca un icono adecuado a esta clase y lo asigna al item
 	bool setNodeIcon(QTreeWidgetItem * item);
-
-	///Rellena el contenido del fieldEditor con los datos de un SoNode
-	void updateFieldEditor(SoNode *nodo);
 
 	///Abre un url en un visor de HTML externo
 	void open_html_viewer(const QString &url);
@@ -224,6 +224,9 @@ private:
 	void updateRecentFileActions();
 
 }; //class MainWindow
+
+///Puntero global a mainwindow
+extern MainWindow *global_mw;
 
 #endif
 

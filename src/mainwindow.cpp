@@ -86,6 +86,13 @@ static void readError_CB(const class SoError *error, void *)
    QMessageBox::critical(NULL, "Error", S);
 }
 
+/// Callback que se activa para monitorizar un nodo
+static void refreshGUI_CB(void *data, SoSensor *)
+{
+	//Mostramos el nodo en la tabla de edición de campos
+	assert(global_mw != NULL);
+	global_mw->updateFieldEditor((SoNode *)data);
+}
 
 ///Constructor de la clase MainWindow
 MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
@@ -1109,6 +1116,10 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 {
     //Indicamos que estamos modificando la tabla
     edit_node = NULL;
+
+	//Si no se introduce un valor válido, se usa el item actual
+	if (nodo == NULL)
+		nodo = mapQTCOIN[Ui.sceneGraph->currentItem()];
 
     //Cambiamos el sensor para vigilar este nodo
     //TODO refreshGUI_Sensor->setData(nodo);

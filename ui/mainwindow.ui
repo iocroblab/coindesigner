@@ -713,6 +713,9 @@
    </property>
   </action>
   <action name="actionTetgen" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>

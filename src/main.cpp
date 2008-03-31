@@ -10,6 +10,9 @@
 ///Objeto para almacenar la configuración de coindesigner
 QSettings *settings;
 
+///Puntero global a mainwindow
+MainWindow *global_mw = NULL;
+
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
@@ -32,6 +35,7 @@ int main(int argc, char *argv[])
 
 	//Creamos la ventana principal (esto inicializa SoDB y SoQt)
 	MainWindow *mw = new MainWindow();
+	global_mw = mw;
 
 	//Miramos si hay algun argumento y cargamos el fichero
 	if (argc > 1)

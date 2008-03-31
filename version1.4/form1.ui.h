@@ -122,118 +122,13 @@ void MainWindow::inicializar()
 	refreshGUI_Sensor = new SoTimerSensor (refreshGUI_CB, root);
 	refreshGUI_Sensor->setInterval(1.0);
 
-	//Indicamos que la escena no ha sido modificada
-	escena_modificada = false;
-
-	//Creamos un nuevo SoExaminerViewer
-	//nuevoCdsExaminerViewer();
-
 }// void MainWindow::inicializar()
-
-
-
-//Composicion del ListView2 a partir de una tabla de componentes
-void MainWindow::CargarListaComponentes(ivPadre_t *listaComponentes)
-{
-	unsigned numComp,j;
-	QTreeWidgetItem *item;
-
-	//Una lista de QTreeWidgetItems, para encontrar los padres
-	std::vector<QTreeWidgetItem*> vecComp;
-
-	//Dejamos listComp apuntando a listaComponentes
-	listComp = listaComponentes;
-
-	//Apuntamos al primer componente de la tabla
-	ivPadre_t *comp=listComp;
-	numComp=0;
-
-	//Vaciamos la lista actual
-	nodeTree->clear();
-
-	//Recorremos la tabla de componentes, creando nuevos items
-	//hasta llegar a un componente nulo
-	while (comp->clase)
-	{
-		//fprintf(stderr, "%03d %s\n", numComp, comp->clase);
-
-		//El nodo SoNode tiene tratamiento especial, ya que
-		//no aparece como un nodo del arbol y no tiene padre
-		if (!strcmp(comp->clase , "Node"))
-		{
-			//Insertamos un elemento para mantener sincronizadas
-			//las tablas vecComp y listComp
-			vecComp.push_back(NULL);   
-		}
-		else
-		{
-			//Buscamos el padre de esta clase en vecComp
-			QTreeWidgetItem *padre=NULL;
-			for (j=0; j<vecComp.size(); j++)
-			{
-				if (!strcmp (comp->padre, listComp[j].clase))
-				{
-					//Si lo encontramos, tomamos nota del item del padre y salimos.
-					padre=vecComp[j];
-					break;
-				}
-			}
-
-			//Comprobamos que realmente se encontro el padre
-			if (j >= vecComp.size())
-			{
-				QString S;
-				S.sprintf("clase %s : No se encuentra la clase padre %s",
-					comp->clase, comp->padre);
-				QMessageBox::critical( this, tr("Error cr&iacute;tico"), S,
-					QMessageBox::Abort, QMessageBox::NoButton, QMessageBox::NoButton);
-				assert (j < vecComp.size());
-			}
-
-			//Si el padre es NULL, quiere decir que este nodo
-			//deriva directamente de SoNode, por lo que lo 
-			//colgamos del nodeTree directamente.
-			if (!padre)
-			{
-				item = new QTreeWidgetItem(nodeTree, comp->clase);
-			}
-			else
-			{
-				//Añadimos el nuevo nodo colgando del nodo padre
-				item = new QTreeWidgetItem(padre, comp->clase);
-
-				//Indicamos al padre que se muestre abierto
-				//padre->setOpen(true);
-			}
-
-			//Guardamos una copia extra en vecComp
-			vecComp.push_back(item);   
-		}//if-else 
-
-		//Apuntamos al componente siguiente
-		comp++;
-		numComp++;
-	}//while
-
-} // void MainWindow::CargarListaComponentes()
-
 
 
 ///Callback activada al cambiar el estado del boton getInfo
 void MainWindow::getInfo_toggled(bool on)
 {
 	mostrar_pick_info = on;
-}
-
-
-
-void MainWindow::exportarCPP_activated()
-{
-
-    //Mostramos el dialogo de cppexport
-    cppExportDialog cppExportDialog(this);
-
-    cppExportDialog.exec();
 }
 
 
@@ -1024,14 +919,6 @@ int MainWindow::recubrimiento2()
 }//int MainWindow::recubrimiento2()
 
 
-//! Callback que se activa cuando hay algun cambio en el nodo seleccionado.
-static void refreshGUI_CB(void *data, SoSensor *)
-{
-    //Mostramos el nodo en la tabla de edición de campos
-    form1->updateFieldEditor((SoNode *)data);
-}
-
-
 //!Callback para encender/apagar el refresco del GUI
 void MainWindow::refreshGUI_but_toggled( bool on)
 {
@@ -1041,13 +928,6 @@ void MainWindow::refreshGUI_but_toggled( bool on)
         refreshGUI_Sensor->unschedule();
 }
 
-
-void MainWindow::menu_edit_preferences_slot()
-{
-    //Mostramos el dialogo de cds_config_form
-    cds_config_form cds_config_form(this);
-    cds_config_form.exec();
-}
 
 void MainWindow::showmenu()
 {
