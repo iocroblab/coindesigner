@@ -18,17 +18,17 @@
 */
 
 #include <cds_viewers.h>
-
+#include <Inventor/details/SoDetails.h>
 
 /*! Callback del evento raypick, que muestra información sobre el punto apuntado por el ratón.*/
 void pick_cb (void *ud, SoEventCallback * n)
 {
-
   //Pasa el evento al editor llamante
   assert(ud != NULL);
   CdsExaminerEditor *cdsviewer = (CdsExaminerEditor *)ud;
   cdsviewer->pickCallback(n);
 }
+
   
 /*! Callback del evento raypick, que muestra información sobre el punto apuntado por el ratón.*/
 template <class SOTYPEVIEWER>
@@ -43,30 +43,29 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
  //Identificamos la ventana, el visor y la barra de status
  QStatusBar *statusBar = this->statusBar();
 
- qDebug("%p->%s(%p) -> %d %d\n", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
+ qDebug("%p->%s(%p) -> state=%d button=%d\n", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
 
   //Miramos si queremos alguna opción de picado
  if (this->pickAction == Ui.actionNone)
 	 return;
 
-/*
  //Comprobamos que se ha pulsado el boton izquierdo del ratón
- if ( mbe->getState() == SoButtonEvent::DOWN && mbe->getButton() == SoMouseButtonEvent::BUTTON1 ) 
-  {
+ if (mbe->getState() == SoButtonEvent::DOWN && mbe->getButton() == SoMouseButtonEvent::BUTTON1 ) 
+ {
 
-    //Aseguramos que mark_sep no está colgado de root, para evitar picar sobre la marca
-    while (root->findChild(mark_sep) > -1) 
-       root->removeChild(mark_sep);
+    //Aseguramos que mark_sep no está colgado de myRoot, para evitar picar sobre la marca
+    while (myRoot->findChild(mark_sep) > -1) 
+       myRoot->removeChild(mark_sep);
 
-    SoRayPickAction rp(viewer->getViewportRegion());
+    SoRayPickAction rp(this->getViewportRegion());
     rp.setPoint(mbe->getPosition());
-    rp.apply(viewer->getSceneManager()->getSceneGraph());
+    rp.apply(this->getSceneManager()->getSceneGraph());
 
 	//Miramos si hemos pinchado sobre algun elemento
     SoPickedPoint * point = rp.getPickedPoint();
     if (point == NULL) 
 	{
-		statusBar->message(CdsViewer::tr("Nada interesante..."));
+		statusBar->showMessage(tr("Nothing there."));
 
 		//Reseteamos el contador de facetas
 		numFacetasPatch=0;
@@ -79,11 +78,11 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
     SbVec3f v = point->getPoint();
 
     //Actualizamos la posición de la marca
-    mark_coord3->point.setValue(v);
+    mark_coord->point.setValue(v);
 
-    //Aseguramos que mark_sep está colgado de root
-	if (cdsviewer->pickAction == CdsViewer::InfoId && root->findChild(mark_sep) < 0) 
-       root->addChild(mark_sep);
+    //Aseguramos que mark_sep está colgado de myRoot
+ 	if (this->pickAction == Ui.actionInfo && myRoot->findChild(mark_sep) < 0) 
+       myRoot->addChild(mark_sep);
 
     //Imprimimos las coordenadas del punto 
     fprintf(stdout, "\nPoint XYZ= %f %f %f\n", v[0], v[1], v[2]);
@@ -99,6 +98,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
     //SoNode del objeto apuntado
     SoNode *nodo = path->getTail();
 
+/* TODO: Activar todo esto y modificar para que compile
     //Buscamos el nodo en el mapa mapQTCOIN
     std::map<QListViewItem*,SoNode*>::iterator map_it;
     for (map_it=mapQTCOIN.begin(); map_it != mapQTCOIN.end(); map_it++)
@@ -117,6 +117,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
             break;
        } //if (map_it->second == nodo)
     }//for
+*/
 
     //Mostramos el path, salvo el Ãºltimo nodo
     for (i=0; i < path->getLength()-1; i++)
@@ -137,7 +138,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 	//Mostramos el nombre en barra de status
 	if (nombre_nodo && strlen(nombre_nodo) > 0)
-		M += QString(" <> ") + CdsViewer::tr("Nombre=") + QString(nombre_nodo);
+		M += QString(" <> ") + tr("Nombre=") + QString(nombre_nodo);
 
     fprintf(stdout, "%s; Name=%s\n", nombre_tipo, nombre_nodo);
 
@@ -164,6 +165,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         fprintf(stdout, "\n");
 
+/* TODO: Activar esto
         SoMFVec3f coords;
         SoNode *nodeCoord = buscaCoordenadas (path, coords);
 
@@ -219,7 +221,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 
 		}
-
+//*/
 	  }
       else
 
@@ -234,7 +236,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 		//Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Point index=%d", idx));
-
+/* TODO: ACtivar esto
         SoMFVec3f coords;
         SoNode *nodeCoord = buscaCoordenadas (path, coords);
         if (nodeCoord)
@@ -255,7 +257,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 
         }// if (nodeCoord)
-
+*/
       }
       else
 
@@ -299,14 +301,13 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
     }//if (pickDetail != NULL)
 
 	//Mostramos el mensaje en la ventana del viewer
-    if (cdsviewer->pickAction == CdsViewer::InfoId)
-	   statusBar->message(M);
+ 	if (this->pickAction == Ui.actionInfo)
+	   statusBar->showMessage(M);
 
     //Liberamos el path
     path->unref();
 
   }//if (mbe->getButton() == SoMouseButtonEvent::BUTTON2 &&
-*/
 
 } //void pickAction (SoEventCallback * n)
 

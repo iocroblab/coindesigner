@@ -167,7 +167,7 @@ public :
 
 		//Inicializa la accion de picado por defecto
 		pickAction = Ui.actionNone;
-		this->cambiarPicado(Ui.actionNone);
+		this->cambiarPicado(Ui.actionInfo);
 
 		//Soporte para pick (picado con el raton)
 		SoEventCallback * ecb = new SoEventCallback;
