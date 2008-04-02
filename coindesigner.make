@@ -23,7 +23,7 @@ all : coindesigner
 coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro 
 	qmake -o - coindesigner.pro > Makefile
 	$(MAKE) -f Makefile 
-	#rm Makefile
+	rm Makefile
 
 cdsview : tmp/cdsview.o tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
 	$(CXX) $(LDFLAGS) -o $@ $< 
