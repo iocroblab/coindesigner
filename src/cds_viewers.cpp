@@ -26,7 +26,6 @@ void pick_cb (void *ud, SoEventCallback * n)
 
   //Pasa el evento al editor llamante
   assert(ud != NULL);
-printf("EXT->%s(%p, %p)\n", __FUNCTION__, ud, n);
   CdsExaminerEditor *cdsviewer = (CdsExaminerEditor *)ud;
   cdsviewer->pickCallback(n);
 }
@@ -44,7 +43,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
  //Identificamos la ventana, el visor y la barra de status
  QStatusBar *statusBar = this->statusBar();
 
-printf("%p->%s(%p) -> %d %d\n", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
+ qDebug("%p->%s(%p) -> %d %d\n", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
 
   //Miramos si queremos alguna opción de picado
  if (this->pickAction == Ui.actionNone)
