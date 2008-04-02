@@ -29,7 +29,12 @@
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
 #include <Inventor/nodes/SoNodes.h>
+#include <Inventor/SoPickedPoint.h>
+#include <Inventor/actions/SoRayPickAction.h>
+#include <Inventor/events/SoEvents.h>
 
+
+void pick_cb (void *ud, SoEventCallback * n);
 
 /*! @brief Template class for creating noQuitxxxxxViewer objects 
     Template class for creating noQuitxxxxxViewer objects that override the 
@@ -93,14 +98,19 @@ public :
 class cds_editor : public QMainWindow
 {
 	Q_OBJECT
-	Ui::cds_editor Ui;
+	
 public:
+
+	Ui::cds_editor Ui;
 
 	///Constructor
 	cds_editor (QWidget *p=0, Qt::WindowFlags f=0) : QMainWindow(p, f)
 	{
+		//Inicializamos el UI
 		Ui.setupUi(this);
+
 	} //Constructor
+
 };
 
 
@@ -114,10 +124,11 @@ class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER
 	///Separador para las marcas
 	SoSeparator *mark_sep;
 
-public:
-
 	///Posiciones de las marcas
 	SoCoordinate3 *mark_coord;
+
+	//Comportamiento del visualizador ante el picado
+	QAction *pickAction;
 
 public :
 	/*! @brief Constructor de la clase
@@ -151,8 +162,19 @@ public :
 
 		SOTYPEVIEWER::setSceneGraph(myRoot);
 
+		//Conecta la señal de cerrado de la ventana con unref, para liberar memoria
 		connect(this, SIGNAL(close), this, SLOT(unref));
-	}
+
+		//Inicializa la accion de picado por defecto
+		pickAction = Ui.actionNone;
+		this->cambiarPicado(Ui.actionNone);
+
+		//Soporte para pick (picado con el raton)
+		SoEventCallback * ecb = new SoEventCallback;
+		ecb->addEventCallback(SoMouseButtonEvent::getClassTypeId(), pick_cb, this);
+		((SoSeparator *)SOTYPEVIEWER::getSceneManager()->getSceneGraph())->addChild(ecb);
+
+	}// CdsEditorTemplate(SoNode *root=NULL) : cds_editor(), SOTYPEVIEWER(this->centralWidget(), NULL, true )
 
 	~CdsEditorTemplate()
 	{
@@ -204,7 +226,27 @@ public :
 
 	}//SbBool processSoEvent (const SoEvent *const event)
 
-} ;
+	//Callback de pickAction, llamada a traves del pick_cb
+    void pickCallback (SoEventCallback * n);
+
+	///Cambia el efecto de la accion de picado
+    void cambiarPicado(QAction *id)
+	{
+		//Cambiamos el menu
+		pickAction->setChecked(false);
+		id->setChecked(true);
+
+		//Salvamos la escogida
+		pickAction = id;
+	
+		if (pickAction != Ui.actionInfo)
+		{
+			//Eliminamos la marca de la escena
+	    	while (myRoot->findChild(mark_sep) > -1) 
+				myRoot->removeChild(mark_sep);
+		}
+	}
+}; // class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER;
 
 
 //Instanciacion para los principales visores de SoQt

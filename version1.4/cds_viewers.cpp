@@ -24,8 +24,7 @@ extern Form1 *form1;
 extern std::map<QListViewItem*,SoNode*>mapQTCOIN;
 extern SbColor bgColor_viewer;
 
-/*! Callback del evento raypick, que muestra información sobre
-    el punto apuntado por el ratón.*/
+/*! Callback del evento raypick, que muestra información sobre el punto apuntado por el ratón.*/
 static void pick_cb (void *ud, SoEventCallback * n)
 {
   const SoMouseButtonEvent * mbe = (SoMouseButtonEvent *)n->getEvent();
