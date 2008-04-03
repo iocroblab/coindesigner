@@ -19,6 +19,8 @@
 
 #include <cds_viewers.h>
 #include <Inventor/details/SoDetails.h>
+#include "mainwindow.h"
+#include "cds_util.h"
 
 /*! Callback del evento raypick, que muestra información sobre el punto apuntado por el ratón.*/
 void pick_cb (void *ud, SoEventCallback * n)
@@ -85,45 +87,27 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
        myRoot->addChild(mark_sep);
 
     //Imprimimos las coordenadas del punto 
-    fprintf(stdout, "\nPoint XYZ= %f %f %f\n", v[0], v[1], v[2]);
+    qDebug("\nPoint XYZ= %f %f %f\n", v[0], v[1], v[2]);
 
     //Imprimimos las coordenadas del punto en la barra del mensaje
 	QString M, S;
 	M.sprintf("XYZ= %f %f %f", v[0], v[1], v[2]);
 
     //Path del objeto apuntado
-    SoPath *path = point->getPath()->copy(2,0);
+    SoPath *path = point->getPath()->copy(3,0);
     path->ref();
 
     //SoNode del objeto apuntado
     SoNode *nodo = path->getTail();
 
-/* TODO: Activar todo esto y modificar para que compile
-    //Buscamos el nodo en el mapa mapQTCOIN
-    std::map<QListViewItem*,SoNode*>::iterator map_it;
-    for (map_it=mapQTCOIN.begin(); map_it != mapQTCOIN.end(); map_it++)
-    {
-       //Si este elemento corresponde al nodo
-       if (map_it->second == nodo)
-       {
-            if (form1 != NULL)
-            {
-              //Seleccionamos el nodo y aseguramos que es visible
-              form1->sceneTree->setCurrentItem(map_it->first);
-              form1->sceneTree->ensureItemVisible(map_it->first);
-            }
+	//Buscamos el nodo seleccionado en el arbol de mainwindow
+	global_mw->getItemFromPath(path);
 
-            //Salimos del bucle de busqueda
-            break;
-       } //if (map_it->second == nodo)
-    }//for
-*/
-
-    //Mostramos el path, salvo el Ãºltimo nodo
+    //Mostramos el path, salvo el ultimo nodo
     for (i=0; i < path->getLength()-1; i++)
     {
       const char *nombre_tipo = path->getNode(i)->getTypeId().getName(); 
-      fprintf(stdout, "%s[%d]-> ", nombre_tipo, path->getIndex(i+1) );
+      qDebug("%s[%d]-> ", nombre_tipo, path->getIndex(i+1) );
     }
 
     //Averiguamos el tipo del nodo
@@ -140,7 +124,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 	if (nombre_nodo && strlen(nombre_nodo) > 0)
 		M += QString(" <> ") + tr("Nombre=") + QString(nombre_nodo);
 
-    fprintf(stdout, "%s; Name=%s\n", nombre_tipo, nombre_nodo);
+    qDebug("%s; Name=%s\n", nombre_tipo, nombre_nodo);
 
     //Detalle del objeto apuntado
     const SoDetail *pickDetail = point->getDetail();
@@ -152,20 +136,19 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
       {
         SoFaceDetail *facDetail = (SoFaceDetail *) pickDetail;
         //Mostramos el indice de la faceta
-        fprintf(stdout,"Face index=%d; Vertex list=",facDetail->getFaceIndex());
+        qDebug("Face index=%d; Vertex list=",facDetail->getFaceIndex());
 		M.append(S.sprintf(" <> Face index=%d <> Vertex =",facDetail->getFaceIndex()));
 
         //Mostramos informaciÃ³n sobre todos sus vertices
         for (i=0; i < facDetail->getNumPoints(); i++)
         {
           const SoPointDetail *pointDetail = facDetail->getPoint(i);
-          fprintf(stdout, " %d", pointDetail->getCoordinateIndex());
+          qDebug(" %d", pointDetail->getCoordinateIndex());
 		  M.append(S.sprintf(" %d", pointDetail->getCoordinateIndex()));
         }//for
 
-        fprintf(stdout, "\n");
+        qDebug("\n");
 
-/* TODO: Activar esto
         SoMFVec3f coords;
         SoNode *nodeCoord = buscaCoordenadas (path, coords);
 
@@ -173,21 +156,21 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         {
           const char *nombre_tipo = nodeCoord->getTypeId().getName();  
           const char *nombre_nodo = nodeCoord->getName().getString();
-          fprintf(stdout, "%s coordinate node; Name=%s\n", nombre_tipo, 
-			  nombre_nodo);
+		  qDebug("%s coordinate node; Name=%s\n", nombre_tipo, nombre_nodo);
 
-          //Mostramos informaciÃ³n sobre todos sus vertices
+          //Mostramos informacion sobre todos sus vertices
           for (i=0; i < facDetail->getNumPoints(); i++)
           {
             int idx = facDetail->getPoint(i)->getCoordinateIndex();
-            fprintf(stdout, "%d = ", idx);
+			qDebug("%d = ", idx);
             coords[idx].print(stdout);
-            fprintf(stdout, "\n");
+			qDebug("\n");
             
           }//for
 
         }// if (nodeCoord)
 
+/* TODO: Activar esto
 
 	    //Si se ha solicitado eliminar la faceta
         if (cdsviewer->pickAction == CdsViewer::DeleteId)
@@ -232,18 +215,17 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         //Mostramos el indice del punto
         int idx = pointDetail->getCoordinateIndex();
-        fprintf(stdout,"Point index=%d\n", idx);
+        qDebug("Point index=%d\n", idx);
 
 		//Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Point index=%d", idx));
-/* TODO: ACtivar esto
         SoMFVec3f coords;
         SoNode *nodeCoord = buscaCoordenadas (path, coords);
         if (nodeCoord)
         {
           const char *nombre_tipo = nodeCoord->getTypeId().getName();  
           const char *nombre_nodo = nodeCoord->getName().getString();
-          fprintf(stdout, "%s node; Name=%s; Center=", nombre_tipo, nombre_nodo);
+          qDebug("%s node; Name=%s; Center=", nombre_tipo, nombre_nodo);
 
 		  //Mostramos informacion en barra de status
 		  M.append(S.sprintf(" of %s node name=%s", nombre_tipo, nombre_nodo));
@@ -251,13 +233,12 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 		  centroid(coords).print(stdout);
           fprintf(stdout, "\n");
 
-          fprintf(stdout, "Vertex %d = ", idx);
+          qDebug("Vertex %d = ", idx);
           coords[idx].print(stdout);
-          fprintf(stdout, "\n");
+          qDebug("\n");
 
 
         }// if (nodeCoord)
-*/
       }
       else
 
@@ -267,7 +248,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoTextDetail *textDetail = (SoTextDetail *) pickDetail;
 
         //Mostramos el indice del texto
-        fprintf(stdout,"Char index=[%d][%d]\n",textDetail->getStringIndex(),
+        qDebug("Char index=[%d][%d]\n",textDetail->getStringIndex(),
                                                textDetail->getCharacterIndex());
 	    //Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Char index=[%d][%d]",textDetail->getStringIndex(),
@@ -286,7 +267,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         //Mostramos la cara pinchada
         int part = cubeDetail->getPart();
-        fprintf(stdout,"Face index = %d (%s)\n", part, parts[part]);
+        qDebug("Face index = %d (%s)\n", part, parts[part]);
 
 		//Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Face index = %d (%s)", part, parts[part]));
@@ -295,7 +276,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
       else
 
       {
-         //fprintf(stdout, CdsViewer::tr("Tipo de nodo desconocido\n"));
+         //qDebug(CdsViewer::tr("Tipo de nodo desconocido\n"));
       }
 
     }//if (pickDetail != NULL)

@@ -93,6 +93,9 @@ public:
 	///Carga una escena incrustada como resource
 	void load_Scene_Demo(const QString &filename);
 
+	///Busca el item correspondiente al nodo cola de un path
+	QTreeWidgetItem *MainWindow::getItemFromPath(const SoPath *path, bool setCurrentItem=true);
+
 public slots:
 
 	//Slots para menu Scene

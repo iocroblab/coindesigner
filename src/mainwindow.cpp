@@ -212,7 +212,9 @@ void MainWindow::on_actionNew_Scene_activated()
 
     //Indicamos que la escena no ha sido modificada
     escena_modificada = false;
-}
+
+}//void MainWindow::on_actionNew_Scene_activated()
+
 
 
 bool MainWindow::load_Scene(QString filename)
@@ -2117,6 +2119,37 @@ SoPath *MainWindow::getPathFromItem(QTreeWidgetItem *item)
     }
     return path;
 }//SoPath *MainWindow::getPathFromItem(QTreeWidgetItem *item)
+
+///Busca el item correspondiente al nodo cola de un path
+QTreeWidgetItem *MainWindow::getItemFromPath(const SoPath *path, bool setCurrentItem)
+{
+	//Aseguramos que el path comienza en root
+	if (path->getHead() != root)
+		return NULL;
+
+	//Comenzamos identificando el item del nodo root
+	QTreeWidgetItem *item = Ui.sceneGraph->topLevelItem(0);
+
+	//Y buscamos el item a lo largo del path
+    for (int i=0; i < path->getLength()-1; i++)
+    {
+      const char *nombre_tipo = path->getNode(i)->getTypeId().getName(); 
+      qDebug("buscando %s[%d]-> ", nombre_tipo, path->getIndex(i+1) );
+
+	  item = item->child(path->getIndex(i+1));
+    }
+
+	//Miramos si debemos seleccionar este item como currentItem
+	if (setCurrentItem)
+	{
+		//Seleccionamos el nodo y aseguramos que es visible
+		Ui.sceneGraph->setCurrentItem(item);
+		Ui.sceneGraph->scrollToItem (item);
+	}
+
+	return item;
+
+}//QTreeWidgetItem *MainWindow::getItemFromPath(const SoPath *path)
 
 
 ///Crea subgrafo de escena QT a partir de un subgrafo de Coin3D
