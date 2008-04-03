@@ -96,6 +96,9 @@ public:
 	///Busca el item correspondiente al nodo cola de un path
 	QTreeWidgetItem *getItemFromPath(const SoPath *path, bool setCurrentItem=true);
 
+	///Añade un mensaje a la consola de mensajes
+	void addMessage(const QString &msg);
+
 public slots:
 
 	//Slots para menu Scene
@@ -131,6 +134,7 @@ public slots:
 	void on_actionNode_Palette_toggled(bool on);
 	void on_actionField_Editor_toggled(bool on);
 	void on_actionExaminerViewer_Editor_activated();
+	void on_actionMessages_toggled(bool on);
 	void on_actionPlaneViewer_Editor_activated();
 	void on_actionEdit_Source_activated();
 	void on_actionIvfix_activated();

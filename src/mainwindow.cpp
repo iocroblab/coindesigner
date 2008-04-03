@@ -83,7 +83,9 @@ static void readError_CB(const class SoError *error, void *)
 
 	QString S;
 	S.sprintf("%s", error->getDebugString().getString() );
-	//TODO:global_mw->addLog(S);
+
+	//añade mensaje a la consola de mensajes
+	global_mw->addMessage(S);
 	QMessageBox::critical(NULL, "Error", S);
 }
 
@@ -110,6 +112,8 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     //No nos gusta la cabecera del sceneGraph, por que hace que el menu de contexto
     //salga fuera de su lugar
     Ui.sceneGraph->headerItem()->setHidden(true);
+
+	on_actionMessages_toggled(Ui.actionMessages->isChecked() );
 
     //Acceso a los ficheros recientes
     for (int i = 0; i < 5; ++i) 
@@ -182,7 +186,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     //Cerramos la ventana y terminamos el bucle de eventos
     QMainWindow::closeEvent(event);
     SoQt::exitMainLoop();
-}
+
+}// void MainWindow::closeEvent(QCloseEvent *event)
 
 
 void MainWindow::on_actionNew_Scene_activated()
@@ -897,6 +902,12 @@ void MainWindow::on_actionNode_Palette_toggled(bool on)
 void MainWindow::on_actionField_Editor_toggled(bool on)
 {
     Ui.fieldTable_dockWidget->setVisible(on);
+}
+
+///Muestra u oculta la ventana de mensajes
+void MainWindow::on_actionMessages_toggled(bool on)
+{
+    Ui.messages_dockWidget->setVisible(on);
 }
 
 ///Crea un nuevo ExaminerViewer_Editor
@@ -2134,7 +2145,6 @@ QTreeWidgetItem *MainWindow::getItemFromPath(const SoPath *path, bool setCurrent
 	//Y buscamos el item a lo largo del path
     for (int i=0; i < path->getLength()-1; i++)
     {
-      const char *nombre_tipo = path->getNode(i)->getTypeId().getName(); 
 	  item = item->child(path->getIndex(i+1));
     }
 
@@ -2721,3 +2731,11 @@ void MainWindow::on_actionTetgen_activated()
     escena_modificada = true;
 
 }//void MainWindow::on_actionTetgen_activated()
+
+
+///Añade un mensaje a la consola de mensajes
+void MainWindow::addMessage(const QString &msg)
+{
+	Ui.messages->append(msg);
+}
+
