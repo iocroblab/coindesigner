@@ -1031,13 +1031,13 @@ void MainWindow::on_paletteComboBox_activated(int idx)
     case -1: break;
     case 0: generarListaComponentes(SoNode::getClassTypeId(), false); break;
     case 1: generarListaComponentes(SoNode::getClassTypeId(), true); break;
-    case 2: generarListaComponentes(comp_simple); break;
-    case 3: generarListaComponentes(comp_SGI); break;
+    case 2: generarListaComponentes(comp_simple, true); break;
+    case 3: generarListaComponentes(comp_SGI, false); break;
     default:
 #ifdef USE_VOLEON
         if (Ui.paletteComboBox->currentText() == QString("SIM Voleon"))
         {
-            generarListaComponentes(comp_simVoleon); break;
+            generarListaComponentes(comp_simVoleon, false); break;
         }
         else
 #endif
@@ -1852,7 +1852,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
 }//void on_fieldTable_cellChanged(int row, int column)
 
 ///Genera la paleta de componentes mediante una lista predefinida
-void MainWindow::generarListaComponentes(const ivPadre_t *st)
+void MainWindow::generarListaComponentes(const ivPadre_t *st, bool plano)
 {
 
   //Vaciamos el arbol actual
@@ -1877,10 +1877,9 @@ void MainWindow::generarListaComponentes(const ivPadre_t *st)
     QTreeWidgetItem *item = NULL;
 
     //Si el tipo deriva de SoNode
-	if (pName == "Node")
+	if (pName == "Node" || plano )
 	{
-       //Insertamos este tipo
-       item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
+       	item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
        //TODO item->setSelectable(t.canCreateInstance());
     }
     else

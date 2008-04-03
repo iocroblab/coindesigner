@@ -200,7 +200,7 @@ public slots:
 private:
 
 	///Genera la paleta de componentes mediante una lista predefinida
-	void generarListaComponentes(const ivPadre_t *st);
+	void generarListaComponentes(const ivPadre_t *st, bool plano);
 
 	///Autogenera la paleta de componentes mediante exploracion de coin3D
 	void generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *padre=0);

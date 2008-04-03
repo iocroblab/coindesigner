@@ -26,6 +26,8 @@ DONE: edicion con helpers (SFEnum, ColorDialog, etc...)
 DONE: Settings editor
   file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
   
+ BUG: tooltips en Coin3D plano a veces no coinciden para tipos que no crean instancia
+
 * Revision de README.txt
 
 * activar traduccion al castellano
