@@ -103,32 +103,68 @@ public:
 
 	Ui::cds_editor Ui;
 
-	///Constructor
-	cds_editor (QWidget *p=0, Qt::WindowFlags f=0) : QMainWindow(p, f)
-	{
-		//Inicializamos el UI
-		Ui.setupUi(this);
+	//Comportamiento del visualizador ante el picado
+	QAction *pickAction;
 
-	} //Constructor
-
-};
-
-
-///Template para todos los editores, 
-template <class SOTYPEVIEWER>
-class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER
-{
 	///Separador intermedio
 	SoSeparator *myRoot;
 
 	///Separador para las marcas
 	SoSeparator *mark_sep;
 
+	///Constructor
+	cds_editor (QWidget *p=0, Qt::WindowFlags f=0) : QMainWindow(p, f)
+	{
+		//Inicializamos el UI
+		Ui.setupUi(this);
+
+		//Inicializa la accion de picado por defecto
+		pickAction = Ui.actionNone;
+		this->cambiarPicado(Ui.actionInfo);
+
+		//Conecta las acciones del menu
+        connect(Ui.actionNone, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
+        connect(Ui.actionInfo, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
+        connect(Ui.actionRemove_face, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
+
+		myRoot = NULL;
+		mark_sep = NULL;
+
+	} //Constructor
+
+public slots:
+	void on_actionChanged()
+	{
+		cambiarPicado(qobject_cast<QAction *>(sender()));
+	}
+
+	///Cambia el efecto de la accion de picado
+    void cambiarPicado(QAction *id)
+	{
+		//Cambiamos el menu
+		pickAction->setChecked(false);
+		id->setChecked(true);
+		pickAction = id;
+
+		//Miramos si debemos desactivar las marcas
+		if (myRoot!=NULL && mark_sep!=NULL && pickAction != Ui.actionInfo)
+		{
+			//Eliminamos la marca de la escena
+	    	while (myRoot->findChild(mark_sep) > -1) 
+				myRoot->removeChild(mark_sep);
+		}
+	}
+
+};//class cds_editor : public QMainWindow
+
+
+
+///Template para todos los editores, 
+template <class SOTYPEVIEWER>
+class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER
+{
 	///Posiciones de las marcas
 	SoCoordinate3 *mark_coord;
-
-	//Comportamiento del visualizador ante el picado
-	QAction *pickAction;
 
 public :
 	/*! @brief Constructor de la clase
@@ -164,10 +200,6 @@ public :
 
 		//Conecta la señal de cerrado de la ventana con unref, para liberar memoria
 		connect(this, SIGNAL(close), this, SLOT(unref));
-
-		//Inicializa la accion de picado por defecto
-		pickAction = Ui.actionNone;
-		this->cambiarPicado(Ui.actionInfo);
 
 		//Soporte para pick (picado con el raton)
 		SoEventCallback * ecb = new SoEventCallback;
@@ -229,23 +261,6 @@ public :
 	//Callback de pickAction, llamada a traves del pick_cb
     void pickCallback (SoEventCallback * n);
 
-	///Cambia el efecto de la accion de picado
-    void cambiarPicado(QAction *id)
-	{
-		//Cambiamos el menu
-		pickAction->setChecked(false);
-		id->setChecked(true);
-
-		//Salvamos la escogida
-		pickAction = id;
-	
-		if (pickAction != Ui.actionInfo)
-		{
-			//Eliminamos la marca de la escena
-	    	while (myRoot->findChild(mark_sep) > -1) 
-				myRoot->removeChild(mark_sep);
-		}
-	}
 }; // class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER;
 
 

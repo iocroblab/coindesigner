@@ -64,7 +64,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -761,8 +761,14 @@
    <property name="checkable" >
     <bool>true</bool>
    </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
    <property name="text" >
-    <string>Messages</string>
+    <string>Messages console</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>

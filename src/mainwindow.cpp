@@ -2545,25 +2545,28 @@ void MainWindow::updateRecentFileActions()
     QStringList files = settings->value("recentFileList").toStringList();
     int numRecentFiles = qMin(files.size(), 5);
 
-    //Configura las acciones del menu menuRecent
-    for (int i = 0; i < numRecentFiles; ++i) 
-    {
-	//Crea una accion con el nombre del fichero
-         QString filename = QFileInfo(files[i]).fileName();
-         recentFileActs[i]->setText(QString("&%1 ").arg(i+1)+filename);
+	//Configura las acciones del menu menuRecent
+	for (int i = 0; i < numRecentFiles; ++i) 
+	{
+		//Crea una accion con el nombre del fichero
+		QString filename = QFileInfo(files[i]).fileName();
+		recentFileActs[i]->setText(QString("&%1 ").arg(i+1)+filename);
 
-	 //Coloca el path completo del fichero en el campo data
-         recentFileActs[i]->setData(files[i]);
+		//Coloca el path completo del fichero en el campo data
+		recentFileActs[i]->setData(files[i]);
 
-	 //Hace visible la accion si el fichero sigue existiendo
-         QFileInfo fileInfo(files[i]);
-         recentFileActs[i]->setVisible(fileInfo.isFile() && fileInfo.isReadable());
-    }
+		//Hace visible la accion si el fichero sigue existiendo
+		QFileInfo fileInfo(files[i]);
+		recentFileActs[i]->setVisible(fileInfo.isFile() && fileInfo.isReadable());
+	}
 
-    //Oculta el resto de acciones
-    for (int j = numRecentFiles; j < 5; ++j)
-         recentFileActs[j]->setVisible(false);
-}
+	//Oculta el resto de acciones
+	for (int j = numRecentFiles; j < 5; ++j)
+		recentFileActs[j]->setVisible(false);
+
+}//void MainWindow::updateRecentFileActions()
+
+
 ///Abre una escena del menu de escenas recientes
 void MainWindow::on_actionLoad_RecentFile()
 {
