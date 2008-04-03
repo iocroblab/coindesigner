@@ -10,7 +10,7 @@ DONE: Carga de ficheros .off .smf .vol .xyz .obj
 DONE: Poner nombre a nodos importados 
 DONE: Al copiar, y enlazar evitar crear bucles infinitos
 
-DONE: Edición de valores directos en fieldEditor
+DONE: Edicion de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
   
 DONE Insercion de plantillas (help->demos)
