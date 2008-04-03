@@ -79,11 +79,12 @@ extern QSettings *settings;
 /// Callback que vuelca errores de lectura de Inventor a un QMessageBox
 static void readError_CB(const class SoError *error, void *)
 {
-   assert(error && error->getTypeId() == SoReadError::getClassTypeId() );
-   
-   QString S;
-   S.sprintf("%s", error->getDebugString().getString() );
-   QMessageBox::critical(NULL, "Error", S);
+	assert(error && error->getTypeId() == SoReadError::getClassTypeId() );
+
+	QString S;
+	S.sprintf("%s", error->getDebugString().getString() );
+	//TODO:global_mw->addLog(S);
+	QMessageBox::critical(NULL, "Error", S);
 }
 
 /// Callback que se activa para monitorizar un nodo
@@ -2134,8 +2135,6 @@ QTreeWidgetItem *MainWindow::getItemFromPath(const SoPath *path, bool setCurrent
     for (int i=0; i < path->getLength()-1; i++)
     {
       const char *nombre_tipo = path->getNode(i)->getTypeId().getName(); 
-      qDebug("buscando %s[%d]-> ", nombre_tipo, path->getIndex(i+1) );
-
 	  item = item->child(path->getIndex(i+1));
     }
 

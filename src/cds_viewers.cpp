@@ -45,7 +45,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
  //Identificamos la ventana, el visor y la barra de status
  QStatusBar *statusBar = this->statusBar();
 
- qDebug("%p->%s(%p) -> state=%d button=%d\n", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
+ //qDebug("%p->%s(%p) -> state=%d button=%d", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
 
   //Miramos si queremos alguna opción de picado
  if (this->pickAction == Ui.actionNone)
@@ -156,16 +156,13 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         {
           const char *nombre_tipo = nodeCoord->getTypeId().getName();  
           const char *nombre_nodo = nodeCoord->getName().getString();
-		  qDebug("%s coordinate node; Name=%s\n", nombre_tipo, nombre_nodo);
+		  qDebug("%s coordinate node; Name=%s", nombre_tipo, nombre_nodo);
 
           //Mostramos informacion sobre todos sus vertices
           for (i=0; i < facDetail->getNumPoints(); i++)
           {
             int idx = facDetail->getPoint(i)->getCoordinateIndex();
-			qDebug("%d = ", idx);
-            coords[idx].print(stdout);
-			qDebug("\n");
-            
+			qDebug("%d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
           }//for
 
         }// if (nodeCoord)
@@ -225,17 +222,13 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         {
           const char *nombre_tipo = nodeCoord->getTypeId().getName();  
           const char *nombre_nodo = nodeCoord->getName().getString();
-          qDebug("%s node; Name=%s; Center=", nombre_tipo, nombre_nodo);
 
 		  //Mostramos informacion en barra de status
 		  M.append(S.sprintf(" of %s node name=%s", nombre_tipo, nombre_nodo));
 
-		  centroid(coords).print(stdout);
-          fprintf(stdout, "\n");
+          qDebug("%s node; Name=%s; Index=%d XYZ= %10f %10f %10f",nombre_tipo, nombre_nodo, idx, centroid(coords)[0],centroid(coords)[1],centroid(coords)[2]);
 
-          qDebug("Vertex %d = ", idx);
-          coords[idx].print(stdout);
-          qDebug("\n");
+		  qDebug("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
 
 
         }// if (nodeCoord)
@@ -248,7 +241,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoTextDetail *textDetail = (SoTextDetail *) pickDetail;
 
         //Mostramos el indice del texto
-        qDebug("Char index=[%d][%d]\n",textDetail->getStringIndex(),
+        qDebug("Char index=[%d][%d]",textDetail->getStringIndex(),
                                                textDetail->getCharacterIndex());
 	    //Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Char index=[%d][%d]",textDetail->getStringIndex(),
@@ -267,7 +260,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         //Mostramos la cara pinchada
         int part = cubeDetail->getPart();
-        qDebug("Face index = %d (%s)\n", part, parts[part]);
+        qDebug("Face index = %d (%s)", part, parts[part]);
 
 		//Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Face index = %d (%s)", part, parts[part]));
