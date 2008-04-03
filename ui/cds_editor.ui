@@ -29,6 +29,7 @@
     <addaction name="actionNone" />
     <addaction name="actionInfo" />
     <addaction name="actionRemove_face" />
+    <addaction name="actionFlip_face" />
    </widget>
    <widget class="QMenu" name="menuView_options" >
     <property name="title" >
@@ -66,13 +67,27 @@
    </property>
   </action>
   <action name="actionBackground_color" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
    <property name="text" >
     <string>Background color</string>
    </property>
   </action>
   <action name="actionAntialias" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
    <property name="text" >
     <string>Antialias</string>
+   </property>
+  </action>
+  <action name="actionFlip_face" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Flip face</string>
    </property>
   </action>
  </widget>

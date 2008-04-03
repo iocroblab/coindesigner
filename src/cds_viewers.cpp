@@ -188,16 +188,16 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         }// if (nodeCoord)
 
-/* TODO: Activar esto
 
 	    //Si se ha solicitado eliminar la faceta
-        if (cdsviewer->pickAction == CdsViewer::DeleteId)
+        if (this->pickAction == Ui.actionRemove_face)
 		   ifs_remove_facet(path, facDetail->getFaceIndex() );
 
 		//Si se ha solicitado dar la vuelta a la faceta
-        else if (cdsviewer->pickAction == CdsViewer::FlipId)
+        else if (this->pickAction == Ui.actionFlip_face)
 		   ifs_flip_facet(path, facDetail->getFaceIndex() );
 
+/* TODO: Activar esto
 		else if (cdsviewer->pickAction == CdsViewer::PatchId)
 		{
 			//Facetas seleccionadas para el patch

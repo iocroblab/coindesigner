@@ -126,6 +126,7 @@ public:
         connect(Ui.actionNone, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
         connect(Ui.actionInfo, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
         connect(Ui.actionRemove_face, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
+        connect(Ui.actionFlip_face, SIGNAL(triggered()), this, SLOT(on_actionChanged()));
 
 		myRoot = NULL;
 		mark_sep = NULL;
