@@ -20,8 +20,9 @@ DONE Insercion de plantillas (help->demos)
 DONE: salvar lista de ultimos archivos abiertos
 DONE: Compile a source in src_editor (will give support for engines and more)
 DONE: Sintax highlight en src_editor
-
 DONE: edicion con helpers (SFEnum, ColorDialog, etc...)
+DONE: Añadir una consola dockable para mensajes
+	->TODO: ¿Añadir highlight para numeros y palabras clave?
 
 DONE: Settings editor
   file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
@@ -40,8 +41,6 @@ DONE: Settings editor
 * Ver texturas como imagenes
   file:///C:/Qt/4.3.2/doc/html/widgets-imageviewer.html
   
-* Añadir una consola dockable para mensajes
-
 * salvar esquema de docks en setting
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
 
