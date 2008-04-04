@@ -33,7 +33,7 @@ TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
 TODO: Conversores transform <-> manip
 
-TODO: Opciones para activar antialias y transparencia por defecto en mainwindows/view
+TODO: Opciones para activar transparencia por defecto en mainwindows/view
 
 * Revision de README.txt
 
