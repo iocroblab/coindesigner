@@ -89,6 +89,15 @@ static void readError_CB(const class SoError *error, void *)
 	QMessageBox::critical(NULL, "Error", S);
 }
 
+/// Callback que vuelca errores de depuracion de COIN a la consola de mensajes
+static void debugError_CB(const class SoError *error, void *)
+{
+	QString S;
+	S.sprintf("%s", error->getDebugString().getString() );
+	//añade mensaje a la consola de mensajes
+	global_mw->addMessage(error->getDebugString().getString());
+}
+
 /// Callback que se activa para monitorizar un nodo
 static void refreshGUI_CB(void *data, SoSensor *)
 {
@@ -139,6 +148,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
     //Asignamos un callback para errores de lectura de Coin3D
     SoReadError::setHandlerCallback(readError_CB, NULL);
+    SoDebugError::setHandlerCallback(debugError_CB, NULL);
 
     //Creacion del campo SoBase_name, que actua como un campo comun para todos los nodos de la escena
     SoBase_name = new SoSFName ();
@@ -936,14 +946,10 @@ void MainWindow::configureViewer(SoQtRenderArea *viewer)
 	viewer->setBackgroundColor(bgColor_viewer);
 
 	//Antialias Level
-	switch (antialias_level)
-	{
-		case 0: { viewer->setAntialiasing(false, 0); break;}
-		case 1: { viewer->setAntialiasing(true, 1); break;}
-		case 3: { viewer->setAntialiasing(true, 3); break;}
-		case 5: { viewer->setAntialiasing(true, 5); break;}
-		default: { viewer->setAntialiasing(false, 0); break;}
-	}
+	if (antialias_level == 0)
+		viewer->setAntialiasing(false, 0);
+	else
+		viewer->setAntialiasing(true, antialias_level);
 
 	//Transparency type
 	if (Ui.actionHQ_transparency->isChecked())
