@@ -26,7 +26,7 @@ coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro
 	#rm Makefile
 
 cdsview : src/cdsview.cpp 
-	soqt-config --build $@ $+
+	soqt-config --build $@ src/cdsview.cpp
 
 rebuild: distclean
 	$(MAKE) -f coindesigner.make all 
