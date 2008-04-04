@@ -332,7 +332,8 @@ int main(int argc, char ** argv)
 		writeAction.getOutput()->closeFile();
 
 		// Clean up resources.
-		delete viewer;
+		if (viewer)
+			delete viewer;
 		root->unref();
 		return 0;
 	}
