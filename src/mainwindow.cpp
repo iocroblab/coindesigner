@@ -932,14 +932,22 @@ void MainWindow::on_actionMessages_toggled(bool on)
 ///Aplica los parametros de render actuales a un viewer
 void MainWindow::configureViewer(SoQtRenderArea *viewer)
 {
+	//Set Background Color
 	viewer->setBackgroundColor(bgColor_viewer);
+
+	//Antialias Level
 	switch (antialias_level)
 	{
 		case 0: { viewer->setAntialiasing(false, 0); break;}
+		case 1: { viewer->setAntialiasing(true, 1); break;}
 		case 3: { viewer->setAntialiasing(true, 3); break;}
 		case 5: { viewer->setAntialiasing(true, 5); break;}
 		default: { viewer->setAntialiasing(false, 0); break;}
 	}
+
+	//Transparency type
+	if (Ui.actionHQ_transparency->isChecked())
+		viewer->setTransparencyType(SoGLRenderAction::SORTED_LAYERS_BLEND);
 }
 
 ///Crea un nuevo ExaminerViewer_Editor

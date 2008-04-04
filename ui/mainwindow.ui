@@ -99,6 +99,7 @@
     <addaction name="actionShow_FPS" />
     <addaction name="actionChange_BG_color" />
     <addaction name="actionEnable_Antialias" />
+    <addaction name="actionHQ_transparency" />
    </widget>
    <widget class="QMenu" name="menuEdit" >
     <property name="title" >
@@ -778,6 +779,17 @@
    </property>
    <property name="text" >
     <string>Enable Antialias</string>
+   </property>
+  </action>
+  <action name="actionHQ_transparency" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>HQ transparency</string>
    </property>
   </action>
  </widget>

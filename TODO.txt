@@ -1,8 +1,7 @@
 
 
 DONE: Visor de codigo fuente
-DONE: Viewers dock-ables
-DONE: Nombres de los docks, que aparezcan en barra titulo
+DONE: Viewers dock-ables. Interfaz Dock-able
 DONE: Insertar un subgrafo de escena. on_actionLoad_Scene()
 DONE: Copiar un group, modificar el group, pegar
      -> lo que pegas contiene las modificaciones, y no debe
@@ -27,13 +26,10 @@ DONE: Añadir una consola dockable para mensajes
 DONE: Settings editor
   file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
   
-DONE: Bug en tooltips en Coin3D plano (transformSeparator )
-
 TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
 TODO: Conversores transform <-> manip
 
-TODO: Opciones para activar transparencia por defecto en mainwindows/view
 
 * Revision de README.txt
 
