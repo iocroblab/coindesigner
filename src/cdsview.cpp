@@ -86,6 +86,12 @@ char *out_filename = NULL;
 //Enable FPS profiler
 bool use_profile = false;
 
+//Enable FullScreen
+bool fullScreen = false;
+
+//Enable Decoration
+bool decoration = true;
+
 //Render interval for profiling
 #define RENDER_INTERVAL 0.0001
 
@@ -110,6 +116,8 @@ void nuevoSoExaminerViewer()
     eviewer->setSceneGraph (root);
     eviewer->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     eviewer->setBackgroundColor(SbColor(bgColor,bgColor,bgColor));
+	eviewer->setFullScreen(fullScreen);
+	eviewer->setDecoration(decoration);
     eviewer->setTitle ("cdsView - ExaminerViewer");
     eviewer->show ();
     viewer = eviewer;
@@ -125,6 +133,8 @@ void nuevoSoFlyViewer()
     eviewer->setSceneGraph (root);
     eviewer->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     eviewer->setBackgroundColor(SbColor(bgColor,bgColor,bgColor));
+	eviewer->setFullScreen(fullScreen);
+	eviewer->setDecoration(decoration);
     eviewer->setTitle ("cdsView - FlyViewer");
     eviewer->show ();
     viewer = eviewer;
@@ -140,6 +150,8 @@ void nuevoSoPlaneViewer()
     eviewer->setSceneGraph (root);
     eviewer->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     eviewer->setBackgroundColor(SbColor(bgColor,bgColor,bgColor));
+	eviewer->setFullScreen(fullScreen);
+	eviewer->setDecoration(decoration);
     eviewer->setTitle ("cdsView - PlaneViewer");
     eviewer->show ();
     viewer = eviewer;
@@ -155,6 +167,7 @@ void nuevoSoRenderArea()
     eviewer->setSceneGraph (root);
     eviewer->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     eviewer->setBackgroundColor(SbColor(bgColor,bgColor,bgColor));
+	eviewer->setFullScreen(fullScreen);
     eviewer->setTitle ("cdsView - PlaneViewer");
     eviewer->show ();
     viewer = eviewer;
@@ -175,6 +188,8 @@ void ayuda()
   "  -r , --render   : View on RenderArea\n"
   "  -pg, --prof     : Enable render profiler\n"
   "  -bg greyLevel   : Change background grey level\n"
+  "  --fullscreen    : Run in fullscreen mode\n"
+  "  --no_decoration : Hide decoration (coin3D controls)\n"
   "  -o filename     : Dump scene file in .iv format and exit\n"
   );
 
@@ -251,6 +266,18 @@ int main(int argc, char ** argv)
 
 			//Jump to next argument
 			i = i + 1;
+		}
+
+		//Run in Full Screen
+		else if (!strcmp ("--fullscreen", argv[i]) )
+		{
+			fullScreen = true;
+		}
+
+		//Hide decoration
+		else if (!strcmp ("--no_decoration", argv[i]) )
+		{
+			decoration = false;
 		}
 
 		//Dump scene instead of render it

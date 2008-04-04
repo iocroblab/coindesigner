@@ -25,8 +25,8 @@ coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro
 	$(MAKE) -f Makefile 
 	#rm Makefile
 
-cdsview : tmp/cdsview.o tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
-	$(CXX) $(LDFLAGS) -o $@ $< 
+cdsview : src/cdsview.cpp 
+	soqt-config --build $@ $+
 
 rebuild: distclean
 	$(MAKE) -f coindesigner.make all 
