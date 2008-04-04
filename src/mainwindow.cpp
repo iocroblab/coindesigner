@@ -1882,9 +1882,17 @@ void MainWindow::generarListaComponentes(const ivPadre_t *st, bool plano)
         assert (!t.isBad());
     }
 
+    //evitamos introducir nodos no instanciables en modo plano
+	if (plano && !t.canCreateInstance())
+	{
+		//Apuntamos al siguiente elemento de la lista y seguimos
+		st++;
+		continue;
+	}
+
     QTreeWidgetItem *item = NULL;
 
-    //Si el tipo deriva de SoNode
+    //Si el tipo deriva de SoNode, o estamos en modo plano
 	if (pName == "Node" || plano )
 	{
        	item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
@@ -1899,19 +1907,23 @@ void MainWindow::generarListaComponentes(const ivPadre_t *st, bool plano)
        //TODO item->setSelectable(t.canCreateInstance());
     }//else
 
-	//Asignamos un tooltip
-	QString S;
-	S += QString("Type: %1\n").arg(tName);
-	S += QString("Derives from: %1\n").arg(pName);
-	//S += QString("Key: %1\n").arg(t.getKey());
-	S += QString("CanCreateInstance: %1").arg(t.canCreateInstance()?"Yes":"No" );
-	item->setToolTip(0, S);
+	if (item)
+	{
+		//Asignamos un tooltip
+		QString S;
+		S += QString("Type: %1\n").arg(tName);
+		S += QString("Derives from: %1\n").arg(pName);
+		//S += QString("Key: %1\n").arg(t.getKey());
+		S += QString("CanCreateInstance: %1").arg(t.canCreateInstance()?"Yes":"No" );
+		item->setToolTip(0, S);
+	}
 
 	//Apuntamos al siguiente elemento de la lista
 	st++;
 
   } //while
-}
+
+}// void MainWindow::generarListaComponentes(const ivPadre_t *st, bool plano)
 
 
 ///Autogenera la paleta de componentes mediante exploracion de coin3D
@@ -1992,6 +2004,8 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
             { 
                 QString tName(tl[j].getName().getString());
 
+				item = NULL;
+
                 //Añadimos el tipo a la lista de componentes
                 if (plano)
                 { 
@@ -2016,12 +2030,12 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
 					//S += QString("Key: %1\n").arg(tl[j].getKey());
 					S += QString("CanCreateInstance: %1").arg(tl[j].canCreateInstance()?"Yes":"No" );
     				item->setToolTip(0, S);
+
+                	//qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
+
+	                //Aplica recursividad a los hijos directos
+    	            generarListaComponentes(tl[j], plano, item);
 				}
-
-                //qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
-
-                //Aplica recursividad a los hijos directos
-                generarListaComponentes(tl[j], plano, item);
             }
         }//for (int j=0; j < tl.getLength(); j++) 
     }//else
