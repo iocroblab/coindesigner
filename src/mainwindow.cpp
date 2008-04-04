@@ -154,6 +154,8 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     node_buffer_link = NULL;
 
 	bgColor_viewer.setValue(0,0,0);
+	antialias_level = 0;
+
     nombreEscena = "scene001.iv";
 
     //Inicializamos el contenido de la paleta de nodos
@@ -801,7 +803,7 @@ void MainWindow::on_actionExaminerViewer_activated()
     //Creacion del Viewer
     NoQuitExaminerViewer *viewer = new NoQuitExaminerViewer(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
-	viewer->setBackgroundColor(bgColor_viewer);
+	configureViewer(viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -826,7 +828,7 @@ void MainWindow::on_actionFlyViewer_activated()
     //Creacion del Viewer
     NoQuitFlyViewer *viewer = new NoQuitFlyViewer(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
-	viewer->setBackgroundColor(bgColor_viewer);
+	configureViewer(viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -851,7 +853,7 @@ void MainWindow::on_actionPlaneViewer_activated()
     //Creacion del Viewer
     NoQuitPlaneViewer *viewer = new NoQuitPlaneViewer(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
-	viewer->setBackgroundColor(bgColor_viewer);
+	configureViewer(viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -876,7 +878,7 @@ void MainWindow::on_actionRenderArea_activated()
     //Creacion del Viewer
     NoQuitRenderArea *viewer = new NoQuitRenderArea(viewWidget, dockWidget);
     viewer->setSceneGraph(root);
-	viewer->setBackgroundColor(bgColor_viewer);
+	configureViewer(viewer);
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
@@ -893,6 +895,17 @@ void MainWindow::on_actionShow_FPS_toggled(bool on)
 
 #endif
 }//void MainWindow::on_actionShow_FPS_activated()
+
+
+///Configura el nivel de antialias
+void MainWindow::on_actionEnable_Antialias_toggled(bool on)
+{
+
+	if (on)
+		antialias_level = 5;
+	else
+		antialias_level = 0;
+}// void MainWindow::on_actionEnable_Antialias_toggled(bool on)
 
 
 
@@ -916,11 +929,24 @@ void MainWindow::on_actionMessages_toggled(bool on)
     Ui.messages_dockWidget->setVisible(on);
 }
 
+///Aplica los parametros de render actuales a un viewer
+void MainWindow::configureViewer(SoQtRenderArea *viewer)
+{
+	viewer->setBackgroundColor(bgColor_viewer);
+	switch (antialias_level)
+	{
+		case 0: { viewer->setAntialiasing(false, 0); break;}
+		case 3: { viewer->setAntialiasing(true, 3); break;}
+		case 5: { viewer->setAntialiasing(true, 5); break;}
+		default: { viewer->setAntialiasing(false, 0); break;}
+	}
+}
+
 ///Crea un nuevo ExaminerViewer_Editor
 void MainWindow::on_actionExaminerViewer_Editor_activated()
 {
     CdsExaminerEditor *viewer = new CdsExaminerEditor(root);
-	viewer->setBackgroundColor(bgColor_viewer);
+	configureViewer(viewer);
     viewer->show();
 }
 
@@ -928,7 +954,7 @@ void MainWindow::on_actionExaminerViewer_Editor_activated()
 void MainWindow::on_actionPlaneViewer_Editor_activated()
 {
     CdsPlaneEditor *viewer = new CdsPlaneEditor(root);
-	viewer->setBackgroundColor(bgColor_viewer);
+	configureViewer(viewer);
     viewer->show();
 }
 

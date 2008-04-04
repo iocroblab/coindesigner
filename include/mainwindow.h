@@ -29,6 +29,7 @@
 #include <Inventor/SbColor.h>
 #include <Inventor/fields/SoSFName.h>
 #include <Inventor/Qt/SoQt.h>
+#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #ifdef USE_VOLEON
   #include <VolumeViz/nodes/SoTransferFunction.h>
   #include <VolumeViz/nodes/SoVolumeData.h>
@@ -73,6 +74,9 @@ private:
 	///Color de fondo de los viewers
 	SbColor bgColor_viewer; 
 
+	///Nivel de Antialias
+	unsigned antialias_level;
+
 public:
 
 	///The one and only.... root node!!!
@@ -98,6 +102,9 @@ public:
 
 	///Añade un mensaje a la consola de mensajes
 	void addMessage(const QString &msg);
+
+	///Aplica los parametros de render actuales a un viewer
+    void configureViewer(SoQtRenderArea *viewer);
 
 public slots:
 
@@ -129,6 +136,8 @@ public slots:
 	///Configura la variable de entorno COIN_SHOW_FPS_COUNTER
 	void on_actionShow_FPS_toggled(bool on);
 	void on_actionChange_BG_color_activated();
+	///Configura el nivel de antialias
+	void on_actionEnable_Antialias_toggled(bool on);
 
 	//Slots para menu Tools
 	void on_actionNode_Palette_toggled(bool on);
