@@ -31,15 +31,11 @@
     <addaction name="actionRemove_face" />
     <addaction name="actionFlip_face" />
    </widget>
-   <widget class="QMenu" name="menuView_options" >
-    <property name="title" >
-     <string>view options</string>
-    </property>
-    <addaction name="actionBackground_color" />
-    <addaction name="actionAntialias" />
-   </widget>
    <addaction name="menuPick" />
-   <addaction name="menuView_options" />
+    <addaction name="actionNone" />
+    <addaction name="actionInfo" />
+    <addaction name="actionRemove_face" />
+    <addaction name="actionFlip_face" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionNone" >
@@ -64,22 +60,6 @@
    </property>
    <property name="text" >
     <string>Remove face</string>
-   </property>
-  </action>
-  <action name="actionBackground_color" >
-   <property name="enabled" >
-    <bool>false</bool>
-   </property>
-   <property name="text" >
-    <string>Background color</string>
-   </property>
-  </action>
-  <action name="actionAntialias" >
-   <property name="enabled" >
-    <bool>false</bool>
-   </property>
-   <property name="text" >
-    <string>Antialias</string>
    </property>
   </action>
   <action name="actionFlip_face" >

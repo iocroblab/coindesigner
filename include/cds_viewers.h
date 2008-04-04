@@ -147,6 +147,9 @@ public slots:
 		id->setChecked(true);
 		pickAction = id;
 
+		//Mostramos un mensaje en barra de status
+		this->statusBar()->showMessage(id->text());
+
 		//Miramos si debemos desactivar las marcas
 		if (myRoot!=NULL && mark_sep!=NULL && pickAction != Ui.actionInfo)
 		{
