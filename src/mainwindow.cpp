@@ -805,7 +805,9 @@ void MainWindow::on_actionExaminerViewer_activated()
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
-}
+
+}//void MainWindow::on_actionExaminerViewer_activated()
+
 
 void MainWindow::on_actionFlyViewer_activated()
 {
@@ -828,7 +830,9 @@ void MainWindow::on_actionFlyViewer_activated()
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
-}
+
+}//void MainWindow::on_actionFlyViewer_activated()
+
 
 void MainWindow::on_actionPlaneViewer_activated()
 {
@@ -851,7 +855,9 @@ void MainWindow::on_actionPlaneViewer_activated()
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
-}
+
+}//void MainWindow::on_actionPlaneViewer_activated()
+
 
 void MainWindow::on_actionRenderArea_activated()
 {
@@ -914,6 +920,7 @@ void MainWindow::on_actionMessages_toggled(bool on)
 void MainWindow::on_actionExaminerViewer_Editor_activated()
 {
     CdsExaminerEditor *viewer = new CdsExaminerEditor(root);
+	viewer->setBackgroundColor(bgColor_viewer);
     viewer->show();
 }
 
@@ -921,6 +928,7 @@ void MainWindow::on_actionExaminerViewer_Editor_activated()
 void MainWindow::on_actionPlaneViewer_Editor_activated()
 {
     CdsPlaneEditor *viewer = new CdsPlaneEditor(root);
+	viewer->setBackgroundColor(bgColor_viewer);
     viewer->show();
 }
 

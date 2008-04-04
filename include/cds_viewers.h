@@ -162,7 +162,7 @@ public slots:
 
 ///Template para todos los editores, 
 template <class SOTYPEVIEWER>
-class CdsEditorTemplate : public cds_editor, SOTYPEVIEWER
+class CdsEditorTemplate : public cds_editor, public SOTYPEVIEWER
 {
 	///Posiciones de las marcas
 	SoCoordinate3 *mark_coord;
