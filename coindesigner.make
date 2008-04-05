@@ -23,6 +23,7 @@ all : coindesigner cdsview
 coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro 
 	qmake -o - coindesigner.pro > Makefile
 	$(MAKE) -f Makefile 
+	lrelease -compress coindesigner.pro
 	#rm Makefile
 
 cdsview : src/cdsview.cpp 
