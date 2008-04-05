@@ -206,6 +206,16 @@ void settingsDialog::setToDefault(bool reset)
 {
    QString key, value;
 
+   //Idioma del interface grafico
+   key = "lang";
+   value = settings->value(key).toString();
+   if (reset || value.isEmpty())
+   {
+      value = QLocale::system().name();
+      qDebug() << "Setting: " << key << "=" << value;
+      settings->setValue(key, value);
+   }
+
    //Navegador por defecto
    key = "helpViewer_app";
    value = settings->value(key).toString();

@@ -392,7 +392,7 @@ Are you sure you want to embed all textures?</source>
     <message>
         <location filename="../ui/mainwindow.ui" line="125"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">Ayuda</translation>
+        <translation>&amp;Ayuda</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="129"/>
@@ -472,7 +472,7 @@ Are you sure you want to embed all textures?</source>
     <message>
         <location filename="../ui/mainwindow.ui" line="337"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished">Salir</translation>
+        <translation>&amp;Terminar</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="340"/>
