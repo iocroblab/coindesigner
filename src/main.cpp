@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
 
 	//Traduccion de cadenas de coindesigner
 	QTranslator appTranslator;
-//	QString qtTranslationsDir = QTD
 	if (appTranslator.load("coindesigner_" + lang, "translations"))
 		app.installTranslator(&appTranslator);
 	else
