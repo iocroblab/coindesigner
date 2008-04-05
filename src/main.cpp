@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	if(qtTranslator.load("qt_" + lang, qtTranslationDir))
 		app.installTranslator(&qtTranslator);
 	else
-		qDebug("Can't load file qt_%s", lang);
+		qDebug("Can't load file qt_%s", qPrintable(lang));
 
 	//Traduccion de cadenas de coindesigner
 	QTranslator appTranslator;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	if (appTranslator.load("coindesigner_" + lang, "translations"))
 		app.installTranslator(&appTranslator);
 	else
-		qDebug("Can't load file coindesigner_%s", lang);
+		qDebug("Can't load file coindesigner_%s", qPrintable(lang));
 
 	//Creamos la ventana principal (esto inicializa SoDB y SoQt)
 	MainWindow *mw = new MainWindow();
