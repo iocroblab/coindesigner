@@ -390,6 +390,24 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 		Ui.Convert_Manip->setText(tr("Convert in SoClipPlane"));
 		menu.addAction(Ui.Convert_Manip);
 	}
+	else if (tipo == SoRotation::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoTrackballManip"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo == SoTrackballManip::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoRotation"));
+		menu.addAction(Ui.Convert_Manip);
+	}
+	else if (tipo.isDerivedFrom(SoTransformManip::getClassTypeId()) ) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in SoTransform"));
+		menu.addAction(Ui.Convert_Manip);
+	}
 	else if (tipo == SoClipPlane::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
@@ -433,10 +451,28 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	}
 
 
-	//DEBUG
-	//QMenu transfMenu(tr("Transform into"), this);
-	//menu.addMenu(&transfMenu);
-
+	//Convierte un soTransform en cualquier manip
+	if (tipo == SoTransform::getClassTypeId())
+	{
+		//DEBUG
+		//QMenu transfMenu(tr("Transform into"), this);
+		//menu.addMenu(&transfMenu);
+		Ui.actionSoCenterballManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoCenterballManip);
+		Ui.actionSoHandleBoxManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoHandleBoxManip);
+		Ui.actionSoJackManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoJackManip);
+		Ui.actionSoTabBoxManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoTabBoxManip);
+		Ui.actionSoTrackballManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoTrackballManip);
+		Ui.actionSoTransformBoxManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoTransformBoxManip);
+		Ui.actionSoTransformerManip->setData((qulonglong)item);
+		menu.addAction(Ui.actionSoTransformerManip);
+	}
+	
 	//Mostramos el menu popup
 	menu.exec(Ui.sceneGraph->mapToGlobal(pos));
 
@@ -579,29 +615,23 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
 }//void MainWindow::on_actionEmbedTexture_activated()
 
 
-///Convert a node into its correspondent manip 
+///Convert a light or clipPlane into its correspondent manip 
 void MainWindow::on_Convert_Manip_activated()
 {
-    QTreeWidgetItem *item = NULL;
+	//Comienza por intentar usar el item actual
+	QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
 
-	//Miramos si nos han pasado algun nodo o debemos usar el item actual 
-	if (item == NULL)
+	//Trata de leer el argumento del sender()->data
+	QAction *action = qobject_cast<QAction *>(sender());
+	if (action)
 	{
-		//Comienza por intentar usar el item actual
-		item=Ui.sceneGraph->currentItem();
+		bool ok = false;
+		QTreeWidgetItem *item2 = (QTreeWidgetItem *)action->data().toULongLong(&ok);
+		if (ok && item2)
+			item = item2;
 
-		//Trata de leer el argumento del sender()->data
-		QAction *action = qobject_cast<QAction *>(sender());
-		if (action)
-		{
-			bool ok = false;
-			QTreeWidgetItem *item2 = (QTreeWidgetItem *)action->data().toULongLong(&ok);
-			if (ok && item2)
-				item = item2;
-
-			//Borramos el contenido del action->data(), por si acaso acaba en otra parte
-			action->setData(0);
-		}
+		//Borramos el contenido del action->data(), por si acaso acaba en otra parte
+		action->setData(0);
 	}
 
 	//Creacion del nuevo nodo sustituto del anterior
@@ -632,6 +662,49 @@ void MainWindow::on_Convert_Manip_activated()
     {
         newNode=(SoNode*)new SoDirectionalLightManip();
     }  
+    else if (node->getTypeId() == SoRotation::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoTrackballManip();
+    }
+	//Los SoTrackballManip se convierten en SoRotation
+    else if (node->getTypeId() == SoTrackballManip::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoRotation();
+    }  
+	//El resto de SoTransformManip se convierten en SoTransform
+	else if (node->getTypeId().isDerivedFrom(SoTransformManip::getClassTypeId())) 
+    {
+        newNode=(SoNode*)new SoTransform();
+    }
+	//Los tranform se convierten en un manip dependiendo de la accion llamante
+    else if (node->getTypeId() == SoTransform::getClassTypeId()) 
+    {
+		if (action == Ui.actionSoCenterballManip )
+			newNode=(SoNode*)new SoCenterballManip();
+		else if (action == Ui.actionSoHandleBoxManip )
+			newNode=(SoNode*)new SoHandleBoxManip();
+		else if (action == Ui.actionSoJackManip )
+			newNode=(SoNode*)new SoJackManip();
+		else if (action == Ui.actionSoTabBoxManip )
+			newNode=(SoNode*)new SoTabBoxManip();
+		else if (action == Ui.actionSoTrackballManip )
+			newNode=(SoNode*)new SoTrackballManip();
+		else if (action == Ui.actionSoTransformBoxManip )
+			newNode=(SoNode*)new SoTransformBoxManip();
+		else if (action == Ui.actionSoTransformerManip )
+			newNode=(SoNode*)new SoTransformerManip();
+		else
+		{
+			//Me han pasado un nodo no soportado
+			QString S;
+			S.sprintf("Wrong action. Blame developper!!");
+			QMessageBox::warning( this, tr("Warning"), S);
+
+			return;
+		}
+
+	}  
+
     else if (node->getTypeId() == SoClipPlaneManip::getClassTypeId()) 
     {
         newNode=(SoNode*)new SoClipPlane();
@@ -706,7 +779,7 @@ void MainWindow::on_Convert_Manip_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionConvert_Manip_activated(QTreeWidgetItem *item)
+}//void MainWindow::on_actionConvert_Manip_activated()
 
 
 

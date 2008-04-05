@@ -804,6 +804,62 @@
     <string>Feedback Visibility</string>
    </property>
   </action>
+	 <action name="actionSoCenterballManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoCenterballManip</string>
+		 </property>
+	 </action>
+	 <action name="actionSoHandleBoxManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoHandleBoxManip</string>
+		 </property>
+	 </action>
+	 <action name="actionSoJackManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoJackManip</string>
+		 </property>
+	 </action>
+	 <action name="actionSoTabBoxManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoTabBoxManip</string>
+		 </property>
+	 </action>
+	 <action name="actionSoTrackballManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoTrackballManip</string>
+		 </property>
+	 </action>
+	 <action name="actionSoTransformBoxManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoTransformBoxManip</string>
+		 </property>
+	 </action>
+	 <action name="actionSoTransformerManip" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoTransformerManip</string>
+		 </property>
+	 </action>
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>

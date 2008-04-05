@@ -173,7 +173,7 @@ public slots:
 	///Embed all textures in the scene
 	void on_actionEmbed_all_textures_activated ();
 
-	///Convert a node into its correspondent manip 
+	///Convert a light or clipPlane into its correspondent manip
 	void on_Convert_Manip_activated();
 
 	///Close mainwindow Event
