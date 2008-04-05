@@ -188,6 +188,11 @@ public slots:
 	void on_IndexedFaceSet_to_IndexedLineSet_activated();
 	///Convert a IndexedLineSet to IndexedFaceSet
 	void on_IndexedLineSet_to_IndexedFaceSet_activated();
+	///Cambia la orientacion de todas las facetas
+	void on_SoIndexedFaceSet_change_orientation_activated();
+	///Convert a SoIndexedTriangleStripSet to SoIndexedFaceSet
+	void on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated();
+
 
 	void on_Export_to_SMF_activated();
 	void on_Export_to_OFF_activated();
@@ -202,6 +207,9 @@ public slots:
 
 	///Callback to centre XYZ data in the origin
 	void on_Center_on_Origin_activated();
+
+	///Triangula las facetas de mas de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
+	void on_SoIndexedFaceSet_triangulate_activated();
 
 	///Rellena el contenido del fieldEditor con los datos de un SoNode
 	void updateFieldEditor(SoNode *nodo);

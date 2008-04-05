@@ -860,6 +860,31 @@
 			 <string>Convert to SoTransformerManip</string>
 		 </property>
 	 </action>
+	 <action name="SoIndexedFaceSet_triangulate" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to triangle mesh</string>
+		 </property>
+	 </action>
+	 <action name="SoIndexedFaceSet_change_orientation" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Change all faces orientation</string>
+		 </property>
+	 </action>
+	 <action name="SoIndexedTriangleStripSet_to_SoIndexedFaceSet" >
+		 <property name="icon" >
+			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+		 </property>
+		 <property name="text" >
+			 <string>Convert to SoIndexedFaceSet</string>
+		 </property>
+	 </action>
+	 
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>

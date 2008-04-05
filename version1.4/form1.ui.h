@@ -108,9 +108,6 @@ SoTimerSensor *refreshGUI_Sensor = NULL;
 static void refreshGUI_CB(void *data, SoSensor *sensor);
 
 
-//Variable que indica si debemos mostrar información al picar en
-//la escena o no.
-bool mostrar_pick_info = true;
 
 void MainWindow::inicializar()
 {
@@ -123,13 +120,6 @@ void MainWindow::inicializar()
 	refreshGUI_Sensor->setInterval(1.0);
 
 }// void MainWindow::inicializar()
-
-
-///Callback activada al cambiar el estado del boton getInfo
-void MainWindow::getInfo_toggled(bool on)
-{
-	mostrar_pick_info = on;
-}
 
 
 
@@ -159,45 +149,6 @@ void MainWindow::SoMatrixTransform_to_SoTransform()
    escena_modificada = true;
 }
 
-
-
-///Triangula las facetas de mas de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
-void MainWindow::SoIndexedFaceSet_triangulate()
-{
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-    SoNode *nodo = mapQTCOIN[item];
-
-    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
-    {
-		SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)nodo;
-		IndexedFaceSet_triangulate (ifs->coordIndex);
-		IndexedFaceSet_triangulate (ifs->materialIndex);
-		IndexedFaceSet_triangulate (ifs->normalIndex);
-		IndexedFaceSet_triangulate (ifs->textureCoordIndex);
-    }
-    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
-    {
-		SoVRMLIndexedFaceSet *ifs = (SoVRMLIndexedFaceSet *)nodo;   
-		IndexedFaceSet_triangulate (ifs->coordIndex);
-		IndexedFaceSet_triangulate (ifs->colorIndex);
-		IndexedFaceSet_triangulate (ifs->normalIndex);
-		IndexedFaceSet_triangulate (ifs->texCoordIndex);
-    }
-
-}// void MainWindow::SoIndexedFaceSet_triangulate()
-
-
-void MainWindow::SoIndexedFaceSet_change_orientation()
-{
-    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-    SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)mapQTCOIN[item];
-   
-   IndexedFaceSet_change_orientation (ifs->coordIndex);
-   IndexedFaceSet_change_orientation (ifs->materialIndex);
-   IndexedFaceSet_change_orientation (ifs->normalIndex);
-   IndexedFaceSet_change_orientation (ifs->textureCoordIndex);
-
-}// void MainWindow::SoIndexedFaceSet_change_orientation()
 
 
 void MainWindow::SoCoordinate3_to_qhull()
@@ -247,32 +198,6 @@ void MainWindow::SoCoordinate3_to_qhull()
 }// void MainWindow::SoCoordinate3_to_qhull()
 
 
-void MainWindow::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
-{
-    
-   QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
-   SoIndexedTriangleStripSet *oldNode= (SoIndexedTriangleStripSet*)mapQTCOIN[item];
-
-   SoIndexedFaceSet *newNode= IndexedTriangleStripSet_to_IndexedFaceSet (oldNode);
-
-   mapQTCOIN[item]=(SoNode*)newNode;
-   QTreeWidgetItem *padre=item->parent();
-   SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
-   nodo_padre->replaceChild(oldNode,newNode);
-
-   //Configuramos el icono y el texto del item
-   setNodeIcon(item);
-
-   //Actualizamos la tabla  de campos
-   updateFieldEditor (newNode);
-
-    //Indicamos que la escena ha sido modificada
-    escena_modificada = true;
-
-} // void MainWindow::SoIndexedTriangleStripSet_to_SoIndexedFaceSet()
-
-
-
 
 void MainWindow::cargar_fichero_locale(const char *fichero)
 {
@@ -308,11 +233,6 @@ void MainWindow::cargar_fichero_locale(const char *fichero)
     this->open_html_viewer(Path);
 
 } // void MainWindow::cargar_fichero_locale(const char *fichero)
-
- 
-void MainWindow::nada()
-{
-}
 
 
 //Esta función se encarga de mirar si tenemos programado algún ayudante
@@ -670,19 +590,12 @@ void MainWindow::showmenu()
 
     if (tipo.isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
     {
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Triangular facetas"),this,SLOT(SoIndexedFaceSet_triangulate()) );
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Cambiar orientacion facetas"),this,SLOT(SoIndexedFaceSet_change_orientation()) );
-      if (settings.readEntry("/coindesigner/qslim_app"))
-	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
-      if (settings.readEntry("/coindesigner/tetgen_app"))
-	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Tetrahedralizar con TETGEN"),this,SLOT(tetgen_activated ()));
       pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Recubrimiento"),this,SLOT(recubrimiento2()));
     }
     else 
     
     if (tipo.isDerivedFrom(SoCoordinate3::getClassTypeId())) 
     {
-      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Centrar en origen"),  this, SLOT(SoCoordinate3_center_new()) );
       pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Calcular cierre convexo"),  this, SLOT(SoCoordinate3_to_qhull()) );
     }
     else 
@@ -696,22 +609,13 @@ void MainWindow::showmenu()
     
     if (tipo.isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
     {
-      pm->insertItem(tr("Triangular facetas"),    this,SLOT(SoIndexedFaceSet_triangulate()) );
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero SMF/OBJ"),this,SLOT(SoIndexedFaceSet_to_SMF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero OFF"),this,SLOT(SoIndexedFaceSet_to_OFF()));
-      pm->insertItem(QPixmap::fromMimeSource("filesaveas.png"),tr("Exportar a fichero STL"),this,SLOT(SoIndexedFaceSet_to_STL()));
       if (settings.readEntry("/coindesigner/qslim_app"))
 	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Simplificar con QSLIM"),this,SLOT(qslim_activated ()));
       if (settings.readEntry("/coindesigner/tetgen_app"))
 	      pm->insertItem(QPixmap::fromMimeSource("package_utilities.png"),tr("Tetrahedralizar con TETGEN"),this,SLOT(tetgen_activated ()));
     }
     else 
-    
-    if (tipo.isDerivedFrom(SoIndexedTriangleStripSet::getClassTypeId())) 
-    {
-      pm->insertItem(QPixmap::fromMimeSource("rebuild.png"),tr("Convertir en SoIndexedFaceSet"),  this, SLOT(SoIndexedTriangleStripSet_to_SoIndexedFaceSet()) );
-    }
-   
+       
    
  //Mostramos el menu contextual
  pm->exec( QCursor::pos() );

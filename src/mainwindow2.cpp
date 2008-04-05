@@ -417,6 +417,8 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	else if (tipo == SoIndexedFaceSet::getClassTypeId()) 
 	{
 		menu.addAction(Ui.IndexedFaceSet_to_IndexedLineSet);
+		menu.addAction(Ui.SoIndexedFaceSet_triangulate);
+		menu.addAction(Ui.SoIndexedFaceSet_change_orientation);
 
 		//Opcion para simplificar la geometria con QSlim
 		if (!settings->value("qslim_app").toString().isEmpty())
@@ -443,13 +445,17 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	}
 	else if (tipo == SoVRMLIndexedFaceSet::getClassTypeId()) 
 	{
+		menu.addAction(Ui.SoIndexedFaceSet_triangulate);
 		//Submenu con las opciones de exportacion
 		menuExport.addAction(Ui.Export_to_SMF);
 		menuExport.addAction(Ui.Export_to_OFF);
 		menuExport.addAction(Ui.Export_to_STL);
 		menu.addMenu(&menuExport);
 	}
-
+	else if (tipo == SoIndexedTriangleStripSet::getClassTypeId()) 
+	{
+		menu.addAction(Ui.SoIndexedTriangleStripSet_to_SoIndexedFaceSet);
+	}
 
 	//Convierte un soTransform en cualquier manip
 	if (tipo == SoTransform::getClassTypeId())
@@ -477,6 +483,7 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	menu.exec(Ui.sceneGraph->mapToGlobal(pos));
 
 }//void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
+
 
 ///Put all children of a group node on the same level that its parent
 void MainWindow::on_actionPromote_Children_activated()
@@ -1078,4 +1085,76 @@ void MainWindow::on_actionIvfix_activated()
 	}
 
 }//void MainWindow::on_actionIvfix_activated()
+
+
+///Triangula las facetas de mas de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
+void MainWindow::on_SoIndexedFaceSet_triangulate_activated()
+{
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+    SoNode *nodo = mapQTCOIN[item];
+
+    if (nodo->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId())) 
+    {
+		SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)nodo;
+		IndexedFaceSet_triangulate (ifs->coordIndex);
+		IndexedFaceSet_triangulate (ifs->materialIndex);
+		IndexedFaceSet_triangulate (ifs->normalIndex);
+		IndexedFaceSet_triangulate (ifs->textureCoordIndex);
+    }
+    else if (nodo->getTypeId().isDerivedFrom(SoVRMLIndexedFaceSet::getClassTypeId())) 
+    {
+		SoVRMLIndexedFaceSet *ifs = (SoVRMLIndexedFaceSet *)nodo;   
+		IndexedFaceSet_triangulate (ifs->coordIndex);
+		IndexedFaceSet_triangulate (ifs->colorIndex);
+		IndexedFaceSet_triangulate (ifs->normalIndex);
+		IndexedFaceSet_triangulate (ifs->texCoordIndex);
+    }
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+}//void MainWindow::on_SoIndexedFaceSet_triangulate_activated()
+
+
+///Cambia la orientacion de todas las facetas
+void MainWindow::on_SoIndexedFaceSet_change_orientation_activated()
+{
+    QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+	assert(mapQTCOIN[item]->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId()));
+    SoIndexedFaceSet *ifs = (SoIndexedFaceSet *)mapQTCOIN[item];
+   
+   IndexedFaceSet_change_orientation (ifs->coordIndex);
+   IndexedFaceSet_change_orientation (ifs->materialIndex);
+   IndexedFaceSet_change_orientation (ifs->normalIndex);
+   IndexedFaceSet_change_orientation (ifs->textureCoordIndex);
+
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+
+}// void MainWindow::on_SoIndexedFaceSet_change_orientation_activated()
+
+
+void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
+{
+	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
+	SoIndexedTriangleStripSet *oldNode= (SoIndexedTriangleStripSet*)mapQTCOIN[item];
+
+	SoIndexedFaceSet *newNode= IndexedTriangleStripSet_to_IndexedFaceSet (oldNode);
+
+	mapQTCOIN[item]=(SoNode*)newNode;
+	QTreeWidgetItem *padre=item->parent();
+	SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[padre];
+	nodo_padre->replaceChild(oldNode,newNode);
+
+	//Configuramos el icono y el texto del item
+	setNodeIcon(item);
+	item->setText(0, QString(newNode->getTypeId().getName() ));
+	//TODO item->setToolTip(0, QString(t.getName()));
+
+	//Actualizamos la tabla  de campos
+	updateFieldEditor (newNode);
+
+	//Indicamos que la escena ha sido modificada
+	escena_modificada = true;
+
+}//void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
+
 

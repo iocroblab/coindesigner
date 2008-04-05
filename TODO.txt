@@ -28,8 +28,6 @@ DONE: Settings editor
   
 TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
-TODO: Conversores transform <-> manip
-
 
 * Revision de README.txt
 
