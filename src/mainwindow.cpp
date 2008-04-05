@@ -815,6 +815,9 @@ void MainWindow::on_actionExaminerViewer_activated()
     viewer->setSceneGraph(root);
 	configureViewer(viewer);
 
+	//Decide si mostrar el eje de coordenadas de orientacion
+	viewer->setFeedbackVisibility(Ui.actionFeedback_Visibility->isChecked());
+
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
 
@@ -961,6 +964,10 @@ void MainWindow::on_actionExaminerViewer_Editor_activated()
 {
     CdsExaminerEditor *viewer = new CdsExaminerEditor(root);
 	configureViewer(viewer);
+
+	//Decide si mostrar el eje de coordenadas de orientacion
+	viewer->setFeedbackVisibility(Ui.actionFeedback_Visibility->isChecked());
+
     viewer->show();
 }
 

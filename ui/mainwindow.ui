@@ -67,7 +67,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -103,6 +103,7 @@
     <addaction name="actionChange_BG_color" />
     <addaction name="actionEnable_Antialias" />
     <addaction name="actionHQ_transparency" />
+    <addaction name="actionFeedback_Visibility" />
    </widget>
    <widget class="QMenu" name="menuEdit" >
     <property name="title" >
@@ -793,6 +794,14 @@
    </property>
    <property name="text" >
     <string>HQ transparency</string>
+   </property>
+  </action>
+  <action name="actionFeedback_Visibility" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Feedback Visibility</string>
    </property>
   </action>
  </widget>
