@@ -2,6 +2,8 @@
 #include <qapplication.h>
 #include <qsettings.h>
 #include <qresource.h>
+#include <qtranslator.h>
+#include <QLocale>
 #include <QByteArray>
 
 #include <mainwindow.h>
@@ -32,6 +34,21 @@ int main(int argc, char *argv[])
 		settingsDialog settingDlg;
 		settingDlg.setToDefault(false);
 	}
+
+	QString lang(QLocale::system().name());
+	//TODO: Coger el lenguaje del sistema o de settings
+	lang = "es";
+	qDebug("Locale=_%s",qPrintable(lang));
+
+	//Traduccion de cadenas de QT
+	QTranslator qtTranslator;
+	qtTranslator.load("qt_" + lang);
+	app.installTranslator(&qtTranslator);
+
+	//Traduccion de cadenas de coindesigner
+	QTranslator myappTranslator;
+	myappTranslator.load("coindesigner_" + lang);
+	app.installTranslator(&myappTranslator);
 
 	//Creamos la ventana principal (esto inicializa SoDB y SoQt)
 	MainWindow *mw = new MainWindow();

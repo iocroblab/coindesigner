@@ -351,67 +351,67 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	else if (tipo == SoDirectionalLight::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLightManip"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoDirectionalLightManip");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoSpotLight::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoSpotLightManip"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoSpotLightManip");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoPointLight::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoPointLightManip"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoPointLightManip");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoDirectionalLightManip::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoDirectionalLight"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoDirectionalLight");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoSpotLightManip::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoSpotLight"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoSpotLight");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoPointLightManip::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoPointLight"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoPointLight");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoClipPlaneManip::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoClipPlane"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoClipPlane");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoRotation::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoTrackballManip"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoTrackballManip");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoTrackballManip::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoRotation"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoRotation");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo.isDerivedFrom(SoTransformManip::getClassTypeId()) ) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoTransform"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoTransform");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoClipPlane::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
-		Ui.Convert_Manip->setText(tr("Convert in SoClipPlaneManip"));
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoClipPlaneManip");
 		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoIndexedFaceSet::getClassTypeId()) 
@@ -851,7 +851,7 @@ void MainWindow::on_Export_to_SMF_activated()
 {
 	//Nombre del fichero donde escribir
     QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
-		tr("OBJ/SMF Files")+" (*.obj *.smf);;"+tr("All Files")+" (*)");
+		tr("OBJ/SMF ")+tr("Files")+" (*.obj *.smf);;"+tr("All Files")+" (*)");
 
     //Miramos si se pulso el boton cancelar
     if (filename=="")
@@ -913,7 +913,7 @@ void MainWindow::on_Export_to_OFF_activated()
 
 	//Nombre del fichero donde escribir
     QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
-		tr("OFF Files")+" (*.off);;"+tr("All Files")+" (*)");
+		tr("OFF ")+tr("Files")+" (*.off);;"+tr("All Files")+" (*)");
 
     //Miramos si se pulso el boton cancelar
     if (filename=="")
@@ -955,7 +955,7 @@ void MainWindow::on_Export_to_STL_activated()
 
 	//Nombre del fichero donde escribir
     QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
-		tr("STL Files")+" (*.stl);;"+tr("All Files")+" (*)");
+		tr("STL ")+tr("Files")+" (*.stl);;"+tr("All Files")+" (*)");
 
     //Miramos si se pulso el boton cancelar
     if (filename=="")
@@ -990,7 +990,7 @@ void MainWindow::on_Export_to_XYZ_activated()
 {
 	//Nombre del fichero donde escribir
     QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
-		tr("XYZ Files")+" (*.xyz);;"+tr("All Files")+" (*)");
+		tr("XYZ ")+tr("Files")+" (*.xyz);;"+tr("All Files")+" (*)");
 
     //Miramos si se pulso el boton cancelar
     if (filename=="")

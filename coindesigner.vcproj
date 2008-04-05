@@ -44,21 +44,17 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200 -w34100 -w34189 -Zm200 -w34100 -w34189 -w34100 -w34189"
 				Optimization="2"
-				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="\Qt\4.3.2\include\QtCore;\Qt\4.3.2\include\QtGui;\Qt\4.3.2\include;include;include\ivfix;include\qhulllib;&quot;$(COIN3DDIR)\include&quot;;c:\Qt\4.3.2\include\ActiveQt;tmp;&quot;\Qt\4.3.2\mkspecs\win32-msvc2005&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot;,&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot;,&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot;,&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot;,&quot;..\..\..\..\Qt\4.3.2\include&quot;,&quot;include&quot;,&quot;include\ivfix&quot;,&quot;include\qhulllib&quot;,&quot;$(COIN3DDIR)\include&quot;,&quot;c:\Qt\4.3.2\include\ActiveQt&quot;,&quot;tmp&quot;,&quot;tmp&quot;,..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005"
 				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,CDS_VERSION=&quot;2.0&quot;,USE_VOLEON,SIMVOLEON_DLL,COIN_DLL,SOQT_DLL,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
-				EnableEnhancedInstructionSet="2"
 				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
-				OpenMP="false"
 				AssemblerListingLocation="tmp\"
 				ObjectFile="tmp\"
 				ProgramDataBaseFileName=".\"
-				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
@@ -78,14 +74,12 @@
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="c:\Qt\4.3.2\lib\qtmain.lib $(COIN3DDIR)\lib\simvoleon2.lib $(COIN3DDIR)\lib\simage1.lib $(COIN3DDIR)\lib\coin2.lib $(COIN3DDIR)\lib\soqt1.lib c:\Qt\4.3.2\lib\QtGui4.lib c:\Qt\4.3.2\lib\QtCore4.lib"
 				OutputFile="release\coindesigner.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="c:\Qt\4.3.2\lib"
 				GenerateDebugInformation="false"
 				ProgramDatabaseFile=""
 				SubSystem="2"
-				OptimizeForWindows98="0"
-				LinkTimeCodeGeneration="3"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -142,7 +136,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200 -w34100 -w34189 -Zm200 -w34100 -w34189 -w34100 -w34189"
 				Optimization="4"
-				AdditionalIncludeDirectories="&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include&quot;;include;include\ivfix;include\qhulllib;&quot;$(COIN3DDIR)\include&quot;;&quot;$(QTDIR)\ActiveQt&quot;;tmp;&quot;$(QTDIR)\mkspecs\win32-msvc2005&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot;,&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot;,&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot;,&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot;,&quot;..\..\..\..\Qt\4.3.2\include&quot;,&quot;include&quot;,&quot;include\ivfix&quot;,&quot;include\qhulllib&quot;,&quot;$(COIN3DDIR)\include&quot;,&quot;c:\Qt\4.3.2\include\ActiveQt&quot;,&quot;tmp&quot;,&quot;tmp&quot;,..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,CDS_VERSION=&quot;2.0&quot;,USE_VOLEON,SIMVOLEON_DLL,COIN_DLL,SOQT_DLL,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
@@ -371,7 +365,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\cds_viewers.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cds_viewers.h -o tmp\moc_cds_viewers.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cds_viewers.h -o tmp\moc_cds_viewers.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cds_viewers.h"
 						Outputs="tmp\moc_cds_viewers.cpp"
 					/>
@@ -382,7 +376,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\cds_viewers.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cds_viewers.h -o tmp\moc_cds_viewers.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cds_viewers.h -o tmp\moc_cds_viewers.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cds_viewers.h"
 						Outputs="tmp\moc_cds_viewers.cpp"
 					/>
@@ -397,7 +391,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\cppexport_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cppexport_options.h -o tmp\moc_cppexport_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cppexport_options.h -o tmp\moc_cppexport_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cppexport_options.h"
 						Outputs="tmp\moc_cppexport_options.cpp"
 					/>
@@ -408,7 +402,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\cppexport_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cppexport_options.h -o tmp\moc_cppexport_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\cppexport_options.h -o tmp\moc_cppexport_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\cppexport_options.h"
 						Outputs="tmp\moc_cppexport_options.cpp"
 					/>
@@ -423,7 +417,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\ivfix_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\ivfix_options.h -o tmp\moc_ivfix_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\ivfix_options.h -o tmp\moc_ivfix_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\ivfix_options.h"
 						Outputs="tmp\moc_ivfix_options.cpp"
 					/>
@@ -434,7 +428,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\ivfix_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\ivfix_options.h -o tmp\moc_ivfix_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\ivfix_options.h -o tmp\moc_ivfix_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\ivfix_options.h"
 						Outputs="tmp\moc_ivfix_options.cpp"
 					/>
@@ -449,7 +443,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\mainwindow.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mainwindow.h -o tmp\moc_mainwindow.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mainwindow.h -o tmp\moc_mainwindow.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\mainwindow.h"
 						Outputs="tmp\moc_mainwindow.cpp"
 					/>
@@ -460,7 +454,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\mainwindow.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mainwindow.h -o tmp\moc_mainwindow.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mainwindow.h -o tmp\moc_mainwindow.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\mainwindow.h"
 						Outputs="tmp\moc_mainwindow.cpp"
 					/>
@@ -475,7 +469,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\mfield_editor.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mfield_editor.h -o tmp\moc_mfield_editor.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mfield_editor.h -o tmp\moc_mfield_editor.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\mfield_editor.h"
 						Outputs="tmp\moc_mfield_editor.cpp"
 					/>
@@ -486,7 +480,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\mfield_editor.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mfield_editor.h -o tmp\moc_mfield_editor.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\mfield_editor.h -o tmp\moc_mfield_editor.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\mfield_editor.h"
 						Outputs="tmp\moc_mfield_editor.cpp"
 					/>
@@ -501,7 +495,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\qslim_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\qslim_options.h -o tmp\moc_qslim_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\qslim_options.h -o tmp\moc_qslim_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\qslim_options.h"
 						Outputs="tmp\moc_qslim_options.cpp"
 					/>
@@ -512,7 +506,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\qslim_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\qslim_options.h -o tmp\moc_qslim_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\qslim_options.h -o tmp\moc_qslim_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\qslim_options.h"
 						Outputs="tmp\moc_qslim_options.cpp"
 					/>
@@ -527,7 +521,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\settingsDialog.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\settingsDialog.h -o tmp\moc_settingsDialog.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\settingsDialog.h -o tmp\moc_settingsDialog.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\settingsDialog.h"
 						Outputs="tmp\moc_settingsDialog.cpp"
 					/>
@@ -538,7 +532,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\settingsDialog.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\settingsDialog.h -o tmp\moc_settingsDialog.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\settingsDialog.h -o tmp\moc_settingsDialog.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\settingsDialog.h"
 						Outputs="tmp\moc_settingsDialog.cpp"
 					/>
@@ -553,7 +547,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\src_editor.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\src_editor.h -o tmp\moc_src_editor.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\src_editor.h -o tmp\moc_src_editor.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\src_editor.h"
 						Outputs="tmp\moc_src_editor.cpp"
 					/>
@@ -564,7 +558,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\src_editor.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\src_editor.h -o tmp\moc_src_editor.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\src_editor.h -o tmp\moc_src_editor.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\src_editor.h"
 						Outputs="tmp\moc_src_editor.cpp"
 					/>
@@ -579,7 +573,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\tetgen_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\tetgen_options.h -o tmp\moc_tetgen_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\tetgen_options.h -o tmp\moc_tetgen_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\tetgen_options.h"
 						Outputs="tmp\moc_tetgen_options.cpp"
 					/>
@@ -590,7 +584,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="MOC include\tetgen_options.h"
-						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\tetgen_options.h -o tmp\moc_tetgen_options.cpp&#x0D;&#x0A;"
+						CommandLine="C:\Qt\4.3.2\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DCDS_VERSION=&quot;2.0&quot; -DUSE_VOLEON -DSIMVOLEON_DLL -DCOIN_DLL -DSOQT_DLL -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtCore&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include\QtGui&quot; -I&quot;..\..\..\..\Qt\4.3.2\include&quot; -I&quot;include&quot; -I&quot;include\ivfix&quot; -I&quot;include\qhulllib&quot; -I&quot;$(COIN3DDIR)\include&quot; -I&quot;c:\Qt\4.3.2\include\ActiveQt&quot; -I&quot;tmp&quot; -I&quot;tmp&quot; -I..\..\..\..\Qt\4.3.2\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 include\tetgen_options.h -o tmp\moc_tetgen_options.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="C:\Qt\4.3.2\bin\moc.exe;include\tetgen_options.h"
 						Outputs="tmp\moc_tetgen_options.cpp"
 					/>
@@ -680,6 +674,17 @@
 			</File>
 			<File
 				RelativePath="tmp\ui_tetgen_options.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Translation Files"
+			Filter="ts"
+			UniqueIdentifier="{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}"
+			ParseFiles="false"
+			>
+			<File
+				RelativePath="translations\coindesigner_es.ts"
 				>
 			</File>
 		</Filter>

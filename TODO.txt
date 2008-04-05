@@ -44,3 +44,4 @@ TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 * salvar esquema de docks en setting
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
 
+* Drag&drop files from explorer

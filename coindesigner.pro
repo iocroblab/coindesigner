@@ -62,7 +62,7 @@ FORMS	=	ui/mainwindow.ui ui/cds_editor.ui ui/src_view.ui ui/mfield_editor.ui \
 
 RESOURCES = images/icons.qrc demos/demos.qrc
 
-#TODO TRANSLATIONS = translations/coindesigner_es.ts
+TRANSLATIONS = translations/coindesigner_es.ts
 
 #TODO INSTALL = test
 
