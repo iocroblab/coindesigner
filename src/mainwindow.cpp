@@ -1952,7 +1952,6 @@ void MainWindow::generarListaComponentes(const ivPadre_t *st, bool plano)
 	if (pName == "Node" || plano )
 	{
        	item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
-       //TODO item->setSelectable(t.canCreateInstance());
     }
     else
     {
@@ -1960,7 +1959,6 @@ void MainWindow::generarListaComponentes(const ivPadre_t *st, bool plano)
 	   QList<QTreeWidgetItem *> il = Ui.nodePalette->findItems(pName, Qt::MatchRecursive);
 	   assert(il.size() == 1);
        item = new QTreeWidgetItem(il.first(), QStringList(tName));
-       //TODO item->setSelectable(t.canCreateInstance());
     }//else
 
 	if (item)
@@ -2026,7 +2024,6 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
                 //Insertamos este tipo
                 if (!plano || tl[j].canCreateInstance())
                     item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
-                //TODO item->setSelectable(tl[j].canCreateInstance());
 
 				if (item)
 				{
@@ -2074,7 +2071,6 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
                 else
                 {
                     item = new QTreeWidgetItem(padre, QStringList(tName));
-                    //TODO item->setSelectable(tl[j].canCreateInstance());
                 }
 
 				if (item)

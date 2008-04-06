@@ -28,6 +28,7 @@ DONE: Settings editor
   
 TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
+DROP: Soporte para editar matrices y convertir SoMatrixTransform
 
 * Revision de README.txt
 
