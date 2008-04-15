@@ -2306,60 +2306,65 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
         }    
     }//if
 
-    //Miramos si este nodo contiene campos de tipo SFNode y MFNode
-    SoFieldList  fields;
-    node->getFields(fields);
-
-	//Leemos el numero de campos
-	int num_fields=fields.getLength();
-
-	//Recorremos todos los campos
-	for (int f=0; f < num_fields; f++)
+	//Evitamos desplegar los SoBaseKit
+	if (!node->getTypeId().isDerivedFrom(SoBaseKit::getClassTypeId()))
 	{
-		//Leemos el tipo de este campo
-		SoType tipo=fields[f]->getTypeId();
+		//Miramos si este nodo contiene campos de tipo SFNode y MFNode
+		SoFieldList  fields;
+		node->getFields(fields);
 
-		//Miramos si es un SFNode
-		if (tipo.isDerivedFrom(SoSFNode::getClassTypeId())) 
+		//Leemos el numero de campos
+		int num_fields=fields.getLength();
+
+		//Recorremos todos los campos mirando si contiene algún SFNode o MFNode
+		for (int f=0; f < num_fields; f++)
 		{
-			//Miramos si contiene un valor valido, y lo añadimos como hijo
-			SoNode *f_node = ((SoSFNode *)fields[f])->getValue();
-			if (f_node != NULL)
+			//Leemos el tipo de este campo
+			SoType tipo=fields[f]->getTypeId();
+
+			//Miramos si es un SFNode
+			if (tipo.isDerivedFrom(SoSFNode::getClassTypeId())) 
 			{
-				newSceneGraph(f_node, item, NULL);
+				//Miramos si contiene un valor valido, y lo añadimos como hijo
+				SoNode *f_node = ((SoSFNode *)fields[f])->getValue();
+				if (f_node != NULL)
+				{
+					newSceneGraph(f_node, item, NULL);
 
-				//Asignamos icono "field.png"
-				for (int i=0; i< item->childCount(); i++)
-					if (mapQTCOIN[item->child(i)] == f_node)
-						item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
+					//Asignamos icono "field.png"
+					for (int i=0; i< item->childCount(); i++)
+						if (mapQTCOIN[item->child(i)] == f_node)
+							item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
+				}
 			}
-		}
 
-		/*  revisar esto... nodos aparecen repetidos??
-		//Miramos si es un MFNode
-		else if (tipo.isDerivedFrom(SoMFNode::getClassTypeId())) 
-		{
+			/*  revisar esto... nodos aparecen repetidos??
+			//Miramos si es un MFNode
+			else if (tipo.isDerivedFrom(SoMFNode::getClassTypeId())) 
+			{
 			//Convertimos el tipo de field
 			SoMFNode *soMFNode= (SoMFNode *)fields[f];
 
 			//Añadimos una fila por cada nodo
 			for (int i=0; i<soMFNode->getNumNodes(); i++)
 			{
-				SoNode *i_node = soMFNode->getNode(i);
-				if (i_node != NULL)
-				{
-					newSceneGraph(i_node, item, NULL);
+			SoNode *i_node = soMFNode->getNode(i);
+			if (i_node != NULL)
+			{
+			newSceneGraph(i_node, item, NULL);
 
-					//Asignamos icono "field.png"
-					for (int i=0; i< item->childCount(); i++)
-						if (mapQTCOIN[item->child(i)] == i_node)
-							item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
-				}
+			//Asignamos icono "field.png"
+			for (int i=0; i< item->childCount(); i++)
+			if (mapQTCOIN[item->child(i)] == i_node)
+			item->child(i)->setIcon(0, QIcon(":/icons/nodes/field.png"));
+			}
 			}//for
 
-		} //if 
-		//*/
-	} //for
+			} //if 
+			//*/
+		} //for
+	}//	if (!node->getTypeId().isDerivedFrom(SoBaseKit::getClassTypeId()))
+
 
 	//Expandimos el nodo para que se vean los hijos
 	item_padre->setExpanded(true);
