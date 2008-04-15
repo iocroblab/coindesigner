@@ -100,28 +100,6 @@ int comboBox1_simVoleon_idx = -1;
 //Un puntero al formulario principal, necesario para llamadas desde exterior
 MainWindow *form1=NULL;
 
-// Sensor que actualiza el GUI a intervalos constantes, por si ha
-// cambiado el valor del nodo.
-SoTimerSensor *refreshGUI_Sensor = NULL;
-
-/// Callback que actualiza el GUI 
-static void refreshGUI_CB(void *data, SoSensor *sensor);
-
-
-
-void MainWindow::inicializar()
-{
-
-	//Salvo una referencia a este formulario
-	form1 = this;
-
-	//Creacion del nodeSensor que mantiene el GUI actualizado.
-	refreshGUI_Sensor = new SoTimerSensor (refreshGUI_CB, root);
-	refreshGUI_Sensor->setInterval(1.0);
-
-}// void MainWindow::inicializar()
-
-
 
 void MainWindow::SoMatrixTransform_to_SoTransform()
 {
@@ -568,15 +546,6 @@ int MainWindow::recubrimiento2()
        return 0;
 }//int MainWindow::recubrimiento2()
 
-
-//!Callback para encender/apagar el refresco del GUI
-void MainWindow::refreshGUI_but_toggled( bool on)
-{
-    if (on)
-        refreshGUI_Sensor->schedule();
-    else
-        refreshGUI_Sensor->unschedule();
-}
 
 
 void MainWindow::showmenu()
