@@ -81,9 +81,8 @@ void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
 	if (!item)
 		return;
 
-   //Si estamos vigilando la escena, dejamos de hacerlo para
-   //poder editar los valores de la misma.
-   //TODO: refreshGUI_but->setOn(false);
+   //Evitamos vigilar la escena para poder editar los valores de la misma.
+	Ui.actionWatch_node->setChecked(false);
 
     //Buscamos el nodo que estamos editando
 	if (!edit_node)
