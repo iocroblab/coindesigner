@@ -98,12 +98,17 @@ static void debugError_CB(const class SoError *error, void *)
 	global_mw->addMessage(error->getDebugString().getString());
 }
 
+
+/// Sensor que actualiza el GUI a intervalos constantes, por si ha cambiado el valor del nodo.
+SoTimerSensor *refreshGUI_Sensor = NULL;
+
 /// Callback que se activa para monitorizar un nodo
 static void refreshGUI_CB(void *data, SoSensor *)
 {
 	//Mostramos el nodo en la tabla de edición de campos
 	assert(global_mw != NULL);
-	global_mw->updateFieldEditor((SoNode *)data);
+	if (data != NULL)
+		global_mw->updateFieldEditor((SoNode *)data);
 }
 
 ///Constructor de la clase MainWindow
@@ -179,6 +184,11 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
     //Inicializamos el contenido de la paleta de nodos
     on_paletteComboBox_activated(Ui.paletteComboBox->currentIndex() );
+
+	//Creacion del nodeSensor que mantiene el GUI actualizado.
+	refreshGUI_Sensor = new SoTimerSensor (refreshGUI_CB, root);
+	refreshGUI_Sensor->setInterval(0.5f);
+
 }// MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
 //Acciones al cerrar la ventana principal
@@ -201,6 +211,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
         }
     }
 
+	if (refreshGUI_Sensor != NULL)
+    	refreshGUI_Sensor->unschedule();
+
     //Salvamos la geometria actual
     settings->setValue("geometry", saveGeometry());
 
@@ -218,6 +231,7 @@ void MainWindow::on_actionNew_Scene_activated()
     {
         root = new SoSeparator();
         root->ref ();
+    	root->setName("root");
     }
     else
     {
@@ -226,6 +240,10 @@ void MainWindow::on_actionNew_Scene_activated()
 
     //Borramos todo el arbol de nodos QT y creamos uno con un solo nodo
     Ui.sceneGraph->clear();
+
+	//Indicamos que refresque el nodo root
+    if(refreshGUI_Sensor != NULL)
+    	refreshGUI_Sensor->setData(root);
 
     //Creamos el item para nodo root y reasignamos su texto
     QTreeWidgetItem *qroot = newNodeItem(root);
@@ -1200,7 +1218,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 		nodo = mapQTCOIN[Ui.sceneGraph->currentItem()];
 
     //Cambiamos el sensor para vigilar este nodo
-    //TODO refreshGUI_Sensor->setData(nodo);
+    if(refreshGUI_Sensor != NULL)
+    	refreshGUI_Sensor->setData(nodo);
 
     //Extraemos su lista de campos
     SoFieldList  fields;
@@ -2815,3 +2834,15 @@ void MainWindow::addMessage(const QString &msg)
 	Ui.messages->append(msg);
 }
 
+///Activa/desactiva la vigilancia de cambios
+void MainWindow::on_actionWatch_node_toggled(bool on)
+{
+	if (refreshGUI_Sensor == NULL)
+		return;
+
+
+    if (on)
+        refreshGUI_Sensor->schedule();
+    else
+        refreshGUI_Sensor->unschedule();
+}

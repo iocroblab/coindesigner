@@ -126,7 +126,9 @@ public slots:
 	void on_actionLink_activated();
 	void on_actionMove_Up_activated();
 	void on_actionMove_Down_activated();
+	void on_actionWatch_node_toggled(bool on);
 	void on_actionPreferences_activated();
+	
 
 	//Slots para menu View
 	void on_actionExaminerViewer_activated();

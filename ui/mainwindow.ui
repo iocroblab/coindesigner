@@ -67,7 +67,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -117,6 +117,7 @@
     <addaction name="separator" />
     <addaction name="actionMove_Up" />
     <addaction name="actionMove_Down" />
+    <addaction name="actionWatch_node" />
     <addaction name="separator" />
     <addaction name="actionPreferences" />
    </widget>
@@ -193,6 +194,7 @@
    <addaction name="actionMove_Up" />
    <addaction name="actionMove_Down" />
    <addaction name="separator" />
+   <addaction name="actionWatch_node" />
   </widget>
   <widget class="QDockWidget" name="nodePalette_dockWidget" >
    <property name="sizePolicy" >
@@ -456,6 +458,9 @@
    </property>
   </action>
   <action name="actionCut" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/editcut.png</iconset>
    </property>
@@ -804,87 +809,100 @@
     <string>Feedback Visibility</string>
    </property>
   </action>
-	 <action name="actionSoCenterballManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoCenterballManip</string>
-		 </property>
-	 </action>
-	 <action name="actionSoHandleBoxManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoHandleBoxManip</string>
-		 </property>
-	 </action>
-	 <action name="actionSoJackManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoJackManip</string>
-		 </property>
-	 </action>
-	 <action name="actionSoTabBoxManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoTabBoxManip</string>
-		 </property>
-	 </action>
-	 <action name="actionSoTrackballManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoTrackballManip</string>
-		 </property>
-	 </action>
-	 <action name="actionSoTransformBoxManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoTransformBoxManip</string>
-		 </property>
-	 </action>
-	 <action name="actionSoTransformerManip" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoTransformerManip</string>
-		 </property>
-	 </action>
-	 <action name="SoIndexedFaceSet_triangulate" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to triangle mesh</string>
-		 </property>
-	 </action>
-	 <action name="SoIndexedFaceSet_change_orientation" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Change all faces orientation</string>
-		 </property>
-	 </action>
-	 <action name="SoIndexedTriangleStripSet_to_SoIndexedFaceSet" >
-		 <property name="icon" >
-			 <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
-		 </property>
-		 <property name="text" >
-			 <string>Convert to SoIndexedFaceSet</string>
-		 </property>
-	 </action>
-	 
+  <action name="actionSoCenterballManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoCenterballManip</string>
+   </property>
+  </action>
+  <action name="actionSoHandleBoxManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoHandleBoxManip</string>
+   </property>
+  </action>
+  <action name="actionSoJackManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoJackManip</string>
+   </property>
+  </action>
+  <action name="actionSoTabBoxManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTabBoxManip</string>
+   </property>
+  </action>
+  <action name="actionSoTrackballManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTrackballManip</string>
+   </property>
+  </action>
+  <action name="actionSoTransformBoxManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTransformBoxManip</string>
+   </property>
+  </action>
+  <action name="actionSoTransformerManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTransformerManip</string>
+   </property>
+  </action>
+  <action name="SoIndexedFaceSet_triangulate" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to triangle mesh</string>
+   </property>
+  </action>
+  <action name="SoIndexedFaceSet_change_orientation" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Change all faces orientation</string>
+   </property>
+  </action>
+  <action name="SoIndexedTriangleStripSet_to_SoIndexedFaceSet" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoIndexedFaceSet</string>
+   </property>
+  </action>
+  <action name="actionWatch_node" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filefind.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Watch node</string>
+   </property>
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+W</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>
