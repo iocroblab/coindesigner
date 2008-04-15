@@ -249,6 +249,13 @@ private:
 	void setRecentFile(const QString &fileName);
 	void updateRecentFileActions();
 
+ protected:
+	 ///Funciones para soportar drag&drop de archivos externos
+     void dragEnterEvent(QDragEnterEvent *event);
+     void dragMoveEvent(QDragMoveEvent *event);
+     void dragLeaveEvent(QDragLeaveEvent *event);
+     void dropEvent(QDropEvent *event);
+
 }; //class MainWindow
 
 ///Puntero global a mainwindow

@@ -2602,6 +2602,22 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
     }
 #endif
 
+    //Miramos si es una imagen, y la cargamos como textura
+    if (filename.endsWith(".jpg", Qt::CaseInsensitive) || filename.endsWith(".png", Qt::CaseInsensitive))
+    {
+
+		yyGeometry= new SoSeparator();
+
+		//Añadimos un SoTexture2
+		SoTexture2 *texture2= new SoTexture2();
+		texture2->filename = strFilename;
+		yyGeometry->addChild(texture2);
+
+		//Devolvemos la escena leida
+		fclose(yyin);
+		return yyGeometry;
+    }
+
     //Lo siento, pero ha fallado todo lo anterior
     /*
     QString S;
@@ -2849,4 +2865,40 @@ void MainWindow::on_actionWatch_node_toggled(bool on)
         refreshGUI_Sensor->schedule();
     else
         refreshGUI_Sensor->unschedule();
+}
+
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+	event->acceptProposedAction();
+}
+
+void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+{
+	event->acceptProposedAction();
+}
+
+void MainWindow::dragLeaveEvent(QDragLeaveEvent *event)
+{
+	event->accept();
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+	const QMimeData *mimeData = event->mimeData();
+
+	//Comprobamos que contiene enlaces a ficheros
+	if (mimeData->hasUrls()) 
+	{
+		//Tratamos de importar los ficheros uno por uno
+		QList<QUrl> urlList = mimeData->urls();
+		for (int i = 0; i < urlList.size() && i < 32; ++i) 
+		{
+			QString filename = urlList.at(i).toLocalFile();
+			addMessage(tr("Import:")+filename);
+			this->import_File(filename);
+		}
+	}
+
+	event->acceptProposedAction();
 }

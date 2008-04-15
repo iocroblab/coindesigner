@@ -10,6 +10,9 @@
     <height>607</height>
    </rect>
   </property>
+  <property name="acceptDrops" >
+   <bool>true</bool>
+  </property>
   <property name="windowTitle" >
    <string>Coindesigner</string>
   </property>
@@ -67,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -890,14 +893,14 @@
    </property>
   </action>
   <action name="actionWatch_node" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/filefind.png</iconset>
    </property>
    <property name="text" >
     <string>Watch node</string>
-   </property>
-   <property name="checkable" >
-    <bool>true</bool>
    </property>
    <property name="shortcut" >
     <string>Ctrl+W</string>

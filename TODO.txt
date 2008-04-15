@@ -30,8 +30,10 @@ DONE: edicion con helpers (SFEnum, ColorDialog, etc...)
 DONE: Añadir una consola dockable para mensajes
 	->TODO: ¿Añadir highlight para numeros y palabras clave?
 DONE: activar traduccion al castellano
+DONE: Drag&drop files from explorer
 DONE: Settings editor
-  file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
+	file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
+
 
 TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
@@ -51,6 +53,5 @@ DROP: Soporte para editar matrices y convertir SoMatrixTransform
 * salvar esquema de docks en setting
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
 
-* Drag&drop files from explorer
 
-* conections como tooltips
+* mostrar conections como tooltips
