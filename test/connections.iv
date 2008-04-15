@@ -1,0 +1,22 @@
+#Inventor V2.1 ascii
+
+
+DEF root Separator {
+
+  DEF drg+0 Scale1Dragger {
+
+  }
+  Translation {
+    translation 2 0 0
+
+  }
+  Cone {
+    bottomRadius 1 =
+    DecomposeVec3f {
+      vector 1 1 1 =
+      USE drg+0      . scaleFactor
+
+    }    . x
+
+  }
+}

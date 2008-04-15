@@ -30,6 +30,8 @@ TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
 DROP: Soporte para editar matrices y convertir SoMatrixTransform
 
+TODO: Los draggers se ven desarrollados en coindesigner, no como cajas negras.
+
 * Revision de README.txt
 
 * activar traduccion al castellano
