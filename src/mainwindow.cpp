@@ -1276,6 +1276,13 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
              S=nombre_campo;
          }
 
+		 if (field->isConnected())
+         {
+			 //Cambiamos la cabecera para indicar que es un campo conectado
+             S.append("**");
+         }
+
+
          //Añadimos una fila para este campo
          Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem (S));
          Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem ());
