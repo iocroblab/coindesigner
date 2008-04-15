@@ -1279,7 +1279,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 		 if (field->isConnected())
          {
 			 //Cambiamos la cabecera para indicar que es un campo conectado
-             S.append("**");
+             S.append("==");
          }
 
 
@@ -1297,7 +1297,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
          //Lista con tipos SF basicos que pueden describirse con una llamada a .get()
          const char *tipoBasicoSF[] = {"SFBool", "SFDouble", "SFFloat", "SFInt32", "SFString", "SFName",
-                                       "SFShort", "SFUInt32", "SFUShort", "SFVec", 
+                                       "SFShort", "SFUInt32", "SFUShort", "SFVec", "SFTime",
                                        NULL};
 
          //Lista con tipos MF basicos que pueden describirse con una llamada a .get1()
@@ -1544,9 +1544,9 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
          }
          else
 
-        //Actualizacion de cualquier campo tipo SoMFColor
-        if (!strcmp(nombre_tipo, "MFColor") )
-        {
+         //Actualizacion de cualquier campo tipo SoMFColor
+		 if (!strcmp(nombre_tipo, "MFColor") )
+         {
             //Convertimos el tipo de field
             SoMFColor *color= (SoMFColor *)field;
 
@@ -1560,30 +1560,22 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
                 Ui.fieldTable->item(numRows,0)->setText(S);
             }
 
-        }
-        else
+		 }
+         else
 
-       //Edicion de campos SFTime
-       if (!strcmp(nombre_tipo, "SFTime") )
-       {
-         SoSFTime * Tiempo=(SoSFTime*)field;
-         Ui.fieldTable->item(numRows,0)->setText(S.setNum(Tiempo->getValue().getValue()));
-       }
-       else
+         //Edicion de cualquier campo tipo SoSFMatrix
+		 if (!strcmp(nombre_tipo, "SFMatrix") )
+		 {
+			 Ui.fieldTable->item(numRows,0)->setText(tr("Edit"));
+		 }
 
-       //Edicion de cualquier campo tipo SoSFMatrix
-       if (!strcmp(nombre_tipo, "SFMatrix") )
-       {
-         Ui.fieldTable->item(numRows,0)->setText(tr("Edit"));
-       }
+		 else
+		 {
+			 QMessageBox::warning( this, tr("Error"), tr("No support for type: ")+nombre_tipo);
+		 }
 
-       else
-       {
-           QMessageBox::warning( this, tr("Error"), tr("No support for type: ")+nombre_tipo);
-       }
-
-       //Aumentamos el numero de filas
-       numRows++;
+		 //Aumentamos el numero de filas
+		 numRows++;
 
     } // for (int f=0; f < num_fields; f++)
 
@@ -1708,7 +1700,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
 
     //Lista con tipos SF basicos que pueden leerse con una llamada a .set()
     const char *tipoBasicoSF[] = {"SFBool", "SFDouble", "SFFloat", "SFInt32", "SFString", "SFName",
-                                  "SFShort", "SFUInt32", "SFUShort", "SFVec", "SFColor",
+                                  "SFShort", "SFUInt32", "SFUShort", "SFVec", "SFColor", "SFTime",
                                   NULL};
 
     //Tratamiento especial para el SoBase_name, que no es un campo real del nodo
