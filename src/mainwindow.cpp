@@ -2132,10 +2132,6 @@ QTreeWidgetItem *MainWindow::newNodeItem(SoNode *node)
     //Asignamos el texto del item
     item->setText(0, QString(node->getTypeId().getName() ));
 
-	//Asignamos un tooltip
-	//QString S;
-	//TODO item->setToolTip(0, S.setNum(node->getRefCount()));
-
     return item;
 }
 
