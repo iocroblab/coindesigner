@@ -2894,7 +2894,11 @@ void MainWindow::dropEvent(QDropEvent *event)
 		QList<QUrl> urlList = mimeData->urls();
 		for (int i = 0; i < urlList.size() && i < 32; ++i) 
 		{
+			//Extraemos el nombre del fichero 
 			QString filename = urlList.at(i).toLocalFile();
+			if (filename.isEmpty())
+				continue;
+
 			addMessage(tr("Import:")+filename);
 			this->import_File(filename);
 		}
