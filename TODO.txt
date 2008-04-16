@@ -57,3 +57,5 @@ DROP: Soporte para editar matrices y convertir SoMatrixTransform
 
 
 * mostrar conections como tooltips
+
+* Opción "Conectar Desde" para campos

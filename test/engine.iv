@@ -19,37 +19,29 @@ DEF root Separator {
     }
     Cone {
       bottomRadius =
-      DEF decompose+1 DecomposeVec3f {
-        vector  =
-        USE drg1+0        . scaleFactor
-
-      }      . x
-      height =
-      USE decompose+1      . y
+        DEF engine+1 DecomposeVec3f { vector = USE drg1+0 . scaleFactor } . x
+      height = USE engine+1      . y
 
     }
   }
-  DEF engine2 Separator {
+  DEF text Separator {
 
     Translation {
-      translation 0 -2 0
+      translation 1 -2 0
 
     }
-    Text2 {
-      string =
-      USE decompose+1      . y
+    DEF dragger_text Text2 {
+      string = USE drg1+0      . scaleFactor
+      justification CENTER
 
     }
     Translation {
-      translation 2 0 0
+      translation 0 -0.5 0
 
     }
-    Text2 {
-      string =
-      ElapsedTime {
-        speed 1
-
-      }      . timeOut
+    DEF timer_text Text2 {
+      string  = ElapsedTime { speed 1 }      . timeOut
+      justification CENTER
 
     }
   }
