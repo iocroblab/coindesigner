@@ -152,7 +152,7 @@ public slots:
 
 	//Slots para el menu Help
 	void on_actionCoin3D_Reference_activated();
-	void actionShow_Node_Reference_activated();
+	void on_actionShow_Node_Reference_activated();
 	void on_actionTutorial_1_activated();
 	void on_actionTutorial_2_activated();
 	void on_actionMirror_demo_activated();

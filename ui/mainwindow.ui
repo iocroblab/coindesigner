@@ -70,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -143,6 +143,7 @@
      <addaction name="actionPlanet_Earth_demo" />
     </widget>
     <addaction name="actionCoin3D_Reference" />
+    <addaction name="actionShow_Node_Reference" />
     <addaction name="menuTutorials" />
     <addaction name="menu_Demos" />
     <addaction name="separator" />
@@ -904,6 +905,17 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionShow_Node_Reference" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Node Reference</string>
+   </property>
+   <property name="shortcut" >
+    <string>F1</string>
    </property>
   </action>
  </widget>

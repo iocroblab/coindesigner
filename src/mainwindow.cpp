@@ -1015,7 +1015,7 @@ void MainWindow::on_actionCoin3D_Reference_activated()
 }
 
 ///Abre la página de referencia de la clase seleccionada en Ui.nodePalette
-void MainWindow::actionShow_Node_Reference_activated()
+void MainWindow::on_actionShow_Node_Reference_activated()
 {
     //Leemos el nombre de la clase y aseguramos que tiene el prefijo So
     QString className = Ui.nodePalette->currentItem()->text(0);
