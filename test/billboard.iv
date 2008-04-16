@@ -1,0 +1,40 @@
+#Inventor V2.1 ascii
+
+
+DEF root Separator {
+
+  DEF cam+0 PerspectiveCamera {
+    position 4.7826233 0.52470732 0.27505589
+    orientation -0.67677128 -0.030179895 -0.7355746  3.094012
+    nearDistance 4.8052692
+    farDistance 4.8248987
+    focalDistance 5.0544534
+
+  }
+  Separator {
+
+    Rotation {
+      rotation -0.67677128 -0.030179895 -0.7355746  3.094012 =
+      USE cam+0      . orientation
+
+    }
+    Switch {
+      whichChild 1
+
+      Texture2 {
+        filename "shadertest.jpg"
+
+      }
+      Texture2 {
+        filename "cow_skin.png"
+
+      }
+    }
+    Cube {
+      width 1
+      height 1
+      depth 0.0099999998
+
+    }
+  }
+}
