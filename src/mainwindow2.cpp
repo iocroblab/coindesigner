@@ -336,6 +336,11 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 			Ui.actionEmbedTexture->setData((qulonglong)item);
 			menu.addAction(Ui.actionEmbedTexture);
 		}
+
+		//Convertimos en BumpMap
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoBumpMap");
+		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo.isDerivedFrom(SoBumpMap::getClassTypeId()) )
 	{
@@ -346,6 +351,11 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 			Ui.actionEmbedTexture->setData((qulonglong)item);
 			menu.addAction(Ui.actionEmbedTexture);
 		}
+
+		//Convertimos en Texture2
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoTexture2");
+		menu.addAction(Ui.Convert_Manip);
 	}
 	else if (tipo == SoDirectionalLight::getClassTypeId()) 
 	{
@@ -671,6 +681,14 @@ void MainWindow::on_Convert_Manip_activated()
     else if (node->getTypeId() == SoRotation::getClassTypeId()) 
     {
         newNode=(SoNode*)new SoTrackballManip();
+    }
+    else if (node->getTypeId() == SoBumpMap::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoTexture2();
+    }
+    else if (node->getTypeId() == SoTexture2::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoBumpMap();
     }
 	//Los SoTrackballManip se convierten en SoRotation
     else if (node->getTypeId() == SoTrackballManip::getClassTypeId()) 
