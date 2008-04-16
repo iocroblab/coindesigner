@@ -1,7 +1,7 @@
 
 COINDESIGNER 2.0
 
-Written by Jose M. Espadero and Tomas Aguado (2004-2007)
+Written by Jose M. Espadero and Tomas Aguado (2004-2008).
 
 This set or programs is licensed under the GPL, please read the
 file GPL.txt for more details about the license.
@@ -52,7 +52,7 @@ Some characteristics of the tool are:
       between those nodes and his manip!
     * GUI has been translated to English and Spanish, if you want to help
       us to translate to your languaje write the author. A translation work
-      takes just about 30 minutes using Qt-Linguist.
+      takes just about 90 minutes using Qt-Linguist.
     * Includes the complete coin reference and several step by step
       tutorials directly brownsables from the application.
     * Allow some operations as mesh reduction (with QSLIM), scene
@@ -191,7 +191,11 @@ http://graphics.cs.uiuc.edu/~garland/software/qslim20.html
 ACKNOWLEDGES
 
 "If I have seen further, it is by standing upon the shoulders of giants"
-(Isaac Newton)
+(Isaac Newton, but I found it in Oscar Robles PhD)
+Well, most of my giants are working on the Modelling and Virtual Reality
+Group of the Rey Juan Carlos university. Their names are Marcos, Sofía, Oscar,
+Susana, Pablo, Luis, Angel, Luismi, Cesar, Carolina, and many more people that
+work in the group.
 
 The 3ds importer is part of coin3d package and was developed by PC John.
 This piece of code is usually available when you compile coin3D with
@@ -224,5 +228,6 @@ Last but not least, many fragment of coindesigner are based on examples found in
 the Coin3D and Qt documentation. We would like to acknowledge that work and 
 the help received from Lars J. Aas, Morten Eriksen and Peder Blekken from 
 Kongsberg SIM (aka System in Motion) through the coin-discuss mail list.
+They are the Coin on Coindesigner.
 
 
