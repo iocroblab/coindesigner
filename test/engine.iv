@@ -1,15 +1,56 @@
-#Inventor V2.0 ascii
+#Inventor V2.1 ascii
 
-    Separator {
-      RotationXYZ {
-	axis	Z
-	angle	  =
-	  ElapsedTime {
-	    speed 2.0
-	  }
-	  . timeOut
-      }
-      Cone {
-      }
+
+DEF root Separator {
+
+  DEF engine1 Separator {
+
+    Info {
+      string "Conection of a field from a dragger, using an intermediate engine"
+
     }
+    DEF drg1+0 Scale2Dragger {
+      scaleFactor 1 1 1
 
+    }
+    Translation {
+      translation 2 0 0
+
+    }
+    Cone {
+      bottomRadius =
+      DEF decompose+1 DecomposeVec3f {
+        vector  =
+        USE drg1+0        . scaleFactor
+
+      }      . x
+      height =
+      USE decompose+1      . y
+
+    }
+  }
+  DEF engine2 Separator {
+
+    Translation {
+      translation 0 -2 0
+
+    }
+    Text2 {
+      string =
+      USE decompose+1      . y
+
+    }
+    Translation {
+      translation 2 0 0
+
+    }
+    Text2 {
+      string =
+      ElapsedTime {
+        speed 1
+
+      }      . timeOut
+
+    }
+  }
+}
