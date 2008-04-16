@@ -3,6 +3,10 @@
 
 DEF root Separator {
 
+  Info {
+    string "Conection of a field from a dragger, using an intermediate engine"
+
+  }
   DEF drg+0 Scale1Dragger {
 
   }

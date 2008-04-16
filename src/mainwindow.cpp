@@ -1279,7 +1279,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 		 if (field->isConnected())
          {
 			 //Cambiamos la cabecera para indicar que es un campo conectado
-             S.append("==");
+             S.append("<=");
          }
 
 
