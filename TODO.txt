@@ -21,7 +21,6 @@ DONE: Poner nombre a nodos importados
 
 DONE Insercion de plantillas (help->demos)
   -> TODO: Falta decidir el conjunto de demos a incluir
-  -> TODO: Y preferiblemente añadirlas como iv.gz para ahorrar espacio
 
 DONE: salvar lista de ultimos archivos abiertos
 DONE: Compile a source in src_editor (will give support for engines and more)
@@ -31,6 +30,7 @@ DONE: Añadir una consola dockable para mensajes
 	->TODO: ¿Añadir highlight para numeros y palabras clave?
 DONE: activar traduccion al castellano
 DONE: Drag&drop files from explorer
+DONE: More conversions (Texture2, bumpmap, ...)
 DONE: Settings editor
 	file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
 
