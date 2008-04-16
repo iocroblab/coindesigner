@@ -157,6 +157,7 @@ public slots:
 	void on_actionTutorial_2_activated();
 	void on_actionMirror_demo_activated();
 	void on_actionPlanet_Earth_demo_activated();
+	void on_actionEngine_demo_activated();
 	void on_actionAbout_activated();
 
 	//Working area slots

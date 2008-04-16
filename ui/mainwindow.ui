@@ -70,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -141,6 +141,7 @@
      </property>
      <addaction name="actionMirror_demo" />
      <addaction name="actionPlanet_Earth_demo" />
+     <addaction name="actionEngine_demo" />
     </widget>
     <addaction name="actionCoin3D_Reference" />
     <addaction name="actionShow_Node_Reference" />
@@ -916,6 +917,14 @@
    </property>
    <property name="shortcut" >
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionEngine_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/gear.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Engine demo</string>
    </property>
   </action>
  </widget>

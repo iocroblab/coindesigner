@@ -1056,7 +1056,11 @@ void MainWindow::on_actionPlanet_Earth_demo_activated()
 	load_Scene_Demo(":/demos/planetEarth.iv.gz");
 }
 
-
+///Carga la demo engine.iv
+void MainWindow::on_actionEngine_demo_activated()
+{
+	load_Scene_Demo(":/demos/engine.iv");
+}
 
 ///Dialogo About
 void MainWindow::on_actionAbout_activated()
