@@ -37,6 +37,8 @@ DONE: Settings editor
 
 TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
+TODO: Preparar tutoriales 1 y 2 para coindesigner2
+
 DROP: Soporte para editar matrices y convertir SoMatrixTransform
 
 
