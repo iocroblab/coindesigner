@@ -1326,6 +1326,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 					 + QString(".")+ QString(mName.getString())+"\n";
 			 }
 
+			 //Lista de campos conectados como esclavos del field
 			 for (int i =0; i< slaveList.getLength(); i++)
 			 {
 				 //Identificamos el field slave y su container
@@ -1339,7 +1340,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
 			 //Asigna el toolTip
 			 Ui.fieldTable->item(numRows,0)->setToolTip(S);
-         }
+
+         }//if (field->isConnected() || field->getForwardConnections(slaveList) )
 
 
          //Mapeamos el numero de fila con el field correspondiente

@@ -59,10 +59,10 @@ translations : coindesigner.pro
 clean : 
 	qmake coindesigner.pro
 	$(MAKE) -f Makefile clean
-	$(DEL) -rf core Makefile tmp .qmake.internal.cache
+	$(RM) -rf core Makefile tmp .qmake.internal.cache
 
 distclean : 
 	qmake coindesigner.pro
 	$(MAKE) -f Makefile distclean
-	$(DEL) -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
+	$(RM) -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
 
