@@ -140,13 +140,13 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     updateRecentFileActions();
 
 	//Conexiones de las acciones de conversion para nodos SoTransform a manip
-	connect(Ui.actionSoCenterballManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoHandleBoxManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoJackManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTabBoxManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTrackballManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTransformBoxManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTransformerManip, SIGNAL(activated()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoCenterballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoHandleBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoJackManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoTabBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoTrackballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoTransformBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoTransformerManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
 
 
     //Inicialización de COIN y SoQt

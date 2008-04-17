@@ -20,11 +20,9 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 
 all : coindesigner cdsview
 
-coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro 
+coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro translations
 	qmake -o - coindesigner.pro > Makefile
 	$(MAKE) -f Makefile 
-	lupdate coindesigner.pro
-	lrelease -compress coindesigner.pro
 	#rm Makefile
 
 cdsview : src/cdsview.cpp 
@@ -52,9 +50,9 @@ src/cds_scanner.cpp : src/cds_scanner.l include/cds_parser.h
 coindesigner.vcproj : coindesigner.pro
 	qmake -t vcapp -o $@ coindesigner.pro
 
-translations : coindesigner.pro
+translations : coindesigner.pro 
 	lupdate coindesigner.pro
-	lrelease coindesigner.pro
+	lrelease -compress coindesigner.pro
 
 clean : 
 	qmake coindesigner.pro
