@@ -399,6 +399,12 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 		Ui.Convert_Manip->setText(tr("Convert in")+" SoClipPlane");
 		menu.addAction(Ui.Convert_Manip);
 	}
+	else if (tipo == SoTranslation::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoTransform");
+		menu.addAction(Ui.Convert_Manip);
+	}
 	else if (tipo == SoRotation::getClassTypeId()) 
 	{
 		Ui.Convert_Manip->setData((qulonglong)item);
@@ -678,6 +684,10 @@ void MainWindow::on_Convert_Manip_activated()
     {
         newNode=(SoNode*)new SoDirectionalLightManip();
     }  
+    else if (node->getTypeId() == SoTranslation::getClassTypeId()) 
+    {
+        newNode=(SoNode*)new SoTransform();
+    }
     else if (node->getTypeId() == SoRotation::getClassTypeId()) 
     {
         newNode=(SoNode*)new SoTrackballManip();
