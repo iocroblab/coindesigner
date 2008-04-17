@@ -112,7 +112,7 @@ public slots:
 	void on_actionNew_Scene_activated();
 	void on_actionLoad_Scene_activated() {load_Scene("");};
 	void on_actionSave_Scene_activated() {save_Scene("");};
-	void on_actionLoad_RecentFile();
+	void actionLoad_RecentFile_triggered(bool checked = false);
 	void on_actionImport_File_activated() {import_File("");};
 	void on_actionExport_C_activated();
 	void on_actionExport_VRML2_activated();

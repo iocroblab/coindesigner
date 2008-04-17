@@ -134,7 +134,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     {
         recentFileActs[i] = new QAction(this);
         recentFileActs[i]->setVisible(false);
-        connect(recentFileActs[i], SIGNAL(triggered()), this, SLOT(on_actionLoad_RecentFile()));
+        connect(recentFileActs[i], SIGNAL(triggered()), this, SLOT(actionLoad_RecentFile_triggered()));
         Ui.menuRecent_Files->addAction(recentFileActs[i]);
     }
     updateRecentFileActions();
@@ -2733,7 +2733,7 @@ void MainWindow::updateRecentFileActions()
 
 
 ///Abre una escena del menu de escenas recientes
-void MainWindow::on_actionLoad_RecentFile()
+void MainWindow::actionLoad_RecentFile_triggered(bool)
 {
      QAction *action = qobject_cast<QAction *>(sender());
      if (action)
