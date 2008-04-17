@@ -1261,13 +1261,14 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
     QString S;
     for (int f=0; f < num_fields; f++)
     {
+         SoField *field = fields[f];
+
         //Leemos el tipo de este campo
-         SoType tipo=fields[f]->getTypeId();
+         SoType tipo=field->getTypeId();
          const char*nombre_tipo = tipo.getName();  
-         //qDebug("EL tipo es %s\n",nombre_tipo);
+
          //Leemos el nombre de este campo
          SbName nombre_field;
-         SoField *field = fields[f];
          nodo->getFieldName(field, nombre_field);
          const char*nombre_campo = nombre_field.getString();  
 
