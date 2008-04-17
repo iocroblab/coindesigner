@@ -2111,12 +2111,12 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
     				item->setToolTip(0, S);
 				}
 
+                //qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
 
                 //y aplicamos recursividad
                 generarListaComponentes(tl[j], plano, item);
 
-                //qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
-            }//if
+            }// if (!tl[j].isBad() && tl[j].getParent() == t) 
         }//for
     }
     else
@@ -2157,13 +2157,13 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
 					//S += QString("Key: %1\n").arg(tl[j].getKey());
 					S += QString("CanCreateInstance: %1").arg(tl[j].canCreateInstance()?"Yes":"No" );
     				item->setToolTip(0, S);
-
-                	//qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
-
-	                //Aplica recursividad a los hijos directos
-    	            generarListaComponentes(tl[j], plano, item);
 				}
-            }
+
+               	//qDebug("%d %s %s\n", tl[j].getKey(), tl[j].getName().getString(), t.getName().getString() );
+
+	            //Aplica recursividad a los hijos directos
+    	        generarListaComponentes(tl[j], plano, item);
+            }// if (!tl[j].isBad() && tl[j].getParent() == t) 
         }//for (int j=0; j < tl.getLength(); j++) 
     }//else
 
