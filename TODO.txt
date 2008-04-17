@@ -31,6 +31,7 @@ DONE: Añadir una consola dockable para mensajes
 DONE: activar traduccion al castellano
 DONE: Drag&drop files from explorer
 DONE: More conversions (Texture2, bumpmap, ...)
+DONE: Mostrar conections como tooltips
 DONE: Settings editor
 	file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
 
@@ -44,8 +45,6 @@ DROP: Soporte para editar matrices y convertir SoMatrixTransform
 
 * Revision de README.txt
 
-* uso de regexp para evitar introducir valores no numericos en fieldTable?
-  
 * Undo
   file:///C:/Qt/4.3.2/doc/html/tools-undoframework.html
   
@@ -56,6 +55,6 @@ DROP: Soporte para editar matrices y convertir SoMatrixTransform
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
 
 
-* mostrar conections como tooltips
 
 * Opción "Conectar Desde" para campos
+

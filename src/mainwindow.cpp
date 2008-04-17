@@ -983,7 +983,10 @@ void MainWindow::configureViewer(SoQtRenderArea *viewer)
 
 	//Transparency type
 	if (Ui.actionHQ_transparency->isChecked())
+	{
+		viewer->setAlphaChannel(true);
 		viewer->setTransparencyType(SoGLRenderAction::SORTED_LAYERS_BLEND);
+	}
 }
 
 ///Crea un nuevo ExaminerViewer_Editor
@@ -1284,16 +1287,60 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
              S=nombre_campo;
          }
 
-		 if (field->isConnected())
-         {
-			 //Cambiamos la cabecera para indicar que es un campo conectado
-             S.append("<=");
-         }
-
-
          //Añadimos una fila para este campo
          Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem (S));
          Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem ());
+
+		 //Comprobamos si este campo esta conectado con otros o con un engine
+		 SoFieldList slaveList;
+		 if (field->isConnected() || field->getForwardConnections(slaveList) )
+         {
+			 //Informacion acerca de la conexion
+			 Ui.fieldTable->verticalHeaderItem(numRows)->setText(S+QString("<="));
+
+			 S.clear();
+
+			 //Lista de campos conectados como master de field
+			 SoFieldList masterFields;
+			 field->getConnections(masterFields);
+			 for (int i =0; i< masterFields.getLength(); i++)
+			 {
+				 //Identificamos el field master y su container
+				 SoField *mf = masterFields.get(i);
+				 SoFieldContainer *mfc = mf->getContainer();
+				 SbName mName;
+				 mfc->getFieldName(mf, mName);
+				 S+= tr("Master field:") + QString(mfc->getName().getString()) 
+					 + QString(".")+ QString(mName.getString())+"\n";
+			 }//for
+
+			 //Lista de engines conectados como master de field
+			 SoEngineOutput *mf;
+			 if (field->getConnectedEngine (mf))
+			 {
+				 //Identificamos el engine master 
+				 SoEngine *mfc = mf->getContainer();
+				 SbName mName;
+				 mfc->getOutputName(mf, mName);
+				 S+= tr("Master engine:") + QString(mfc->getName().getString()) 
+					 + QString(".")+ QString(mName.getString())+"\n";
+			 }
+
+			 for (int i =0; i< slaveList.getLength(); i++)
+			 {
+				 //Identificamos el field slave y su container
+				 SoField *mf = slaveList.get(i);
+				 SoFieldContainer *mfc = mf->getContainer();
+				 SbName mName;
+				 mfc->getFieldName(mf, mName);
+				 S+= tr("Slave Field:") + QString(mfc->getName().getString()) 
+					 + QString(".")+ QString(mName.getString())+"\n";
+			 }//for
+
+			 //Asigna el toolTip
+			 Ui.fieldTable->item(numRows,0)->setToolTip(S);
+         }
+
 
          //Mapeamos el numero de fila con el field correspondiente
          map_fieldTable[numRows] = field;
