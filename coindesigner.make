@@ -14,7 +14,7 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 
 #Esto debe hacerse desde autoconfig!!!
 #PREFIX="/usr/local"
-#VERSION="1.3"
+#VERSION="2.0"
 #CXXFLAGS+=-DUSE_VOLEON -I`coin-config --includedir` `soqt-config --cppflags` -g -O0
 #LDFLAGS+=-lSimVoleon `soqt-config --ldflags --libs`
 
@@ -59,10 +59,10 @@ translations : coindesigner.pro
 clean : 
 	qmake coindesigner.pro
 	$(MAKE) -f Makefile clean
-	rm -rf core Makefile tmp .qmake.internal.cache
+	$(DEL) -rf core Makefile tmp .qmake.internal.cache
 
 distclean : 
 	qmake coindesigner.pro
 	$(MAKE) -f Makefile distclean
-	rm -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
+	$(DEL) -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
 
