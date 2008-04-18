@@ -1,7 +1,7 @@
 #Inventor V2.1 ascii
 
 
-Separator {
+DEF root Separator {
 
   Separator {
 
@@ -1015,7 +1015,7 @@ Separator {
     intensity 5
     color 1 0 0
     location -11.305378 20.608557 36.542145
-    direction -0.17989747 -0.36101559 -0.91504353
+    direction -0.17989747 -0.36101559 -0.91504347
     dropOffRate 0
     cutOffAngle 0.31403899
 
@@ -1028,7 +1028,7 @@ Separator {
 
     }
     Texture2 {
-      filename "/home/jespa/CDS-04-11-19/test/cow_skin.png"
+      filename ""
 
     }
     Coordinate3 {
