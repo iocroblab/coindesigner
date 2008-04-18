@@ -969,6 +969,19 @@ void MainWindow::on_actionMessages_toggled(bool on)
     Ui.messages_dockWidget->setVisible(on);
 }
 
+void MainWindow::on_nodePalette_dockWidget_visibilityChanged(bool visible) 
+{
+	Ui.actionNode_Palette->setChecked(visible);
+}
+void MainWindow::on_fieldTable_dockWidget_visibilityChanged(bool visible) 
+{
+	Ui.actionField_Editor->setChecked(visible);
+}
+void MainWindow::on_messages_dockWidget_visibilityChanged(bool visible) 
+{
+	Ui.actionMessages->setChecked(visible);
+}
+
 ///Aplica los parametros de render actuales a un viewer
 void MainWindow::configureViewer(SoQtRenderArea *viewer)
 {
