@@ -590,7 +590,7 @@ void MainWindow::on_actionCut_activated()
     //No permitimos borrar el nodo raiz.
     if (node == root)
     {
-        //qDebug("Are you crazy? I'm the root node.\");
+		global_mw->addMessage(tr("Are you crazy? I'm the root node."));
        return;
     }
 
@@ -674,7 +674,7 @@ void MainWindow::on_actionDelete_activated()
     //No permitimos borrar el nodo raiz.
     if (node == root)
     {
-        //qDebug("No way, I'm Connor MacLeod (see http://imdb.com/title/tt0091203/ )");
+        global_mw->addMessage(tr("No way, I'm Connor MacLeod (see http://imdb.com/title/tt0091203/ )"));
         return;
     }
 
@@ -743,7 +743,7 @@ void MainWindow::on_actionMove_Up_activated()
     //No permitimos subir el nodo raiz.
     if (node == root)
     {
-        //qDebug("Are you crazy? I'm the root node.\");
+		global_mw->addMessage(tr("This is the high you can reach being a root node :-("));
         return;
     }
 
@@ -785,7 +785,7 @@ void MainWindow::on_actionMove_Down_activated()
     //No permitimos bajar el nodo raiz.
     if (node == root)
     {
-        //qDebug("Don't let me down!!! I'm the root node.\");
+        global_mw->addMessage(tr("Don't let me down!!! I'm the root node."));
         return;
     }
 
