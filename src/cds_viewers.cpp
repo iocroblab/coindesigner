@@ -234,8 +234,9 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         //Mostramos el indice del punto
         int idx = pointDetail->getCoordinateIndex();
 
+		//Preparamos un mensaje para la consola de mensajes
 		if (infoAction)
-			global_mw->addMessage(S.sprintf("Point index=%d\n", idx));
+			S.sprintf("Point index=%d", idx);
 
 		//Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Point index=%d", idx));
@@ -249,12 +250,14 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 		  //Mostramos informacion en barra de status
 		  M.append(S.sprintf(" of %s node name=%s", nombre_tipo, nombre_nodo));
 
-          qDebug("%s node; Name=%s; Index=%d XYZ= %10f %10f %10f",nombre_tipo, nombre_nodo, idx, centroid(coords)[0],centroid(coords)[1],centroid(coords)[2]);
-
-		  qDebug("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
-
-
+		  //Mejoramos el mensaje para la consola de mensajes
+		  S.sprintf("%s node; Name=%s; Index=%d; XYZ = %10f %10f %10f",
+			  nombre_tipo, nombre_nodo, idx, coords[idx][0],coords[idx][1],coords[idx][2]);
         }// if (nodeCoord)
+
+		if (infoAction)
+			global_mw->addMessage(S);
+
       }
       else
 
@@ -264,14 +267,14 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoTextDetail *textDetail = (SoTextDetail *) pickDetail;
 
         //Mostramos el indice del texto
-        qDebug("Char index=[%d][%d]",textDetail->getStringIndex(),
-                                               textDetail->getCharacterIndex());
+		S.sprintf("Char index=[%d][%d]",textDetail->getStringIndex(),
+                                        textDetail->getCharacterIndex());
+		if (infoAction)
+			global_mw->addMessage(S);
+
 	    //Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Char index=[%d][%d]",textDetail->getStringIndex(),
                                                textDetail->getCharacterIndex()));
-
-
-
       }
       else
 
@@ -283,11 +286,12 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         //Mostramos la cara pinchada
         int part = cubeDetail->getPart();
-        qDebug("Face index = %d (%s)", part, parts[part]);
+        S.sprintf("Face index = %d (%s)", part, parts[part]);
+		if (infoAction)
+			global_mw->addMessage(S);
 
 		//Mostramos informacion en barra de status
 		M.append(S.sprintf(" <> Face index = %d (%s)", part, parts[part]));
-
       }
       else
 
