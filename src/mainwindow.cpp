@@ -541,7 +541,8 @@ void MainWindow::on_actionEdit_Source_activated()
     SrcEditor srcEditor(root);
     srcEditor.exec();
 
-    if (srcEditor.result == NULL)
+	//Comprobamos que se ha compilado correctamente la escena
+    if (srcEditor.result == 0)
         return;
 
     //Referenciamos el nodo scene

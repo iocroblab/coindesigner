@@ -62,6 +62,7 @@ public:
 private slots:
 	void on_enableHL_stateChanged(int state);
 	void on_buttonBox_clicked(QAbstractButton * button);
+	void on_textEdit_cursorPositionChanged();
 
 	void accept();
 

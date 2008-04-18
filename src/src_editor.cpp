@@ -33,7 +33,7 @@ Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
 	keywordFormat.setForeground(Qt::darkBlue);
 	keywordFormat.setFontWeight(QFont::Bold);
 
-	//Recorre todos los tipos derivados de SoNode
+	//Recorre todos los tipos derivados de SoNode, creando palabras reservadas
 	SoType::getAllDerivedFrom(SoNode::getClassTypeId(), tl);
 	for (int j=0; j < tl.getLength(); j++) 
 	{
@@ -107,8 +107,7 @@ SrcEditor::SrcEditor (SoSeparator *scene, bool readOnly, QWidget *p, Qt::WindowF
 
 	free (src);
 	result=NULL;
-
-}
+} // SrcEditor::SrcEditor (SoSeparator *scene, bool readOnly, QWidget *p, Qt::WindowFlags f) : QDialog(p, f)
 
 
 void SrcEditor::on_enableHL_stateChanged(int state)
@@ -148,7 +147,7 @@ void SrcEditor::on_buttonBox_clicked(QAbstractButton * button)
 
 	}//if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
 
-}
+}// void SrcEditor::on_buttonBox_clicked(QAbstractButton * button)
 
 void SrcEditor::accept()
 {
@@ -166,6 +165,12 @@ void SrcEditor::accept()
 	//Solo aceptamos el dialogo si se compiló correctamente
 	if (result)
 		QDialog::accept();
-}
+}// void SrcEditor::accept()
 
+
+///Changes the current line label
+void SrcEditor::on_textEdit_cursorPositionChanged()
+{
+	Ui.lineLabel->setText(tr("Line:")+QString::number(1+Ui.textEdit->textCursor().blockNumber()));
+}// void SrcEditor::on_textEdit_cursorPositionChanged()
 
