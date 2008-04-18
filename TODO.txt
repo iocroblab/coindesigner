@@ -55,6 +55,6 @@ DROP: Soporte para editar matrices y convertir SoMatrixTransform
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
 
 
-
 * Opción "Conectar Desde" para campos
 
+* Terminar tetgen, cierre convexo, etc...

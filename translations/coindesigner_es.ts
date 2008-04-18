@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="es">
+<defaultcodec></defaultcodec>
 <context>
     <name>@default</name>
     <message>
@@ -127,7 +128,7 @@
         <translation>Ficheros de datos volumétricos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="1010"/>
+        <location filename="../src/mainwindow2.cpp" line="1020"/>
         <source>All Files</source>
         <translation>Todos los ficheros</translation>
     </message>
@@ -142,7 +143,7 @@
         <translation>: Formato de fichero desconocido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="621"/>
+        <location filename="../src/mainwindow2.cpp" line="627"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -172,7 +173,7 @@
         <translation>Ficheros VRML</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="761"/>
+        <location filename="../src/mainwindow2.cpp" line="771"/>
         <source>Warning</source>
         <translation>Aviso</translation>
     </message>
@@ -212,103 +213,103 @@
         <translation>Tipo desconocido:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1626"/>
+        <location filename="../src/mainwindow.cpp" line="1627"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1631"/>
+        <location filename="../src/mainwindow.cpp" line="1632"/>
         <source>No support for type: </source>
         <translation>Tipo no soportado:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1648"/>
+        <location filename="../src/mainwindow.cpp" line="1649"/>
         <source>Name=</source>
         <translation>Nombre=</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1653"/>
+        <location filename="../src/mainwindow.cpp" line="1654"/>
         <source>rc=</source>
         <translation>rc=</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1669"/>
+        <location filename="../src/mainwindow.cpp" line="1670"/>
         <source>Faces:</source>
         <translation>Facetas:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1690"/>
+        <location filename="../src/mainwindow.cpp" line="1691"/>
         <source>Points:</source>
         <translation>Puntos:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1694"/>
+        <location filename="../src/mainwindow.cpp" line="1695"/>
         <source>Center:</source>
         <translation>Centro:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1797"/>
+        <location filename="../src/mainwindow.cpp" line="1798"/>
         <source>Invalid value for field:</source>
         <translation>Valor inválido para campo:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1907"/>
+        <location filename="../src/mainwindow.cpp" line="1908"/>
         <source>No valid value for:</source>
         <translation>Valor inválido para:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1953"/>
+        <location filename="../src/mainwindow.cpp" line="1954"/>
         <source>Unsupported type:</source>
         <translation>Tipo no soportado:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1961"/>
+        <location filename="../src/mainwindow.cpp" line="1962"/>
         <source>There are %d nodes with the name:</source>
         <translation>Hay %d nodos con el nombre:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1984"/>
+        <location filename="../src/mainwindow.cpp" line="1985"/>
         <source>: Unsupported type</source>
         <translation>:Tipo no soportado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2072"/>
+        <location filename="../src/mainwindow.cpp" line="2073"/>
         <source>Critical Error</source>
         <translation>Error crítico</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2253"/>
+        <location filename="../src/mainwindow.cpp" line="2254"/>
         <source>Error while executing: </source>
         <translation>Error durante ejecución:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2473"/>
+        <location filename="../src/mainwindow.cpp" line="2474"/>
         <source>: Error while opening file.</source>
         <translation>: Error al abrir el fichero.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2486"/>
+        <location filename="../src/mainwindow.cpp" line="2487"/>
         <source>%s: Error while reading DXF file on line %d
 </source>
         <translation>%s: Error leyendo fichero DXF en línea %d</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2499"/>
+        <location filename="../src/mainwindow.cpp" line="2500"/>
         <source>%s: Error writting temporaly file</source>
         <translation>%s: Error al escribir fichero temporal</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2514"/>
+        <location filename="../src/mainwindow.cpp" line="2515"/>
         <source>%s: Error while converting from DXF to OpenInventor</source>
         <translation>%s: Error durante la conversión de DXF a OpenInventor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2538"/>
+        <location filename="../src/mainwindow.cpp" line="2539"/>
         <source>%s: Error loading temporaly file</source>
         <translation>%s: Error al leer fichero temporal</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2750"/>
+        <location filename="../src/mainwindow.cpp" line="2751"/>
         <source>Embed all textures of the scene will increase the size of the scene file because textures are stored uncompressed. This method will affect all SoTexture2 and SoBumpMap nodes in the scene.
 Are you sure you want to embed all textures?</source>
         <translation>Incluir todas las texturas de la escena aumentará el tamaño del fichero de escena porque las texturas se almacenan sin comprimir. Este método afectará a todos los nodos SoTexture2 y SoBumpMap de la escena.\n ¿Está seguro de incluir todas las texturas?</translation>
@@ -339,7 +340,7 @@ Are you sure you want to embed all textures?</source>
         <translation type="obsolete">Convertir en SoDirectionalLightManip</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="1009"/>
+        <location filename="../src/mainwindow2.cpp" line="1019"/>
         <source>Export File</source>
         <translation>Exportar</translation>
     </message>
@@ -864,32 +865,32 @@ Are you sure you want to embed all textures?</source>
         <translation>Convertir en IndexedFaceSet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="423"/>
+        <location filename="../src/mainwindow2.cpp" line="429"/>
         <source>Convert in</source>
         <translation>Convertir en</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="871"/>
+        <location filename="../src/mainwindow2.cpp" line="881"/>
         <source>OBJ/SMF </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="1010"/>
+        <location filename="../src/mainwindow2.cpp" line="1020"/>
         <source>Files</source>
         <translation>Ficheros</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="933"/>
+        <location filename="../src/mainwindow2.cpp" line="943"/>
         <source>OFF </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="975"/>
+        <location filename="../src/mainwindow2.cpp" line="985"/>
         <source>STL </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow2.cpp" line="1010"/>
+        <location filename="../src/mainwindow2.cpp" line="1020"/>
         <source>XYZ </source>
         <translation></translation>
     </message>
@@ -904,7 +905,7 @@ Are you sure you want to embed all textures?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2955"/>
+        <location filename="../src/mainwindow.cpp" line="2956"/>
         <source>Import:</source>
         <translation>Importando:</translation>
     </message>
@@ -919,17 +920,17 @@ Are you sure you want to embed all textures?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1313"/>
+        <location filename="../src/mainwindow.cpp" line="1314"/>
         <source>Master field:</source>
         <translation>Campo maestro:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1325"/>
+        <location filename="../src/mainwindow.cpp" line="1326"/>
         <source>Master engine:</source>
         <translation>Engine maestro:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1337"/>
+        <location filename="../src/mainwindow.cpp" line="1338"/>
         <source>Slave Field:</source>
         <translation>Campo esclavo:</translation>
     </message>
@@ -937,6 +938,26 @@ Are you sure you want to embed all textures?</source>
         <location filename="../ui/mainwindow.ui" line="927"/>
         <source>Engine demo</source>
         <translation>Demo Engine</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="593"/>
+        <source>Are you crazy? I&apos;m the root node.</source>
+        <translation>¿Estás loco? Yo soy el nodo root.</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="677"/>
+        <source>No way, I&apos;m Connor MacLeod (see http://imdb.com/title/tt0091203/ )</source>
+        <translation>Ni hablar, me siento como Connor MacLeod (http://imdb.com/title/tt0091203/ )</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="746"/>
+        <source>This is the high you can reach being a root node :-(</source>
+        <translation>Esto es lo más alto que puedes llegar siendo un nodo root :-(</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="788"/>
+        <source>Don&apos;t let me down!!! I&apos;m the root node.</source>
+        <translation>¡No me hundas! Soy el nodo root.</translation>
     </message>
 </context>
 <context>
