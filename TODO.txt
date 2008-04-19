@@ -3,8 +3,7 @@ BUGS:
 -----
 DONE: Al copiar, y enlazar evitar crear bucles infinitos
 DONE: Los draggers se ven desarrollados en coindesigner, no como cajas negras.
-DONE: Copiar un group, modificar el group, pegar
-     -> lo que pegas contiene las modificaciones, y no debe
+DONE: Copiar un group, modificar el group, pegar -> lo que pegas contiene las modificaciones, y no debe
 
 DONE: Edicion de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
@@ -40,7 +39,7 @@ TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
 
 TODO: Preparar tutoriales 1 y 2 para coindesigner2
 
-DROP: Soporte para editar matrices y convertir SoMatrixTransform
+DROP: Soporte para editar matrices 
 
 
 * Revision de README.txt
@@ -53,7 +52,6 @@ DROP: Soporte para editar matrices y convertir SoMatrixTransform
   
 * salvar esquema de docks en setting
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
-
 
 * Opción "Conectar Desde" para campos
 

@@ -493,6 +493,12 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 		Ui.actionSoTransformerManip->setData((qulonglong)item);
 		menu.addAction(Ui.actionSoTransformerManip);
 	}
+	else if (tipo == SoMatrixTransform::getClassTypeId()) 
+	{
+		Ui.Convert_Manip->setData((qulonglong)item);
+		Ui.Convert_Manip->setText(tr("Convert in")+" SoTransform");
+		menu.addAction(Ui.Convert_Manip);
+	}
 	
 	//Mostramos el menu popup
 	menu.exec(Ui.sceneGraph->mapToGlobal(pos));
@@ -738,7 +744,14 @@ void MainWindow::on_Convert_Manip_activated()
 		}
 
 	}  
+	//Los nodos SoMatrixTransform se convierten en SoTransform
+	else if (node->getTypeId().isDerivedFrom(SoMatrixTransform::getClassTypeId())) 
+    {
+        newNode=(SoNode*)new SoTransform();
+		//Como SoMatrixTransform y SoTransform no tienen campos comunes lo copiamos aqui
+		((SoTransform*)newNode)->setMatrix(((SoMatrixTransform*)node)->matrix.getValue());
 
+    }
     else if (node->getTypeId() == SoClipPlaneManip::getClassTypeId()) 
     {
         newNode=(SoNode*)new SoClipPlane();
