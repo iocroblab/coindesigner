@@ -1320,18 +1320,20 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 			 //Lista de campos conectados como master de field
 			 SoFieldList masterFields;
 			 field->getConnections(masterFields);
-			 if(slaveList.getLength() > 0)
+			 if(masterFields.getLength() > 0)
 			 {
-				S+= tr("This field is conected as slave of other field:")+"\n";
+				S+= tr("This field is conected as slave of:")+"\n";
 			 	for (int i =0; i< masterFields.getLength(); i++)
 			 	{
 				 	//Identificamos el field master y su container
 				 	SoField *mf = masterFields.get(i);
 				 	SoFieldContainer *mfc = mf->getContainer();
 				 	SbName mName;
+					QString masterName(mfc->getName().getString());
+					if (masterName.isEmpty())
+						masterName.sprintf("%p", mfc);
 				 	mfc->getFieldName(mf, mName);
-				 	S+= QString("<-")+tr("Master field:") + QString(mfc->getName().getString()) 
-					 	+ QString(".")+ QString(mName.getString())+"\n";
+				 	S+= QString("<-") + masterName + QString(".")+ QString(mName.getString())+"\n";
 			 	}//for
 			 }
 
@@ -1339,29 +1341,34 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 			 SoEngineOutput *mf;
 			 if (field->getConnectedEngine (mf))
 			 {
-				 S+= tr("This field is conected as slave of an engine:")+"\n";
+				 S+= tr("This field is conected as slave of:")+"\n";
 				 //Identificamos el engine master 
 				 SoEngine *mfc = mf->getContainer();
 				 SbName mName;
 				 mfc->getOutputName(mf, mName);
-				 S+= QString("<-")+tr("Master engine:") + QString(mfc->getName().getString()) 
-					 + QString(".")+ QString(mName.getString())+"\n";
+				 QString masterName(mfc->getName().getString());
+				 if (masterName.isEmpty())
+					 masterName.sprintf("%p", mfc);
+				 S+= QString("<-")+QString("Engine:") + masterName + QString(".")+ QString(mName.getString())+"\n";
 			 }
 
 			 if(slaveList.getLength() > 0)
 			 {
-				S+= tr("This field is conected as master:")+"\n";
+				S+= tr("This field is conected as master of:")+"\n";
 			 	//Lista de campos conectados como esclavos del field
 			 	for (int i =0; i< slaveList.getLength(); i++)
-			 	{
-				 	//Identificamos el field slave y su container
-				 	SoField *mf = slaveList.get(i);
-				 	SoFieldContainer *mfc = mf->getContainer();
-				 	SbName mName;
-				 	mfc->getFieldName(mf, mName);
-				 	S+= QString("->")+tr("Slave Field:") + QString(mfc->getName().getString()) 
-					 	+ QString(".")+ QString(mName.getString())+"\n";
-			 	}//for
+				{
+					//Identificamos el field slave y su container
+					SoField *mf = slaveList.get(i);
+					SoFieldContainer *mfc = mf->getContainer();
+					QString slaveName(mfc->getName().getString());
+					if (slaveName.isEmpty())
+						slaveName.sprintf("%p", mfc);
+					SbName mName;
+					mfc->getFieldName(mf, mName);
+					S+= QString("->")+tr("Slave Field:") + slaveName
+						+ QString(".")+ QString(mName.getString())+"\n";
+				}//for
 			 }
 
 			 //Asigna el toolTip
