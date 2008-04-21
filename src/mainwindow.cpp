@@ -1311,47 +1311,58 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 		 if (field->isConnected() || field->getForwardConnections(slaveList) )
          {
 			 //Informacion acerca de la conexion
-			 Ui.fieldTable->verticalHeaderItem(numRows)->setText(S+QString("<="));
+			 //Ui.fieldTable->verticalHeaderItem(numRows)->setText(S+QString("<="));
+			 Ui.fieldTable->verticalHeaderItem(numRows)->setForeground(QBrush(QColor(255,0,0)));
+			 Ui.fieldTable->item(numRows,0)->setForeground(QBrush(QColor(255,0,0)));
 
 			 S.clear();
 
 			 //Lista de campos conectados como master de field
 			 SoFieldList masterFields;
 			 field->getConnections(masterFields);
-			 for (int i =0; i< masterFields.getLength(); i++)
+			 if(slaveList.getLength() > 0)
 			 {
-				 //Identificamos el field master y su container
-				 SoField *mf = masterFields.get(i);
-				 SoFieldContainer *mfc = mf->getContainer();
-				 SbName mName;
-				 mfc->getFieldName(mf, mName);
-				 S+= tr("Master field:") + QString(mfc->getName().getString()) 
-					 + QString(".")+ QString(mName.getString())+"\n";
-			 }//for
+				S+= tr("This field is conected as slave of other field:")+"\n";
+			 	for (int i =0; i< masterFields.getLength(); i++)
+			 	{
+				 	//Identificamos el field master y su container
+				 	SoField *mf = masterFields.get(i);
+				 	SoFieldContainer *mfc = mf->getContainer();
+				 	SbName mName;
+				 	mfc->getFieldName(mf, mName);
+				 	S+= QString("<-")+tr("Master field:") + QString(mfc->getName().getString()) 
+					 	+ QString(".")+ QString(mName.getString())+"\n";
+			 	}//for
+			 }
 
 			 //Lista de engines conectados como master de field
 			 SoEngineOutput *mf;
 			 if (field->getConnectedEngine (mf))
 			 {
+				 S+= tr("This field is conected as slave of an engine:")+"\n";
 				 //Identificamos el engine master 
 				 SoEngine *mfc = mf->getContainer();
 				 SbName mName;
 				 mfc->getOutputName(mf, mName);
-				 S+= tr("Master engine:") + QString(mfc->getName().getString()) 
+				 S+= QString("<-")+tr("Master engine:") + QString(mfc->getName().getString()) 
 					 + QString(".")+ QString(mName.getString())+"\n";
 			 }
 
-			 //Lista de campos conectados como esclavos del field
-			 for (int i =0; i< slaveList.getLength(); i++)
+			 if(slaveList.getLength() > 0)
 			 {
-				 //Identificamos el field slave y su container
-				 SoField *mf = slaveList.get(i);
-				 SoFieldContainer *mfc = mf->getContainer();
-				 SbName mName;
-				 mfc->getFieldName(mf, mName);
-				 S+= tr("Slave Field:") + QString(mfc->getName().getString()) 
-					 + QString(".")+ QString(mName.getString())+"\n";
-			 }//for
+				S+= tr("This field is conected as master:")+"\n";
+			 	//Lista de campos conectados como esclavos del field
+			 	for (int i =0; i< slaveList.getLength(); i++)
+			 	{
+				 	//Identificamos el field slave y su container
+				 	SoField *mf = slaveList.get(i);
+				 	SoFieldContainer *mfc = mf->getContainer();
+				 	SbName mName;
+				 	mfc->getFieldName(mf, mName);
+				 	S+= QString("->")+tr("Slave Field:") + QString(mfc->getName().getString()) 
+					 	+ QString(".")+ QString(mName.getString())+"\n";
+			 	}//for
+			 }
 
 			 //Asigna el toolTip
 			 Ui.fieldTable->item(numRows,0)->setToolTip(S);
