@@ -7,6 +7,7 @@ DONE: Copiar un group, modificar el group, pegar -> lo que pegas contiene las mo
 
 DONE: Edicion de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
+TODO: Al minimizar la ventana, los dock dejan de ser visibles y se desactivan
 
 
 FEATURES:

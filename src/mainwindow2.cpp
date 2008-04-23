@@ -36,11 +36,18 @@ extern QSettings *settings;
 void MainWindow::on_actionPrintSceneGraph_activated()
 {
 
-//Creamos un nuevo dialogo
+	//Leemos la impresora destino
+	QPrinter printer;
+	//printer.setOutputFileName("print.pdf"); 
+	QPrintDialog *dialog = new QPrintDialog(&printer, this);
+	dialog->setWindowTitle(tr("Print Scene Graph"));
+	if (dialog->exec() != QDialog::Accepted)
+		return;
 
+	//Creamos un nuevo arbol, con mas informacion que Ui.sceneGraph
 	QTreeWidget scn;
 	scn.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	//scn.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	scn.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	QStringList headers;
 	headers << tr("Node Class") << tr("Node Name") << tr("RefCount");
 	scn.setHeaderLabels(headers);
@@ -52,17 +59,21 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	//Rellena el nombre de los items
 	
 	//Usamos dos listas de items auxiliares
+	int numItems=0;
+	int rootRefCount = root->getRefCount()-1;
+
+	/*
 	QList<QTreeWidgetItem *>list1;
 	QList<QTreeWidgetItem *>list2;
 	list1 << qroot;
 	list2 << Ui.sceneGraph->topLevelItem(0);
-	int rootRefCount = root->getRefCount()-1;
 
     while (!list1.isEmpty())
 	{
 		//Leemos el primer elemento de cada lista, y lo sacamos de la lista
 		QTreeWidgetItem *it1 = list1.takeFirst();
 		QTreeWidgetItem *it2 = list2.takeFirst();
+
 		//Rellenamos el nombre del nodo
 		SoNode *node = mapQTCOIN[it2];
 		assert(node != 0);
@@ -78,86 +89,94 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 			list2.append(it2->child(i));
 		}
 
+		//Incrementamos el contador de items
+		numItems++;
+
 	}//while
+	*/
+
+	//Leemos el primer elemento de cada lista, y lo sacamos de la lista
+	QList<QTreeWidgetItem *>scnItemList;
+	QTreeWidgetItem *it1 = qroot;
+	QTreeWidgetItem *it2 = Ui.sceneGraph->topLevelItem(0);
+
+	do 
+	{
+		//Rellenamos el nombre del nodo
+		SoNode *node = mapQTCOIN[it2];
+		assert(node != 0);
+		it1->setText(1,node->getName().getString() );
+		int relativeRefCount = node->getRefCount() - rootRefCount;
+		if (relativeRefCount != 1)
+			it1->setText(2,QString::number(relativeRefCount));
+
+		//TEST
+		it1->setText(2,QString::number(numItems));
+
+		//Almacenamos los item en orden en una lista
+		scnItemList.push_back(it1);
+		numItems++;
+
+		it1 = scn.itemBelow(it1);
+		it2 = Ui.sceneGraph->itemBelow(it2);
+	}
+	while (it1 != NULL);
 
 	for (int i=0; i< scn.columnCount(); i++)
 		scn.resizeColumnToContents(i);
-	
 
-
-	QPrinter printer;
-	printer.setOutputFileName("print.pdf"); 
-	//Solicita una impresora para inprimir
-	QPrintDialog *dialog = new QPrintDialog(&printer, this);
-	dialog->setWindowTitle(tr("Print Scene Graph"));
-	if (dialog->exec() != QDialog::Accepted)
-		return;
-
-
-	//Medimos la altura del arbol mediante incrementos hasta hacer desaparecer la barra vertical
-    QScrollBar *vs = scn.verticalScrollBar();
-    int heightTree = 20;
-	do
-	{
-		scn.hide();
-    	heightTree += 10;
-		scn.resize(400,heightTree);
-		qDebug("%d",heightTree); 
-
-		scn.show();
-	} while(vs->isVisible());
-	//scn.hide();
-
-    int heightPage = printer.pageRect().height()-10;
-	int numPages = 1+heightTree/heightPage;
-	qDebug("tree=%d page=%d numPages=%d", heightTree, heightPage, numPages);
+    int heightPage = printer.pageRect().height();
+	int itemsPerPage = heightPage/17; //This is empiric 20 pixels per item
+	int numPages = 1+numItems/itemsPerPage;
+	qDebug("heightPage=%d numItems=%d itemsPerPage=%d numPages=%d", 
+				heightPage, numItems, itemsPerPage, numPages);
 
 	QPainter painter;
 	painter.begin(&printer);
 
-	//Ultimo elemento de cada pagina
+	//Primer elemento de cada pagina
 	QTreeWidgetItem *topItem = qroot;
-	scn.scrollToTop();
+	scn.resize(printer.pageRect().width(), heightPage);
+	scn.show();
 
-	//Renderiza las paginas una a una
+	//Renderiza las paginas salvo la ultima
 	int page;
-	for (int page = 1; page < numPages; ++page) 
+	for (page = 0; page < numPages-1; ++page) 
 	{
-		qDebug("pagina %d", page);
+		//Calcula el proximo item que sera cabecera de página
+		topItem = scnItemList.at(page*itemsPerPage);
+		scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
 
 		//Creamos un nuevo pixmap donde renderizar el sceneGraph
  		QPixmap pixmap(printer.pageRect().size());
-		scn.resize(printer.pageRect().width(), heightPage);
 		pixmap.fill();
 
-		scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
-
+		//Renderiza una página
 		scn.render(&pixmap, QPoint(0,0), QRegion(0, 0, pixmap.width(), heightPage));
 		pixmap.save(QString("print_%1.png").arg(page));
 
 		//Manda el pixmap a la impresora
 		painter.drawPixmap(0,0, pixmap);
-
-		//Calcula el proximo item que sera cabecera
-		topItem = scn.itemAt(10, heightPage-10); 
-
 		printer.newPage();
 	}
 
 	//La ultima página
-		qDebug("pagina %d y final", page);
-		//Creamos un nuevo pixmap donde renderizar el sceneGraph
- 		QPixmap pixmap(printer.pageRect().size());
-		scn.resize(printer.pageRect().size());
-		pixmap.fill();
+	qDebug("pagina %d y final", page);
 
-		scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
+	//Calcula el proximo item que sera cabecera
+	topItem = scnItemList.at(page*itemsPerPage);
+	scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
 
-		scn.render(&pixmap, QPoint(0,0), QRegion(0, 0, pixmap.width(), heightPage));
-		pixmap.save(QString("print_%1.png").arg(page));
+	//Creamos un nuevo pixmap donde renderizar el sceneGraph
+	QPixmap pixmap(printer.pageRect().size());
+	scn.resize(printer.pageRect().size());
+	pixmap.fill();
 
-		//Manda el pixmap a la impresora
-		painter.drawPixmap(0,0, pixmap);
+	scn.render(&pixmap, QPoint(0,0), QRegion(0, 0, pixmap.width(), heightPage));
+	pixmap.save(QString("print_%1.png").arg(page));
+
+	//Manda el pixmap a la impresora
+	painter.drawPixmap(0,0, pixmap);
 
 	//Finaliza y envia el documento a la impresora
 	painter.end();
