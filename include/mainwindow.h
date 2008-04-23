@@ -116,6 +116,7 @@ public slots:
 	void on_actionImport_File_activated() {import_File("");};
 	void on_actionExport_C_activated();
 	void on_actionExport_VRML2_activated();
+	void on_actionPrintSceneGraph_activated();
 	void on_actionQuit_activated();
 
 	//Slots para menu Edit

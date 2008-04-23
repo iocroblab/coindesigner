@@ -70,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -90,6 +90,7 @@
     <addaction name="actionImport_File" />
     <addaction name="actionExport_C" />
     <addaction name="actionExport_VRML2" />
+    <addaction name="actionPrintSceneGraph" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
    </widget>
@@ -925,6 +926,17 @@
    </property>
    <property name="text" >
     <string>Engine demo</string>
+   </property>
+  </action>
+  <action name="actionPrintSceneGraph" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/print.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Print Scene Graph</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>
