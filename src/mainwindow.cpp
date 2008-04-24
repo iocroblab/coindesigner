@@ -127,8 +127,6 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     //salga fuera de su lugar
     Ui.sceneGraph->headerItem()->setHidden(true);
 
-	on_actionMessages_toggled(Ui.actionMessages->isChecked() );
-
     //Acceso a los ficheros recientes
     for (int i = 0; i < 5; ++i) 
     {
@@ -147,6 +145,13 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 	connect(Ui.actionSoTrackballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
 	connect(Ui.actionSoTransformBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
 	connect(Ui.actionSoTransformerManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+
+	//Añadimos las opciones para ocultar/mostrar los docks
+	QAction *firstAction = Ui.menuTools->actions().first();
+	Ui.menuTools->insertAction(firstAction, Ui.fieldTable_dockWidget->toggleViewAction());
+	Ui.menuTools->insertAction(firstAction, Ui.nodePalette_dockWidget->toggleViewAction());
+	Ui.menuTools->insertAction(firstAction, Ui.messages_dockWidget->toggleViewAction());
+	Ui.messages_dockWidget->toggleViewAction()->setShortcut (tr("Ctrl+M"));
 
 
     //Inicialización de COIN y SoQt
@@ -951,37 +956,6 @@ void MainWindow::on_actionEnable_Antialias_toggled(bool on)
 
 
 //Slots para menu Tools
-
-///Muestra u oculta el Node Palette
-void MainWindow::on_actionNode_Palette_toggled(bool on)
-{
-    Ui.nodePalette_dockWidget->setVisible(on);
-}
-
-///Muestra u oculta el Field Editor
-void MainWindow::on_actionField_Editor_toggled(bool on)
-{
-    Ui.fieldTable_dockWidget->setVisible(on);
-}
-
-///Muestra u oculta la ventana de mensajes
-void MainWindow::on_actionMessages_toggled(bool on)
-{
-    Ui.messages_dockWidget->setVisible(on);
-}
-
-void MainWindow::on_nodePalette_dockWidget_visibilityChanged(bool visible) 
-{
-	Ui.actionNode_Palette->setChecked(visible);
-}
-void MainWindow::on_fieldTable_dockWidget_visibilityChanged(bool visible) 
-{
-	Ui.actionField_Editor->setChecked(visible);
-}
-void MainWindow::on_messages_dockWidget_visibilityChanged(bool visible) 
-{
-	Ui.actionMessages->setChecked(visible);
-}
 
 ///Aplica los parametros de render actuales a un viewer
 void MainWindow::configureViewer(SoQtRenderArea *viewer)

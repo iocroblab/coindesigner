@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="es">
-<defaultcodec></defaultcodec>
 <context>
     <name>@default</name>
     <message>
@@ -88,249 +87,249 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="207"/>
         <source>Current scene has been modified.</source>
         <translation>La escena actual ha sido modificada.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="203"/>
+        <location filename="../src/mainwindow.cpp" line="208"/>
         <source>Do you want to save the changes to this scene?</source>
         <translation>¿Desea salvar los cambios de esta escena?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="209"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="209"/>
         <source>Discard</source>
         <translation>Descartar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="209"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3119"/>
+        <location filename="../src/mainwindow.cpp" line="3093"/>
         <source>OpenInventor Files</source>
         <translation>Ficheros de OpenInventor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="400"/>
+        <location filename="../src/mainwindow.cpp" line="405"/>
         <source>3D Surface Files</source>
         <translation>Ficheros 3D</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="403"/>
+        <location filename="../src/mainwindow.cpp" line="408"/>
         <source>Volume Data Files</source>
         <translation>Ficheros de datos volumétricos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3953"/>
+        <location filename="../src/mainwindow.cpp" line="3927"/>
         <source>All Files</source>
         <translation>Todos los ficheros</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="407"/>
+        <location filename="../src/mainwindow.cpp" line="412"/>
         <source>Load Scene</source>
         <translation>Cargar escena</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="297"/>
+        <location filename="../src/mainwindow.cpp" line="302"/>
         <source>: Unknow file format</source>
         <translation>: Formato de fichero desconocido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3553"/>
+        <location filename="../src/mainwindow.cpp" line="3527"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="514"/>
+        <location filename="../src/mainwindow.cpp" line="519"/>
         <source>Save File</source>
         <translation>Salvar fichero</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="345"/>
+        <location filename="../src/mainwindow.cpp" line="350"/>
         <source>OpenInventor Files (*.iv *.wrl);;All Files (*)</source>
         <translation>Ficheros de OpenInventor (*.iv *.wrl);;Todos los ficheros (*)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="405"/>
+        <location filename="../src/mainwindow.cpp" line="410"/>
         <source>All Files (*)</source>
         <translation>Todos los ficheros (*)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="422"/>
+        <location filename="../src/mainwindow.cpp" line="427"/>
         <source>: File format unknow</source>
         <translation>: Formato de fichero desconocido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="516"/>
+        <location filename="../src/mainwindow.cpp" line="521"/>
         <source>VRML Files</source>
         <translation>Ficheros VRML</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3704"/>
+        <location filename="../src/mainwindow.cpp" line="3678"/>
         <source>Warning</source>
         <translation>Aviso</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="724"/>
+        <location filename="../src/mainwindow.cpp" line="729"/>
         <source>You can not paste as link this node here.</source>
         <translation>No puede pegar como enlace aquí.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1087"/>
+        <location filename="../src/mainwindow.cpp" line="1061"/>
         <source>Written by</source>
         <translation>Escrito por</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1087"/>
+        <location filename="../src/mainwindow.cpp" line="1061"/>
         <source>and</source>
         <translation>y</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1091"/>
+        <location filename="../src/mainwindow.cpp" line="1065"/>
         <source>System info:</source>
         <translation>Información del sistema:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1120"/>
+        <location filename="../src/mainwindow.cpp" line="1094"/>
         <source>Debug Info:</source>
         <translation>Informacion de depuración:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1154"/>
+        <location filename="../src/mainwindow.cpp" line="1128"/>
         <source>Unknow option</source>
         <translation>Opción desconocida</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1173"/>
+        <location filename="../src/mainwindow.cpp" line="1147"/>
         <source>Unknow SoType:</source>
         <translation>Tipo desconocido:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1659"/>
+        <location filename="../src/mainwindow.cpp" line="1633"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1664"/>
+        <location filename="../src/mainwindow.cpp" line="1638"/>
         <source>No support for type: </source>
         <translation>Tipo no soportado:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1681"/>
+        <location filename="../src/mainwindow.cpp" line="1655"/>
         <source>Name=</source>
         <translation>Nombre=</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1686"/>
+        <location filename="../src/mainwindow.cpp" line="1660"/>
         <source>rc=</source>
         <translation>rc=</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1702"/>
+        <location filename="../src/mainwindow.cpp" line="1676"/>
         <source>Faces:</source>
         <translation>Facetas:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1723"/>
+        <location filename="../src/mainwindow.cpp" line="1697"/>
         <source>Points:</source>
         <translation>Puntos:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1727"/>
+        <location filename="../src/mainwindow.cpp" line="1701"/>
         <source>Center:</source>
         <translation>Centro:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1830"/>
+        <location filename="../src/mainwindow.cpp" line="1804"/>
         <source>Invalid value for field:</source>
         <translation>Valor inválido para campo:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1940"/>
+        <location filename="../src/mainwindow.cpp" line="1914"/>
         <source>No valid value for:</source>
         <translation>Valor inválido para:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1986"/>
+        <location filename="../src/mainwindow.cpp" line="1960"/>
         <source>Unsupported type:</source>
         <translation>Tipo no soportado:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1994"/>
+        <location filename="../src/mainwindow.cpp" line="1968"/>
         <source>There are %d nodes with the name:</source>
         <translation>Hay %d nodos con el nombre:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2017"/>
+        <location filename="../src/mainwindow.cpp" line="1991"/>
         <source>: Unsupported type</source>
         <translation>:Tipo no soportado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2105"/>
+        <location filename="../src/mainwindow.cpp" line="2079"/>
         <source>Critical Error</source>
         <translation>Error crítico</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2286"/>
+        <location filename="../src/mainwindow.cpp" line="2260"/>
         <source>Error while executing: </source>
         <translation>Error durante ejecución:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2506"/>
+        <location filename="../src/mainwindow.cpp" line="2480"/>
         <source>: Error while opening file.</source>
         <translation>: Error al abrir el fichero.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2519"/>
+        <location filename="../src/mainwindow.cpp" line="2493"/>
         <source>%s: Error while reading DXF file on line %d
 </source>
         <translation>%s: Error leyendo fichero DXF en línea %d</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2532"/>
+        <location filename="../src/mainwindow.cpp" line="2506"/>
         <source>%s: Error writting temporaly file</source>
         <translation>%s: Error al escribir fichero temporal</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2547"/>
+        <location filename="../src/mainwindow.cpp" line="2521"/>
         <source>%s: Error while converting from DXF to OpenInventor</source>
         <translation>%s: Error durante la conversión de DXF a OpenInventor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2571"/>
+        <location filename="../src/mainwindow.cpp" line="2545"/>
         <source>%s: Error loading temporaly file</source>
         <translation>%s: Error al leer fichero temporal</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2783"/>
+        <location filename="../src/mainwindow.cpp" line="2757"/>
         <source>Embed all textures of the scene will increase the size of the scene file because textures are stored uncompressed. This method will affect all SoTexture2 and SoBumpMap nodes in the scene.
 Are you sure you want to embed all textures?</source>
         <translation>Incluir todas las texturas de la escena aumentará el tamaño del fichero de escena porque las texturas se almacenan sin comprimir. Este método afectará a todos los nodos SoTexture2 y SoBumpMap de la escena.\n ¿Está seguro de incluir todas las texturas?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3107"/>
+        <location filename="../src/mainwindow.cpp" line="3081"/>
         <source>Insert filename</source>
         <translation>Introduzca nombre de fichero</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3117"/>
+        <location filename="../src/mainwindow.cpp" line="3091"/>
         <source>Choose Filename</source>
         <translation>Elija nombre de fichero</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3118"/>
+        <location filename="../src/mainwindow.cpp" line="3092"/>
         <source>Image files</source>
         <translation>Ficheros de imagen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3223"/>
+        <location filename="../src/mainwindow.cpp" line="3197"/>
         <source>Export to...</source>
         <translation>Exportar a...</translation>
     </message>
@@ -340,7 +339,7 @@ Are you sure you want to embed all textures?</source>
         <translation type="obsolete">Convertir en SoDirectionalLightManip</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3952"/>
+        <location filename="../src/mainwindow.cpp" line="3926"/>
         <source>Export File</source>
         <translation>Exportar</translation>
     </message>
@@ -415,507 +414,507 @@ Are you sure you want to embed all textures?</source>
         <translation>Optimizar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="184"/>
+        <location filename="../ui/mainwindow.ui" line="181"/>
         <source>toolBar</source>
         <translation>Barra de herramientas</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="266"/>
+        <location filename="../ui/mainwindow.ui" line="263"/>
         <source>Node Palette</source>
         <translation>Paleta de Nodos</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="236"/>
+        <location filename="../ui/mainwindow.ui" line="233"/>
         <source>Coin3D Hierarchy</source>
         <translation>Coin3D Jerárquico</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="241"/>
+        <location filename="../ui/mainwindow.ui" line="238"/>
         <source>Coin3D Alphabetical</source>
         <translation>Coin3D Alfabético</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="246"/>
+        <location filename="../ui/mainwindow.ui" line="243"/>
         <source>Simple Inventor Alphabetical</source>
         <translation>Simple Inventor Alfabético</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="251"/>
+        <location filename="../ui/mainwindow.ui" line="248"/>
         <source>SGI OpenInventor</source>
         <translation>SGI OpenInventor</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="279"/>
+        <location filename="../ui/mainwindow.ui" line="276"/>
         <source>Messages</source>
         <translation>Mensajes</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="307"/>
+        <location filename="../ui/mainwindow.ui" line="304"/>
         <source>Field Editor</source>
         <translation>Editor de campos</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="321"/>
+        <location filename="../ui/mainwindow.ui" line="318"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="334"/>
+        <location filename="../ui/mainwindow.ui" line="331"/>
         <source>&amp;Load Scene</source>
         <translation>&amp;Cargar escena</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="337"/>
+        <location filename="../ui/mainwindow.ui" line="334"/>
         <source>Ctrl+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="345"/>
+        <location filename="../ui/mainwindow.ui" line="342"/>
         <source>&amp;Quit</source>
         <translation>&amp;Terminar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="348"/>
+        <location filename="../ui/mainwindow.ui" line="345"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="356"/>
+        <location filename="../ui/mainwindow.ui" line="353"/>
         <source>&amp;ExaminerViewer</source>
         <translation>&amp;ExaminerViewer</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="359"/>
+        <location filename="../ui/mainwindow.ui" line="356"/>
         <source>Ctrl+1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="367"/>
+        <location filename="../ui/mainwindow.ui" line="364"/>
         <source>&amp;FlyViewer</source>
         <translation>&amp;FlyViewer</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="370"/>
+        <location filename="../ui/mainwindow.ui" line="367"/>
         <source>Ctrl+2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="378"/>
+        <location filename="../ui/mainwindow.ui" line="375"/>
         <source>&amp;PlaneViewer</source>
         <translation>&amp;PlaneViewer</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="381"/>
+        <location filename="../ui/mainwindow.ui" line="378"/>
         <source>Ctrl+3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="389"/>
+        <location filename="../ui/mainwindow.ui" line="386"/>
         <source>&amp;New Scene</source>
         <translation>&amp;Nueva escena</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="392"/>
+        <location filename="../ui/mainwindow.ui" line="389"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="400"/>
+        <location filename="../ui/mainwindow.ui" line="397"/>
         <source>&amp;Save Scene</source>
         <translation>&amp;Salvar escena</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="403"/>
+        <location filename="../ui/mainwindow.ui" line="400"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="411"/>
+        <location filename="../ui/mainwindow.ui" line="408"/>
         <source>&amp;Import File</source>
         <translation>&amp;Importar fichero</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="414"/>
+        <location filename="../ui/mainwindow.ui" line="411"/>
         <source>Ctrl+I</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="422"/>
+        <location filename="../ui/mainwindow.ui" line="419"/>
         <source>Export &amp;C++</source>
         <translation>Exportar a &amp;C++</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="430"/>
+        <location filename="../ui/mainwindow.ui" line="427"/>
         <source>Export &amp;VRML2</source>
         <translation>Exportar a &amp;VRML2</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="438"/>
+        <location filename="../ui/mainwindow.ui" line="435"/>
         <source>Ivfix</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="446"/>
+        <location filename="../ui/mainwindow.ui" line="443"/>
         <source>&amp;RenderArea</source>
         <translation>&amp;RenderArea</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="449"/>
+        <location filename="../ui/mainwindow.ui" line="446"/>
         <source>Ctrl+4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="460"/>
+        <location filename="../ui/mainwindow.ui" line="457"/>
         <source>Show FPS</source>
         <translation>Mostrar FPS</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="463"/>
+        <location filename="../ui/mainwindow.ui" line="460"/>
         <source>Enable a Frames per second (FPS) counter in scene viewers</source>
         <translation>Activa un contador de Frames por segundo (FPS) en visores</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="474"/>
+        <location filename="../ui/mainwindow.ui" line="471"/>
         <source>Cu&amp;t</source>
         <translation>Cor&amp;tar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="477"/>
+        <location filename="../ui/mainwindow.ui" line="474"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="485"/>
+        <location filename="../ui/mainwindow.ui" line="482"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copiar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="488"/>
+        <location filename="../ui/mainwindow.ui" line="485"/>
         <source>Ctrl+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="496"/>
+        <location filename="../ui/mainwindow.ui" line="493"/>
         <source>&amp;Paste</source>
         <translation>&amp;Pegar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="499"/>
+        <location filename="../ui/mainwindow.ui" line="496"/>
         <source>Ctrl+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="507"/>
+        <location filename="../ui/mainwindow.ui" line="504"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="510"/>
+        <location filename="../ui/mainwindow.ui" line="507"/>
         <source>Del</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="518"/>
+        <location filename="../ui/mainwindow.ui" line="515"/>
         <source>Paste as Link</source>
         <translation>Pegar como enlace</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="526"/>
+        <location filename="../ui/mainwindow.ui" line="523"/>
         <source>Move Up</source>
         <translation>Subir</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="529"/>
+        <location filename="../ui/mainwindow.ui" line="526"/>
         <source>Ctrl+Up</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="537"/>
+        <location filename="../ui/mainwindow.ui" line="534"/>
         <source>Move Down</source>
         <translation>Bajar</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="540"/>
+        <location filename="../ui/mainwindow.ui" line="537"/>
         <source>Ctrl+Down</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="548"/>
+        <location filename="../ui/mainwindow.ui" line="545"/>
         <source>Preferences</source>
         <translation>Preferencias</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="556"/>
+        <location filename="../ui/mainwindow.ui" line="553"/>
         <source>Coin3D &amp;Reference</source>
         <translation>&amp;Referencia de Coin3D</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="559"/>
+        <location filename="../ui/mainwindow.ui" line="556"/>
         <source>Ctrl+F1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="567"/>
+        <location filename="../ui/mainwindow.ui" line="564"/>
         <source>Tutorial &amp;1</source>
         <translation>Tutorial &amp;1</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="575"/>
+        <location filename="../ui/mainwindow.ui" line="572"/>
         <source>Tutorial &amp;2</source>
         <translation>Tutorial &amp;2</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="583"/>
+        <location filename="../ui/mainwindow.ui" line="580"/>
         <source>&amp;About</source>
         <translation>&amp;Acerca de</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="591"/>
+        <location filename="../ui/mainwindow.ui" line="588"/>
         <source>&amp;Edit Source</source>
         <translation>&amp;Editar código fuente</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="594"/>
+        <location filename="../ui/mainwindow.ui" line="591"/>
         <source>Show current scene source in OpenInventor file format</source>
         <translation>Ver código fuente de la escena actual</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="597"/>
+        <location filename="../ui/mainwindow.ui" line="594"/>
         <source>Ctrl+U</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="605"/>
+        <location filename="../ui/mainwindow.ui" line="602"/>
         <source>&amp;ExaminerViewer Editor</source>
         <translation>Editor &amp;ExaminerViewer</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="616"/>
         <source>&amp;Node Palette</source>
-        <translation>Paleta de &amp;Nodos</translation>
+        <translation type="obsolete">Paleta de &amp;Nodos</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="627"/>
         <source>&amp;Field Editor</source>
-        <translation>&amp;Editor de campos</translation>
+        <translation type="obsolete">&amp;Editor de campos</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="635"/>
+        <location filename="../ui/mainwindow.ui" line="610"/>
         <source>&amp;PlaneViewer Editor</source>
         <translation>Editor &amp;PlaneViewer</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="643"/>
+        <location filename="../ui/mainwindow.ui" line="618"/>
         <source>Mirror demo</source>
         <translation>Demo Espejo</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="651"/>
+        <location filename="../ui/mainwindow.ui" line="626"/>
         <source>Promote Children</source>
         <translation>Promocionar hijos</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="659"/>
+        <location filename="../ui/mainwindow.ui" line="634"/>
         <source>Embed Texture File</source>
         <translation>Incrustar fichero de textura</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="667"/>
+        <location filename="../ui/mainwindow.ui" line="642"/>
         <source>Planet Earth demo</source>
         <translation>Demo Planeta Tierra</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="675"/>
+        <location filename="../ui/mainwindow.ui" line="650"/>
         <source>Convert to Manip</source>
         <translation>Convertir en Manip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="683"/>
+        <location filename="../ui/mainwindow.ui" line="658"/>
         <source>Convert to IndexedLineSet</source>
         <translation>Convertir en IndexedLineSet</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="691"/>
+        <location filename="../ui/mainwindow.ui" line="666"/>
         <source>Convert to IndexedFaceSet</source>
         <translation>Convertir en IndexedFaceSet</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="699"/>
+        <location filename="../ui/mainwindow.ui" line="674"/>
         <source>Embed all textures</source>
         <translation>Incrustar todas las texturas</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="707"/>
+        <location filename="../ui/mainwindow.ui" line="682"/>
         <source>Export to STL</source>
         <translation>Exportar a STL</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="715"/>
+        <location filename="../ui/mainwindow.ui" line="690"/>
         <source>Export to OFF</source>
         <translation>Exportar a OFF</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="723"/>
+        <location filename="../ui/mainwindow.ui" line="698"/>
         <source>Export to OBJ/SMF</source>
         <translation>Exportar a OBJ/SMF</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="731"/>
+        <location filename="../ui/mainwindow.ui" line="706"/>
         <source>Export to XYZ</source>
         <translation>Exportar a XYZ</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="739"/>
+        <location filename="../ui/mainwindow.ui" line="714"/>
         <source>Center on Origin</source>
         <translation>Centrar en origen</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="747"/>
+        <location filename="../ui/mainwindow.ui" line="722"/>
         <source>Change BG color</source>
         <translation>Cambiar color de fondo</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="755"/>
+        <location filename="../ui/mainwindow.ui" line="730"/>
         <source>Simplify with QSlim</source>
         <translation>Simplificar con QSlim</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="766"/>
+        <location filename="../ui/mainwindow.ui" line="741"/>
         <source>Tetrahedralize with tetgen</source>
         <translation>Tetrahedralizar con tetgen</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="774"/>
+        <location filename="../ui/mainwindow.ui" line="749"/>
         <source>Center XYZ</source>
         <translation>Centrar XYZ</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="785"/>
         <source>Messages console</source>
-        <translation>Consola de mensajes</translation>
+        <translation type="obsolete">Consola de mensajes</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="788"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>Ctrl+M</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="796"/>
+        <location filename="../ui/mainwindow.ui" line="757"/>
         <source>Enable Antialias</source>
         <translation>Activar Antialias</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="807"/>
+        <location filename="../ui/mainwindow.ui" line="768"/>
         <source>HQ transparency</source>
         <translation>Transparencia HQ</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="815"/>
+        <location filename="../ui/mainwindow.ui" line="776"/>
         <source>Feedback Visibility</source>
         <translation>Ver orientación</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="823"/>
+        <location filename="../ui/mainwindow.ui" line="784"/>
         <source>Convert to SoCenterballManip</source>
         <translation>Convertir en SoCenterballManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="831"/>
+        <location filename="../ui/mainwindow.ui" line="792"/>
         <source>Convert to SoHandleBoxManip</source>
         <translation>Convertir en SoHandleBoxManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="839"/>
+        <location filename="../ui/mainwindow.ui" line="800"/>
         <source>Convert to SoJackManip</source>
         <translation>Convertir en SoJackManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="847"/>
+        <location filename="../ui/mainwindow.ui" line="808"/>
         <source>Convert to SoTabBoxManip</source>
         <translation>Convertir en SoTabBoxManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="855"/>
+        <location filename="../ui/mainwindow.ui" line="816"/>
         <source>Convert to SoTrackballManip</source>
         <translation>Convertir en SoTrackballManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="863"/>
+        <location filename="../ui/mainwindow.ui" line="824"/>
         <source>Convert to SoTransformBoxManip</source>
         <translation>Convertir en SoTransformBoxManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="871"/>
+        <location filename="../ui/mainwindow.ui" line="832"/>
         <source>Convert to SoTransformerManip</source>
         <translation>Convertir en SoTransformerManip</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="879"/>
+        <location filename="../ui/mainwindow.ui" line="840"/>
         <source>Convert to triangle mesh</source>
         <translation>Triangular facetas</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="887"/>
+        <location filename="../ui/mainwindow.ui" line="848"/>
         <source>Change all faces orientation</source>
         <translation>Cambiar orientación de las facetas</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="895"/>
+        <location filename="../ui/mainwindow.ui" line="856"/>
         <source>Convert to SoIndexedFaceSet</source>
         <translation>Convertir en IndexedFaceSet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3419"/>
+        <location filename="../src/mainwindow.cpp" line="3393"/>
         <source>Convert in</source>
         <translation>Convertir en</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3814"/>
+        <location filename="../src/mainwindow.cpp" line="3788"/>
         <source>OBJ/SMF </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3953"/>
+        <location filename="../src/mainwindow.cpp" line="3927"/>
         <source>Files</source>
         <translation>Ficheros</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3876"/>
+        <location filename="../src/mainwindow.cpp" line="3850"/>
         <source>OFF </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3918"/>
+        <location filename="../src/mainwindow.cpp" line="3892"/>
         <source>STL </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3953"/>
+        <location filename="../src/mainwindow.cpp" line="3927"/>
         <source>XYZ </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="906"/>
+        <location filename="../ui/mainwindow.ui" line="867"/>
         <source>Watch node</source>
         <translation>Vigilar nodo</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="909"/>
+        <location filename="../ui/mainwindow.ui" line="870"/>
         <source>Ctrl+W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2988"/>
+        <location filename="../src/mainwindow.cpp" line="2962"/>
         <source>Import:</source>
         <translation>Importando:</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="917"/>
+        <location filename="../ui/mainwindow.ui" line="878"/>
         <source>Node Reference</source>
         <translation>Referencia del Nodo</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="920"/>
+        <location filename="../ui/mainwindow.ui" line="881"/>
         <source>F1</source>
         <translation></translation>
     </message>
@@ -930,42 +929,42 @@ Are you sure you want to embed all textures?</source>
         <translation type="obsolete">Engine maestro:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1369"/>
+        <location filename="../src/mainwindow.cpp" line="1343"/>
         <source>Slave Field:</source>
         <translation>Campo esclavo:</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="928"/>
+        <location filename="../ui/mainwindow.ui" line="889"/>
         <source>Engine demo</source>
         <translation>Demo Engine</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="594"/>
+        <location filename="../src/mainwindow.cpp" line="599"/>
         <source>Are you crazy? I&apos;m the root node.</source>
         <translation>¿Estás loco? Yo soy el nodo root.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="678"/>
+        <location filename="../src/mainwindow.cpp" line="683"/>
         <source>No way, I&apos;m Connor MacLeod (see http://imdb.com/title/tt0091203/ )</source>
         <translation>Ni hablar, me siento como Connor MacLeod (http://imdb.com/title/tt0091203/ )</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="747"/>
+        <location filename="../src/mainwindow.cpp" line="752"/>
         <source>This is the high you can reach being a root node :-(</source>
         <translation>Esto es lo más alto que puedes llegar siendo un nodo root :-(</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="789"/>
+        <location filename="../src/mainwindow.cpp" line="794"/>
         <source>Don&apos;t let me down!!! I&apos;m the root node.</source>
         <translation>¡No me hundas! Soy el nodo root.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1344"/>
+        <location filename="../src/mainwindow.cpp" line="1318"/>
         <source>This field is conected as slave of:</source>
         <translation>Este campo está conectado como esclavo de:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1357"/>
+        <location filename="../src/mainwindow.cpp" line="1331"/>
         <source>This field is conected as master of:</source>
         <translation>Este campo está conectado como maestro de:</translation>
     </message>
@@ -990,12 +989,12 @@ Are you sure you want to embed all textures?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="936"/>
+        <location filename="../ui/mainwindow.ui" line="897"/>
         <source>&amp;Print Scene Graph</source>
         <translation>Im&amp;primir Grafo de escena</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="939"/>
+        <location filename="../ui/mainwindow.ui" line="900"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>

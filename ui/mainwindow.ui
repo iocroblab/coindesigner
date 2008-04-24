@@ -70,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -162,9 +162,6 @@
      <addaction name="actionIvfix" />
      <addaction name="actionEmbed_all_textures" />
     </widget>
-    <addaction name="actionNode_Palette" />
-    <addaction name="actionField_Editor" />
-    <addaction name="actionMessages" />
     <addaction name="separator" />
     <addaction name="actionExaminerViewer_Editor" />
     <addaction name="actionPlaneViewer_Editor" />
@@ -605,28 +602,6 @@
     <string>&amp;ExaminerViewer Editor</string>
    </property>
   </action>
-  <action name="actionNode_Palette" >
-   <property name="checkable" >
-    <bool>true</bool>
-   </property>
-   <property name="checked" >
-    <bool>true</bool>
-   </property>
-   <property name="text" >
-    <string>&amp;Node Palette</string>
-   </property>
-  </action>
-  <action name="actionField_Editor" >
-   <property name="checkable" >
-    <bool>true</bool>
-   </property>
-   <property name="checked" >
-    <bool>true</bool>
-   </property>
-   <property name="text" >
-    <string>&amp;Field Editor</string>
-   </property>
-  </action>
   <action name="actionPlaneViewer_Editor" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
@@ -772,20 +747,6 @@
    </property>
    <property name="text" >
     <string>Center XYZ</string>
-   </property>
-  </action>
-  <action name="actionMessages" >
-   <property name="checkable" >
-    <bool>true</bool>
-   </property>
-   <property name="checked" >
-    <bool>true</bool>
-   </property>
-   <property name="text" >
-    <string>Messages console</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+M</string>
    </property>
   </action>
   <action name="actionEnable_Antialias" >

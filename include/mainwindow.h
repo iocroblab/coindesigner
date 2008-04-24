@@ -143,16 +143,10 @@ public slots:
 	void on_actionEnable_Antialias_toggled(bool on);
 
 	//Slots para menu Tools
-	void on_actionNode_Palette_toggled(bool on);
-	void on_actionField_Editor_toggled(bool on);
 	void on_actionExaminerViewer_Editor_activated();
-	void on_actionMessages_toggled(bool on);
 	void on_actionPlaneViewer_Editor_activated();
 	void on_actionEdit_Source_activated();
 	void on_actionIvfix_activated();
-	void on_nodePalette_dockWidget_visibilityChanged(bool visible);
-	void on_fieldTable_dockWidget_visibilityChanged(bool visible);
-	void on_messages_dockWidget_visibilityChanged(bool visible);
 
 	//Slots para el menu Help
 	void on_actionCoin3D_Reference_activated();
