@@ -63,6 +63,8 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	//Usamos dos listas de items auxiliares
 	int numItems=0;
 	int rootRefCount = root->getRefCount()-1;
+	qDebug("rootRefCount = %d", root->getRefCount());
+	rootRefCount = 0;
 
 	//Leemos el primer elemento de cada lista, y lo sacamos de la lista
 	QList<QTreeWidgetItem *>scnItemList;
@@ -158,5 +160,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	//Finaliza y envia el documento a la impresora
 	painter.end();
 
+	//Una pausa para depurar
+	QDialog dlg; dlg.exec();
 }
 
