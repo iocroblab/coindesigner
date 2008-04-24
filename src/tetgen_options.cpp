@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
+#include <QDir>
 #include <Inventor/SoInput.h>
 #include <string.h>
 
@@ -63,15 +64,15 @@ void tetgen_options::accept()
 	}
 
 	//Creacion de los argumentos
+	QString offFilename = QDir::tempPath()+ "/tempfile.off";
 	QStringList args;
 	argsChanged();
-	args << tetgen_args;
+	args << tetgen_args << offFilename;
 
 	qDebug() << tetgen_app << " " << args.join (" ");
 
 	//Escribimos el nodo en el fichero OFF
-	char offFilename[] = "tempfile.off";
-	FILE *offFile = fopen(offFilename, "w");
+	FILE *offFile = fopen(qPrintable(offFilename), "w");
 
 	if (offFile == NULL)
 	{
@@ -99,32 +100,27 @@ void tetgen_options::accept()
 		// error handling
 		QString S;
 		S = tr ("Error executing: ");
-		S += tetgen_app + args.join (" ");
+		S += tetgen_app + QString(" ") + args.join (" ");
 		QMessageBox::warning (this, tr ("Error"), S);
 		QDialog::accept();
 		return;
 	}
-
-	//TODO: continuar la funcion de llamada a tetgen
-/*
-	qDebug() << SMFString.c_str();
-
-	//Introducimos la cadena en entrada estandar
-	myProcess.write(SMFString.c_str());
-	myProcess.closeWriteChannel();
 
 	//Esperamos hasta que haya finalizado
 	if (!myProcess.waitForFinished (-1))
 	{
 		// error handling
 		QString S;
-		S = tr ("tetgen returned an error");
+		S = tr("tetgen returned an error")+"\n";
 		S += myProcess.readAllStandardError (); 
 		QMessageBox::warning (this, tr ("Error"), S);
 		QDialog::accept();
 		return;
 	}
 
+	QString nodeFilename = offFilename + ".1.node";
+	//TODO: continuar la funcion de llamada a tetgen
+/*
     //Leemos la salida estandar del proceso mediante el parser de openInventor
 	SoInput in;
 	QByteArray stdoutup = myProcess.readAllStandardOutput ();
