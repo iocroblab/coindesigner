@@ -64,9 +64,6 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	
 	//Usamos dos listas de items auxiliares
 	int numItems=0;
-	int rootRefCount = root->getRefCount()-1;
-	qDebug("rootRefCount = %d", root->getRefCount());
-	rootRefCount = 0;
 
 	//Leemos el primer elemento de cada lista, y lo sacamos de la lista
 	QList<QTreeWidgetItem *>scnItemList;
@@ -79,7 +76,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 		SoNode *node = mapQTCOIN[it2];
 		assert(node != 0);
 		it1->setText(1,node->getName().getString() );
-		int relativeRefCount = node->getRefCount() - rootRefCount;
+		int relativeRefCount = node->getRefCount();
 		if (relativeRefCount != 1)
 			it1->setText(2,QString::number(relativeRefCount));
 
@@ -90,6 +87,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 		scnItemList.push_back(it1);
 		numItems++;
 
+		//Y pasamos al siguiente par de items
 		it1 = scn.itemBelow(it1);
 		it2 = Ui.sceneGraph->itemBelow(it2);
 	}
@@ -100,7 +98,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 
 	int headerHeight = scn.header()->height();
     int heightPage = printer.pageRect().height();
-	int itemsPerPage = (heightPage-headerHeight) / 17; //This is empiric 
+	int itemsPerPage = (heightPage-headerHeight) / (scn.visualItemRect(qroot).height()+1); 
 	//qDebug("heightPage=%d headerHeight=%d numItems=%d itemsPerPage=%d ", heightPage, headerHeight, numItems, itemsPerPage);
 
 	QPainter painter;
@@ -124,7 +122,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 			lastItemIdx = numItems - 1;
 		lastItem = scnItemList.at(lastItemIdx);
 
-		qDebug("page=%d topItem=%d lastItem=%d", page, page*itemsPerPage, lastItemIdx); 
+		//qDebug("page=%d topItem=%d lastItem=%d", page, page*itemsPerPage, lastItemIdx); 
 
 		//Calculamos la posicion del primer y ultimo item de la pagina
 		scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
