@@ -18,6 +18,7 @@
 #include <QMenu>
 #include <QContextMenuEvent>
 #include <QColorDialog>
+#include <QtDebug>
 
 extern QSettings *settings;
 
@@ -39,11 +40,12 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 
 	//Leemos la impresora destino
 	QPrinter printer;
-	printer.setOutputFileName("print.pdf"); 
+	//printer.setOutputFileName("print.pdf"); 
 	QPrintDialog *dialog = new QPrintDialog(&printer, this);
 	dialog->setWindowTitle(tr("Print Scene Graph"));
 	if (dialog->exec() != QDialog::Accepted)
 		return;
+	printer.setFullPage(false);
 
 	//Creamos un nuevo arbol, con mas informacion que Ui.sceneGraph
 	QTreeWidget scn;
@@ -108,11 +110,10 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	QTreeWidgetItem *topItem = NULL;
 	QTreeWidgetItem *lastItem = NULL;
 	scn.resize(printer.pageRect().size());
-	scn.show();
 
 	//Renderiza las paginas salvo la ultima
 	int page=0;
-	while(1)
+	do
 	{
 		//Calcula el proximo item que sera cabecera de página
 		topItem = scnItemList.at(page*itemsPerPage);
@@ -127,7 +128,6 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 
 		//Calculamos la posicion del primer y ultimo item de la pagina
 		scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
-		scn.show();
 
 		QRect topRect = scn.visualItemRect(topItem);
 		QRect lastRect = scn.visualItemRect(lastItem);
@@ -143,10 +143,9 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 		//Renderiza los items de la pagina
 		scn.viewport()->render(&pixmap, QPoint(0,headerHeight-topRect.top()), QRegion(0, topRect.top(), pixmap.width(), heightPage));
 
-
 		//Manda el pixmap a la impresora
 		//pixmap.save(QString("print_%1.png").arg(page));
-		painter.drawPixmap(0,0, pixmap);
+		painter.drawPixmap(printer.pageRect(), pixmap);
 
 		//Miramos si hace falta alguna otra página
 		if (lastItemIdx < numItems - 1)
@@ -155,12 +154,13 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 			break;
 
 		page++;
-	}
+
+	} while (true);
 
 	//Finaliza y envia el documento a la impresora
 	painter.end();
 
-	//Una pausa para depurar
-	QDialog dlg; dlg.exec();
+	//Una pausa para depurar / ver el arbol
+	//scn.show();QDialog dlg; dlg.exec();
 }
 
