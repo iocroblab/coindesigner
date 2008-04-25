@@ -77,19 +77,23 @@ public :
 		   //En Unix la tecla Q mata el bucle de eventos
 		   if (SoKeyboardEvent::isKeyPressEvent(event, SoKeyboardEvent::Q))
 		   {
-			   //Unref the scene
-			   SOTYPEVIEWER::setSceneGraph(NULL);
-
-			   //printf("Eliminando widget %p\n", closeWidget);
-			   if (closeWidget)
-				   closeWidget->close();
-
+			   this->closeWindow();
 			   return true;
 		   }
 
 		   return SOTYPEVIEWER::processSoEvent(event);
 
 	   }//SbBool processSoEvent (const SoEvent *const event)
+
+	   void closeWindow()
+	   {
+			   //Unref the scene
+			   SOTYPEVIEWER::setSceneGraph(NULL);
+
+			   qDebug("Eliminando widget %p\n", closeWidget);
+			   if (closeWidget)
+				   closeWidget->close();
+	   }
 
 };//class CdsNoQuitTemplate
 
