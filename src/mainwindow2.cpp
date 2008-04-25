@@ -101,15 +101,14 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	int itemsPerPage = (heightPage-headerHeight) / (scn.visualItemRect(qroot).height()+1); 
 	//qDebug("heightPage=%d headerHeight=%d numItems=%d itemsPerPage=%d ", heightPage, headerHeight, numItems, itemsPerPage);
 
-	QPainter painter;
-	painter.begin(&printer);
-
 	//Primer elemento de cada pagina
 	QTreeWidgetItem *topItem = NULL;
 	QTreeWidgetItem *lastItem = NULL;
 	scn.resize(printer.pageRect().size());
 
-	//Renderiza las paginas salvo la ultima
+	//Renderiza las paginas en bloques de itemsPerPage elementos
+	QPainter painter;
+	painter.begin(&printer);
 	int page=0;
 	do
 	{
