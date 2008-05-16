@@ -69,6 +69,7 @@ TRANSLATIONS = translations/coindesigner_es.ts
 unix {
   INCLUDEPATH += $$system(coin-config --includedir)
   #SoQt3 LIBS  += $$system(/usr/bin/soqt-config --ldflags --libs)
+  #SoQt4 LIBS
   LIBS  += $$system(/usr/local/bin/soqt-config --ldflags --libs)
   INSTALL += coindesigner
 }
