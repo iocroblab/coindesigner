@@ -2602,7 +2602,6 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       return NULL;
     }
 
-    /* TODO
     //Comprobamos si es un fichero .mesh
     rewind (yyin);
     yyGeometry = import_netgen_neutral(yyin);
@@ -2614,7 +2613,6 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
        //Devolvemos la escena leida
        return yyGeometry;
     }
-    */
 
     //Comprobamos si es un fichero que podemos leer con cds_parser
     rewind (yyin);
