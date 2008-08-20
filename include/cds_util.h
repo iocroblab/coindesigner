@@ -120,5 +120,8 @@ bool cds_export_cppFile (const char *className, const char *filename);
 //! Busca el ultimo nodo de un tipo dado en un path
 SoNode *buscaUltimoNodo(SoPath *p, SoType t);
 
+//! Remove all nodes of a given type
+void strip_node(SoType type, SoNode * root);
+
 #endif
 

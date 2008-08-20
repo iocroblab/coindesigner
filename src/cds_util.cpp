@@ -2091,3 +2091,23 @@ SoNode *buscaUltimoNodo(SoPath *p, SoType t)
 	return path ? path->getTail() : NULL;
 }//SoNode *buscaUltimoNodo(SoPath *p, SoType t)
 
+
+/*! Remove all nodes of a given type */
+  void strip_node(SoType type, SoNode * root) 
+  {
+    SoSearchAction sa;
+    sa.setType(type);
+    sa.setSearchingAll(TRUE);
+    sa.setInterest(SoSearchAction::ALL);
+    sa.apply(root);
+
+    SoPathList & pl = sa.getPaths();
+    for (int i = 0; i < pl.getLength(); i++) {
+      SoFullPath * p = (SoFullPath*) pl[i];
+        if (p->getTail()->isOfType(type)) {
+          SoGroup * g = (SoGroup*) p->getNodeFromTail(1);
+          g->removeChild(p->getIndexFromTail(0));
+        }
+      } 
+    sa.reset();  
+  }

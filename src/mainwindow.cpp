@@ -3994,7 +3994,7 @@ void MainWindow::on_actionIvfix_activated()
 {
 	ivfix_options ivfixDialog(root);
 	ivfixDialog.exec();
-	SoNode *ivfix_result = ivfixDialog.output;
+	SoSeparator *ivfix_result = (SoSeparator *)ivfixDialog.output;
 
 	//Miramos si hay resultados en ivfix_result
 	if (ivfix_result != NULL)
@@ -4004,7 +4004,10 @@ void MainWindow::on_actionIvfix_activated()
 
 		//Colgamos el nodo del grafo de escena
 		QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
-		newSceneGraph(ivfix_result, qroot, root);
+		for(int i=0; i< ivfix_result->getNumChildren(); i++)
+		{
+			newSceneGraph(ivfix_result->getChild(i), qroot, root);
+		}
 
 		//Expandimos todos los items
 		Ui.sceneGraph->expandAll();

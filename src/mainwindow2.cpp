@@ -25,6 +25,7 @@ extern QSettings *settings;
 //OpenInventor includes
 #include <Inventor/SoDB.h>
 #include <Inventor/nodes/SoNodes.h>
+#include <Inventor/actions/SoReorganizeAction.h>
 
 
 #include <QPrinter>
@@ -160,4 +161,46 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	//Una pausa para depurar / ver el arbol
 	//scn.show();QDialog dlg; dlg.exec();
 }
+
+/*! Apply SoReorganizeAction to the scene 
+	Example taken from SoReorganizeAction help page
+*/
+void MainWindow::on_actionSoReorganizeAction_activated()
+{
+	//Reorganize the whole scene
+    SoReorganizeAction reorg;
+    reorg.apply(root);
+
+	//Remove unused nodes
+    //fprintf(stderr,"stripping old nodes from scene graph\n");
+	strip_node(SoCoordinate3::getClassTypeId(), root);
+	strip_node(SoCoordinate4::getClassTypeId(), root);
+	strip_node(SoNormal::getClassTypeId(), root);
+	strip_node(SoTextureCoordinate2::getClassTypeId(), root);
+
+	//Make a copy of simplified scene
+	SoSeparator *tmpNode = (SoSeparator *)root->copy(true);
+	tmpNode->ref();
+
+	//Destruimos la escena actual y creamos una nueva
+	on_actionNew_Scene_activated();
+
+	//Colgamos el nodo del grafo de escena
+	QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
+	for(int i=0; i< tmpNode->getNumChildren(); i++)
+	{
+		newSceneGraph(tmpNode->getChild(i), qroot, root);
+	}
+	tmpNode->unref();
+
+	//Expandimos todos los items
+	Ui.sceneGraph->expandAll();
+
+	//Actualizamos la tabla  de campos
+	updateFieldEditor (root);
+
+	//Indicamos que la escena ha sido modificada
+	escena_modificada = true;
+
+}//void MainWindow::on_actionSoReorganizeAction_activated()
 

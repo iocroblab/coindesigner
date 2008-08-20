@@ -147,6 +147,7 @@ public slots:
 	void on_actionPlaneViewer_Editor_activated();
 	void on_actionEdit_Source_activated();
 	void on_actionIvfix_activated();
+	void on_actionSoReorganizeAction_activated();
 
 	//Slots para el menu Help
 	void on_actionCoin3D_Reference_activated();

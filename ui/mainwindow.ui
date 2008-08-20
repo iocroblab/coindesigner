@@ -161,6 +161,7 @@
      </property>
      <addaction name="actionIvfix" />
      <addaction name="actionEmbed_all_textures" />
+     <addaction name="actionSoReorganizeAction" />
     </widget>
     <addaction name="separator" />
     <addaction name="actionExaminerViewer_Editor" />
@@ -898,6 +899,14 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionSoReorganizeAction" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>SoReorganizeAction</string>
    </property>
   </action>
  </widget>
