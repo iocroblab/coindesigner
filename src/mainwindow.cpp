@@ -1643,6 +1643,33 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
     } // for (int f=0; f < num_fields; f++)
 
+	//Filas que no corresponden a campos del nodo
+	if (nodo->getTypeId() == SoTexture2::getClassTypeId())
+	{
+		SoTexture2 *texture2 = (SoTexture2 *)nodo;
+		QString fileName = texture2->filename.getValue().getString();
+		if (!fileName.isEmpty()) 
+		{
+			//Tratamos de leer el fichero como una imagen
+			QImage image(fileName);
+			if (!image.isNull())
+			{
+				//Creamos un widget que muestra esta imagen
+				QLabel *imageLabel = new QLabel;
+				imageLabel->setBackgroundRole(QPalette::Base);
+				imageLabel->setPixmap(QPixmap::fromImage(image));
+
+				//Añadimos una fila con una imagen para este campo
+				Ui.fieldTable->setRowCount (numRows+1);
+				Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem ("img"));
+				Ui.fieldTable->setCellWidget(numRows,0,imageLabel);
+				Ui.fieldTable->setRowHeight(numRows, image.height());
+
+				numRows++;
+			}//if (!image.isNull())
+		}//if (!fileName.isEmpty())
+	}
+
     //Aseguramos que las columnas tienen ancho suficiente
     Ui.fieldTable->resizeColumnsToContents();
 
@@ -2186,14 +2213,29 @@ QTreeWidgetItem *MainWindow::newNodeItem(SoNode *node)
     //Asignamos el mapa de nodos
     mapQTCOIN[item]=node;
 
-    //Buscamos el icono adecuado para este item
+    //Buscamos el icono y el tooltip adecuado para este item
     setNodeIcon(item);
+	setNodeToolTip(item);
 
     //Asignamos el texto del item
-    item->setText(0, QString(node->getTypeId().getName() ));
+    item->setText(0, QString(node->getTypeId().getName()));
 
     return item;
 }
+
+/// Busca un tooltip adecuado a esta clase y lo asigna al item
+void MainWindow::setNodeToolTip(QTreeWidgetItem *item)
+{
+	//Asignamos un tooltip
+	QString tooltip;
+
+	//Leemos el nodo asociado a este item
+	SoNode *node = mapQTCOIN[item];
+	SoType nodeType = node->getTypeId();
+
+	item->setToolTip(0, tooltip);
+
+}//void MainWindow::setNodeToolTip(QTreeWidgetItem *item)
 
 /// Busca un icono adecuado a esta clase y lo asigna al item
 bool MainWindow::setNodeIcon(QTreeWidgetItem *item)

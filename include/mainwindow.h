@@ -230,6 +230,9 @@ private:
 	///Añade un nodo a la escena y actualiza el sceneGraph 
 	void newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGroup *nodo_padre);
 
+	/// Busca un tooltip adecuado a esta clase y lo asigna al item
+	void MainWindow::setNodeToolTip(QTreeWidgetItem *item);
+
 	///Busca un icono adecuado a esta clase y lo asigna al item
 	bool setNodeIcon(QTreeWidgetItem * item);
 

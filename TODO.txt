@@ -33,6 +33,7 @@ DONE: SoRerganizeAction support
 DONE: Mostrar conections como tooltips
 DONE: Settings editor
 	file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html
+DONE: Ver imagenes externas de un SoTexture2
 
 
 TODO: Decidir esquema de menus en ui/cds_viewer.ui : Desplegable o en barra.
@@ -47,8 +48,6 @@ DROP: Soporte para editar matrices
 * Undo
   file:///C:/Qt/4.3.2/doc/html/tools-undoframework.html
   
-* Ver texturas como imagenes
-  file:///C:/Qt/4.3.2/doc/html/widgets-imageviewer.html
   
 * salvar esquema de docks en setting
   http://doc.trolltech.com/4.3/qmainwindow.html#restoreState
