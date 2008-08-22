@@ -192,7 +192,7 @@ int ifs_patch_hole2(const SoPath *path, int f1, int f2)
 
    //Buscamos las dos facetas dentro del IndexedFaceSet
    int i,j;
-   int idx1, idx2;
+   int idx1=0, idx2=0;
    int numIdx = ifs->coordIndex.getNum();
    int face = 0;
    for (i=0; i<numIdx; i++)
@@ -215,7 +215,7 @@ int ifs_patch_hole2(const SoPath *path, int f1, int f2)
 
    //Buscamos un vertice comun entre la faceta f1 y f2
    int v1=-1;
-   int v2, v3;
+   int v2=0, v3=0;
    for (i=idx1; ifs->coordIndex[i] > -1 && (v1<0); i++)
    {
 	   for (j=idx2; ifs->coordIndex[j]>-1 ; j++)
@@ -1857,9 +1857,9 @@ char *cds_export_string (SoNode *node)
     SoWriteAction wa(&out);
     wa.apply(node);
 
-    //Leemos el buffer y su tamaño real
+    //Leemos el buffer y reducimos su tamaño al minimo
     out.getBuffer(buffer, buffer_size);
-    realloc(buffer, buffer_size+1);
+    buffer = realloc(buffer, buffer_size+1);
     ((char *)buffer)[buffer_size]=0;
 
     return (char *)buffer;
