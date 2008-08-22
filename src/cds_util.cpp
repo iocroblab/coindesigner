@@ -2126,6 +2126,7 @@ SoNode *buscaUltimoNodo(SoPath *p, SoType t)
 	const unsigned char *pixbuf = sfimage->getValue(size, nc);
 	int w=size[0];
 	int h=size[1];
+	//qDebug("nc=%d\n", nc);
 
 	//Check the format of image.
 	QImage::Format qformat = QImage::Format_Invalid;
@@ -2133,6 +2134,8 @@ SoNode *buscaUltimoNodo(SoPath *p, SoType t)
 	{
 		case 4:  qformat = QImage::Format_ARGB32; break;
 		case 3:  qformat = QImage::Format_RGB32; break;
+		case 2:  qformat = QImage::Format_ARGB32; break;
+		case 1:  qformat = QImage::Format_RGB32; break;
 		default: qformat = QImage::Format_Invalid;
 	}
 
@@ -2141,38 +2144,30 @@ SoNode *buscaUltimoNodo(SoPath *p, SoType t)
 		return NULL;
 
     QImage *qimage = new QImage(w, h, qformat);
-	QRgb rgb;
+	QRgb rgb=qRgb(0,0,0);
 
-	//Copy the pixbuf from sfimage to qimage
-	if (qformat == QImage::Format_RGB32)
-	{
-		int idx=0;
-		for (int j=h-1; j>=0; j--)
-			for (int i=0; i< w; i++)
-			{
-				//Create a pixel with no alpha
+	int idx=0;
+	for (int j=h-1; j>=0; j--)
+		for (int i=0; i< w; i++)
+		{
+			//Create a pixel acording with nc
+			if (nc==4)
+				rgb = qRgba(pixbuf[idx], pixbuf[idx+1], pixbuf[idx+2], pixbuf[idx+3]);
+			else if (nc==3)
 				rgb = qRgb(pixbuf[idx], pixbuf[idx+1], pixbuf[idx+2]);
-				//Next pixel in image buffer
-				idx += nc;
-				qimage->setPixel(i,j,rgb);
-			}//for
-	}// if (qformat == QImage::Format_RGB32)
-	else
-	if (qformat == QImage::Format_ARGB32)
-	{
-		int idx=0;
-		for (int j=h-1; j>=0; j--)
-			for (int i=0; i< w; i++)
-			{
-				//Create a pixel with alpha
-				rgb = qRgba(pixbuf[idx+1], pixbuf[idx+2], pixbuf[idx+3],pixbuf[idx]);
-				//Next pixel in image buffer
-				idx += nc;
-				qimage->setPixel(i,j,rgb);
-			}//for
-	}// if (qformat == QImage::Format_ARGB32)
+			else if (nc==2)
+				rgb = qRgba(pixbuf[idx], pixbuf[idx], pixbuf[idx], pixbuf[idx+1]);
+			else if (nc==1)
+				rgb = qRgb(pixbuf[idx], pixbuf[idx], pixbuf[idx]);
+
+			//Put qut pixel in the QImage
+			qimage->setPixel(i,j,rgb);
+
+			//Next pixel in image buffer
+			idx += nc;
+		}//for
 
   	return qimage;
-  }
+  }// QImage * SoSFImage_to_QImage(const SoSFImage *sfimage)
 
 #endif
