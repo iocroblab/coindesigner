@@ -9,6 +9,7 @@ DONE: Edicion de valores directos en fieldEditor
   file:///C:/Qt/4.3.2/doc/html/demos-spreadsheet.html
 DONE: Al minimizar la ventana, los dock dejan de ser visibles y se desactivan
 DROP: revisar refCount relativo tras abrir un visualizador e imprimir
+DONE: Evita bug de coin3D en SoTexture2::enableCompressedTexture, que no imprime nombre.
 
 
 FEATURES:

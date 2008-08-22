@@ -1276,6 +1276,14 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
              S=nombre_campo;
          }
 
+		//Esto soluciona un Bug en coin3D. El campo SoTexture2::enableCompressedTexture no introduce su 
+		//nombre correctamente
+		if (S.isEmpty())
+		{
+			if (nodo->getTypeId() == SoTexture2::getClassTypeId() && f== 6)
+				S="enableCompressedTexture";
+		}
+
          //Añadimos una fila para este campo
          Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem (S));
          Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem ());
