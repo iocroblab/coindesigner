@@ -21,11 +21,16 @@
 
 #include <Inventor/SoPath.h>
 #include <Inventor/fields/SoMFVec3f.h>
+#include <Inventor/fields/SoSFImage.h>
 #include <Inventor/SbBox.h>
 #include <Inventor/VRMLnodes/SoVRMLIndexedFaceSet.h>
 #include <Inventor/nodes/SoIndexedFaceSet.h>
 #include <Inventor/nodes/SoIndexedTriangleStripSet.h>
 #include <string>
+
+#if defined(QT_GUI_LIB)
+#include <QImage>
+#endif
 
 ///Cuenta el numero de facetas de un VRMLIndexedFaceSet
 int count_facets (const SoVRMLIndexedFaceSet *node);
@@ -122,6 +127,11 @@ SoNode *buscaUltimoNodo(SoPath *p, SoType t);
 
 //! Remove all nodes of a given type
 void strip_node(SoType type, SoNode * root);
+
+#ifdef QIMAGE_H
+  ///Convert a SoSFImage object into a QImage
+  QImage * SoSFImage_to_QImage(const SoSFImage *sfimage);
+#endif
 
 #endif
 

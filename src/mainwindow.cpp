@@ -1654,29 +1654,26 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 	//Filas que no corresponden a campos del nodo
 	if (nodo->getTypeId() == SoTexture2::getClassTypeId())
 	{
+		//Creamos un widget que muestra esta imagen
 		SoTexture2 *texture2 = (SoTexture2 *)nodo;
-		QString fileName = texture2->filename.getValue().getString();
-		if (!fileName.isEmpty()) 
+		QImage *image = SoSFImage_to_QImage(&texture2->image);
+		if (image != NULL)
 		{
-			//Tratamos de leer el fichero como una imagen
-			QImage image(fileName);
-			if (!image.isNull())
-			{
-				//Creamos un widget que muestra esta imagen
-				QLabel *imageLabel = new QLabel;
-				imageLabel->setBackgroundRole(QPalette::Base);
-				imageLabel->setPixmap(QPixmap::fromImage(image));
+			QLabel *imageLabel = new QLabel;
+			imageLabel->setBackgroundRole(QPalette::Base);
+			imageLabel->setPixmap(QPixmap::fromImage(*image));
 
-				//Añadimos una fila con una imagen para este campo
-				Ui.fieldTable->setRowCount (numRows+1);
-				Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem ("img"));
-				Ui.fieldTable->setCellWidget(numRows,0,imageLabel);
-				Ui.fieldTable->setRowHeight(numRows, image.height());
+			//Añadimos una fila con una imagen para este campo
+			Ui.fieldTable->setRowCount (numRows+1);
+			Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem ("img"));
+			Ui.fieldTable->setCellWidget(numRows,0,imageLabel);
+			Ui.fieldTable->setRowHeight(numRows, image->height());
+			numRows++;
 
-				numRows++;
-			}//if (!image.isNull())
-		}//if (!fileName.isEmpty())
-	}
+			delete image;
+		}
+
+	}// if (nodo->getTypeId() == SoTexture2::getClassTypeId())
 
     //Aseguramos que las columnas tienen ancho suficiente
     Ui.fieldTable->resizeColumnsToContents();

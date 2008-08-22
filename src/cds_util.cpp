@@ -32,7 +32,7 @@
 #include <fstream>
 #include <string>
 
-#if defined(QT_SHARED) || defined(QT_DLL)
+#if defined(QT_GUI_LIB)
 #include <qprogressdialog.h>
 #endif
 
@@ -2111,3 +2111,68 @@ SoNode *buscaUltimoNodo(SoPath *p, SoType t)
       } 
     sa.reset();  
   }
+  
+#ifdef QIMAGE_H
+  ///Convert a SoSFImage object into a QImage
+  QImage * SoSFImage_to_QImage(const SoSFImage *sfimage)
+  {
+	//Check for NULL pointers
+  	if (sfimage == NULL)
+		return NULL;
+
+	//Take image information
+	SbVec2s size;
+	int nc; 
+	const unsigned char *pixbuf = sfimage->getValue(size, nc);
+	int w=size[0];
+	int h=size[1];
+
+	//Check the format of image.
+	QImage::Format qformat = QImage::Format_Invalid;
+	switch (nc)
+	{
+		case 4:  qformat = QImage::Format_ARGB32; break;
+		case 3:  qformat = QImage::Format_RGB32; break;
+		default: qformat = QImage::Format_Invalid;
+	}
+
+	//Check the format of image. Only RGB and RGBA are supported
+	if (qformat == QImage::Format_Invalid)
+		return NULL;
+
+    QImage *qimage = new QImage(w, h, qformat);
+	QRgb rgb;
+
+	//Copy the pixbuf from sfimage to qimage
+	if (qformat == QImage::Format_RGB32)
+	{
+		int idx=0;
+		for (int j=h-1; j>=0; j--)
+			for (int i=0; i< w; i++)
+			{
+				//Create a pixel with no alpha
+				rgb = qRgb(pixbuf[idx], pixbuf[idx+1], pixbuf[idx+2]);
+				//Next pixel in image buffer
+				idx += nc;
+				qimage->setPixel(i,j,rgb);
+			}//for
+	}// if (qformat == QImage::Format_RGB32)
+	else
+	if (qformat == QImage::Format_ARGB32)
+	{
+		int idx=0;
+		for (int j=h-1; j>=0; j--)
+			for (int i=0; i< w; i++)
+			{
+				//Create a pixel with alpha
+				rgb = qRgba(pixbuf[idx+1], pixbuf[idx+2], pixbuf[idx+3],pixbuf[idx]);
+				//Next pixel in image buffer
+				idx += nc;
+				qimage->setPixel(i,j,rgb);
+			}//for
+	}// if (qformat == QImage::Format_ARGB32)
+
+  	return qimage;
+  }
+
+#endif
