@@ -34,6 +34,7 @@
 
 #if defined(QT_GUI_LIB)
 #include <qprogressdialog.h>
+#include <QMessageBox>
 #endif
 
 ///Cuenta el numero de facetas de un VRMLIndexedFaceSet
@@ -1995,8 +1996,8 @@ bool cds_export_hppFile (SoNode *node, const char *className, const char *filena
 	fclose(hppFile);
 
 	return true;
-}
 
+}//bool cds_export_hppFile (SoNode *node, const char *className, const char *filename)
 
 
 bool cds_export_cppFile (const char *className, const char *filename)
@@ -2078,10 +2079,149 @@ bool cds_export_cppFile (const char *className, const char *filename)
    fclose(cppFile);
 
    return true;
-}
+} // bool cds_export_cppFile (const char *className, const char *filename)
+
+
+//!Exporta un subarbol de escena a formato .ase (ASCII Scene Exporter)
+//Esta funcion está pensada para mallas exportadas desde el vivid
+bool cds_export_ase (SoPath *path, const char *filename)
+{
+	assert (path != NULL);
+	assert (filename != NULL);
+
+	//Busca el ultimo nodo de tipo coordinate3
+	SoTexture2 *texture = (SoTexture2 *)buscaUltimoNodo(path, SoTexture2::getClassTypeId());
+	SoTextureCoordinate2 *textureCoord = (SoTextureCoordinate2 *)buscaUltimoNodo(path, SoTextureCoordinate2::getClassTypeId());
+	SoCoordinate3 *coord = (SoCoordinate3 *)buscaUltimoNodo(path, SoCoordinate3::getClassTypeId());
+	SoIndexedFaceSet *faces = (SoIndexedFaceSet *)buscaUltimoNodo(path, SoIndexedFaceSet::getClassTypeId());
+
+	//Comprobamos que hemos encontrado la informacion imprescindible
+	if (coord==NULL || faces==NULL)
+	{
+#ifdef QMESSAGEBOX_H
+		QMessageBox::critical( NULL, QObject::tr("Error"), QObject::tr("Can't export this to .ase file format"));
+#endif
+		return false;
+	}
+
+	//Cuenta vertices y facetas, Triangula la malla si es necesario
+	int numVertex = coord->point.getNum();
+	int numFaces  = IndexedFaceSet_triangulate (faces->coordIndex);
+	if (numVertex == 0 || numFaces==0)
+	{
+#ifdef QMESSAGEBOX_H
+		QMessageBox::critical( NULL, QObject::tr("Error"), QObject::tr("Can't export this to .ase file format"));
+#endif
+		return false;
+	}
+
+   //Creamos el fichero de salida
+   FILE *aseFile = fopen(filename, "w");
+   if (!aseFile)
+   {
+       perror(filename);
+#ifdef QMESSAGEBOX_H
+		QMessageBox::critical( NULL, QObject::tr("Error"), QObject::tr("Can't open output file"));
+#endif
+       return false;
+   }
+
+   //Escribimos la informacion necesaria
+   fprintf(aseFile, "*3DSMAX_ASCIIEXPORT\t200\n");
+   fprintf(aseFile, "*COMMENT \"Created with Coindesigner\"\n");
+   fprintf(aseFile, "*GEOMOBJECT {\n");
+   fprintf(aseFile, "*MESH {\n");
+
+   fprintf(aseFile, "*MESH_NUMVERTEX %d\n", numVertex);
+   fprintf(aseFile, "*MESH_NUMFACES %d\n", numFaces);
+
+   //Lista de vertices
+   fprintf(aseFile, "*MESH_VERTEX_LIST {\n");
+   for (int i=0; i< numVertex; i++)
+   {
+	   const float *xyz = coord->point.getValues(i)->getValue();
+	   fprintf(aseFile, "*MESH_VERTEX\t%d\t%f\t%f\t%f\n",i,xyz[0],xyz[1],xyz[2]);
+   }
+   fprintf(aseFile, "}\n"); //MESH_VERTEX_LIST
+
+   //Lista de facetas
+   fprintf(aseFile, "*MESH_FACE_LIST {\n");
+   int numIndex = faces->coordIndex.getNum();
+   for (int i=0,j=0; i< numFaces; i++)
+   {
+	   //Comprueba que los indices son correctos
+	   const int a= faces->coordIndex[j++];
+	   const int b= faces->coordIndex[j++];
+	   const int c= faces->coordIndex[j++];
+	   assert(a >=0 && b>=0 && c>= 0);
+
+	   fprintf(aseFile, "*MESH_FACE\t%d:\tA: %d\tB: %d\tC: %d"
+						"\tAB:    1 BC:    1 CA:    1	 *MESH_SMOOTHING 1 	*MESH_MTLID 0\n",
+						i,a,b,c);
+
+	   if( j < numIndex)
+	   {
+		   //Esta cara no es un triangulo
+		   assert(faces->coordIndex[j]==-1);
+		   j++;
+	   }
+
+   }
+   fprintf(aseFile, "}\n"); //MESH_FACE_LIST
+
+   //Informacion de coordenadas de textura
+   if (texture != NULL && textureCoord != NULL)
+   {
+	   fprintf(aseFile, "*MESH_NUMTVERTEX %d\n", numVertex);
+	   fprintf(aseFile, "*MESH_TVERTLIST {\n");
+	   for (int i=0; i< numVertex; i++)
+	   {
+		   const float *uv =  textureCoord->point.getValues(i)->getValue();
+		   fprintf(aseFile, "*MESH_TVERT\t%d\t%f\t%f\t0\n",i,uv[0],uv[1]);
+	   }
+	   fprintf(aseFile, "}\n"); //MESH_TVERTLIST
+
+
+	   //Lista de facetas de textura
+	   fprintf(aseFile, "*MESH_NUMTVFACES %d\n", numFaces);
+	   fprintf(aseFile, "*MESH_TFACELIST {\n");
+	   int numIndex = faces->coordIndex.getNum();
+	   for (int i=0,j=0; i< numFaces; i++)
+	   {
+		   //Presupone que son triangulos, y comprueba que lo son
+		   const int a= faces->coordIndex[j++];
+		   const int b= faces->coordIndex[j++];
+		   const int c= faces->coordIndex[j++];
+		   assert(a >=0 && b>=0 && c>= 0);
+
+		   fprintf(aseFile, "*MESH_TFACE\t%d\t%d\t%d\t%d\n", i,a,b,c);
+
+		   if( j < numIndex)
+		   {
+			   //Esta cara no es un triangulo
+			   assert(faces->coordIndex[j]==-1);
+			   j++;
+		   }
+	   }
+	   fprintf(aseFile, "}\n"); //MESH_TFACELIST
+
+   } // if (texture != NULL && textureCoord != NULL)
+
+   fprintf(aseFile, "*MESH_NUMCVERTEX 0\n");
+
+
+   fprintf(aseFile, "}\n"); //MESH
+   fprintf(aseFile, "}\n"); //GEOMOBJECT
+
+   fclose(aseFile);
+
+	return true;
+} //bool cds_export_ase (SoPath *path, const char *filename)
+
+
 
 /*! Busca el ultimo nodo de un tipo dado en un path */
-SoNode *buscaUltimoNodo(SoPath *p, SoType t)
+SoNode *buscaUltimoNodo(SoPath *p, const SoType t)
 {
 	SoSearchAction sa;
 	sa.setType(t);

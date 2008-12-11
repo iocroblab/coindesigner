@@ -545,8 +545,26 @@ void MainWindow::on_actionExport_VRML2_activated()
     action.getOutput()->closeFile();
 
     wrl2->unref();
+
 }// void MainWindow::on_actionExport_VRML2_activated()
 
+
+void MainWindow::on_actionExport_ASE_activated()
+{
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
+            nombreEscena, 
+            tr("ASE Files")+"(*.ase);;"+tr("All Files")+" (*)");
+
+    //Miramos si se pulso el boton cancelar
+    if (filename=="")
+        return;
+
+    SoPath *path = new SoPath(root);
+    path->ref();
+	cds_export_ase(path, filename.toAscii());
+	path->unref();
+
+}//void MainWindow::on_actionExport_ASE_activated()
 
 
 ///Imprime el grafo de escena en un documento

@@ -20,7 +20,7 @@ DONE: Viewers dock-ables. Interfaz Dock-able
 DONE: Insertar un subgrafo de escena. on_actionLoad_Scene()
 DONE: Carga de ficheros .off .smf .vol .xyz .obj
 DONE: Poner nombre a nodos importados 
-DONE Insercion de plantillas (help->demos)
+DONE: Insercion de plantillas (help->demos)
 DONE: salvar lista de ultimos archivos abiertos
 DONE: Compile a source in src_editor (will give support for engines and more)
 DONE: Sintax highlight en src_editor
@@ -30,7 +30,7 @@ DONE: Añadir una consola dockable para mensajes
 DONE: activar traduccion al castellano
 DONE: Drag&drop files from explorer
 DONE: More conversions (Texture2, bumpmap, ...)
-DONE: SoRerganizeAction support
+DONE: SoReorganizeAction support
 DONE: Mostrar conections como tooltips
 DONE: Settings editor
 	file:///C:/Qt/4.3.2/doc/html/tools-settingseditor.html

@@ -122,8 +122,11 @@ bool cds_export_hppFile (SoNode *node, const char *className, const char *filena
 //!Crea una aplicacion para visualizar una clase creada con cds_export_hppFile
 bool cds_export_cppFile (const char *className, const char *filename);
 
+//!Exporta un subarbol de escena a formato .ase (ASCII Scene Exporter)
+bool cds_export_ase (SoPath *path, const char *filename);
+
 //! Busca el ultimo nodo de un tipo dado en un path
-SoNode *buscaUltimoNodo(SoPath *p, SoType t);
+SoNode *buscaUltimoNodo(SoPath *p, const SoType t);
 
 //! Remove all nodes of a given type
 void strip_node(SoType type, SoNode * root);

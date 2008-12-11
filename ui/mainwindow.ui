@@ -90,6 +90,7 @@
     <addaction name="actionImport_File" />
     <addaction name="actionExport_C" />
     <addaction name="actionExport_VRML2" />
+    <addaction name="actionExport_ASE" />
     <addaction name="actionPrintSceneGraph" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
@@ -907,6 +908,14 @@
    </property>
    <property name="text" >
     <string>SoReorganizeAction</string>
+   </property>
+  </action>
+  <action name="actionExport_ASE" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export ASE</string>
    </property>
   </action>
  </widget>
