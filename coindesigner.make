@@ -10,6 +10,7 @@ QHULLLIB_OBJ=tmp/geom2.o tmp/geom.o tmp/global.o tmp/io.o tmp/mem.o tmp/merge.o 
 
 CDSLIB_OBJ= tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
 
+QMAKE=qmake-qt4
 RESOURCES=images/gui.qrc images/nodes.qrc
 
 #Esto debe hacerse desde autoconfig!!!
@@ -21,7 +22,7 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 all : coindesigner cdsview
 
 coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro translations
-	qmake -o - coindesigner.pro > Makefile
+	$(QMAKE) -o - coindesigner.pro > Makefile
 	$(MAKE) -f Makefile 
 	#rm Makefile
 
@@ -48,19 +49,19 @@ src/cds_scanner.cpp : src/cds_scanner.l include/cds_parser.h
 	mv lex.yy.c src/cds_scanner.cpp
 
 coindesigner.vcproj : coindesigner.pro
-	qmake -t vcapp -o $@ coindesigner.pro
+	$(QMAKE) -t vcapp -o $@ coindesigner.pro
 
 translations : coindesigner.pro 
-	lupdate coindesigner.pro
-	lrelease -compress coindesigner.pro
+	lupdate-qt4 coindesigner.pro
+	lrelease-qt4 -compress coindesigner.pro
 
 clean : 
-	qmake coindesigner.pro
+	$(QMAKE) coindesigner.pro
 	$(MAKE) -f Makefile clean
 	$(RM) -rf core Makefile tmp .qmake.internal.cache
 
 distclean : 
-	qmake coindesigner.pro
+	$(QMAKE) coindesigner.pro
 	$(MAKE) -f Makefile distclean
 	$(RM) -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
 
