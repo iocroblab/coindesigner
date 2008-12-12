@@ -2105,8 +2105,9 @@ bool cds_export_ase (SoPath *path, const char *filename)
 		return false;
 	}
 
-	//Cuenta vertices y facetas, Triangula la malla si es necesario
+	//Cuenta vertices y facetas, triangula la malla si es necesario
 	int numVertex = coord->point.getNum();
+	SbVec3f center=centroid(coord->point);
 	int numFaces  = IndexedFaceSet_triangulate (faces->coordIndex);
 	if (numVertex == 0 || numFaces==0)
 	{
@@ -2122,7 +2123,8 @@ bool cds_export_ase (SoPath *path, const char *filename)
    {
        perror(filename);
 #ifdef QMESSAGEBOX_H
-		QMessageBox::critical( NULL, QObject::tr("Error"), QObject::tr("Can't open output file"));
+	   QMessageBox::critical( NULL, QObject::tr("Error"), 
+		   QObject::tr("Can't create output file")+ " " + QString(filename) );
 #endif
        return false;
    }
@@ -2194,7 +2196,6 @@ bool cds_export_ase (SoPath *path, const char *filename)
 
    fprintf(aseFile, "*GEOMOBJECT {\n");
    fprintf(aseFile, "*MESH {\n");
-
    fprintf(aseFile, "*MESH_NUMVERTEX %d\n", numVertex);
 
    //Lista de vertices
@@ -2202,7 +2203,8 @@ bool cds_export_ase (SoPath *path, const char *filename)
    for (int i=0; i< numVertex; i++)
    {
 	   const float *xyz = coord->point.getValues(i)->getValue();
-	   fprintf(aseFile, "*MESH_VERTEX\t%d\t%f\t%f\t%f\n",i,xyz[0],xyz[1],xyz[2]);
+	   //Intercambiamos las coordenadas Y Z para seguir convenio de 3DStudio
+	   fprintf(aseFile, "*MESH_VERTEX %d %f %f %f\n",i,center[0]-xyz[0],xyz[2]-center[2],xyz[1]-center[1]);
    }
    fprintf(aseFile, "}\n"); //MESH_VERTEX_LIST
 
@@ -2210,7 +2212,8 @@ bool cds_export_ase (SoPath *path, const char *filename)
    fprintf(aseFile, "*MESH_NUMFACES %d\n", numFaces);
    fprintf(aseFile, "*MESH_FACE_LIST {\n");
    int numIndex = faces->coordIndex.getNum();
-   for (int i=0,j=0; i< numFaces; i++)
+   int j=0;
+   for (int i=0; i< numFaces; i++)
    {
 	   //Comprueba que los indices son correctos
 	   const int a= faces->coordIndex[j++];
@@ -2218,18 +2221,18 @@ bool cds_export_ase (SoPath *path, const char *filename)
 	   const int c= faces->coordIndex[j++];
 	   assert(a >=0 && b>=0 && c>= 0);
 
-	   fprintf(aseFile, "*MESH_FACE\t%d:\tA: %d\tB: %d\tC: %d"
-						"\tAB:    1 BC:    1 CA:    1	 *MESH_SMOOTHING 1 	*MESH_MTLID 0\n",
+	   fprintf(aseFile, "*MESH_FACE %d: A: %d B: %d C: %d"
+						" AB: 1 BC: 1 CA: 1 *MESH_SMOOTHING 1 *MESH_MTLID 0\n",
 						i,a,b,c);
 
 	   if( j < numIndex)
 	   {
-		   //Esta cara no es un triangulo
+		   //Comprueba que esta cara es un triangulo
 		   assert(faces->coordIndex[j]==-1);
 		   j++;
 	   }
 
-   }
+   }//for
    fprintf(aseFile, "}\n"); //MESH_FACE_LIST
 
    //Informacion de coordenadas de textura
@@ -2249,7 +2252,8 @@ bool cds_export_ase (SoPath *path, const char *filename)
 	   fprintf(aseFile, "*MESH_NUMTVFACES %d\n", numFaces);
 	   fprintf(aseFile, "*MESH_TFACELIST {\n");
 	   int numIndex = faces->coordIndex.getNum();
-	   for (int i=0,j=0; i< numFaces; i++)
+	   j=0;
+	   for (int i=0; i< numFaces; i++)
 	   {
 		   //Presupone que son triangulos, y comprueba que lo son
 		   const int a= faces->coordIndex[j++];
@@ -2271,19 +2275,17 @@ bool cds_export_ase (SoPath *path, const char *filename)
    } // if (texture != NULL && textureCoord != NULL)
 
    fprintf(aseFile, "*MESH_NUMCVERTEX 0\n");
-
-
    fprintf(aseFile, "}\n"); //MESH
 
    fprintf(aseFile, "*PROP_MOTIONBLUR 0\n"
-	"*PROP_CASTSHADOW 1\n"
-	"*PROP_RECVSHADOW 1\n"
-	"*MATERIAL_REF 0\n"
-	"}\n"); //GEOMOBJECT
+	                "*PROP_CASTSHADOW 1\n"
+	                "*PROP_RECVSHADOW 1\n"
+	                "*MATERIAL_REF 0\n"
+	                "}\n"); //GEOMOBJECT
 
    fclose(aseFile);
 
-	return true;
+   return true;
 } //bool cds_export_ase (SoPath *path, const char *filename)
 
 
