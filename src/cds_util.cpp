@@ -26,6 +26,7 @@
 #include <Inventor/nodes/SoNodes.h>
 #include <Inventor/actions/SoActions.h>
 #include <Inventor/VRMLnodes/SoVRMLNodes.h>
+#include <simage.h>
 
 #include <map>
 #include <iostream>
@@ -2126,14 +2127,75 @@ bool cds_export_ase (SoPath *path, const char *filename)
        return false;
    }
 
+   //Salva el fichero de textura
+   char textureFilename[1024]="";
+   if (texture != NULL)
+   {
+	   //Create a jpg with the texture
+	   sprintf(textureFilename, "%s.jpg", filename);
+
+	   //Take image information
+	   SbVec2s size;
+	   int nc; 
+	   const unsigned char *pixbuf = texture->image.getValue(size, nc);
+	   int w=size[0];
+	   int h=size[1];
+	   //qDebug("nc=%d\n", nc);
+
+	   simage_save_image(textureFilename, pixbuf, w, h, nc,"jpg");
+   }
+
    //Escribimos la informacion necesaria
    fprintf(aseFile, "*3DSMAX_ASCIIEXPORT\t200\n");
    fprintf(aseFile, "*COMMENT \"Created with Coindesigner\"\n");
+
+
+   //Creamos un material con la textura adecuada
+   fprintf(aseFile,
+"*MATERIAL_LIST {\n"
+"	*MATERIAL_COUNT 1\n"
+"	*MATERIAL 0 {\n"
+"		*MATERIAL_NAME \"Material #0\"\n"
+"		*MATERIAL_CLASS \"Standard\"\n"
+"		*MATERIAL_AMBIENT 0.6	0.6	0.6\n"
+"		*MATERIAL_DIFFUSE 0.6	0.6	0.6\n"
+"		*MATERIAL_SPECULAR 0.9	0.9	0.9\n"
+"		*MATERIAL_SHINE 0.1\n"
+"		*MATERIAL_SHINESTRENGTH 0.0\n"
+"		*MATERIAL_TRANSPARENCY 0.0\n"
+"		*MATERIAL_WIRESIZE 1.0\n"
+"		*MATERIAL_SHADING Blinn\n"
+"		*MATERIAL_XP_FALLOFF 0.0\n"
+"		*MATERIAL_SELFILLUM 0.0\n"
+"		*MATERIAL_FALLOFF In\n"
+"		*MATERIAL_XP_TYPE Filter\n"
+"		*MAP_DIFFUSE {\n"
+"			*MAP_NAME \"Map #2\"\n"
+"			*MAP_CLASS \"Bitmap\"\n"
+"			*MAP_SUBNO 1\n"
+"			*MAP_AMOUNT 1.0000\n"
+"			*BITMAP \"%s\"\n"
+"			*MAP_TYPE Screen\n"
+"			*UVW_U_OFFSET 0.0\n"
+"			*UVW_V_OFFSET 0.0\n"
+"			*UVW_U_TILING 1.0\n"
+"			*UVW_V_TILING 1.0\n"
+"			*UVW_ANGLE 0.0\n"
+"			*UVW_BLUR 1.0\n"
+"			*UVW_BLUR_OFFSET 0.0\n"
+"			*UVW_NOUSE_AMT 1.0\n"
+"			*UVW_NOISE_SIZE 1.0\n"
+"			*UVW_NOISE_LEVEL 1\n"
+"			*UVW_NOISE_PHASE 0.0\n"
+"			*BITMAP_FILTER Pyramidal\n"
+"		}\n"
+"	}\n"
+"}\n", textureFilename );
+
    fprintf(aseFile, "*GEOMOBJECT {\n");
    fprintf(aseFile, "*MESH {\n");
 
    fprintf(aseFile, "*MESH_NUMVERTEX %d\n", numVertex);
-   fprintf(aseFile, "*MESH_NUMFACES %d\n", numFaces);
 
    //Lista de vertices
    fprintf(aseFile, "*MESH_VERTEX_LIST {\n");
@@ -2145,6 +2207,7 @@ bool cds_export_ase (SoPath *path, const char *filename)
    fprintf(aseFile, "}\n"); //MESH_VERTEX_LIST
 
    //Lista de facetas
+   fprintf(aseFile, "*MESH_NUMFACES %d\n", numFaces);
    fprintf(aseFile, "*MESH_FACE_LIST {\n");
    int numIndex = faces->coordIndex.getNum();
    for (int i=0,j=0; i< numFaces; i++)
@@ -2211,7 +2274,12 @@ bool cds_export_ase (SoPath *path, const char *filename)
 
 
    fprintf(aseFile, "}\n"); //MESH
-   fprintf(aseFile, "}\n"); //GEOMOBJECT
+
+   fprintf(aseFile, "*PROP_MOTIONBLUR 0\n"
+	"*PROP_CASTSHADOW 1\n"
+	"*PROP_RECVSHADOW 1\n"
+	"*MATERIAL_REF 0\n"
+	"}\n"); //GEOMOBJECT
 
    fclose(aseFile);
 

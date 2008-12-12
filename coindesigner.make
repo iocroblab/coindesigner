@@ -10,7 +10,7 @@ QHULLLIB_OBJ=tmp/geom2.o tmp/geom.o tmp/global.o tmp/io.o tmp/mem.o tmp/merge.o 
 
 CDSLIB_OBJ= tmp/cds_parser.o tmp/cds_scanner.o tmp/3dsLoader.o tmp/SoStream.o
 
-QMAKE=qmake-qt4
+QMAKE=qmake
 RESOURCES=images/gui.qrc images/nodes.qrc
 
 #Esto debe hacerse desde autoconfig!!!
