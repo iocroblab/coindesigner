@@ -2129,6 +2129,10 @@ bool cds_export_ase (SoPath *path, const char *filename)
        return false;
    }
 
+   //char offFilename[512];
+   //sprintf(offFilename, "%s.off", filename);
+   //FILE *offFile = fopen(offFilename, "w");
+
    //Salva el fichero de textura
    char textureFilename[1024]="";
    if (texture != NULL)
@@ -2198,13 +2202,17 @@ bool cds_export_ase (SoPath *path, const char *filename)
    fprintf(aseFile, "*MESH {\n");
    fprintf(aseFile, "*MESH_NUMVERTEX %d\n", numVertex);
 
+   //fprintf(offFile, "OFF %d %d 0\n", numVertex, numFaces);
+
+
    //Lista de vertices
    fprintf(aseFile, "*MESH_VERTEX_LIST {\n");
    for (int i=0; i< numVertex; i++)
    {
 	   const float *xyz = coord->point.getValues(i)->getValue();
 	   //Intercambiamos las coordenadas Y Z para seguir convenio de 3DStudio
-	   fprintf(aseFile, "*MESH_VERTEX %d %f %f %f\n",i,center[0]-xyz[0],xyz[2]-center[2],xyz[1]-center[1]);
+	   fprintf(aseFile, "*MESH_VERTEX %d %.3f %.3f %.3f\n",i,xyz[0]-center[0],100+xyz[2]-center[2],xyz[1]-center[1]);
+	   //fprintf(offFile, "%.3f %.3f %.3f\n",xyz[0]-center[0],xyz[2]-center[2],xyz[1]-center[1]);
    }
    fprintf(aseFile, "}\n"); //MESH_VERTEX_LIST
 
@@ -2216,14 +2224,15 @@ bool cds_export_ase (SoPath *path, const char *filename)
    for (int i=0; i< numFaces; i++)
    {
 	   //Comprueba que los indices son correctos
-	   const int a= faces->coordIndex[j++];
-	   const int b= faces->coordIndex[j++];
-	   const int c= faces->coordIndex[j++];
-	   assert(a >=0 && b>=0 && c>= 0);
+	   const int a = faces->coordIndex[j++];
+	   const int b = faces->coordIndex[j++];
+	   const int c = faces->coordIndex[j++];
+	   assert(a >=0 && b>=0 && c>= 0 && a != b && a != c && b != c);
 
-	   fprintf(aseFile, "*MESH_FACE %d: A: %d B: %d C: %d"
+	   fprintf(aseFile, "*MESH_FACE %d : A: %d B: %d C: %d"
 						" AB: 1 BC: 1 CA: 1 *MESH_SMOOTHING 1 *MESH_MTLID 0\n",
-						i,a,b,c);
+						i,c,b,a);
+	   //fprintf(offFile, "3 %d %d %d\n", c, b, a);
 
 	   if( j < numIndex)
 	   {
@@ -2261,7 +2270,7 @@ bool cds_export_ase (SoPath *path, const char *filename)
 		   const int c= faces->coordIndex[j++];
 		   assert(a >=0 && b>=0 && c>= 0);
 
-		   fprintf(aseFile, "*MESH_TFACE\t%d\t%d\t%d\t%d\n", i,a,b,c);
+		   fprintf(aseFile, "*MESH_TFACE\t%d\t%d\t%d\t%d\n", i,c,b,a);
 
 		   if( j < numIndex)
 		   {
@@ -2284,6 +2293,7 @@ bool cds_export_ase (SoPath *path, const char *filename)
 	                "}\n"); //GEOMOBJECT
 
    fclose(aseFile);
+   //fclose(offFile);
 
    return true;
 } //bool cds_export_ase (SoPath *path, const char *filename)
