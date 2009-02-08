@@ -2210,9 +2210,12 @@ bool cds_export_ase (SoPath *path, const char *filename)
    for (int i=0; i< numVertex; i++)
    {
 	   const float *xyz = coord->point.getValues(i)->getValue();
+	   float x = 0.33*(center[0]-xyz[0]);
+	   float y = 0.33*(xyz[2]-center[2])+200;
+	   float z = 0.33*(xyz[1]-center[1]);
 	   //Intercambiamos las coordenadas Y Z para seguir convenio de 3DStudio
-	   fprintf(aseFile, "*MESH_VERTEX %d %.3f %.3f %.3f\n",i,xyz[0]-center[0],100+xyz[2]-center[2],xyz[1]-center[1]);
-	   //fprintf(offFile, "%.3f %.3f %.3f\n",xyz[0]-center[0],xyz[2]-center[2],xyz[1]-center[1]);
+	   fprintf(aseFile, "*MESH_VERTEX %d %.5f %.5f %.5f\n",i,x,y,z);
+	   //fprintf(offFile, "%.5f %.5f %.5f\n", x, y, z);
    }
    fprintf(aseFile, "}\n"); //MESH_VERTEX_LIST
 
