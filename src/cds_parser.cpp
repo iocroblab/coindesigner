@@ -2332,7 +2332,7 @@ int LeeEntero ()
    }
 }
 
-void yyerror(char *s)
+void yyerror(const char *s)
 {
   fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
   /* No hay piedad con los errores */
