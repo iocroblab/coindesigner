@@ -45,8 +45,8 @@ extern const char *cds_dir;
 
 /******DEFINICION DEL TIPO ivPadre_t PARA LA LISTA DE COMPONENTES******/
 typedef struct  {
-    char *clase;
-    char *padre;
+    const char *clase;
+    const char *padre;
 } ivPadre_t;
 
 /*************Distintas configuraciones de componentes *****************/
