@@ -2791,7 +2791,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
     //Probamos nuestro parser interno (OOGL, OBJ, XYZ, SMF, etc...)
 
     //Abrimos el fichero de entrada
-#ifdef _WIN32
+#ifdef _MSC_VER
 	fopen_s(&yyin, strFilename, "r");
 #else
 	yyin = fopen( strFilename, "r" );
@@ -4012,7 +4012,7 @@ void MainWindow::on_Export_to_SMF_activated()
 	SoNode *nodo = mapQTCOIN[item];
 
     //Abrimos el fichero de salida
-#ifdef _WIN32
+#ifdef _MSC_VER
     FILE *file;
 	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
 #else
@@ -4054,7 +4054,7 @@ void MainWindow::on_Export_to_OFF_activated()
         return;
 
     //Abrimos el fichero de salida
-#ifdef _WIN32
+#ifdef _MSC_VER
     FILE *file;
 	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
 #else
@@ -4096,7 +4096,7 @@ void MainWindow::on_Export_to_STL_activated()
         return;
 
     //Abrimos el fichero de salida
-#ifdef _WIN32
+#ifdef _MSC_VER
     FILE *file;
 	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
 #else
@@ -4131,7 +4131,7 @@ void MainWindow::on_Export_to_XYZ_activated()
         return;
 
     //Abrimos el fichero de salida
-#ifdef _WIN32
+#ifdef _MSC_VER
     FILE *file;
 	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
 #else
