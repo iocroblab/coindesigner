@@ -47,7 +47,7 @@ SOURCES +=	main.cpp	mainwindow.cpp	mainwindow2.cpp	cds_util.cpp	cds_viewers.cpp 
 #TODO	qh_geom2.cpp     qh_mem.cpp       qh_poly2.cpp     qh_user.cpp  \
 #TODO	qhulllib.cpp     qh_global.cpp    qh_merge.cpp     qhull_interface.cpp \
 #TODO	qh_qset.cpp      qhull.cpp 
-	
+
 
 HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
 		include/3dsLoader.h include/src_editor.h include/mfield_editor.h \
@@ -70,6 +70,7 @@ unix {
   #SoQt3 LIBS  += $$system(/usr/bin/soqt-config --ldflags --libs)
   #SoQt4 LIBS
   LIBS  += $$system(/usr/local/bin/soqt-config --ldflags --libs)
+  LIBS  += -lsimage
   INSTALL += coindesigner
 }
 
