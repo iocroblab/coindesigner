@@ -45,6 +45,7 @@ unsigned yylinenum = 1;
 //Indicamos si debemos pasar los saltos de linea al parser 
 int yy_ver_LF = 0;
 
+void yyerror(const char *s);
 %}
 
 ENTERO    ([+-])?([0-9])+

@@ -190,6 +190,8 @@ SoMFVec2f *yy_texture_coord = NULL;
 
 /* Las siguientes funciones se implementan al final de este fichero */
 
+void yyerror(const char *s);
+
 /* Funcion que lee del fichero hasta un salto de linea */
 void ignora_resto_linea();
 
@@ -237,7 +239,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 241 "y.tab.c"
+#line 243 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -543,12 +545,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   114,   114,   114,   126,   126,   149,   149,   186,   191,
-     192,   195,   196,   197,   198,   199,   200,   201,   202,   205,
-     206,   209,   241,   248,   255,   262,   269,   276,   277,   278,
-     281,   287,   293,   325,   367,   410,   465,   472,   484,   491,
-     496,   501,   505,   509,   513,   517,   524,   525,   528,   537,
-     536,   574,   575,   578
+       0,   116,   116,   116,   128,   128,   151,   151,   188,   193,
+     194,   197,   198,   199,   200,   201,   202,   203,   204,   207,
+     208,   211,   243,   250,   257,   264,   271,   278,   279,   280,
+     283,   289,   295,   327,   369,   412,   467,   474,   486,   493,
+     498,   503,   507,   511,   515,   519,   526,   527,   530,   539,
+     538,   576,   577,   580
 };
 #endif
 
@@ -1525,7 +1527,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 114 "src/cds_parser.y"
+#line 116 "src/cds_parser.y"
     {
     /* Preparamos para leer OOGL */
     yyGeometry = new SoSeparator();
@@ -1536,13 +1538,13 @@ yyreduce:
     break;
 
   case 3:
-#line 122 "src/cds_parser.y"
+#line 124 "src/cds_parser.y"
     {
   }
     break;
 
   case 4:
-#line 126 "src/cds_parser.y"
+#line 128 "src/cds_parser.y"
     {
      /* Preparamos para leer XYZ */
      yyGeometry = new SoSeparator();
@@ -1562,7 +1564,7 @@ yyreduce:
     break;
 
   case 5:
-#line 143 "src/cds_parser.y"
+#line 145 "src/cds_parser.y"
     {
      //Indicamos al scanner que no queremos ver los saltos de linea
      yy_ver_LF = 0;
@@ -1570,7 +1572,7 @@ yyreduce:
     break;
 
   case 6:
-#line 149 "src/cds_parser.y"
+#line 151 "src/cds_parser.y"
     {
      /* Preparamos para leer SMF */
      yyGeometry = new SoSeparator();
@@ -1596,7 +1598,7 @@ yyreduce:
     break;
 
   case 7:
-#line 172 "src/cds_parser.y"
+#line 174 "src/cds_parser.y"
     {
      //Si el fichero no contenia coordenadas de textura, lo eliminamos
      if (yy_texture_coord->getNum() < 1)
@@ -1612,17 +1614,17 @@ yyreduce:
     break;
 
   case 9:
-#line 191 "src/cds_parser.y"
+#line 193 "src/cds_parser.y"
     {(yyval.real) = (yyvsp[(1) - (1)].real); }
     break;
 
   case 10:
-#line 192 "src/cds_parser.y"
+#line 194 "src/cds_parser.y"
     {(yyval.real) = (yyvsp[(1) - (1)].entero);}
     break;
 
   case 21:
-#line 210 "src/cds_parser.y"
+#line 212 "src/cds_parser.y"
     {
      /* Ignoramos el contenido por ahora */
      int tipo, num_llaves;
@@ -1654,7 +1656,7 @@ yyreduce:
     break;
 
   case 22:
-#line 242 "src/cds_parser.y"
+#line 244 "src/cds_parser.y"
     {
      /* leemos este bloque, indicando el tipo adecuado */
      LeeBloqueOFF ((yyvsp[(2) - (4)].entero), (yyvsp[(3) - (4)].entero), _OFF);
@@ -1662,7 +1664,7 @@ yyreduce:
     break;
 
   case 23:
-#line 249 "src/cds_parser.y"
+#line 251 "src/cds_parser.y"
     {
      /* leemos este bloque, indicando el tipo adecuado */
      LeeBloqueOFF ((yyvsp[(2) - (4)].entero), (yyvsp[(3) - (4)].entero), _COFF);
@@ -1670,7 +1672,7 @@ yyreduce:
     break;
 
   case 24:
-#line 256 "src/cds_parser.y"
+#line 258 "src/cds_parser.y"
     {
      /* leemos este bloque, indicando el tipo adecuado */
      LeeBloqueOFF ((yyvsp[(2) - (4)].entero), (yyvsp[(3) - (4)].entero), _NOFF);
@@ -1678,7 +1680,7 @@ yyreduce:
     break;
 
   case 25:
-#line 263 "src/cds_parser.y"
+#line 265 "src/cds_parser.y"
     {
      /* leemos este bloque, indicando el tipo adecuado */
      LeeBloqueOFF ((yyvsp[(2) - (4)].entero), (yyvsp[(3) - (4)].entero), _NCOFF);
@@ -1686,7 +1688,7 @@ yyreduce:
     break;
 
   case 26:
-#line 270 "src/cds_parser.y"
+#line 272 "src/cds_parser.y"
     {
      /* leemos este bloque, indicando el tipo adecuado */
      LeeBloqueOFF ((yyvsp[(2) - (4)].entero), (yyvsp[(3) - (4)].entero), _STOFF);
@@ -1694,7 +1696,7 @@ yyreduce:
     break;
 
   case 30:
-#line 282 "src/cds_parser.y"
+#line 284 "src/cds_parser.y"
     {
      // Almacenamos las coordenadas cartesianas.
      yyCoordinate3->point.set1Value(yyNumeroPuntos++, (yyvsp[(2) - (4)].real), (yyvsp[(3) - (4)].real), (yyvsp[(4) - (4)].real));
@@ -1702,7 +1704,7 @@ yyreduce:
     break;
 
   case 31:
-#line 288 "src/cds_parser.y"
+#line 290 "src/cds_parser.y"
     {
      // Almacenamos las coordenadas racionales.
      yyCoordinate3->point.set1Value(yyNumeroPuntos++, (yyvsp[(2) - (5)].real)/(yyvsp[(5) - (5)].real), (yyvsp[(3) - (5)].real)/(yyvsp[(5) - (5)].real), (yyvsp[(4) - (5)].real)/(yyvsp[(5) - (5)].real));
@@ -1710,7 +1712,7 @@ yyreduce:
     break;
 
   case 32:
-#line 294 "src/cds_parser.y"
+#line 296 "src/cds_parser.y"
     {
      // generamos una nueva faceta de 3 o mas vertices
 
@@ -1744,7 +1746,7 @@ yyreduce:
     break;
 
   case 33:
-#line 326 "src/cds_parser.y"
+#line 328 "src/cds_parser.y"
     {
      /* generamos una nueva faceta, ignorando resto de informacion */
      int k = yyIndexedFaceSet->coordIndex.getNum();
@@ -1789,7 +1791,7 @@ yyreduce:
     break;
 
   case 34:
-#line 368 "src/cds_parser.y"
+#line 370 "src/cds_parser.y"
     {
      /* generamos una nueva faceta, ignorando resto de informacion */
      int k = yyIndexedFaceSet->coordIndex.getNum();
@@ -1834,7 +1836,7 @@ yyreduce:
     break;
 
   case 35:
-#line 411 "src/cds_parser.y"
+#line 413 "src/cds_parser.y"
     {
      /* generamos una nueva faceta, ignorando resto de informacion */
      int k = yyIndexedFaceSet->coordIndex.getNum();
@@ -1891,7 +1893,7 @@ yyreduce:
     break;
 
   case 36:
-#line 466 "src/cds_parser.y"
+#line 468 "src/cds_parser.y"
     {
      /* Almacenamos la informacion de textura */
       int idx = yy_texture_coord->getNum();
@@ -1900,7 +1902,7 @@ yyreduce:
     break;
 
   case 37:
-#line 473 "src/cds_parser.y"
+#line 475 "src/cds_parser.y"
     {
      /* Almacenamos la informacion de textura */
       int idx = yy_texture_coord->getNum();
@@ -1914,7 +1916,7 @@ yyreduce:
     break;
 
   case 38:
-#line 485 "src/cds_parser.y"
+#line 487 "src/cds_parser.y"
     {
      /* Almacenamos la informacion de normal */
       int idx = yyNormal->vector.getNum();
@@ -1923,49 +1925,49 @@ yyreduce:
     break;
 
   case 39:
-#line 492 "src/cds_parser.y"
+#line 494 "src/cds_parser.y"
     {
      /* Ignoramos la informacion */
   }
     break;
 
   case 40:
-#line 497 "src/cds_parser.y"
+#line 499 "src/cds_parser.y"
     {
     ignora_resto_linea();
   }
     break;
 
   case 41:
-#line 502 "src/cds_parser.y"
+#line 504 "src/cds_parser.y"
     {
     ignora_resto_linea();
   }
     break;
 
   case 42:
-#line 506 "src/cds_parser.y"
+#line 508 "src/cds_parser.y"
     {
     ignora_resto_linea();
   }
     break;
 
   case 43:
-#line 510 "src/cds_parser.y"
+#line 512 "src/cds_parser.y"
     {
     ignora_resto_linea();
   }
     break;
 
   case 44:
-#line 514 "src/cds_parser.y"
+#line 516 "src/cds_parser.y"
     {
     ignora_resto_linea();
   }
     break;
 
   case 45:
-#line 518 "src/cds_parser.y"
+#line 520 "src/cds_parser.y"
     {
     //En ocasiones hay comentarios marcados con $
     ignora_resto_linea();
@@ -1973,7 +1975,7 @@ yyreduce:
     break;
 
   case 48:
-#line 529 "src/cds_parser.y"
+#line 531 "src/cds_parser.y"
     {
      /* Almacenamos el punto. */
      yyCoordinate3->point.set1Value(yyNumeroPuntos++, (yyvsp[(1) - (4)].real), (yyvsp[(2) - (4)].real), (yyvsp[(3) - (4)].real));
@@ -1981,7 +1983,7 @@ yyreduce:
     break;
 
   case 49:
-#line 537 "src/cds_parser.y"
+#line 539 "src/cds_parser.y"
     {
     int i;
 
@@ -2017,13 +2019,13 @@ yyreduce:
     break;
 
   case 50:
-#line 570 "src/cds_parser.y"
+#line 572 "src/cds_parser.y"
     {
   }
     break;
 
   case 53:
-#line 579 "src/cds_parser.y"
+#line 581 "src/cds_parser.y"
     {
     int i;
     //fprintf(stderr, "l=%d quedan=%d radio=%g\n",yy_sph_l,yy_sph_num,$4);
@@ -2071,7 +2073,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2075 "y.tab.c"
+#line 2077 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2285,8 +2287,22 @@ yyreturn:
 }
 
 
-#line 626 "src/cds_parser.y"
+#line 628 "src/cds_parser.y"
 
+
+void yyerror(const char *s)
+{
+  fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
+  /* No hay piedad con los errores */
+  //exit(-1);
+}
+
+void yyerror(char *s)
+{
+  fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
+  /* No hay piedad con los errores */
+  //exit(-1);
+}
 
 /* Funcion que lee del fichero hasta un salto de linea */
 void ignora_resto_linea()
@@ -2313,7 +2329,7 @@ float LeeReal ()
      return (float)yylval.entero;
    else
    {
-     yyerror("Error en formato de numero real.");
+     fprintf(stderr, "\nLine %u: Format error in real number.\n", yylinenum);
      exit (-1);
    }
 }
@@ -2327,16 +2343,9 @@ int LeeEntero ()
      return yylval.entero;
    else
    {
-     yyerror("Error en formato de numero entero.");
+     fprintf(stderr, "\nLine %u: Format error in integer number.\n", yylinenum);
      exit (-1);
    }
-}
-
-void yyerror(const char *s)
-{
-  fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
-  /* No hay piedad con los errores */
-  //exit(-1);
 }
 
 

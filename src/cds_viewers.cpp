@@ -281,7 +281,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
       //Si hemos pinchado sobre un cubo
       if (pickDetail->getTypeId() == SoCubeDetail::getClassTypeId()) 
       {
-        char *parts[] = {"FRONT", "BACK", "LEFT", "RIGHT", "TOP", "BOTTOM"};
+        const char *parts[] = {"FRONT", "BACK", "LEFT", "RIGHT", "TOP", "BOTTOM"};
         SoCubeDetail *cubeDetail = (SoCubeDetail *) pickDetail;
 
         //Mostramos la cara pinchada

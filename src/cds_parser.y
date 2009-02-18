@@ -81,6 +81,8 @@ SoMFVec2f *yy_texture_coord = NULL;
 
 /* Las siguientes funciones se implementan al final de este fichero */
 
+void yyerror(const char *s);
+
 /* Funcion que lee del fichero hasta un salto de linea */
 void ignora_resto_linea();
 
@@ -625,6 +627,20 @@ linea_SPH  : REAL REAL REAL REAL REAL
 
 %%
 
+void yyerror(const char *s)
+{
+  fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
+  /* No hay piedad con los errores */
+  //exit(-1);
+}
+
+void yyerror(char *s)
+{
+  fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
+  /* No hay piedad con los errores */
+  //exit(-1);
+}
+
 /* Funcion que lee del fichero hasta un salto de linea */
 void ignora_resto_linea()
 {
@@ -650,7 +666,7 @@ float LeeReal ()
      return (float)yylval.entero;
    else
    {
-     yyerror("Error en formato de numero real.");
+     fprintf(stderr, "\nLine %u: Format error in real number.\n", yylinenum);
      exit (-1);
    }
 }
@@ -664,16 +680,9 @@ int LeeEntero ()
      return yylval.entero;
    else
    {
-     yyerror("Error en formato de numero entero.");
+     fprintf(stderr, "\nLine %u: Format error in integer number.\n", yylinenum);
      exit (-1);
    }
-}
-
-void yyerror(const char *s)
-{
-  fprintf(stderr, "\nLinea %u: %s\n", yylinenum, s);
-  /* No hay piedad con los errores */
-  //exit(-1);
 }
 
 

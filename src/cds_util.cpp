@@ -2148,7 +2148,7 @@ bool cds_export_ase (SoPath *path, const char *filename)
 	   int h=size[1];
 	   //qDebug("nc=%d\n", nc);
 
-	   simage_save_image(textureFilename, pixbuf, w, h, nc,"jpg");
+       simage_save_image(textureFilename, pixbuf, w, h, nc,"jpg");
    }
 
    //Escribimos la informacion necesaria

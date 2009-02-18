@@ -81,7 +81,8 @@ IfFixer::setReportLevel(ReportLevel level, FILE *fp)
 {
     IfReporter::setFile(fp);
 
-    SbBool verbose, details;
+    SbBool verbose=FALSE;
+    SbBool details=FALSE;
 
     switch (level) {
       case NONE:
