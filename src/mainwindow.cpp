@@ -59,6 +59,7 @@ extern QSettings *settings;
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/errors/SoReadError.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+//#include "Quarter/QuarterWidget.h"
 
 
 #ifdef USE_DIME
@@ -997,6 +998,22 @@ void MainWindow::on_actionExaminerViewer_activated()
     QWidget *viewWidget = new QWidget(dockWidget);
     viewWidget->setMinimumSize (150, 200);
     viewWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    dockWidget->setWidget(viewWidget);
+
+    /*
+    SIM::Coin3D::Quarter::QuarterWidget *quarterWidget;
+    quarterWidget = new SIM::Coin3D::Quarter::QuarterWidget(dockWidget);
+    quarterWidget->setObjectName(QString::fromUtf8("quarterWidget"));
+    quarterWidget->setMouseTracking(false);
+    quarterWidget->setFocusPolicy(Qt::TabFocus);
+    quarterWidget->setHeadlightEnabled(true);
+    quarterWidget->setInteractionModeOn(true);
+    quarterWidget->setSceneGraph(root);
+    quarterWidget->viewAll();
+    quarterWidget->setNavigationModeFile(QUrl("coin:///scxml/navigation/examiner.xml"));
+    dockWidget->setWidget(quarterWidget);
+	//*/
+
 
     //Creacion del Viewer
     NoQuitExaminerViewer *viewer = new NoQuitExaminerViewer(viewWidget, dockWidget);
@@ -1006,7 +1023,6 @@ void MainWindow::on_actionExaminerViewer_activated()
 	//Decide si mostrar el eje de coordenadas de orientacion
 	viewer->setFeedbackVisibility(Ui.actionFeedback_Visibility->isChecked());
 
-    dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
 
 }//void MainWindow::on_actionExaminerViewer_activated()
