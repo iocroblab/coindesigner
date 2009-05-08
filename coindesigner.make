@@ -16,7 +16,7 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 #Esto debe hacerse desde autoconfig!!!
 #PREFIX="/usr/local"
 #VERSION="2.0"
-#CXXFLAGS+=-DUSE_VOLEON -I`coin-config --includedir` `soqt-config --cppflags` -g -O0
+CXXFLAGS+=-DUSE_VOLEON -I`coin-config --includedir` `soqt-config --cppflags` -g -O0
 #LDFLAGS+=-lSimVoleon `soqt-config --ldflags --libs`
 
 all : coindesigner cdsview
