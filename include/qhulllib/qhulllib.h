@@ -47,6 +47,7 @@ struct QhullResult
 class QhullUserAllocator // optional user provided memory allocator.
 {
 public:
+  virtual ~QhullUserAllocator();
   virtual void * QhullAlloc(unsigned int size) = 0;
   virtual void   QhullFree(void *mem)          = 0;
 };
@@ -134,6 +135,7 @@ class ConvexHullTriangleInterface
 {
 public:
   virtual void ConvexHullTriangle(const ConvexHullVertex &v1,const ConvexHullVertex &v2,const ConvexHullVertex &v3) = 0;
+  virtual ~ConvexHullTriangleInterface();
 };
 
 

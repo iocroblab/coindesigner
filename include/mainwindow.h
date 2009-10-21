@@ -112,6 +112,7 @@ public slots:
 	void on_actionNew_Scene_activated();
 	void on_actionLoad_Scene_activated() {load_Scene("");};
 	void on_actionSave_Scene_activated() {save_Scene("");};
+	void on_actionReload_Scene_activated() {if (escena_modificada) load_Scene(nombreEscena);};
 	void actionLoad_RecentFile_triggered(bool checked = false);
 	void on_actionImport_File_activated() {import_File("");};
 	void on_actionExport_C_activated();
@@ -237,6 +238,9 @@ private:
 	///Busca un icono adecuado a esta clase y lo asigna al item
 	bool setNodeIcon(QTreeWidgetItem * item);
 
+	//Puts the name of the node in < > after the node type. Contributed by Manfred Kroehnert
+	void updateNodeItemName(QTreeWidgetItem* item);
+	
 	///Abre un url en un visor de HTML externo
 	void open_html_viewer(const QString &url);
 

@@ -100,6 +100,7 @@
     </widget>
     <addaction name="actionNew_Scene" />
     <addaction name="actionLoad_Scene" />
+    <addaction name="actionReload_Scene" />
     <addaction name="actionSave_Scene" />
     <addaction name="menuRecent_Files" />
     <addaction name="separator" />
@@ -223,6 +224,7 @@
    </attribute>
    <addaction name="actionNew_Scene" />
    <addaction name="actionLoad_Scene" />
+   <addaction name="actionReload_Scene" />
    <addaction name="actionSave_Scene" />
    <addaction name="separator" />
    <addaction name="actionCut" />
@@ -1051,6 +1053,18 @@
     <string>SoReorganizeAction</string>
    </property>
   </action>
+  <action name="actionReload_Scene" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/reload.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Reload Scene</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+
   <action name="actionExport_ASE" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >

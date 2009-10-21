@@ -1937,6 +1937,9 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
     if (!field)
        return;
 
+	//Resize column patch contributed by Manfred Kroehnert
+	Ui.fieldTable->resizeColumnToContents(column);
+
     //Si se ha modificado un SoMField, sacamos el editor de Mfield (y perdemos el cambio)
 	//salvo que sea MFNode, que si lo gestionamos aqui
 	if (field->getTypeId().isDerivedFrom(SoMField::getClassTypeId()) 
@@ -1978,6 +1981,9 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
 
         //Almacenamos el valor en el nodo
         nodo->setName(SoBase_name->getValue());
+
+		//Update the name of the node
+		updateNodeItemName(Ui.sceneGraph->currentItem());
 
         //Salimos de la funcion inmediatamente
         escena_modificada = true;
@@ -2394,7 +2400,7 @@ QTreeWidgetItem *MainWindow::newNodeItem(SoNode *node)
 	setNodeToolTip(item);
 
     //Asignamos el texto del item
-    item->setText(0, QString(node->getTypeId().getName()));
+	updateNodeItemName(item);
 
     return item;
 }
@@ -2452,6 +2458,23 @@ bool MainWindow::setNodeIcon(QTreeWidgetItem *item)
     return false;
 
 }// setNodeIcon(QTreeWidgetItem * item)
+
+///Asigna un nombre al item
+void MainWindow::updateNodeItemName(QTreeWidgetItem* item)
+{
+	if (NULL == item)
+		return;
+	SoNode* node = mapQTCOIN[item];
+	
+	QString itemName = QString(node->getTypeId().getName());
+	if (0 != node->getName().getLength())
+	{
+		itemName.append(" <");
+		itemName.append(node->getName().getString());
+		itemName.append(">");
+	}
+	item->setText(0, itemName);
+}// updateNodeItemName(QTreeWidgetItem* item)
 
 
 ///Abre un url en un visor de HTML externo
