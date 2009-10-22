@@ -22,7 +22,7 @@
      <x>280</x>
      <y>64</y>
      <width>274</width>
-     <height>370</height>
+     <height>413</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" >
@@ -58,7 +58,7 @@
          <x>0</x>
          <y>23</y>
          <width>268</width>
-         <height>347</height>
+         <height>390</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" >
@@ -242,7 +242,7 @@
      <x>0</x>
      <y>64</y>
      <width>274</width>
-     <height>370</height>
+     <height>413</height>
     </rect>
    </property>
    <property name="sizePolicy" >
@@ -269,7 +269,7 @@
       <x>0</x>
       <y>23</y>
       <width>274</width>
-      <height>347</height>
+      <height>390</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" >
@@ -325,9 +325,9 @@
    <property name="geometry" >
     <rect>
      <x>0</x>
-     <y>440</y>
+     <y>483</y>
      <width>834</width>
-     <height>144</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="features" >
@@ -345,7 +345,7 @@
       <x>23</x>
       <y>0</y>
       <width>811</width>
-      <height>144</height>
+      <height>101</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" >
@@ -368,7 +368,7 @@
      <x>560</x>
      <y>64</y>
      <width>274</width>
-     <height>370</height>
+     <height>413</height>
     </rect>
    </property>
    <property name="sizePolicy" >
@@ -389,7 +389,7 @@
       <x>0</x>
       <y>23</y>
       <width>274</width>
-      <height>347</height>
+      <height>390</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" >
@@ -892,7 +892,7 @@
     <bool>true</bool>
    </property>
    <property name="checked" >
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text" >
     <string>HQ transparency</string>
@@ -1055,7 +1055,8 @@
   </action>
   <action name="actionReload_Scene" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/gui/reload.png</iconset>
+    <iconset resource="../images/icons.qrc" >
+     <normaloff>:/icons/gui/reload.png</normaloff>:/icons/gui/reload.png</iconset>
    </property>
    <property name="text" >
     <string>Reload Scene</string>
@@ -1064,7 +1065,6 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-
   <action name="actionExport_ASE" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >
