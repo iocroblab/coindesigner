@@ -1,37 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="es">
+<defaultcodec></defaultcodec>
 <context>
     <name>@default</name>
     <message>
-        <location filename="../src/cds_viewers.cpp" line="72"/>
-        <source>Nothing there.</source>
-        <translation type="unfinished">Nada interesante.</translation>
-    </message>
-    <message>
-        <location filename="../src/cds_viewers.cpp" line="135"/>
-        <source>Name=</source>
-        <translation type="unfinished">Nombre=</translation>
-    </message>
-    <message>
-        <location filename="../src/cds_viewers.cpp" line="136"/>
-        <source>&lt;b&gt;Node Name=&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>@default</name>
-    <message>
-        <location filename="" line="0"/>
         <source>Nothing there.</source>
         <translation type="obsolete">Nada interesante.</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Name=</source>
         <translation type="obsolete">Nombre=</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>&lt;b&gt;Node Name=&lt;/b&gt;</source>
         <translation type="obsolete">&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
     </message>
@@ -352,7 +332,6 @@ Are you sure you want to embed all textures?</source>
         <translation>Exportar a...</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Convert in SoDirectionalLightManip</source>
         <translation type="obsolete">Convertir en SoDirectionalLightManip</translation>
     </message>
@@ -362,17 +341,14 @@ Are you sure you want to embed all textures?</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>OBJ/SMF Files</source>
         <translation type="obsolete">Ficheros OBJ/SMF</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>OFF Files</source>
         <translation type="obsolete">Ficheros OFF</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>STL Files</source>
         <translation type="obsolete">Ficheros STL</translation>
     </message>
@@ -707,12 +683,10 @@ Are you sure you want to embed all textures?</source>
         <translation>Editor &amp;ExaminerViewer</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>&amp;Node Palette</source>
         <translation type="obsolete">Paleta de &amp;Nodos</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>&amp;Field Editor</source>
         <translation type="obsolete">&amp;Editor de campos</translation>
     </message>
@@ -807,7 +781,6 @@ Are you sure you want to embed all textures?</source>
         <translation>Centrar XYZ</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Messages console</source>
         <translation type="obsolete">Consola de mensajes</translation>
     </message>
@@ -912,12 +885,10 @@ Are you sure you want to embed all textures?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Master field:</source>
         <translation type="obsolete">Campo maestro:</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Master engine:</source>
         <translation type="obsolete">Engine maestro:</translation>
     </message>
@@ -1044,7 +1015,7 @@ Are you sure you want to embed all textures?</source>
     <message>
         <location filename="../ui/mainwindow.ui" line="1084"/>
         <source>Hello Cone demo</source>
-        <translation type="unfinished"></translation>
+        <translation>Demo Hola Cono</translation>
     </message>
 </context>
 <context>
