@@ -113,6 +113,8 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 	QAction actTut("http://coindesigner.sf.net/tutorials/", this);
 	QAction actRefDir(QString(cds_dir)+"/reference", this);
 	QAction actTutDir(QString(cds_dir)+"/tutorials", this);
+	QAction actFalse("false", this);
+	QAction actTrue("true", this);
 	#ifdef _WIN32
 	QAction actNavig("explorer.exe", this);
 	#else
@@ -155,6 +157,13 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 		popm.addAction(&actDir);
 	}
 
+	//Miramos si la opcion es de tipo Bool
+	if (settings->value(key).type() == QVariant::Bool)
+	{
+		popm.addAction(&actFalse);
+		popm.addAction(&actTrue);
+	}
+
     //Si hay opciones en el menu, lo mostramos
 	if (!popm.isEmpty())
 	{
@@ -194,6 +203,16 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 		{
 			item->setText(act->text());
 		}
+
+		else if (act == &actFalse)
+		{
+			item->setText("false");
+		}
+		else if (act == &actTrue)
+		{
+			item->setText("true");
+		}
+
 	} // if (!popm.isEmpty())
 	
     //Aseguramos que las columnas tienen ancho suficiente

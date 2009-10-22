@@ -127,6 +127,14 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     if (settings->contains("geometry") )
         restoreGeometry(settings->value("geometry").toByteArray());
 
+    //Restauramos las opciones actuales
+    if (settings->contains("Enable_Antialias") )
+		Ui.actionEnable_Antialias->setChecked(settings->value("Enable_Antialias").toBool());
+    if (settings->contains("HQ_transparency") )
+		Ui.actionHQ_transparency->setChecked(settings->value("HQ_transparency").toBool());
+    if (settings->contains("Feedback_Visibility") )
+		Ui.actionFeedback_Visibility->setChecked(settings->value("Feedback_Visibility").toBool());
+		
 	//Conectamos el menu contextual de sceneGraph y fieldTable
 	//connect(Ui.sceneGraph, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_sceneGraph_customContextMenuRequested(QPoint)));
 	//connect(Ui.fieldTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_fieldTable_customContextMenuRequested(QPoint)));
@@ -229,6 +237,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     //Salvamos la geometria actual
     settings->setValue("geometry", saveGeometry());
+
+    //Salvamos las opciones actuales
+    settings->setValue("Enable_Antialias", Ui.actionEnable_Antialias->isChecked());
+    settings->setValue("HQ_transparency", Ui.actionHQ_transparency->isChecked());
+    settings->setValue("Feedback_Visibility", Ui.actionFeedback_Visibility->isChecked());
 
     //Cerramos la ventana y terminamos el bucle de eventos
     QMainWindow::closeEvent(event);
