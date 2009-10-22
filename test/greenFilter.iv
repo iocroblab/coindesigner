@@ -1,0 +1,47 @@
+#Inventor V2.1 ascii
+
+
+DEF root Separator {
+
+  TransparencyType {
+    value SORTED_OBJECT_SORTED_TRIANGLE_BLEND
+
+  }
+  DEF cam_izq+0 PerspectiveCamera {
+    position 0.67348427 4.4746184 -3.8615975
+    orientation -0.38222265 0.85591555 0.34830216  2.6851192
+    nearDistance 0.014580434
+    farDistance 7.4801278
+    focalDistance 6.4208813
+
+  }
+  DEF filtroColorVerde Separator {
+
+    DEF copiaPosicionCamara Transform {
+      translation 0.67348427 4.4746184 -3.8615975 =
+      USE cam_izq+0      . position
+      rotation -0.38222265 0.85591555 0.34830216  2.6851192 =
+      USE cam_izq+0      . orientation
+
+    }
+    DEF materialVerde Material {
+      ambientColor 0 1 0
+      diffuseColor 0 1 0
+      shininess 0
+      transparency 0.89999998
+
+    }
+    DEF filtro Cube {
+      width -2
+      height -2
+      depth -0.2
+
+    }
+  }
+  DEF pegarEscenaAqui Separator {
+
+    Cone {
+
+    }
+  }
+}
