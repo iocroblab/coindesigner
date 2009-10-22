@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/demos" >
+        <file>helloCone.iv</file>
         <file>mirror.iv</file>
         <file>planetEarth.iv.gz</file>
         <file>engine.iv</file>

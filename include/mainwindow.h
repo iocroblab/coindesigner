@@ -156,6 +156,7 @@ public slots:
 	void on_actionShow_Node_Reference_activated();
 	void on_actionTutorial_1_activated();
 	void on_actionTutorial_2_activated();
+	void on_actionHello_Cone_demo_activated();
 	void on_actionMirror_demo_activated();
 	void on_actionPlanet_Earth_demo_activated();
 	void on_actionEngine_demo_activated();

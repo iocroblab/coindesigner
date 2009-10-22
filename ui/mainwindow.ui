@@ -22,7 +22,7 @@
      <x>280</x>
      <y>64</y>
      <width>274</width>
-     <height>413</height>
+     <height>304</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" >
@@ -58,7 +58,7 @@
          <x>0</x>
          <y>23</y>
          <width>268</width>
-         <height>390</height>
+         <height>281</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" >
@@ -158,6 +158,7 @@
      <property name="title" >
       <string>&amp;Demos</string>
      </property>
+     <addaction name="actionHello_Cone_demo" />
      <addaction name="actionMirror_demo" />
      <addaction name="actionPlanet_Earth_demo" />
      <addaction name="actionEngine_demo" />
@@ -242,7 +243,7 @@
      <x>0</x>
      <y>64</y>
      <width>274</width>
-     <height>413</height>
+     <height>304</height>
     </rect>
    </property>
    <property name="sizePolicy" >
@@ -269,7 +270,7 @@
       <x>0</x>
       <y>23</y>
       <width>274</width>
-      <height>390</height>
+      <height>281</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" >
@@ -325,9 +326,9 @@
    <property name="geometry" >
     <rect>
      <x>0</x>
-     <y>483</y>
+     <y>374</y>
      <width>834</width>
-     <height>101</height>
+     <height>210</height>
     </rect>
    </property>
    <property name="features" >
@@ -345,7 +346,7 @@
       <x>23</x>
       <y>0</y>
       <width>811</width>
-      <height>101</height>
+      <height>210</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" >
@@ -368,7 +369,7 @@
      <x>560</x>
      <y>64</y>
      <width>274</width>
-     <height>413</height>
+     <height>304</height>
     </rect>
    </property>
    <property name="sizePolicy" >
@@ -389,7 +390,7 @@
       <x>0</x>
       <y>23</y>
       <width>274</width>
-      <height>390</height>
+      <height>281</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" >
@@ -1072,6 +1073,15 @@
    </property>
    <property name="text" >
     <string>Export ASE</string>
+   </property>
+  </action>
+  <action name="actionHello_Cone_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >
+     <normaloff>:/icons/gui/gear.png</normaloff>:/icons/gui/gear.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Hello Cone demo</string>
    </property>
   </action>
  </widget>

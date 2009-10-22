@@ -1219,6 +1219,12 @@ void MainWindow::on_actionTutorial_2_activated()
     this->open_html_viewer(url);
 }
 
+///Carga la demo helloCone.iv
+void MainWindow::on_actionHello_Cone_demo_activated()
+{
+	load_Scene_Demo(":/demos/helloCone.iv");
+}
+
 ///Carga la demo mirror.iv
 void MainWindow::on_actionMirror_demo_activated()
 {
