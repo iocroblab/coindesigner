@@ -727,7 +727,7 @@
   <action name="actionMirror_demo" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/gear.png</normaloff>:/icons/gui/gear.png</iconset>
+     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Mirror demo</string>
@@ -754,7 +754,7 @@
   <action name="actionPlanet_Earth_demo" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/gear.png</normaloff>:/icons/gui/gear.png</iconset>
+     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Planet Earth demo</string>
@@ -883,6 +883,10 @@
   <action name="actionEnable_Antialias" >
    <property name="checkable" >
     <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >
+     <normaloff>:/icons/svg/Antialias_Icon.svg</normaloff>:/icons/svg/Antialias_Icon.svg</iconset>
    </property>
    <property name="text" >
     <string>Enable Antialias</string>
@@ -1031,7 +1035,7 @@
   <action name="actionEngine_demo" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/gear.png</normaloff>:/icons/gui/gear.png</iconset>
+     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Engine demo</string>
@@ -1082,7 +1086,7 @@
   <action name="actionHello_Cone_demo" >
    <property name="icon" >
     <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/gear.png</normaloff>:/icons/gui/gear.png</iconset>
+     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Hello Cone demo</string>
