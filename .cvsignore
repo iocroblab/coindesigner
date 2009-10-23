@@ -8,3 +8,6 @@ coindesigner.ncb
 vc80.idb
 vc80.pdb
 coindesigner.vcproj.*.*.user
+Makefile.Debug
+Makefile.Release
+Makefile
