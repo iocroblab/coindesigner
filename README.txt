@@ -206,6 +206,7 @@ our project
 Most icons used in coindesigner UI are part of Crystal Icons. This icon 
 theme was created by Everaldo and is now developed by him in association
 with the Crystal Artists Staff. See http://linuxcult.com/node/10
+Svg icons are from the tango project
 
 Icons for sceneGraph nodes are based on "Dia Shapes for Open Inventor Scenegraphs",
 package, compiled by Alejandro Sierra.
