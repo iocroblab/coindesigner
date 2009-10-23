@@ -43,6 +43,7 @@
         <file>gui/txt.png</file>
         <file>gui/undo.png</file>
         <file>gui/up.png</file>
+        <file>gui/xyz.png</file>
         <file>nodes/appearance.png</file>
         <file>nodes/basecolor.png</file>
         <file>nodes/basekit.png</file>
