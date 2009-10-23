@@ -903,6 +903,10 @@
    <property name="checkable" >
     <bool>true</bool>
    </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >
+     <normaloff>:/icons/gui/xyz.png</normaloff>:/icons/gui/xyz.png</iconset>
+   </property>
    <property name="text" >
     <string>Feedback Visibility</string>
    </property>
