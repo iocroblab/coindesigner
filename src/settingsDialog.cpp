@@ -40,19 +40,27 @@ settingsDialog::settingsDialog(QWidget *p, Qt::WindowFlags f) : QDialog(p,f)
 
 void settingsDialog::updateTable()
 {
+    //List of settings that can not be editted here
+    QStringList hiddenSettings;
+    hiddenSettings  << "geometry" << "recentFileList" <<
+                    "Enable_Antialias" << "HQ_transparency" << "Feedback_Visibility";
+
 	//Rellenamos el valor de la tabla
 	int row=0;
 	foreach(QString key, settings->allKeys())
 	{
+        //Avoid to show the hidden settings
+        if (hiddenSettings.contains(key))
+            continue;
+
 		QVariant value = settings->value(key);
-		if (value.type() == QVariant::String)
-		{
-			//Damos a la tabla el numero de filas adecuado
-			Ui.table->setRowCount(row+1);
-			Ui.table->setVerticalHeaderItem(row, new QTableWidgetItem(key));
-			Ui.table->setItem(row,0, new QTableWidgetItem(value.toString()));
-			row++;
-		}
+
+        //Damos a la tabla el numero de filas adecuado
+        Ui.table->setRowCount(row+1);
+        Ui.table->setVerticalHeaderItem(row, new QTableWidgetItem(key));
+        Ui.table->setItem(row,0, new QTableWidgetItem(value.toString()));
+        row++;
+
 	}//	foreach(QString key, settings->allKeys())
 
     //Aseguramos que las columnas tienen ancho suficiente
