@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="coindesigner"
 	ProjectGUID="{48C1C3EB-C202-4FDA-8921-E50452037ADE}"
 	Keyword="Qt4VSv1.0"
@@ -936,6 +936,14 @@
 			ParseFiles="false"
 			>
 			<File
+				RelativePath=".\images\svg\Anaglyph.svg"
+				>
+			</File>
+			<File
+				RelativePath=".\images\svg\Antialias_Icon.svg"
+				>
+			</File>
+			<File
 				RelativePath="images\nodes\appearance.png"
 				>
 			</File>
@@ -969,6 +977,18 @@
 			</File>
 			<File
 				RelativePath="images\gui\clock.png"
+				>
+			</File>
+			<File
+				RelativePath=".\images\svg\Cocotte_en_papier.svg"
+				>
+			</File>
+			<File
+				RelativePath=".\images\svg\coindesigner.png"
+				>
+			</File>
+			<File
+				RelativePath=".\images\svg\coindesigner.svg"
 				>
 			</File>
 			<File
@@ -1142,6 +1162,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\images\svg\Icon_Mathematical_Plot.svg"
+				>
+			</File>
+			<File
 				RelativePath="images\icons.qrc"
 				>
 				<FileConfiguration
@@ -1208,6 +1232,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\images\svg\Measure.svg"
+				>
+			</File>
+			<File
 				RelativePath="images\nodes\metric.png"
 				>
 			</File>
@@ -1261,6 +1289,10 @@
 			</File>
 			<File
 				RelativePath="images\nodes\property.png"
+				>
+			</File>
+			<File
+				RelativePath=".\images\svg\Rainbow_icon.svg"
 				>
 			</File>
 			<File
