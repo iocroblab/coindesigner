@@ -16,6 +16,9 @@
   <property name="windowTitle" >
    <string>Coindesigner</string>
   </property>
+  <property name="windowIcon" >
+   <iconset resource="../images/icons.qrc" >:/icons/svg/coindesigner.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QHBoxLayout" >
     <property name="leftMargin" >
