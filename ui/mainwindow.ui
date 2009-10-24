@@ -17,14 +17,6 @@
    <string>Coindesigner</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <property name="geometry" >
-    <rect>
-     <x>280</x>
-     <y>64</y>
-     <width>274</width>
-     <height>304</height>
-    </rect>
-   </property>
    <layout class="QHBoxLayout" >
     <property name="leftMargin" >
      <number>3</number>
@@ -47,20 +39,12 @@
        </sizepolicy>
       </property>
       <property name="features" >
-       <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+       <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable|QDockWidget::NoDockWidgetFeatures</set>
       </property>
       <property name="windowTitle" >
        <string>Scene Graph</string>
       </property>
       <widget class="QWidget" name="dockWidgetContents_2" >
-       <property name="geometry" >
-        <rect>
-         <x>0</x>
-         <y>23</y>
-         <width>268</width>
-         <height>281</height>
-        </rect>
-       </property>
        <layout class="QVBoxLayout" >
         <item>
          <widget class="QTreeWidget" name="sceneGraph" >
@@ -86,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>834</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuScene" >
@@ -195,25 +179,8 @@
    <addaction name="menuTools" />
    <addaction name="menuHelp" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>584</y>
-     <width>834</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusbar" />
   <widget class="QToolBar" name="toolBar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>26</y>
-     <width>834</width>
-     <height>38</height>
-    </rect>
-   </property>
    <property name="windowTitle" >
     <string>toolBar</string>
    </property>
@@ -238,14 +205,6 @@
    <addaction name="actionWatch_node" />
   </widget>
   <widget class="QDockWidget" name="nodePalette_dockWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>64</y>
-     <width>274</width>
-     <height>304</height>
-    </rect>
-   </property>
    <property name="sizePolicy" >
     <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
      <horstretch>0</horstretch>
@@ -265,14 +224,6 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>23</y>
-      <width>274</width>
-      <height>281</height>
-     </rect>
-    </property>
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QComboBox" name="paletteComboBox" >
@@ -323,14 +274,6 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="messages_dockWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>374</y>
-     <width>834</width>
-     <height>210</height>
-    </rect>
-   </property>
    <property name="features" >
     <set>QDockWidget::DockWidgetFeatureMask</set>
    </property>
@@ -341,14 +284,6 @@
     <number>8</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_6" >
-    <property name="geometry" >
-     <rect>
-      <x>23</x>
-      <y>0</y>
-      <width>811</width>
-      <height>210</height>
-     </rect>
-    </property>
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QTextEdit" name="messages" >
@@ -364,14 +299,6 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="fieldTable_dockWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>560</x>
-     <y>64</y>
-     <width>274</width>
-     <height>304</height>
-    </rect>
-   </property>
    <property name="sizePolicy" >
     <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
      <horstretch>0</horstretch>
@@ -385,14 +312,6 @@
     <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_3" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>23</y>
-      <width>274</width>
-      <height>281</height>
-     </rect>
-    </property>
     <layout class="QVBoxLayout" >
      <item>
       <widget class="QTableWidget" name="fieldTable" >
@@ -411,8 +330,7 @@
   </widget>
   <action name="actionLoad_Scene" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/fileopen.png</normaloff>:/icons/gui/fileopen.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/fileopen.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Load Scene</string>
@@ -423,8 +341,7 @@
   </action>
   <action name="actionQuit" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/exit.png</normaloff>:/icons/gui/exit.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/exit.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Quit</string>
@@ -435,8 +352,7 @@
   </action>
   <action name="actionExaminerViewer" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/launch.png</normaloff>:/icons/gui/launch.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;ExaminerViewer</string>
@@ -447,8 +363,7 @@
   </action>
   <action name="actionFlyViewer" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/launch.png</normaloff>:/icons/gui/launch.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;FlyViewer</string>
@@ -459,8 +374,7 @@
   </action>
   <action name="actionPlaneViewer" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/launch.png</normaloff>:/icons/gui/launch.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;PlaneViewer</string>
@@ -471,8 +385,7 @@
   </action>
   <action name="actionNew_Scene" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filenew.png</normaloff>:/icons/gui/filenew.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filenew.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;New Scene</string>
@@ -483,8 +396,7 @@
   </action>
   <action name="actionSave_Scene" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesave.png</normaloff>:/icons/gui/filesave.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesave.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Save Scene</string>
@@ -495,8 +407,7 @@
   </action>
   <action name="actionImport_File" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/fileimport.png</normaloff>:/icons/gui/fileimport.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/fileimport.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Import File</string>
@@ -507,8 +418,7 @@
   </action>
   <action name="actionExport_C" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export &amp;C++</string>
@@ -516,8 +426,7 @@
   </action>
   <action name="actionExport_VRML2" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export &amp;VRML2</string>
@@ -525,8 +434,7 @@
   </action>
   <action name="actionIvfix" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
    </property>
    <property name="text" >
     <string>Ivfix</string>
@@ -534,8 +442,7 @@
   </action>
   <action name="actionRenderArea" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/launch.png</normaloff>:/icons/gui/launch.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;RenderArea</string>
@@ -549,8 +456,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/clock.png</normaloff>:/icons/gui/clock.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/clock.png</iconset>
    </property>
    <property name="text" >
     <string>Show FPS</string>
@@ -564,8 +470,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/editcut.png</normaloff>:/icons/gui/editcut.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editcut.png</iconset>
    </property>
    <property name="text" >
     <string>Cu&amp;t</string>
@@ -576,8 +481,7 @@
   </action>
   <action name="actionCopy" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/editcopy.png</normaloff>:/icons/gui/editcopy.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editcopy.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Copy</string>
@@ -588,8 +492,7 @@
   </action>
   <action name="actionPaste" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/editpaste.png</normaloff>:/icons/gui/editpaste.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editpaste.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Paste</string>
@@ -600,8 +503,7 @@
   </action>
   <action name="actionDelete" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/editdelete.png</normaloff>:/icons/gui/editdelete.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editdelete.png</iconset>
    </property>
    <property name="text" >
     <string>Delete</string>
@@ -612,8 +514,7 @@
   </action>
   <action name="actionLink" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/editpaste.png</normaloff>:/icons/gui/editpaste.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editpaste.png</iconset>
    </property>
    <property name="text" >
     <string>Paste as Link</string>
@@ -621,8 +522,7 @@
   </action>
   <action name="actionMove_Up" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/up.png</normaloff>:/icons/gui/up.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/up.png</iconset>
    </property>
    <property name="text" >
     <string>Move Up</string>
@@ -633,8 +533,7 @@
   </action>
   <action name="actionMove_Down" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/down.png</normaloff>:/icons/gui/down.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/down.png</iconset>
    </property>
    <property name="text" >
     <string>Move Down</string>
@@ -645,8 +544,7 @@
   </action>
   <action name="actionPreferences" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/editclear.png</normaloff>:/icons/gui/editclear.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editclear.png</iconset>
    </property>
    <property name="text" >
     <string>Preferences</string>
@@ -654,8 +552,7 @@
   </action>
   <action name="actionCoin3D_Reference" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/toggle_log.png</normaloff>:/icons/gui/toggle_log.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/toggle_log.png</iconset>
    </property>
    <property name="text" >
     <string>Coin3D &amp;Reference</string>
@@ -666,8 +563,7 @@
   </action>
   <action name="actionTutorial_1" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/toggle_log.png</normaloff>:/icons/gui/toggle_log.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/toggle_log.png</iconset>
    </property>
    <property name="text" >
     <string>Tutorial &amp;1</string>
@@ -675,8 +571,7 @@
   </action>
   <action name="actionTutorial_2" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/toggle_log.png</normaloff>:/icons/gui/toggle_log.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/toggle_log.png</iconset>
    </property>
    <property name="text" >
     <string>Tutorial &amp;2</string>
@@ -684,8 +579,7 @@
   </action>
   <action name="actionAbout" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/help.png</normaloff>:/icons/gui/help.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;About</string>
@@ -693,8 +587,7 @@
   </action>
   <action name="actionEdit_Source" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/txt.png</normaloff>:/icons/gui/txt.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/txt.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Edit Source</string>
@@ -708,8 +601,7 @@
   </action>
   <action name="actionExaminerViewer_Editor" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;ExaminerViewer Editor</string>
@@ -717,8 +609,7 @@
   </action>
   <action name="actionPlaneViewer_Editor" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;PlaneViewer Editor</string>
@@ -726,8 +617,7 @@
   </action>
   <action name="actionMirror_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Mirror demo</string>
@@ -735,8 +625,7 @@
   </action>
   <action name="actionPromote_Children" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>
    <property name="text" >
     <string>Promote Children</string>
@@ -744,8 +633,7 @@
   </action>
   <action name="actionEmbedTexture" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Embed Texture File</string>
@@ -753,8 +641,7 @@
   </action>
   <action name="actionPlanet_Earth_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Planet Earth demo</string>
@@ -762,8 +649,7 @@
   </action>
   <action name="Convert_Manip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to Manip</string>
@@ -771,8 +657,7 @@
   </action>
   <action name="IndexedFaceSet_to_IndexedLineSet" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to IndexedLineSet</string>
@@ -780,8 +665,7 @@
   </action>
   <action name="IndexedLineSet_to_IndexedFaceSet" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to IndexedFaceSet</string>
@@ -789,8 +673,7 @@
   </action>
   <action name="actionEmbed_all_textures" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>
    <property name="text" >
     <string>Embed all textures</string>
@@ -798,8 +681,7 @@
   </action>
   <action name="Export_to_STL" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export to STL</string>
@@ -807,8 +689,7 @@
   </action>
   <action name="Export_to_OFF" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export to OFF</string>
@@ -816,8 +697,7 @@
   </action>
   <action name="Export_to_SMF" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export to OBJ/SMF</string>
@@ -825,8 +705,7 @@
   </action>
   <action name="Export_to_XYZ" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export to XYZ</string>
@@ -834,8 +713,7 @@
   </action>
   <action name="Center_on_Origin" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>
    <property name="text" >
     <string>Center on Origin</string>
@@ -843,8 +721,7 @@
   </action>
   <action name="actionChange_BG_color" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/colorize.png</normaloff>:/icons/gui/colorize.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/colorize.png</iconset>
    </property>
    <property name="text" >
     <string>Change BG color</string>
@@ -852,8 +729,7 @@
   </action>
   <action name="actionQSlim" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
    </property>
    <property name="text" >
     <string>Simplify with QSlim</string>
@@ -864,8 +740,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
    </property>
    <property name="text" >
     <string>Tetrahedralize with tetgen</string>
@@ -873,8 +748,7 @@
   </action>
   <action name="actionCenter_XYZ" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
    </property>
    <property name="text" >
     <string>Center XYZ</string>
@@ -885,8 +759,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/svg/Antialias_Icon.svg</normaloff>:/icons/svg/Antialias_Icon.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Antialias_Icon.svg</iconset>
    </property>
    <property name="text" >
     <string>Enable Antialias</string>
@@ -908,8 +781,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/xyz.png</normaloff>:/icons/gui/xyz.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/xyz.png</iconset>
    </property>
    <property name="text" >
     <string>Feedback Visibility</string>
@@ -917,8 +789,7 @@
   </action>
   <action name="actionSoCenterballManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoCenterballManip</string>
@@ -926,8 +797,7 @@
   </action>
   <action name="actionSoHandleBoxManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoHandleBoxManip</string>
@@ -935,8 +805,7 @@
   </action>
   <action name="actionSoJackManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoJackManip</string>
@@ -944,8 +813,7 @@
   </action>
   <action name="actionSoTabBoxManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoTabBoxManip</string>
@@ -953,8 +821,7 @@
   </action>
   <action name="actionSoTrackballManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoTrackballManip</string>
@@ -962,8 +829,7 @@
   </action>
   <action name="actionSoTransformBoxManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoTransformBoxManip</string>
@@ -971,8 +837,7 @@
   </action>
   <action name="actionSoTransformerManip" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoTransformerManip</string>
@@ -980,8 +845,7 @@
   </action>
   <action name="SoIndexedFaceSet_triangulate" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to triangle mesh</string>
@@ -989,8 +853,7 @@
   </action>
   <action name="SoIndexedFaceSet_change_orientation" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Change all faces orientation</string>
@@ -998,8 +861,7 @@
   </action>
   <action name="SoIndexedTriangleStripSet_to_SoIndexedFaceSet" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/rebuild.png</normaloff>:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
    </property>
    <property name="text" >
     <string>Convert to SoIndexedFaceSet</string>
@@ -1010,8 +872,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filefind.png</normaloff>:/icons/gui/filefind.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filefind.png</iconset>
    </property>
    <property name="text" >
     <string>Watch node</string>
@@ -1022,8 +883,7 @@
   </action>
   <action name="actionShow_Node_Reference" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/help.png</normaloff>:/icons/gui/help.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
    </property>
    <property name="text" >
     <string>Node Reference</string>
@@ -1034,8 +894,7 @@
   </action>
   <action name="actionEngine_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Engine demo</string>
@@ -1043,8 +902,7 @@
   </action>
   <action name="actionPrintSceneGraph" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/print.png</normaloff>:/icons/gui/print.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/print.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Print Scene Graph</string>
@@ -1055,8 +913,7 @@
   </action>
   <action name="actionSoReorganizeAction" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/package_utilities.png</normaloff>:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
    </property>
    <property name="text" >
     <string>SoReorganizeAction</string>
@@ -1064,8 +921,7 @@
   </action>
   <action name="actionReload_Scene" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/reload.png</normaloff>:/icons/gui/reload.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/reload.png</iconset>
    </property>
    <property name="text" >
     <string>Reload Scene</string>
@@ -1076,8 +932,7 @@
   </action>
   <action name="actionExport_ASE" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
    </property>
    <property name="text" >
     <string>Export ASE</string>
@@ -1085,8 +940,7 @@
   </action>
   <action name="actionHello_Cone_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >
-     <normaloff>:/icons/svg/Cocotte_en_papier.svg</normaloff>:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
    </property>
    <property name="text" >
     <string>Hello Cone demo</string>

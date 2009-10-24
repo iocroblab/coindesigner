@@ -47,6 +47,8 @@
         <file>svg/Anaglyph.svg</file>
         <file>svg/Antialias_Icon.svg</file>
         <file>svg/Cocotte_en_papier.svg</file>
+        <file>svg/Icon_Mathematical_Plot.svg</file>
+        <file>svg/Measure.svg</file>
         <file>nodes/appearance.png</file>
         <file>nodes/basecolor.png</file>
         <file>nodes/basekit.png</file>
