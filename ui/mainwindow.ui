@@ -17,7 +17,7 @@
    <string>Coindesigner</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="../images/icons.qrc" >:/icons/svg/coindesigner.svg</iconset>
+   <iconset resource="../images/icons.qrc" >:/icons/svg/coindesigner.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QHBoxLayout" >
@@ -355,7 +355,7 @@
   </action>
   <action name="actionExaminerViewer" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;ExaminerViewer</string>
@@ -366,7 +366,7 @@
   </action>
   <action name="actionFlyViewer" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;FlyViewer</string>
@@ -377,7 +377,7 @@
   </action>
   <action name="actionPlaneViewer" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;PlaneViewer</string>
@@ -437,7 +437,7 @@
   </action>
   <action name="actionIvfix" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
    </property>
    <property name="text" >
     <string>Ivfix</string>
@@ -445,7 +445,7 @@
   </action>
   <action name="actionRenderArea" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;RenderArea</string>
@@ -620,7 +620,7 @@
   </action>
   <action name="actionMirror_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
    </property>
    <property name="text" >
     <string>Mirror demo</string>
@@ -644,7 +644,7 @@
   </action>
   <action name="actionPlanet_Earth_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
    </property>
    <property name="text" >
     <string>Planet Earth demo</string>
@@ -732,7 +732,7 @@
   </action>
   <action name="actionQSlim" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
    </property>
    <property name="text" >
     <string>Simplify with QSlim</string>
@@ -743,7 +743,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
    </property>
    <property name="text" >
     <string>Tetrahedralize with tetgen</string>
@@ -762,7 +762,7 @@
     <bool>true</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Antialias_Icon.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Antialias_Icon.png</iconset>
    </property>
    <property name="text" >
     <string>Enable Antialias</string>
@@ -897,7 +897,7 @@
   </action>
   <action name="actionEngine_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
    </property>
    <property name="text" >
     <string>Engine demo</string>
@@ -916,7 +916,7 @@
   </action>
   <action name="actionSoReorganizeAction" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
    </property>
    <property name="text" >
     <string>SoReorganizeAction</string>
@@ -943,7 +943,7 @@
   </action>
   <action name="actionHello_Cone_demo" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.svg</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
    </property>
    <property name="text" >
     <string>Hello Cone demo</string>

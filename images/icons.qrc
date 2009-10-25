@@ -44,12 +44,12 @@
         <file>gui/undo.png</file>
         <file>gui/up.png</file>
         <file>gui/xyz.png</file>
-        <file>svg/Anaglyph.svg</file>
-        <file>svg/Antialias_Icon.svg</file>
-        <file>svg/coindesigner.svg</file>
-        <file>svg/Cocotte_en_papier.svg</file>
-        <file>svg/Icon_Mathematical_Plot.svg</file>
-        <file>svg/Measure.svg</file>
+        <file>svg/Anaglyph.png</file>
+        <file>svg/Antialias_Icon.png</file>
+        <file>svg/coindesigner.png</file>
+        <file>svg/Cocotte_en_papier.png</file>
+        <file>svg/Icon_Mathematical_Plot.png</file>
+        <file>svg/Measure.png</file>
         <file>nodes/appearance.png</file>
         <file>nodes/basecolor.png</file>
         <file>nodes/basekit.png</file>
