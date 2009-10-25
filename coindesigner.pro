@@ -80,4 +80,5 @@ win32 {
   INCLUDEPATH += "$(COIN3DDIR)/include"
   LIBS += $(COIN3DDIR)\lib\simage1.lib $(COIN3DDIR)\lib\coin2.lib $(COIN3DDIR)\lib\soqt1.lib
   INSTALL+=Release/coindesigner.exe
+  RC_FILE = images/svg/coindesigner.rc
 }

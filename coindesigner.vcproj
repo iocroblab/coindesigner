@@ -597,6 +597,10 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
+				RelativePath="tmp\coindesigner.res"
+				>
+			</File>
+			<File
 				RelativePath="tmp\moc_cds_viewers.cpp"
 				>
 			</File>
@@ -936,11 +940,11 @@
 			ParseFiles="false"
 			>
 			<File
-				RelativePath="images\svg\Anaglyph.svg"
+				RelativePath="images\svg\Anaglyph.png"
 				>
 			</File>
 			<File
-				RelativePath="images\svg\Antialias_Icon.svg"
+				RelativePath="images\svg\Antialias_Icon.png"
 				>
 			</File>
 			<File
@@ -980,11 +984,11 @@
 				>
 			</File>
 			<File
-				RelativePath="images\svg\Cocotte_en_papier.svg"
+				RelativePath="images\svg\Cocotte_en_papier.png"
 				>
 			</File>
 			<File
-				RelativePath="images\svg\coindesigner.svg"
+				RelativePath="images\svg\coindesigner.png"
 				>
 			</File>
 			<File
@@ -1162,7 +1166,7 @@
 				>
 			</File>
 			<File
-				RelativePath="images\svg\Icon_Mathematical_Plot.svg"
+				RelativePath="images\svg\Icon_Mathematical_Plot.png"
 				>
 			</File>
 			<File
@@ -1175,7 +1179,7 @@
 						Name="VCCustomBuildTool"
 						Description="RCC images\icons.qrc"
 						CommandLine="C:\Qt\4.3.2\bin\rcc.exe -name icons images\icons.qrc -o tmp\qrc_icons.cpp&#x0D;&#x0A;"
-						AdditionalDependencies="C:\Qt\4.3.2\bin\rcc.exe;images\gui\attach.png;images\gui\bottom.png;images\gui\clock.png;images\gui\colorize.png;images\gui\compfile.png;images\gui\down.png;images\gui\edit.png;images\gui\editclear.png;images\gui\editcopy.png;images\gui\editcut.png;images\gui\editdelete.png;images\gui\editpaste.png;images\gui\editshred.png;images\gui\edittrash.png;images\gui\exit.png;images\gui\fileclose.png;images\gui\filefind.png;images\gui\fileimport.png;images\gui\filenew.png;images\gui\fileopen.png;images\gui\fileprint.png;images\gui\filequickprint.png;images\gui\filesave.png;images\gui\filesaveas.png;images\gui\gear.png;images\gui\gohome.png;images\gui\help.png;images\gui\launch.png;images\gui\next.png;images\gui\package_utilities.png;images\gui\previous.png;images\gui\print.png;images\gui\rebuild.png;images\gui\redo.png;images\gui\reload.png;images\gui\save_all.png;images\gui\searchfind.png;images\gui\stop.png;images\gui\toggle_log.png;images\gui\top.png;images\gui\txt.png;images\gui\undo.png;images\gui\up.png;images\gui\xyz.png;images\icons.qrc;images\nodes\appearance.png;images\nodes\basecolor.png;images\nodes\basekit.png;images\nodes\bumpmap.png;images\nodes\callback.png;images\nodes\camera.png;images\nodes\colorindex.png;images\nodes\complexity.png;images\nodes\component.png;images\nodes\coordinate3.png;images\nodes\drawstyle.png;images\nodes\engine.png;images\nodes\environment.png;images\nodes\field.png;images\nodes\file.png;images\nodes\font.png;images\nodes\group.png;images\nodes\info.png;images\nodes\label.png;images\nodes\levelofdetail.png;images\nodes\light.png;images\nodes\lightmodel.png;images\nodes\manip.png;images\nodes\material.png;images\nodes\materialbinding.png;images\nodes\materialindex.png;images\nodes\metric.png;images\nodes\nodekit.png;images\nodes\normal.png;images\nodes\normalbinding.png;images\nodes\packedcolor.png;images\nodes\pickstyle.png;images\nodes\polygonoffset.png;images\nodes\property.png;images\nodes\realtimeglobalfield.png;images\nodes\selection.png;images\nodes\separator.png;images\nodes\shaderprogram.png;images\nodes\shape.png;images\nodes\shapehints.png;images\nodes\switch.png;images\nodes\texture2.png;images\nodes\texture2transform.png;images\nodes\texturecoordinate2.png;images\nodes\transformation.png;images\nodes\transparencytype.png;images\nodes\units.png;images\svg\Anaglyph.svg;images\svg\Antialias_Icon.svg;images\svg\Cocotte_en_papier.svg;images\svg\Icon_Mathematical_Plot.svg;images\svg\Measure.svg;images\svg\coindesigner.svg"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\rcc.exe;images\gui\attach.png;images\gui\bottom.png;images\gui\clock.png;images\gui\colorize.png;images\gui\compfile.png;images\gui\down.png;images\gui\edit.png;images\gui\editclear.png;images\gui\editcopy.png;images\gui\editcut.png;images\gui\editdelete.png;images\gui\editpaste.png;images\gui\editshred.png;images\gui\edittrash.png;images\gui\exit.png;images\gui\fileclose.png;images\gui\filefind.png;images\gui\fileimport.png;images\gui\filenew.png;images\gui\fileopen.png;images\gui\fileprint.png;images\gui\filequickprint.png;images\gui\filesave.png;images\gui\filesaveas.png;images\gui\gear.png;images\gui\gohome.png;images\gui\help.png;images\gui\launch.png;images\gui\next.png;images\gui\package_utilities.png;images\gui\previous.png;images\gui\print.png;images\gui\rebuild.png;images\gui\redo.png;images\gui\reload.png;images\gui\save_all.png;images\gui\searchfind.png;images\gui\stop.png;images\gui\toggle_log.png;images\gui\top.png;images\gui\txt.png;images\gui\undo.png;images\gui\up.png;images\gui\xyz.png;images\icons.qrc;images\nodes\appearance.png;images\nodes\basecolor.png;images\nodes\basekit.png;images\nodes\bumpmap.png;images\nodes\callback.png;images\nodes\camera.png;images\nodes\colorindex.png;images\nodes\complexity.png;images\nodes\component.png;images\nodes\coordinate3.png;images\nodes\drawstyle.png;images\nodes\engine.png;images\nodes\environment.png;images\nodes\field.png;images\nodes\file.png;images\nodes\font.png;images\nodes\group.png;images\nodes\info.png;images\nodes\label.png;images\nodes\levelofdetail.png;images\nodes\light.png;images\nodes\lightmodel.png;images\nodes\manip.png;images\nodes\material.png;images\nodes\materialbinding.png;images\nodes\materialindex.png;images\nodes\metric.png;images\nodes\nodekit.png;images\nodes\normal.png;images\nodes\normalbinding.png;images\nodes\packedcolor.png;images\nodes\pickstyle.png;images\nodes\polygonoffset.png;images\nodes\property.png;images\nodes\realtimeglobalfield.png;images\nodes\selection.png;images\nodes\separator.png;images\nodes\shaderprogram.png;images\nodes\shape.png;images\nodes\shapehints.png;images\nodes\switch.png;images\nodes\texture2.png;images\nodes\texture2transform.png;images\nodes\texturecoordinate2.png;images\nodes\transformation.png;images\nodes\transparencytype.png;images\nodes\units.png;images\svg\Anaglyph.png;images\svg\Antialias_Icon.png;images\svg\Cocotte_en_papier.png;images\svg\Icon_Mathematical_Plot.png;images\svg\Measure.png;images\svg\coindesigner.png"
 						Outputs="tmp\qrc_icons.cpp"
 					/>
 				</FileConfiguration>
@@ -1186,7 +1190,7 @@
 						Name="VCCustomBuildTool"
 						Description="RCC images\icons.qrc"
 						CommandLine="C:\Qt\4.3.2\bin\rcc.exe -name icons images\icons.qrc -o tmp\qrc_icons.cpp&#x0D;&#x0A;"
-						AdditionalDependencies="C:\Qt\4.3.2\bin\rcc.exe;images\gui\attach.png;images\gui\bottom.png;images\gui\clock.png;images\gui\colorize.png;images\gui\compfile.png;images\gui\down.png;images\gui\edit.png;images\gui\editclear.png;images\gui\editcopy.png;images\gui\editcut.png;images\gui\editdelete.png;images\gui\editpaste.png;images\gui\editshred.png;images\gui\edittrash.png;images\gui\exit.png;images\gui\fileclose.png;images\gui\filefind.png;images\gui\fileimport.png;images\gui\filenew.png;images\gui\fileopen.png;images\gui\fileprint.png;images\gui\filequickprint.png;images\gui\filesave.png;images\gui\filesaveas.png;images\gui\gear.png;images\gui\gohome.png;images\gui\help.png;images\gui\launch.png;images\gui\next.png;images\gui\package_utilities.png;images\gui\previous.png;images\gui\print.png;images\gui\rebuild.png;images\gui\redo.png;images\gui\reload.png;images\gui\save_all.png;images\gui\searchfind.png;images\gui\stop.png;images\gui\toggle_log.png;images\gui\top.png;images\gui\txt.png;images\gui\undo.png;images\gui\up.png;images\gui\xyz.png;images\icons.qrc;images\nodes\appearance.png;images\nodes\basecolor.png;images\nodes\basekit.png;images\nodes\bumpmap.png;images\nodes\callback.png;images\nodes\camera.png;images\nodes\colorindex.png;images\nodes\complexity.png;images\nodes\component.png;images\nodes\coordinate3.png;images\nodes\drawstyle.png;images\nodes\engine.png;images\nodes\environment.png;images\nodes\field.png;images\nodes\file.png;images\nodes\font.png;images\nodes\group.png;images\nodes\info.png;images\nodes\label.png;images\nodes\levelofdetail.png;images\nodes\light.png;images\nodes\lightmodel.png;images\nodes\manip.png;images\nodes\material.png;images\nodes\materialbinding.png;images\nodes\materialindex.png;images\nodes\metric.png;images\nodes\nodekit.png;images\nodes\normal.png;images\nodes\normalbinding.png;images\nodes\packedcolor.png;images\nodes\pickstyle.png;images\nodes\polygonoffset.png;images\nodes\property.png;images\nodes\realtimeglobalfield.png;images\nodes\selection.png;images\nodes\separator.png;images\nodes\shaderprogram.png;images\nodes\shape.png;images\nodes\shapehints.png;images\nodes\switch.png;images\nodes\texture2.png;images\nodes\texture2transform.png;images\nodes\texturecoordinate2.png;images\nodes\transformation.png;images\nodes\transparencytype.png;images\nodes\units.png;images\svg\Anaglyph.svg;images\svg\Antialias_Icon.svg;images\svg\Cocotte_en_papier.svg;images\svg\Icon_Mathematical_Plot.svg;images\svg\Measure.svg;images\svg\coindesigner.svg"
+						AdditionalDependencies="C:\Qt\4.3.2\bin\rcc.exe;images\gui\attach.png;images\gui\bottom.png;images\gui\clock.png;images\gui\colorize.png;images\gui\compfile.png;images\gui\down.png;images\gui\edit.png;images\gui\editclear.png;images\gui\editcopy.png;images\gui\editcut.png;images\gui\editdelete.png;images\gui\editpaste.png;images\gui\editshred.png;images\gui\edittrash.png;images\gui\exit.png;images\gui\fileclose.png;images\gui\filefind.png;images\gui\fileimport.png;images\gui\filenew.png;images\gui\fileopen.png;images\gui\fileprint.png;images\gui\filequickprint.png;images\gui\filesave.png;images\gui\filesaveas.png;images\gui\gear.png;images\gui\gohome.png;images\gui\help.png;images\gui\launch.png;images\gui\next.png;images\gui\package_utilities.png;images\gui\previous.png;images\gui\print.png;images\gui\rebuild.png;images\gui\redo.png;images\gui\reload.png;images\gui\save_all.png;images\gui\searchfind.png;images\gui\stop.png;images\gui\toggle_log.png;images\gui\top.png;images\gui\txt.png;images\gui\undo.png;images\gui\up.png;images\gui\xyz.png;images\icons.qrc;images\nodes\appearance.png;images\nodes\basecolor.png;images\nodes\basekit.png;images\nodes\bumpmap.png;images\nodes\callback.png;images\nodes\camera.png;images\nodes\colorindex.png;images\nodes\complexity.png;images\nodes\component.png;images\nodes\coordinate3.png;images\nodes\drawstyle.png;images\nodes\engine.png;images\nodes\environment.png;images\nodes\field.png;images\nodes\file.png;images\nodes\font.png;images\nodes\group.png;images\nodes\info.png;images\nodes\label.png;images\nodes\levelofdetail.png;images\nodes\light.png;images\nodes\lightmodel.png;images\nodes\manip.png;images\nodes\material.png;images\nodes\materialbinding.png;images\nodes\materialindex.png;images\nodes\metric.png;images\nodes\nodekit.png;images\nodes\normal.png;images\nodes\normalbinding.png;images\nodes\packedcolor.png;images\nodes\pickstyle.png;images\nodes\polygonoffset.png;images\nodes\property.png;images\nodes\realtimeglobalfield.png;images\nodes\selection.png;images\nodes\separator.png;images\nodes\shaderprogram.png;images\nodes\shape.png;images\nodes\shapehints.png;images\nodes\switch.png;images\nodes\texture2.png;images\nodes\texture2transform.png;images\nodes\texturecoordinate2.png;images\nodes\transformation.png;images\nodes\transparencytype.png;images\nodes\units.png;images\svg\Anaglyph.png;images\svg\Antialias_Icon.png;images\svg\Cocotte_en_papier.png;images\svg\Icon_Mathematical_Plot.png;images\svg\Measure.png;images\svg\coindesigner.png"
 						Outputs="tmp\qrc_icons.cpp"
 					/>
 				</FileConfiguration>
@@ -1232,7 +1236,7 @@
 				>
 			</File>
 			<File
-				RelativePath="images\svg\Measure.svg"
+				RelativePath="images\svg\Measure.png"
 				>
 			</File>
 			<File
@@ -1392,6 +1396,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="images\svg\coindesigner.rc"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
