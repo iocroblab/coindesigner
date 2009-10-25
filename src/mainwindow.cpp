@@ -1267,6 +1267,7 @@ void MainWindow::on_actionAbout_activated()
     QString msj;
     msj.sprintf("<p>Coindesigner version %.1f (%s)<p>", CDS_VERSION, __DATE__ );
     msj += tr("Written by")+" Jose M. Espadero "+tr("and")+" Tomas Aguado";
+    msj += "<br>         " + tr("with usefull contributions from") + " Manfred Kroehnert";
     msj += "<p><a href=http://coindesigner.sf.net>http://coindesigner.sf.net</a>";
 
     //System Info
