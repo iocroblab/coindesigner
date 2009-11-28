@@ -1408,22 +1408,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>tetgen_options</name>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="116"/>
+        <location filename="../src/tetgen_options.cpp" line="144"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="61"/>
+        <location filename="../src/tetgen_options.cpp" line="73"/>
         <source>Path to tetgen not defined in settings</source>
         <translation>No se ha definido el path a tetgen en preferencias</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="79"/>
+        <location filename="../src/tetgen_options.cpp" line="91"/>
         <source>Could not create file </source>
         <translation>Error al escribir fichero</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="102"/>
+        <location filename="../src/tetgen_options.cpp" line="116"/>
         <source>Error executing: </source>
         <translation>Error durante ejecución:</translation>
     </message>
@@ -1443,14 +1443,34 @@ p, li { white-space: pre-wrap; }
         <translation>Volumen de tetrahedro máximo (-a)</translation>
     </message>
     <message>
-        <location filename="../ui/tetgen_options.ui" line="77"/>
+        <location filename="../ui/tetgen_options.ui" line="102"/>
         <source>tetgen args:</source>
         <translation>Argumentos:</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="114"/>
+        <location filename="../src/tetgen_options.cpp" line="128"/>
         <source>tetgen returned an error</source>
         <translation>tetgen devolvió un error</translation>
+    </message>
+    <message>
+        <location filename="../src/tetgen_options.cpp" line="62"/>
+        <source>Output Directory</source>
+        <translation>Guardar en</translation>
+    </message>
+    <message>
+        <location filename="../src/tetgen_options.cpp" line="149"/>
+        <source>tetgen output</source>
+        <translation>Resultado de tetgen</translation>
+    </message>
+    <message>
+        <location filename="../ui/tetgen_options.ui" line="77"/>
+        <source>Output Directory:</source>
+        <translation>Guardar en:</translation>
+    </message>
+    <message>
+        <location filename="../ui/tetgen_options.ui" line="91"/>
+        <source>...</source>
+        <translation>...</translation>
     </message>
 </context>
 </TS>

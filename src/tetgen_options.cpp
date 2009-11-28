@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
+#include <QFileDialog>
 #include <QDir>
 #include <Inventor/SoInput.h>
 #include <string.h>
@@ -42,6 +43,9 @@ tetgen_options::tetgen_options(SoPath *path, QWidget *p, Qt::WindowFlags f) : QD
 	//Conecta todos los controles y actualiza los argumentos por primera vez
 	connect(Ui.spinBox_q, SIGNAL(valueChanged(double)),this,SLOT(argsChanged()));
 	connect(Ui.spinBox_a, SIGNAL(valueChanged(double)),this,SLOT(argsChanged()));
+	Ui.outputDirectory->setText(QDir::currentPath());
+	connect(Ui.outputDirectoryButton, SIGNAL(pressed()),this,SLOT(dirChanged()));
+
 	argsChanged();
 }
 
@@ -50,6 +54,14 @@ void tetgen_options::argsChanged()
 {
 	tetgen_args.sprintf("-pOq%.2fa%.2f", Ui.spinBox_q->value(), Ui.spinBox_a->value() );
 	Ui.tetgen_args->setText(tetgen_args);
+}
+
+///Recalcula los argumentos a pasar a tetgen
+void tetgen_options::dirChanged()
+{
+	QString dir = QFileDialog::getExistingDirectory(this, tr("Output Directory"), Ui.outputDirectory->text() );
+	if (dir != "")
+		Ui.outputDirectory->setText(dir);
 }
 
 void tetgen_options::accept()
@@ -64,7 +76,7 @@ void tetgen_options::accept()
 	}
 
 	//Creacion de los argumentos
-	QString offFilename = QDir::tempPath()+ "/tempfile.off";
+	QString offFilename = Ui.outputDirectory->text() + "/tempfile.off";
 	QStringList args;
 	argsChanged();
 	args << tetgen_args << offFilename;
@@ -89,6 +101,8 @@ void tetgen_options::accept()
     {
 		VRMLIndexedFaceSet_to_OFF((SoVRMLIndexedFaceSet *)input->getTail(), offFile);
     }
+
+	fclose(offFile);
 
 	//Iniciamos tetgen
 	QProcess myProcess(this);
@@ -118,18 +132,28 @@ void tetgen_options::accept()
 		return;
 	}
 
-	QString nodeFilename = offFilename + ".1.node";
-	//TODO: continuar la funcion de llamada a tetgen
-/*
-    //Leemos la salida estandar del proceso mediante el parser de openInventor
-	SoInput in;
-	QByteArray stdoutup = myProcess.readAllStandardOutput ();
-    in.setBuffer(stdoutup.data(), stdoutup.size());
-	output = SoDB::readAll(&in);
-    //qDebug("tetgen returned node %p", output);
-*/
-	assert(output);
-	output->setName("tetgen_output");
+	//output handling
+	QString S;
+	S = tr("tetgen output")+"\n";
+	S += myProcess.readAllStandardError (); 
+	S += myProcess.readAllStandardOutput();
+
+	//Mira si se ha producido un error en la salida de tetgen
+	if (S.contains("Error: "))
+	{
+		QMessageBox::warning (this, tr ("Error"), S);
+		QDialog::accept();
+		return;
+	}
+	else
+		QMessageBox::information(this, tr("tetgen output"), S);
+
+	//Leemos el fichero .node de salida
+	QString nodeFilename = Ui.outputDirectory->text() + "/tempfile.1.node";	
+	output = import_tetgen(qPrintable(nodeFilename));
+
+	if (output != NULL)
+		output->setName("tetgen_output");
 
 	QDialog::accept();
 } // void tetgen_options::accept()

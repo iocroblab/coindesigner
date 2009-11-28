@@ -46,5 +46,8 @@ public:
 	///Recalcula los argumentos a tetgen
 	void argsChanged();
 
+	///Recalcula el directorio de salida
+	void dirChanged();
+
 }; //class tetgen_options
 
