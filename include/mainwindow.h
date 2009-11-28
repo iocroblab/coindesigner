@@ -200,6 +200,8 @@ public slots:
 	void on_SoIndexedFaceSet_change_orientation_activated();
 	///Convert a SoIndexedTriangleStripSet to SoIndexedFaceSet
 	void on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated();
+	///Create the convex hull of a points cloud
+	void on_SoCoordinate3_to_qhull_activated();
 
 
 	void on_Export_to_SMF_activated();

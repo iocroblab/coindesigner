@@ -2974,6 +2974,119 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
    
 }//SoSeparator * MainWindow::cargarFichero3D(QString filename)
 
+#ifdef USE_VOLEON
+SoSeparator *MainWindow::read_mha_volume(const QString &filename)
+{
+	SbVec3s dimension(0,0,0);
+	char *data = NULL;
+	QString dataFilename = "";
+
+	//Abrimos el fichero
+	addMessage("Abriendo fichero " + filename);
+	QFile mhaFile(filename);
+	if (mhaFile.open(QIODevice::ReadOnly | QIODevice::Text) == false)
+		return NULL;
+
+	yyGeometry= new SoSeparator();
+
+	//Añadimos un VolumeData+TransferFunction+VolumeRender
+	SoVolumeData *voldata = new SoVolumeData();
+	yyGeometry->addChild(voldata);
+	SoTransferFunction * transfunc = new SoTransferFunction();
+	yyGeometry->addChild(transfunc);
+	SoVolumeRender *volumeRender = new SoVolumeRender ();
+	yyGeometry->addChild(volumeRender);
+
+	//Leemos el fichero .mha y configuramos el volumen
+	QString line;
+	QTextStream mhaStream(&mhaFile);
+	while (!mhaStream.atEnd())
+	{
+		//Leemos una linea del fichero
+		line = mhaStream.readLine();
+		//DEBUG: addMessage(line);
+
+		//Ignoramos lineas en blanco
+		if (QRegExp("\\s*").exactMatch(line))
+			continue;
+
+		//NDims = 3
+		QRegExp rx1("\\s*NDims\\s*=\\s*(\\d+)", Qt::CaseInsensitive);
+		if (rx1.indexIn(line)==0)
+		{
+			if (rx1.cap(1).toInt() != 3)
+			{
+				addMessage(tr("Error: only supports files with NDims = 3"));
+				return NULL;
+			}
+			continue;
+		}
+
+		//DimSize = 699 536 115
+		rx1.setPattern("\\s*DimSize\\s*=\\s*(\\d+)\\s*(\\d+)\\s*(\\d+)");
+		if (rx1.indexIn(line)==0)
+		{
+			//Salvamos las dimensiones
+			dimension.setValue(rx1.cap(1).toInt(), rx1.cap(2).toInt(),rx1.cap(3).toInt());
+			continue;
+		}
+
+		//ElementDataFile = data.raw
+		rx1.setPattern("\\s*ElementDataFile\\s*=\\s*(\\S+)");
+		if (rx1.indexIn(line)==0)
+		{
+			dataFilename = rx1.cap(1);
+			addMessage(tr("Reading data from")+" " + dataFilename);
+
+			//Abrimos el fichero de datos
+			QString currentDir(QDir::currentPath());
+			QDir::setCurrent(QFileInfo(mhaFile).absoluteDir().path() );
+			QFile dataFile(dataFilename);
+			if (dataFile.open(QIODevice::ReadOnly) == false)
+			{
+				addMessage(dataFilename + tr(": Error while opening file."));
+				return NULL;
+			}
+			QDir::setCurrent(currentDir);
+
+			//Leemos el fichero completamente a memoria
+			long datasize = dimension[0] * dimension[1] * dimension[2];
+			data = new char[datasize];
+
+			if (QDataStream(&dataFile).readRawData(data, datasize) != datasize)
+			{
+				addMessage(dataFilename + tr(": Error while reading file."));
+				delete data;
+				return NULL;
+			}			
+
+			continue;
+		}
+
+		//El resto de lineas las imprimimos como un warning
+		addMessage(tr("Warning: ") + line);
+
+	}
+
+
+	//Comprobamos que hemos leido los datos necesarios
+	if (data == NULL || dimension[0] <= 0 || dimension[1] <= 0 || dimension[2] <= 0)
+	{
+		addMessage(filename + tr(": Invalid .mha file"));
+		return NULL;
+	}
+
+	//Ahora configuramos los nodos
+	yyGeometry->setName(qPrintable(filename));
+	voldata->setName(qPrintable(dataFilename));
+	voldata->setVolumeData(dimension, data);
+	transfunc->reMap(30, 80);
+
+	//Devolvemos la escena leida
+	return yyGeometry;
+
+}
+#endif
 
  void MainWindow::setRecentFile(const QString &fileName)
  {
@@ -3633,8 +3746,9 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 	}
 	else if (tipo == SoCoordinate3::getClassTypeId()) 
 	{
-		menu.addAction(Ui.Export_to_XYZ);
+		menu.addAction(Ui.SoCoordinate3_to_qhull);
 		menu.addAction(Ui.Center_on_Origin);
+		menu.addAction(Ui.Export_to_XYZ);
 	}
 	else if (tipo == SoVRMLIndexedFaceSet::getClassTypeId()) 
 	{
@@ -4378,6 +4492,51 @@ void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
 
 }//void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
 
+void MainWindow::on_SoCoordinate3_to_qhull_activated()
+{
+    //Identificamos el item actual
+    QTreeWidgetItem *item_current = Ui.sceneGraph->currentItem();
+    SoCoordinate3 *nodo = (SoCoordinate3 *)mapQTCOIN[item_current];
+
+    //Creamos un coordinate3 y un indexedFaceSet para el cierre
+    SoVertexProperty  *coord = new SoVertexProperty();
+    SoIndexedFaceSet *ifs = new SoIndexedFaceSet();
+    ifs->vertexProperty = coord;
+
+    //Creamos el cierre convexo
+    int result = convex_hull (nodo->point, coord->vertex, ifs->coordIndex );
+
+    if (result < 0)
+    {
+		QMessageBox::warning( this, tr("Warning"), tr("Error while computing convex hull"));
+		return;
+    }
+
+    //Cambiamos el nombre del nuevo nodo
+    SoBase_name->setValue("convex_hull");
+    ifs->setName(SoBase_name->getValue());
+
+    //Buscamos el item actualmente seleccionado en el sceneGraph y 
+    //el primer item que pueda actuar como contenedor para colgar newNode
+	QTreeWidgetItem *item_padre = item_current;
+    while (!mapQTCOIN[item_padre]->getTypeId().isDerivedFrom(SoGroup::getClassTypeId()) )
+    {
+        item_padre=item_padre->parent();
+    }  
+
+    //Buscamos el nodo de coin correspondiente al item_padre
+    SoGroup *nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
+ 
+	//Insertamos el contenido de la escena
+    newSceneGraph(ifs, item_padre, nodo_padre);
+
+    //Actualizamos la tabla  de campos
+    updateFieldEditor (ifs);
+
+    //Indicamos que la escena ha sido modificada
+    escena_modificada = true;
+
+}// void MainWindow::on_SoCoordinate3_to_qhull_activated()
 
 
 /*! Apply SoReorganizeAction to the scene 

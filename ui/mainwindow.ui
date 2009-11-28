@@ -949,6 +949,14 @@
     <string>Hello Cone demo</string>
    </property>
   </action>
+  <action name="SoCoordinate3_to_qhull" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Compute convex hull</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>paletteComboBox</tabstop>

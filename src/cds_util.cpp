@@ -1525,7 +1525,6 @@ SoIndexedFaceSet * IndexedTriangleStripSet_to_IndexedFaceSet (const SoIndexedTri
 
 }// IndexedTriangleStripSet_to_IndexedFaceSet 
 
-/* TODO
 //Calcula el cierre convexo de una nube de puntos. Devuelve numero de facetas en cierre
 int convex_hull (const SoMFVec3f &coords, SoMFVec3f &ch_coords, SoMFInt32 &ch_coordIndex)
 {
@@ -1589,7 +1588,6 @@ int convex_hull (const SoMFVec3f &coords, SoMFVec3f &ch_coords, SoMFInt32 &ch_co
     return nv;
 
 }// int convex_hull (const SoMFVec3f &coords, SoMFVec3f &ch_coords, SoMFInt32 &ch_coordIndex)
-*/
 
 
 //! Importacion de un complejo simplicial en formato .neutral (netgen)

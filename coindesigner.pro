@@ -43,10 +43,10 @@ SOURCES +=	main.cpp	mainwindow.cpp	mainwindow2.cpp	cds_util.cpp	cds_viewers.cpp 
 		IfCollector.cpp  IfHasher.cpp     IfReporter.cpp   IfStripper.cpp \
 		IfCondenser.cpp  IfHolder.cpp     IfShape.cpp      IfTypes.cpp \
 		IfFixer.cpp      IfMerger.cpp     IfShapeList.cpp  IfWeeder.cpp \
-#TODO	qh_geom.cpp      qh_io.cpp        qh_poly.cpp      qh_stat.cpp  \
-#TODO	qh_geom2.cpp     qh_mem.cpp       qh_poly2.cpp     qh_user.cpp  \
-#TODO	qhulllib.cpp     qh_global.cpp    qh_merge.cpp     qhull_interface.cpp \
-#TODO	qh_qset.cpp      qhull.cpp 
+		qh_geom.cpp      qh_io.cpp        qh_poly.cpp      qh_stat.cpp  \
+		qh_geom2.cpp     qh_mem.cpp       qh_poly2.cpp     qh_user.cpp  \
+		qhulllib.cpp     qh_global.cpp    qh_merge.cpp     qhull_interface.cpp \
+		qh_qset.cpp      qhull.cpp 
 
 
 HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
