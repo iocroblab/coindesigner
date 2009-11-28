@@ -106,6 +106,9 @@ public:
 	///Aplica los parametros de render actuales a un viewer
     void configureViewer(SoQtRenderArea *viewer);
 
+	///Lee un fichero de datos volumetrico en formato .mha
+	SoSeparator *read_mha_volume(const QString &filename);
+
 public slots:
 
 	//Slots para menu Scene

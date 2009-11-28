@@ -319,7 +319,7 @@ bool MainWindow::load_Scene(QString filename)
         fileMasks += tr("3D Surface Files")+"(*off *.3ds *.smf *.xyz *.obj *.sph);;";
 #endif
 #ifdef USE_VOLEON
-        fileMasks += tr("Volume Data Files")+"(*.vol);;";
+        fileMasks += tr("Volume Data Files")+"(*.vol *.mha);;";
 #endif
         fileMasks += tr("All Files")+" (*)";
 
@@ -444,7 +444,7 @@ bool MainWindow::import_File(QString filename)
         fileMasks += tr("3D Surface Files")+"(*off *.3ds *.smf *.xyz *.obj *.sph);;";
 #endif
 #ifdef USE_VOLEON
-        fileMasks += tr("Volume Data Files")+"(*.vol);;";
+        fileMasks += tr("Volume Data Files")+"(*.vol *.mha);;";
 #endif
         fileMasks += tr("All Files (*)");
 
@@ -2937,6 +2937,13 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
             return yyGeometry;
         }// if (head[0]==0x0b && head[1]==0x7e && (head[23]==8 || head[23]==16))
     }
+
+    //Miramos si es un fichero de volumen en formato .mha
+    else if (filename.endsWith(".mha", Qt::CaseInsensitive))
+	{
+        fclose(yyin);
+		return read_mha_volume(filename);
+	}
 #endif
 
     //Miramos si es una imagen, y la cargamos como textura

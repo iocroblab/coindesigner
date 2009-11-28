@@ -636,7 +636,7 @@
   </action>
   <action name="actionEmbedTexture" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/warehause.png</iconset>
    </property>
    <property name="text" >
     <string>Embed Texture File</string>
@@ -676,7 +676,7 @@
   </action>
   <action name="actionEmbed_all_textures" >
    <property name="icon" >
-    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+    <iconset resource="../images/icons.qrc" >:/icons/gui/warehause.png</iconset>
    </property>
    <property name="text" >
     <string>Embed all textures</string>

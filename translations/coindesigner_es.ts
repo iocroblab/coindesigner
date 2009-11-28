@@ -113,7 +113,7 @@
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3370"/>
+        <location filename="../src/mainwindow.cpp" line="3377"/>
         <source>OpenInventor Files</source>
         <translation>Ficheros de OpenInventor</translation>
     </message>
@@ -128,7 +128,7 @@
         <translation>Ficheros de datos volumétricos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4204"/>
+        <location filename="../src/mainwindow.cpp" line="4211"/>
         <source>All Files</source>
         <translation>Todos los ficheros</translation>
     </message>
@@ -143,7 +143,7 @@
         <translation>: Formato de fichero desconocido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3804"/>
+        <location filename="../src/mainwindow.cpp" line="3811"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -173,7 +173,7 @@
         <translation>Ficheros VRML</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3955"/>
+        <location filename="../src/mainwindow.cpp" line="3962"/>
         <source>Warning</source>
         <translation>Aviso</translation>
     </message>
@@ -283,7 +283,7 @@
         <translation>Error durante ejecución:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2759"/>
+        <location filename="../src/mainwindow2.cpp" line="133"/>
         <source>: Error while opening file.</source>
         <translation>: Error al abrir el fichero.</translation>
     </message>
@@ -309,28 +309,28 @@
         <translation>%s: Error al leer fichero temporal</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3034"/>
+        <location filename="../src/mainwindow.cpp" line="3041"/>
         <source>Embed all textures of the scene will increase the size of the scene file because textures are stored uncompressed. This method will affect all SoTexture2 and SoBumpMap nodes in the scene.
 Are you sure you want to embed all textures?</source>
         <translation>Incluir todas las texturas de la escena aumentará el tamaño del fichero de escena porque las texturas se almacenan sin comprimir. Este método afectará a todos los nodos SoTexture2 y SoBumpMap de la escena.\n ¿Está seguro de incluir todas las texturas?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3358"/>
+        <location filename="../src/mainwindow.cpp" line="3365"/>
         <source>Insert filename</source>
         <translation>Introduzca nombre de fichero</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3368"/>
+        <location filename="../src/mainwindow.cpp" line="3375"/>
         <source>Choose Filename</source>
         <translation>Elija nombre de fichero</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3369"/>
+        <location filename="../src/mainwindow.cpp" line="3376"/>
         <source>Image files</source>
         <translation>Ficheros de imagen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3474"/>
+        <location filename="../src/mainwindow.cpp" line="3481"/>
         <source>Export to...</source>
         <translation>Exportar a...</translation>
     </message>
@@ -340,7 +340,7 @@ Are you sure you want to embed all textures?</source>
         <translation type="obsolete">Convertir en SoDirectionalLightManip</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4203"/>
+        <location filename="../src/mainwindow.cpp" line="4210"/>
         <source>Export File</source>
         <translation>Exportar</translation>
     </message>
@@ -860,12 +860,12 @@ Are you sure you want to embed all textures?</source>
         <translation>Convertir en IndexedFaceSet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3670"/>
+        <location filename="../src/mainwindow.cpp" line="3677"/>
         <source>Convert in</source>
         <translation>Convertir en</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4204"/>
+        <location filename="../src/mainwindow.cpp" line="4211"/>
         <source>Files</source>
         <translation>Ficheros</translation>
     </message>
@@ -880,7 +880,7 @@ Are you sure you want to embed all textures?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="3239"/>
+        <location filename="../src/mainwindow.cpp" line="3246"/>
         <source>Import:</source>
         <translation>Importando:</translation>
     </message>
@@ -995,22 +995,22 @@ Are you sure you want to embed all textures?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4065"/>
+        <location filename="../src/mainwindow.cpp" line="4072"/>
         <source>OBJ/SMF </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4127"/>
+        <location filename="../src/mainwindow.cpp" line="4134"/>
         <source>OFF </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4169"/>
+        <location filename="../src/mainwindow.cpp" line="4176"/>
         <source>STL </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="4204"/>
+        <location filename="../src/mainwindow.cpp" line="4211"/>
         <source>XYZ </source>
         <translation></translation>
     </message>
@@ -1033,6 +1033,31 @@ Are you sure you want to embed all textures?</source>
         <location filename="../src/mainwindow.cpp" line="1270"/>
         <source>with usefull contributions from</source>
         <translation>con útiles contribuciones de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow2.cpp" line="105"/>
+        <source>Error: only supports files with NDims = 3</source>
+        <translation>Error: Solo se aceptan ficheros con NDims = 3</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow2.cpp" line="125"/>
+        <source>Reading data from</source>
+        <translation>Leyendo datos de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow2.cpp" line="144"/>
+        <source>: Error while reading file.</source>
+        <translation>: Error al leer el fichero.</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow2.cpp" line="161"/>
+        <source>: Invalid .mha file</source>
+        <translation>: Fichero .mha no válido</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow2.cpp" line="153"/>
+        <source>Warning: </source>
+        <translation>Aviso:</translation>
     </message>
 </context>
 <context>
