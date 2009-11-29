@@ -55,4 +55,3 @@ DROP: Soporte para editar matrices
 
 * Opción "Conectar Desde" para campos
 
-* Terminar tetgen, cierre convexo, etc...
