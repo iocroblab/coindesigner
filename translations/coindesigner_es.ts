@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="es">
-<defaultcodec></defaultcodec>
 <context>
     <name></name>
     <message>
@@ -24,17 +23,35 @@
     <message>
         <location filename="../src/cds_viewers.cpp" line="72"/>
         <source>Nothing there.</source>
-        <translation>Nada interesante.</translation>
+        <translation type="unfinished">Nada interesante.</translation>
     </message>
     <message>
         <location filename="../src/cds_viewers.cpp" line="135"/>
         <source>Name=</source>
-        <translation>Nombre=</translation>
+        <translation type="unfinished">Nombre=</translation>
     </message>
     <message>
         <location filename="../src/cds_viewers.cpp" line="136"/>
         <source>&lt;b&gt;Node Name=&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
+        <translation type="unfinished">&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>@default</name>
+    <message>
+        <location filename="../src/cds_viewers.cpp" line="72"/>
+        <source>Nothing there.</source>
+        <translation type="obsolete">Nada interesante.</translation>
+    </message>
+    <message>
+        <location filename="../src/cds_viewers.cpp" line="135"/>
+        <source>Name=</source>
+        <translation type="obsolete">Nombre=</translation>
+    </message>
+    <message>
+        <location filename="../src/cds_viewers.cpp" line="136"/>
+        <source>&lt;b&gt;Node Name=&lt;/b&gt;</source>
+        <translation type="obsolete">&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
