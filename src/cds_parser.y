@@ -39,6 +39,7 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoCoordinate3.h>
 #include <Inventor/nodes/SoIndexedFaceSet.h>
+#include <Inventor/nodes/SoFaceSet.h>
 #include <Inventor/nodes/SoPointSet.h>
 #include <Inventor/nodes/SoNormal.h>
 #include <Inventor/nodes/SoMaterial.h>
@@ -53,6 +54,7 @@
 SoSeparator *yyGeometry;
 SoCoordinate3 *yyCoordinate3;
 SoIndexedFaceSet *yyIndexedFaceSet;
+SoFaceSet *yyFaceSet;
 SoNormal *yyNormal;
 SoMaterial *yyMaterial;
 SoTextureCoordinate2 *yyTextureCoordinate2;
@@ -75,6 +77,9 @@ int yy_sph_branch;
 int yy_sph_num;
 int yy_sph_l;
 SoSeparator *yy_sph_l_sep;
+
+bool yy_outerloop=false;
+unsigned yy_loopsize=false;
 
 /* Variable para almacenar coordenadas de textura de ficheros .obj */
 SoMFVec2f *yy_texture_coord = NULL;
@@ -101,6 +106,8 @@ extern int yy_ver_LF;
 
 %token _OFF _COFF _NOFF _NCOFF _STOFF _LIST _APPEARANCE _FILE
 %token _LF _MTLLIB _USEMTL _BEGIN _END
+%token _SOLID _ASCII _FACET _NORMAL _OUTER _LOOP _VERTEX 
+%token _ENDLOOP _ENDFACET _ENDSOLID
 
 %token <entero> _ENTERO
 %token <real>   _REAL
@@ -187,6 +194,8 @@ fich_geom:
   |
   fichero_SPH
 
+  |
+  fichero_STL
 ;
 
 //Una regla para leer cualquier tipo de numeros
@@ -624,6 +633,51 @@ linea_SPH  : REAL REAL REAL REAL REAL
 ;
 
 
+fichero_STL : 
+  {
+     /* Preparamos para leer STL */
+     yyGeometry = new SoSeparator();
+     yyCoordinate3 = new SoCoordinate3();
+     yyFaceSet = new SoFaceSet();
+     //yyNormal = new SoNormal();
+
+     yyGeometry->addChild(yyCoordinate3);
+     //yyGeometry->addChild(yyNormal);
+     yyGeometry->addChild(yyFaceSet);
+
+     yyNumeroFacetas = 0;
+     yyNumeroPuntos = 0;
+     yylinenum = 1;
+     yy_loopsize=0;
+  } _SOLID _ASCII bloque_STL _ENDSOLID
+
+bloque_STL : bloque_STL facet_STL
+  | facet_STL
+;
+
+facet_STL : _FACET loop_STL _ENDFACET
+  | _FACET _NORMAL REAL REAL REAL loop_STL _ENDFACET
+;
+
+loop_STL : _OUTER {yy_outerloop=true;} loop_STL
+  | _LOOP bloque_loop_STL _ENDLOOP 
+    {
+       yyFaceSet->numVertices.set1Value(yyNumeroFacetas++, yy_loopsize);
+       yy_loopsize=0;
+       yy_outerloop=false;
+    }
+;
+
+bloque_loop_STL : bloque_loop_STL vertex_STL
+  | vertex_STL
+;
+
+vertex_STL : _VERTEX REAL REAL REAL
+{
+     yyCoordinate3->point.set1Value(yyNumeroPuntos++, $2, $3, $4);
+     yy_loopsize++;
+}
+;
 
 %%
 

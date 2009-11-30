@@ -67,6 +67,17 @@ USEMTL		return _USEMTL;
 BEGIN		return _BEGIN;
 END		return _END;
 
+solid		return _SOLID;
+ascii		return _ASCII;
+facet		return _FACET;
+normal		return _NORMAL;
+outer		return _OUTER;
+loop		return _LOOP;
+vertex		return _VERTEX;
+endloop		return _ENDLOOP;
+endfacet	return _ENDFACET;
+endsolid	return _ENDSOLID;
+
 ([+-])?([0-9])+  { 
                    yylval.entero = atol(yytext);
                    return _ENTERO;
