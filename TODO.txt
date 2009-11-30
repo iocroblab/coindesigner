@@ -18,7 +18,7 @@ FEATURES:
 DONE: Visor de codigo fuente
 DONE: Viewers dock-ables. Interfaz Dock-able
 DONE: Insertar un subgrafo de escena. on_actionLoad_Scene()
-DONE: Carga de ficheros .off .smf .vol .xyz .obj
+DONE: Carga de ficheros .off .smf .xyz .obj .stl .vol .mha
 DONE: Poner nombre a nodos importados 
 DONE: Insercion de plantillas (help->demos)
 DONE: salvar lista de ultimos archivos abiertos
