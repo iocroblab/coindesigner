@@ -54,6 +54,9 @@
           <property name="contextMenuPolicy" >
            <enum>Qt::CustomContextMenu</enum>
           </property>
+          <property name="acceptDrops" >
+           <bool>true</bool>
+          </property>
           <column>
            <property name="text" >
             <string>Scene Graph</string>

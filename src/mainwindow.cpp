@@ -314,12 +314,12 @@ bool MainWindow::load_Scene(QString filename)
         QString fileMasks;
         fileMasks += tr("OpenInventor Files")+"(*.iv *.wrl);;";
 #ifdef USE_DIME
-        fileMasks += tr("3D Surface Files")+"(*off *.3ds *.smf *.dxf *.xyz *.obj *.sph);;";
+        fileMasks += tr("3D Surface Files")+"(*.3ds *.dxf *.obj *off *.smf *.sph *.stl *.xyz);;";
 #else
-        fileMasks += tr("3D Surface Files")+"(*off *.3ds *.smf *.xyz *.obj *.sph);;";
+        fileMasks += tr("3D Surface Files")+"(*.3ds *.obj *off *.smf *.sph *.stl *.xyz);;";
 #endif
 #ifdef USE_VOLEON
-        fileMasks += tr("Volume Data Files")+"(*.vol *.mha);;";
+        fileMasks += tr("Volume Data Files")+"(*.mha *.vol);;";
 #endif
         fileMasks += tr("All Files")+" (*)";
 
@@ -438,13 +438,14 @@ bool MainWindow::import_File(QString filename)
     {
         QString fileMasks;
         fileMasks += tr("OpenInventor Files")+"(*.iv *.wrl);;";
+
 #ifdef USE_DIME
-        fileMasks += tr("3D Surface Files")+"(*off *.3ds *.smf *.dxf *.xyz *.obj *.sph);;";
+        fileMasks += tr("3D Surface Files")+"(*.3ds *.dxf *.obj *off *.smf *.sph *.stl *.xyz);;";
 #else
-        fileMasks += tr("3D Surface Files")+"(*off *.3ds *.smf *.xyz *.obj *.sph);;";
+        fileMasks += tr("3D Surface Files")+"(*.3ds *.obj *off *.smf *.sph *.stl *.xyz);;";
 #endif
 #ifdef USE_VOLEON
-        fileMasks += tr("Volume Data Files")+"(*.vol *.mha);;";
+        fileMasks += tr("Volume Data Files")+"(*.mha *.vol);;";
 #endif
         fileMasks += tr("All Files (*)");
 
@@ -2728,7 +2729,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
     //Convertimos el fichero a char *
     const char *strFilename = SbName(filename.toAscii()).getString();
 
-    //Miramos si tiene pinta de ser un fichero de tetgen
+	//Miramos si tiene pinta de ser un fichero de tetgen
     if (filename.endsWith(".node", Qt::CaseInsensitive))
     {
         //Tratamos de cargarlo como un conjunto de ficheros de tetgen
@@ -2978,6 +2979,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 {
 	SbVec3s dimension(0,0,0);
+	SbVec3f elementSpacing(1,1,1);
 	char *data = NULL;
 	QString dataFilename = "";
 
@@ -2990,6 +2992,8 @@ SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 	yyGeometry= new SoSeparator();
 
 	//Añadimos un VolumeData+TransferFunction+VolumeRender
+	SoTransform *transform = new SoTransform();
+	yyGeometry->addChild(transform);
 	SoVolumeData *voldata = new SoVolumeData();
 	yyGeometry->addChild(voldata);
 	SoTransferFunction * transfunc = new SoTransferFunction();
@@ -3028,6 +3032,15 @@ SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 		{
 			//Salvamos las dimensiones
 			dimension.setValue(rx1.cap(1).toInt(), rx1.cap(2).toInt(),rx1.cap(3).toInt());
+			continue;
+		}
+
+		//ElementSpacing = 1.0 1.0 2.0
+		rx1.setPattern("\\s*ElementSpacing\\s*=\\s*([e\\d\\.]+)\\s*([e\\d\\.]+)\\s*([e\\d\\.]+)");
+		if (rx1.indexIn(line)==0)
+		{
+			//Salvamos ElementSpacing
+			elementSpacing.setValue(rx1.cap(1).toFloat(), rx1.cap(2).toFloat(),rx1.cap(3).toFloat());
 			continue;
 		}
 
@@ -3075,12 +3088,26 @@ SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 		addMessage(filename + tr(": Invalid .mha file"));
 		return NULL;
 	}
+	else
+	{
+		QString S;
+		S.sprintf("dimension: [%d %d %d] ;; spacing: [%f %f %f]",
+			dimension[0], dimension[1], dimension[2], elementSpacing[0], elementSpacing[1], elementSpacing[2]);
+		addMessage(S);
+	}
 
 	//Ahora configuramos los nodos
 	yyGeometry->setName(qPrintable(filename));
 	voldata->setName(qPrintable(dataFilename));
+
+	//const char *strFilename = SbName(dataFilename.toAscii()).getString();
+	//voldata->fileName = strFilename;
+
+	transform->translation.setValue(0.5*dimension[0],0.5*dimension[1],0.5*dimension[2]);
+	transform->scaleFactor.setValue(dimension[0],dimension[1],dimension[2]);
+
 	voldata->setVolumeData(dimension, data);
-	transfunc->reMap(30, 80);
+	transfunc->reMap(0x40, 0x50);
 
 	//Devolvemos la escena leida
 	return yyGeometry;
