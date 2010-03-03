@@ -1293,11 +1293,19 @@ void MainWindow::on_actionAbout_activated()
     {
         msj += "<br>QSlim = " + settings->value("qslim_app").toString();
     }
+    else
+    {
+        msj += "<br>QSlim = " + tr("not found.");
+    }
 
     //Comprobamos si existe el ejecutable de TETGEN 
     if (settings->contains("tetgen_app"))
     {
         msj += "<br>Tetgen = " + settings->value("tetgen_app").toString();
+    }
+    else
+    {
+        msj += "<br>Tetgen = " + tr("not found.");
     }
 
     //Información de settings
@@ -2913,7 +2921,11 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
         //Leemos parte de la cabecera
         rewind (yyin);
         char head[25];
-        fread (head, 24, 1, yyin);
+        if ( fread (head, 24, 1, yyin) <= 0)
+	{
+		fclose (yyin);
+		return NULL;
+	}
     
         //Comprobamos que es un fichero en formato .vol
         if (head[0]==0x0b && head[1]==0x7e && (head[23]==8 || head[23]==16))

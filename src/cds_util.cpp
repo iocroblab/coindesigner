@@ -1712,7 +1712,8 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 	//Leemos el numero de vertices del complejo
 	if (fscanf(nodeFile, " %d", &nv) != 1)
 		return NULL;
-	fgets(dummy_buffer, 1024, nodeFile);
+	if (fgets(dummy_buffer, 1024, nodeFile) == NULL)
+		return NULL;
 
 	//Leemos las coordenadas de los vertices
 	//fprintf(stderr, "Leyendo %d vertices\n", nv);
@@ -1723,7 +1724,8 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 		//Leemos el indice del vertice y las coordenadas X, Y, Z
 		if (fscanf(nodeFile, " %d %f %f %f", &n, &x, &y, &z) != 4)
 			return NULL;
-		fgets(dummy_buffer, 1024, nodeFile);
+		if (fgets(dummy_buffer, 1024, nodeFile)==NULL)
+			return NULL;
 
 		//std::cerr << i << "/" << _num_vertices << ":" << x << " " << y << " " << z << std::endl;
 
@@ -1757,7 +1759,8 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 		//Ahora leemos los triangulos que forman la superfice de la malla
 		if (fscanf(eleFile, " %d", &nt) != 1)
 			return NULL;
-		fgets(dummy_buffer, 1024, eleFile);
+		if (fgets(dummy_buffer, 1024, eleFile) == NULL)
+			return NULL;
 
 		//fprintf(stderr, "Leyendo %d tetraedros internos\n", nt);
 		for (int i=0; i<nt ; i++)
@@ -1766,7 +1769,8 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 			int n, a, b, c, d;
 			if (fscanf(eleFile, " %d %d %d %d %d", &n, &a, &b, &c, &d) != 5)
 				return NULL;
-			fgets(dummy_buffer, 1024, eleFile);
+			if (fgets(dummy_buffer, 1024, eleFile)==NULL)
+				return NULL;
 
 			//Creamos 4 facetas  con los indices leidos.
 			//Teniendo en cuenta que a tetgen le gusta el sentido horario
@@ -1817,7 +1821,8 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 		//Ahora leemos los triangulos que forman la superfice de la malla
 		if (fscanf(faceFile, " %d", &nf) != 1)
 			return NULL;
-		fgets(dummy_buffer, 1024, faceFile);
+		if (fgets(dummy_buffer, 1024, faceFile)==NULL)
+			return NULL;
 
 		//fprintf(stderr, "Leyendo %d facetas externas\n", _numSurfaceFaces);
 		for (int i=0; i<nf ; i++)
@@ -1826,7 +1831,8 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 			int n, a, b, c;
 			if (fscanf(faceFile, " %d %d %d %d", &n, &a, &b, &c) != 4)
 				return NULL;
-			fgets(dummy_buffer, 1024, faceFile);
+			if (fgets(dummy_buffer, 1024, faceFile)==NULL)
+				return NULL;
 
 			//Creamos una faceta con los 3 indices leidos.
 			//Teniendo en cuenta que a tetgen le gusta el sentido horario
