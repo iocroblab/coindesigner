@@ -378,7 +378,10 @@ public:
   virtual void HullPrintf(FILE * /*fph*/ ,const char *fmt, ... )
   {
     char wbuff[8192];
-    vsprintf(wbuff, fmt, (char *)(&fmt+1));
+    va_list args;
+    va_start(args,fmt);
+    //vsprintf(wbuff, fmt, (char *)(&fmt+1));
+    vsprintf(wbuff, fmt, args);
     HullErrorExit(1);
   }
 
