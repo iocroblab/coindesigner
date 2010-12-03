@@ -226,6 +226,53 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 	  }
       else
 
+      //Si hemos pinchado sobre una linea, mostramos su información
+      if (pickDetail->getTypeId() == SoLineDetail::getClassTypeId()) 
+      {
+        SoLineDetail *lineDetail = (SoLineDetail *) pickDetail;
+
+        //Mostramos el indice de la faceta y la lista de vertices
+	S.sprintf("Line index=%d; Vertex= [",lineDetail->getLineIndex());
+
+        //Mostramos información sobre todos sus vertices
+        const SoPointDetail *pointDetail0 = lineDetail->getPoint0();
+        const SoPointDetail *pointDetail1 = lineDetail->getPoint1();
+	S.append(QString::number(pointDetail0->getCoordinateIndex())+QString(", "));
+	S.append(QString::number(pointDetail1->getCoordinateIndex())+QString("]") );
+
+	M.append(QString(" <> ") + S);
+
+	if (infoAction)
+		global_mw->addMessage(S);
+
+        SoMFVec3f coords;
+        SoNode *nodeCoord = buscaCoordenadas (path, coords);
+
+        if (nodeCoord)
+        {
+          const char *nombre_tipo = nodeCoord->getTypeId().getName();  
+          const char *nombre_nodo = nodeCoord->getName().getString();
+
+		  if (infoAction)
+		  {
+			  S.sprintf("%s coordinates node; Coordinate node name=%s", nombre_tipo, nombre_nodo);
+			  global_mw->addMessage(S);
+
+			  //Mostramos informacion sobre todos sus vertices
+			  int idx = pointDetail0->getCoordinateIndex();
+			  S.sprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
+			  idx = pointDetail1->getCoordinateIndex();
+			  S.sprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
+			  global_mw->addMessage(S);
+		  }
+
+        }// if (nodeCoord)
+
+
+
+      }
+      else
+
       //Si hemos pinchado sobre un punto
       if (pickDetail->getTypeId() == SoPointDetail::getClassTypeId()) 
       {
