@@ -33,11 +33,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "cds_globals.h"
+#include "../include/cds_globals.h"
 
 /* Nodos de openInventor que necesitamos */
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/nodes/SoIndexedPointSet.h>
+#include <Inventor/nodes/SoIndexedLineSet.h>
 #include <Inventor/nodes/SoIndexedFaceSet.h>
 #include <Inventor/nodes/SoFaceSet.h>
 #include <Inventor/nodes/SoPointSet.h>
@@ -781,6 +783,10 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
    }
 
    /* Reservamos espacio para las facetas de los vértices */
+   SoIndexedPointSet *yyIndexedPointSet = new SoIndexedPointSet();
+   yyGeometry->addChild(yyIndexedPointSet);
+   SoIndexedLineSet *yyIndexedLineSet = new SoIndexedLineSet();
+   yyGeometry->addChild(yyIndexedLineSet);
    SoIndexedFaceSet *yyIndexedFaceSet = new SoIndexedFaceSet();
    yyGeometry->addChild(yyIndexedFaceSet);
 
@@ -846,17 +852,38 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
    /* Lectura de la informacion de las facetas */
    int k,v;
    k=0;
+   int np=0;
+   int nl=0;
+
    for (i=0; i<nCaras; i++)
    {
      /* Leemos el numero de vertices de esta faceta */
      nVertCara = LeeEntero();
 
      /* Ignoramos facetas de menos de 3 vértices */
-     if (nVertCara < 3)
+     if (nVertCara <= 0)
      {
-       /* Leemos e ignoramos las coordenadas */
-       for (j=0; j<nVertCara; j++)
-         LeeEntero();
+       fprintf(stderr, "\nLine %u: Size of face cannot be %d\n", yylinenum, nVertCara);
+       /* Continuamos con la siguiente faceta */
+       continue;
+     }
+
+     if (nVertCara == 1)
+     {
+       /* Leemos el indices y creamos un punto visible */
+       v = LeeEntero();
+       yyIndexedPointSet->coordIndex.set1Value(np++, v);
+       continue;
+     }
+
+     if (nVertCara == 2)
+     {
+       /* Leemos dos indices y creamos una arista */
+       v = LeeEntero();
+       yyIndexedLineSet->coordIndex.set1Value(nl++, v);
+       v = LeeEntero();
+       yyIndexedLineSet->coordIndex.set1Value(nl++, v);
+       yyIndexedLineSet->coordIndex.set1Value(nl++, -1);
 
        /* Continuamos con la siguiente faceta */
        continue;
@@ -882,6 +909,15 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
      yyNumeroFacetas++;
 
    } /* for */
+
+   /* Elimina objetos no utilizados */
+   if (np <=0)
+      yyGeometry->removeChild(yyIndexedPointSet);
+   if (nl <=0)
+      yyGeometry->removeChild(yyIndexedLineSet);
+   if (k <=0)
+      yyGeometry->removeChild(yyIndexedFaceSet);
+
 
 } /* LeeBloqueOFF (nPuntos, nCaras, tipoBloqueOFF) */
 
