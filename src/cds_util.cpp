@@ -107,9 +107,11 @@ int ifs_remove_facet(const SoPath *path, int num_facet)
    int fac_len = 0;
    while (ifs->coordIndex[i] > -1)
    {
+      fprintf(stderr, "%d ", ifs->coordIndex[i]); //Mostramos indices de la faceta a borrar
       i++;
-	  fac_len++;
+      fac_len++;
    }
+   fprintf(stderr, "\n");
 
    //Borra fac_len+1 elementos a partir de la posicion fac_ini
    ifs->coordIndex.deleteValues(fac_ini, fac_len+1);
