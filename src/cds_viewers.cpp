@@ -150,7 +150,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoFaceDetail *facDetail = (SoFaceDetail *) pickDetail;
 
         //Mostramos el indice de la faceta y la lista de vertices
-		S.sprintf("Face index=%d; Vertex list=",facDetail->getFaceIndex());
+	S.sprintf("Face index=%d; Vertex list=",facDetail->getFaceIndex());
 
         //Mostramos información sobre todos sus vertices
         for (i=0; i < facDetail->getNumPoints(); i++)
@@ -159,10 +159,10 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 		  S.append( QString(" ") + QString::number(pointDetail->getCoordinateIndex()) );
         }//for
 
-		M.append(QString(" <> ") + S);
+	M.append(QString(" <> ") + S);
 
-		if (infoAction)
-			global_mw->addMessage(S);
+	if (infoAction)
+		global_mw->addMessage(S);
 
         SoMFVec3f coords;
         SoNode *nodeCoord = buscaCoordenadas (path, coords);
