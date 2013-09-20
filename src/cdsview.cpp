@@ -73,6 +73,32 @@
   #include <VolumeViz/nodes/SoVolumeRendering.h>
 #endif
 
+/*************DEFINICION DEL TIPO YYSTYPE PARA EL PARSER****************/
+#define YYSTYPE_IS_DECLARED 1
+typedef union { 
+        int entero;
+        float real;
+        char * pchar;
+      } YYSTYPE;
+
+/******************DEFINICION DE LAS FUNCIONES YY DEL PARSER**************/
+void yyerror(char *s);
+int yylex (void);
+int yyparse (void);
+void yyrestart (FILE *input_file);
+
+/************** Variables de comunicación con el parser *******************/
+
+/* Fichero del que se leeran los datos a cargar */
+extern FILE *yyin;
+
+/* Variable que contiene el numero de linea actual. Mantenida en scanner.l */
+extern unsigned yylinenum;
+
+/* Separator de donde colgamos el resultado de la lectura del parser*/
+extern SoSeparator * yyGeometry;
+
+
 
 //The one an only... root node
 SoSeparator * root = NULL;
@@ -313,9 +339,38 @@ int main(int argc, char ** argv)
 				root->addChild (SoDB::readAll (input));
 			}
 			else
-				//Cerramos el fichero
-				input->closeFile ();
-				delete input;
+                        {
+				//Probamos nuestro parser interno (OOGL, OBJ, XYZ, SMF, etc...)
+
+				//Abrimos el fichero de entrada
+#ifdef _MSC_VER
+				fopen_s(&yyin, argv[i], "r");
+#else
+				yyin = fopen( argv[i], "r" );
+#endif
+
+				//Comprobamos que se pudo abrir correctamente
+				if (!yyin) 
+				{
+					perror(argv[i]);
+					exit (-1);
+				}
+				//Comprobamos si es un fichero que podemos leer con cds_parser
+				rewind (yyin);
+				yyrestart(yyin);
+				if (yyparse()==0)
+				{
+					//Cerramos el fichero
+					fclose(yyin);
+					//Colgamos el fichero del nodo root
+					root->addChild (yyGeometry);
+				}
+
+                        }
+
+			//Cerramos el fichero
+			input->closeFile ();
+			delete input;
 		}
 	} // for (i=1; i<argc; i++)
 
