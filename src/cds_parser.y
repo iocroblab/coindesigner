@@ -55,6 +55,8 @@
 /* Variables para almacenar la información */
 SoSeparator *yyGeometry;
 SoCoordinate3 *yyCoordinate3;
+SoIndexedPointSet *yyIndexedPointSet;
+SoIndexedLineSet *yyIndexedLineSet;
 SoIndexedFaceSet *yyIndexedFaceSet;
 SoFaceSet *yyFaceSet;
 SoNormal *yyNormal;
@@ -161,13 +163,20 @@ fich_geom:
      /* Preparamos para leer SMF */
      yyGeometry = new SoSeparator();
      yyCoordinate3 = new SoCoordinate3();
+     yyIndexedPointSet = new SoIndexedPointSet();
+     yyIndexedPointSet->coordIndex.setNum(0);
+     yyIndexedLineSet = new SoIndexedLineSet();
+     yyIndexedLineSet->coordIndex.setNum(0);
      yyIndexedFaceSet = new SoIndexedFaceSet();
+     yyIndexedFaceSet->coordIndex.setNum(0);
      yyTextureCoordinate2 = new SoTextureCoordinate2;
      yyNormal = new SoNormal();
 
      yyGeometry->addChild(yyCoordinate3);
      yyGeometry->addChild(yyNormal);
      yyGeometry->addChild(yyTextureCoordinate2);
+     yyGeometry->addChild(yyIndexedPointSet);
+     yyGeometry->addChild(yyIndexedLineSet);
      yyGeometry->addChild(yyIndexedFaceSet);
 
      //En ocasiones los fichero contienen información de textura
@@ -188,6 +197,18 @@ fich_geom:
      //Si el fichero no contenia coordenadas de normal, lo eliminamos
      if (yyNormal->vector.getNum() < 1)
        yyGeometry->removeChild(yyNormal);
+
+     //Si el fichero no contenia puntos, lo eliminamos
+     if (yyIndexedPointSet->coordIndex.getNum() < 1)
+       yyGeometry->removeChild(yyIndexedPointSet);
+
+     //Si el fichero no contenia lineas, lo eliminamos
+     if (yyIndexedLineSet->coordIndex.getNum() < 1)
+       yyGeometry->removeChild(yyIndexedLineSet);
+
+     //Si el fichero no contenia facetas, lo eliminamos
+     if (yyIndexedFaceSet->coordIndex.getNum() < 1)
+       yyGeometry->removeChild(yyIndexedFaceSet);
 
      //Liberamos espacio de información de textura
      delete yy_texture_coord;
@@ -303,13 +324,74 @@ linea_SMF  : 'v' REAL REAL REAL
      yyCoordinate3->point.set1Value(yyNumeroPuntos++, $2/$5, $3/$5, $4/$5);
   }
 
+  | 'p' _ENTERO 
+  {
+     // generamos un nuevo punto
+     int k = yyIndexedPointSet->coordIndex.getNum();
+     yyIndexedPointSet->coordIndex.set1Value(k++, $2 -1);
+
+     //Miramos si hay más vertices en esta nube de puntos
+
+     //Indicamos al scanner que queremos ver los saltos de linea
+     yy_ver_LF = 1;
+
+     //Leemos hasta el fin de linea, insertando los vertices
+     int tipo = yylex();
+     while (tipo == _ENTERO)
+     {
+        yyIndexedPointSet->coordIndex.set1Value(k++,yylval.entero-1);
+        tipo = yylex();
+     }
+
+     if (tipo != _LF)
+     {
+        yyerror("Format error in integer number.\n");
+        return -1;
+     }
+
+     //Indicamos al scanner que no queremos ver los saltos de linea
+     yy_ver_LF = 0;
+  }
+
+  | 'l' _ENTERO _ENTERO 
+  {
+     // generamos una nueva polilinea de 2 o mas vertices
+
+     int k = yyIndexedLineSet->coordIndex.getNum();
+     yyIndexedLineSet->coordIndex.set1Value(k++, $2 -1);
+     yyIndexedLineSet->coordIndex.set1Value(k++, $3 -1);
+
+     //Miramos si hay más vertices en esta polilinea
+
+     //Indicamos al scanner que queremos ver los saltos de linea
+     yy_ver_LF = 1;
+
+     //Leemos hasta el fin de linea, insertando los vertices
+     int tipo = yylex();
+     while (tipo == _ENTERO)
+     {
+        yyIndexedLineSet->coordIndex.set1Value(k++,yylval.entero-1);
+        tipo = yylex();
+     }
+
+     if (tipo != _LF)
+     {
+        yyerror("Format error in integer number.\n");
+        return -1;
+     }
+
+     //Insertamos la marca de fin de polilinea
+     yyIndexedLineSet->coordIndex.set1Value(k++, -1);
+
+     //Indicamos al scanner que no queremos ver los saltos de linea
+     yy_ver_LF = 0;
+  }
+
   | 'f' _ENTERO _ENTERO _ENTERO
   {
      // generamos una nueva faceta de 3 o mas vertices
 
      int k = yyIndexedFaceSet->coordIndex.getNum();
-     if (k==1) k=0;
-
      yyIndexedFaceSet->coordIndex.set1Value(k++, $2 -1);
      yyIndexedFaceSet->coordIndex.set1Value(k++, $3 -1);
      yyIndexedFaceSet->coordIndex.set1Value(k++, $4 -1);
@@ -320,9 +402,17 @@ linea_SMF  : 'v' REAL REAL REAL
      yy_ver_LF = 1;
 
      //Leemos hasta el fin de linea, insertando los vertices
-     while (yylex() == _ENTERO)
+     int tipo = yylex();
+     while (tipo == _ENTERO)
      {
         yyIndexedFaceSet->coordIndex.set1Value(k++,yylval.entero-1);
+        tipo = yylex();
+     }
+
+     if (tipo != _LF)
+     {
+        yyerror("Format error in integer number.\n");
+        return -1;
      }
 
      //Insertamos la marca de fin de faceta
@@ -339,7 +429,6 @@ linea_SMF  : 'v' REAL REAL REAL
   {
      /* generamos una nueva faceta, ignorando resto de informacion */
      int k = yyIndexedFaceSet->coordIndex.getNum();
-     if (k==1) k=0;
 
      //Por ahora hemos leido 2 valores
      yyIndexedFaceSet->coordIndex.set1Value(k++, $2 -1);
@@ -381,7 +470,6 @@ linea_SMF  : 'v' REAL REAL REAL
   {
      /* generamos una nueva faceta, ignorando resto de informacion */
      int k = yyIndexedFaceSet->coordIndex.getNum();
-     if (k==1) k=0;
 
      //Por ahora hemos leido 2 valores
      yyIndexedFaceSet->coordIndex.set1Value(k++, $2 -1);
@@ -424,7 +512,6 @@ linea_SMF  : 'v' REAL REAL REAL
   {
      /* generamos una nueva faceta, ignorando resto de informacion */
      int k = yyIndexedFaceSet->coordIndex.getNum();
-     if (k==1) k=0;
 
      //Por ahora hemos leido 2 valores
      yyIndexedFaceSet->coordIndex.set1Value(k++, $2 -1);

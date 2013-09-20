@@ -325,6 +325,8 @@ int main(int argc, char ** argv)
 		else
 		{
 			fprintf (stderr, "Loading %s\n", argv[i]);
+                        bool fileOk=false;
+
 			input = new SoInput();
 			if (!input->openFile (argv[i]))
 			{
@@ -337,6 +339,7 @@ int main(int argc, char ** argv)
 			{
 				//Colgamos el fichero del nodo root
 				root->addChild (SoDB::readAll (input));
+				fileOk = true;
 			}
 			else
                         {
@@ -360,17 +363,24 @@ int main(int argc, char ** argv)
 				yyrestart(yyin);
 				if (yyparse()==0)
 				{
-					//Cerramos el fichero
-					fclose(yyin);
 					//Colgamos el fichero del nodo root
 					root->addChild (yyGeometry);
+					fileOk = true;
 				}
 
+				//Cerramos el fichero
+				fclose(yyin);
                         }
 
 			//Cerramos el fichero
 			input->closeFile ();
 			delete input;
+
+                        if (fileOk==false)
+			{
+				fprintf(stderr, "%s: Unknow file format.\n", argv[i]);
+				return -1;
+			}
 		}
 	} // for (i=1; i<argc; i++)
 
