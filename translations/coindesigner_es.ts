@@ -4,19 +4,16 @@
 <context>
     <name></name>
     <message>
-        <location filename="../src/cds_viewers.cpp" line="72"/>
         <source>Nothing there.</source>
-        <translation>Nada interesante.</translation>
+        <translation type="obsolete">Nada interesante.</translation>
     </message>
     <message>
-        <location filename="../src/cds_viewers.cpp" line="135"/>
         <source>Name=</source>
-        <translation>Nombre=</translation>
+        <translation type="obsolete">Nombre=</translation>
     </message>
     <message>
-        <location filename="../src/cds_viewers.cpp" line="136"/>
         <source>&lt;b&gt;Node Name=&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
+        <translation type="obsolete">&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1105,20 +1102,20 @@ Are you sure you want to embed all textures?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/cds_util.cpp" line="2107"/>
-        <location filename="../src/cds_util.cpp" line="2119"/>
-        <location filename="../src/cds_util.cpp" line="2130"/>
+        <location filename="../src/cds_util.cpp" line="2109"/>
+        <location filename="../src/cds_util.cpp" line="2121"/>
+        <location filename="../src/cds_util.cpp" line="2132"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/cds_util.cpp" line="2107"/>
-        <location filename="../src/cds_util.cpp" line="2119"/>
+        <location filename="../src/cds_util.cpp" line="2109"/>
+        <location filename="../src/cds_util.cpp" line="2121"/>
         <source>Can&apos;t export this to .ase file format</source>
         <translation>No puedo exportar a formato .ase</translation>
     </message>
     <message>
-        <location filename="../src/cds_util.cpp" line="2131"/>
+        <location filename="../src/cds_util.cpp" line="2133"/>
         <source>Can&apos;t create output file</source>
         <translation>No puedo crear fichero de salida</translation>
     </message>
@@ -1126,7 +1123,7 @@ Are you sure you want to embed all textures?</source>
 <context>
     <name>QProgressDialog</name>
     <message>
-        <location filename="../src/cds_util.cpp" line="1934"/>
+        <location filename="../src/cds_util.cpp" line="1936"/>
         <source>Exporting...</source>
         <translation>Exportando...</translation>
     </message>
@@ -1205,8 +1202,8 @@ Are you sure you want to embed all textures?</source>
         <translation>Error al escribir fichero</translation>
     </message>
     <message>
-        <location filename="../src/cppexport_options.cpp" line="91"/>
         <location filename="../ui/cppexport_options.ui" line="111"/>
+        <location filename="../src/cppexport_options.cpp" line="91"/>
         <source>Save as...</source>
         <translation>Salvar como...</translation>
     </message>

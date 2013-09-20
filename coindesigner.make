@@ -26,8 +26,8 @@ coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro translati
 	$(MAKE) -f Makefile 
 	#rm Makefile
 
-cdsview : src/cdsview.cpp 
-	soqt-config --build $@ src/cdsview.cpp
+cdsview : src/cdsview.cpp tmp/cds_scanner.o tmp/cds_parser.o
+	$(CXX) -o $@ $+ `soqt-config --cppflags --ldflags --libs`
 
 rebuild: distclean
 	$(MAKE) -f coindesigner.make all 
@@ -58,6 +58,7 @@ translations : coindesigner.pro
 clean : 
 	$(QMAKE) coindesigner.pro
 	$(MAKE) -f Makefile clean
+	$(RM) -f src/cds_parser.o  src/cds_scanner.o  src/cdsview.o
 	#$(RM) -rf core Makefile tmp .qmake.internal.cache
 
 distclean : 
