@@ -1119,6 +1119,21 @@ Are you sure you want to embed all textures?</source>
         <source>Can&apos;t create output file</source>
         <translation>No puedo crear fichero de salida</translation>
     </message>
+    <message>
+        <location filename="../src/cds_viewers.cpp" line="72"/>
+        <source>Nothing there.</source>
+        <translation>Nada interesante.</translation>
+    </message>
+    <message>
+        <location filename="../src/cds_viewers.cpp" line="135"/>
+        <source>Name=</source>
+        <translation>Nombre=</translation>
+    </message>
+    <message>
+        <location filename="../src/cds_viewers.cpp" line="136"/>
+        <source>&lt;b&gt;Node Name=&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Nombre nodo=&lt;/b&gt;</translation>
+    </message>
 </context>
 <context>
     <name>QProgressDialog</name>

@@ -69,7 +69,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
     SoPickedPoint * point = rp.getPickedPoint();
     if (point == NULL) 
 	{
-		statusBar->showMessage(tr("Nothing there."));
+		statusBar->showMessage(QObject::tr("Nothing there."));
 
 		//Reseteamos el contador de facetas
 		numFacetasPatch=0;
@@ -132,8 +132,8 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 	//Mostramos el nombre en barra de status
 	if (nombre_nodo && strlen(nombre_nodo) > 0)
 	{
-		M += QString(" <> ") + tr("Name=") + QString(nombre_nodo);
-		S.append(QString("; ") +tr("<b>Node Name=</b>") + QString(nombre_nodo));
+		M += QString(" <> ") + QObject::tr("Name=") + QString(nombre_nodo);
+		S.append(QString("; ") +QObject::tr("<b>Node Name=</b>") + QString(nombre_nodo));
 	}
 
 	if (infoAction)
