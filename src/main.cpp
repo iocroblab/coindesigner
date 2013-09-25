@@ -77,18 +77,21 @@ int main(int argc, char *argv[])
 	//Miramos si hay algun argumento y cargamos el fichero
 	if (argc > 1)
 	{
-		if (argc > 2)
-		{
-			for (int i=1; i<argc; i++)
+        if (argc == 2)
+        {
+            //Only one argument. Call load_scene
+            mw->load_Scene(argv[1]);
+        }
+        else
+        {
+            //Several arguments. Call import_File on each argument
+            for (int i=1; i<argc; i++)
 			{
 				printf("%s\n", argv[i]);
 				mw->import_File(argv[i]);
 			}
 		}
-		else 
-		{
-			mw->load_Scene(argv[1]);
-		}
+
 	}// if (argc > 1)
 
 	//Mostramos la ventana principal 
