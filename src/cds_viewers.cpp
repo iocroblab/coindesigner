@@ -22,7 +22,7 @@
 #include "mainwindow.h"
 #include "cds_util.h"
 
-/*! Callback del evento raypick, que muestra información sobre el punto apuntado por el ratón.*/
+/*! Callback del evento raypick, que muestra informacion sobre el punto apuntado por el raton.*/
 void pick_cb (void *ud, SoEventCallback * n)
 {
   //Pasa el evento al editor llamante
@@ -32,7 +32,7 @@ void pick_cb (void *ud, SoEventCallback * n)
 }
 
   
-/*! Callback del evento raypick, que muestra información sobre el punto apuntado por el ratón.*/
+/*! Callback del evento raypick, que muestra informacion sobre el punto apuntado por el raton.*/
 template <class SOTYPEVIEWER>
 void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 {
@@ -47,17 +47,17 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
  //qDebug("%p->%s(%p) -> state=%d button=%d", this, __FUNCTION__, n, mbe->getState(),  mbe->getButton() ) ;
 
-  //Miramos si queremos alguna opción de picado
+  //Miramos si queremos alguna opcion de picado
  if (this->pickAction == Ui.actionNone)
 	 return;
 
  bool infoAction = this->pickAction == Ui.actionInfo;
 
- //Comprobamos que se ha pulsado el boton izquierdo del ratón
+ //Comprobamos que se ha pulsado el boton izquierdo del raton
  if (mbe->getState() == SoButtonEvent::DOWN && mbe->getButton() == SoMouseButtonEvent::BUTTON1 ) 
  {
 
-    //Aseguramos que mark_sep no está colgado de myRoot, para evitar picar sobre la marca
+    //Aseguramos que mark_sep no esta colgado de myRoot, para evitar picar sobre la marca
     while (myRoot->findChild(mark_sep) > -1) 
        myRoot->removeChild(mark_sep);
 
@@ -81,10 +81,10 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
     //Extraemos las coordenadas del objeto apuntado
     SbVec3f v = point->getPoint();
 
-    //Actualizamos la posición de la marca
+    //Actualizamos la posicion de la marca
     mark_coord->point.setValue(v);
 
-    //Aseguramos que mark_sep está colgado de myRoot
+    //Aseguramos que mark_sep esta colgado de myRoot
  	if (this->pickAction == Ui.actionInfo && myRoot->findChild(mark_sep) < 0) 
        myRoot->addChild(mark_sep);
 
@@ -144,7 +144,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
     if (pickDetail != NULL)
     {
 
-      //Si hemos pinchado sobre una faceta, mostramos su informaciÃ³n
+      //Si hemos pinchado sobre una faceta, mostramos su informacion
       if (pickDetail->getTypeId() == SoFaceDetail::getClassTypeId()) 
       {
         SoFaceDetail *facDetail = (SoFaceDetail *) pickDetail;
@@ -152,7 +152,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         //Mostramos el indice de la faceta y la lista de vertices
 	S.sprintf("Face index=%d; Vertex list=",facDetail->getFaceIndex());
 
-        //Mostramos informaciÃ³n sobre todos sus vertices
+        //Mostramos informacion sobre todos sus vertices
         for (i=0; i < facDetail->getNumPoints(); i++)
         {
           const SoPointDetail *pointDetail = facDetail->getPoint(i);
@@ -226,7 +226,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 	  }
       else
 
-      //Si hemos pinchado sobre una linea, mostramos su informaciÃ³n
+      //Si hemos pinchado sobre una linea, mostramos su informacion
       if (pickDetail->getTypeId() == SoLineDetail::getClassTypeId()) 
       {
         SoLineDetail *lineDetail = (SoLineDetail *) pickDetail;
@@ -234,7 +234,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         //Mostramos el indice de la faceta y la lista de vertices
 	S.sprintf("Line index=%d; Vertex= [",lineDetail->getLineIndex());
 
-        //Mostramos informaciÃ³n sobre todos sus vertices
+        //Mostramos informacion sobre todos sus vertices
         const SoPointDetail *pointDetail0 = lineDetail->getPoint0();
         const SoPointDetail *pointDetail1 = lineDetail->getPoint1();
 	S.append(QString::number(pointDetail0->getCoordinateIndex())+QString(", "));

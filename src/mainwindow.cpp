@@ -110,7 +110,7 @@ static void readError_CB(const class SoError *error, void *)
 	QString S;
 	S.sprintf("%s", error->getDebugString().getString() );
 
-	//añade mensaje a la consola de mensajes
+	//anade mensaje a la consola de mensajes
 	global_mw->addMessage(S);
 	QMessageBox::critical(NULL, "Error", S);
 }
@@ -120,7 +120,7 @@ static void debugError_CB(const class SoError *error, void *)
 {
 	QString S;
 	S.sprintf("%s", error->getDebugString().getString() );
-	//añade mensaje a la consola de mensajes
+	//anade mensaje a la consola de mensajes
 	global_mw->addMessage(error->getDebugString().getString());
 }
 
@@ -131,7 +131,7 @@ SoTimerSensor *refreshGUI_Sensor = NULL;
 /// Callback que se activa para monitorizar un nodo
 static void refreshGUI_CB(void *data, SoSensor *)
 {
-	//Mostramos el nodo en la tabla de edición de campos
+	//Mostramos el nodo en la tabla de edicion de campos
 	assert(global_mw != NULL);
 	if (data != NULL)
 		global_mw->updateFieldEditor((SoNode *)data);
@@ -180,7 +180,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 	connect(Ui.actionSoTransformBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
 	connect(Ui.actionSoTransformerManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
 
-	//Añadimos las opciones para ocultar/mostrar los docks
+	//Anadimos las opciones para ocultar/mostrar los docks
 	QAction *firstAction = Ui.menuTools->actions().first();
 	Ui.menuTools->insertAction(firstAction, Ui.fieldTable_dockWidget->toggleViewAction());
 	Ui.menuTools->insertAction(firstAction, Ui.nodePalette_dockWidget->toggleViewAction());
@@ -188,7 +188,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 	Ui.messages_dockWidget->toggleViewAction()->setShortcut (tr("Ctrl+M"));
 
 
-    //Inicialización de COIN y SoQt
+    //Inicializacion de COIN y SoQt
     SoDB::init();
     SoQt::init(this);
 
@@ -212,7 +212,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     root->setName("root");
     on_actionNew_Scene_activated();
 
-    //Inicialización del buffer para cut/copy/paste/link
+    //Inicializacion del buffer para cut/copy/paste/link
     node_buffer = NULL;
     node_buffer_link = NULL;
 
@@ -401,7 +401,7 @@ void MainWindow::save_Scene(QString filename)
 
     /* 
     //OPCIONES ELEGIDAS EN NUESTRO FORMULARIO PARA SALVAR
-    //Miramos si se activÃ³ el flag binario
+    //Miramos si se activo el flag binario
     writeAction.getOutput()->setBinary(fd.binary->isChecked());
 
     //Miramos si se activo la compresion
@@ -678,7 +678,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 	int page=0;
 	do
 	{
-		//Calcula el proximo item que sera cabecera de página
+		//Calcula el proximo item que sera cabecera de pagina
 		topItem = scnItemList.at(page*itemsPerPage);
 
 		//Calcula el proximo item que sera fin de pagina
@@ -710,7 +710,7 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 		//pixmap.save(QString("print_%1.png").arg(page));
 		painter.drawPixmap(printer.pageRect(), pixmap);
 
-		//Miramos si hace falta alguna otra página
+		//Miramos si hace falta alguna otra pagina
 		if (lastItemIdx < numItems - 1)
 			printer.newPage();
 		else
@@ -907,7 +907,7 @@ void MainWindow::on_actionLink_activated()
     //Buscamos el el nodo donde colgar el buffer
     SoGroup* nodo_padre=(SoGroup*)mapQTCOIN[item_padre];
     
-    //Es facil crear un bucle infinito con links, así que evitamos
+    //Es facil crear un bucle infinito con links, asi que evitamos
     //algunos casos de usuarios inexpertos
     //BUG: Deberiamo ver que no enlazamos en ningun ancestro de buffer_link
     SoPath *path=getPathFromItem(item_padre);
@@ -1201,14 +1201,14 @@ void MainWindow::on_actionPlaneViewer_Editor_activated()
 }
 
 
-///Abre la página principal de la referencia de Coin3D
+///Abre la pagina principal de la referencia de Coin3D
 void MainWindow::on_actionCoin3D_Reference_activated()
 {
     QString url = settings->value("reference_dir").toString()+"/hierarchy.html";
     this->open_html_viewer(url);
 }
 
-///Abre la página de referencia de la clase seleccionada en Ui.nodePalette
+///Abre la pagina de referencia de la clase seleccionada en Ui.nodePalette
 void MainWindow::on_actionShow_Node_Reference_activated()
 {
 
@@ -1224,14 +1224,14 @@ void MainWindow::on_actionShow_Node_Reference_activated()
     this->open_html_viewer(url);
 }
 
-///Abre la página del tutorial1
+///Abre la pagina del tutorial1
 void MainWindow::on_actionTutorial_1_activated()
 {
     QString url = settings->value("tutorial_dir").toString()+"/tut01/index.html";
     this->open_html_viewer(url);
 }
 
-///Abre la página del tutorial2
+///Abre la pagina del tutorial2
 void MainWindow::on_actionTutorial_2_activated()
 {
     QString url = settings->value("tutorial_dir").toString()+"/tut02/index.html";
@@ -1308,7 +1308,7 @@ void MainWindow::on_actionAbout_activated()
         msj += "<br>Tetgen = " + tr("not found.");
     }
 
-    //Información de settings
+    //Informacion de settings
     msj += "<hr><b>"+tr("Debug Info:")+"</b>";
     QStringList keys = settings->allKeys();
     for ( QStringList::Iterator it = keys.begin(); it != keys.end(); ++it ) 
@@ -1430,7 +1430,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
     //Indicamos que estamos modificando la tabla
     edit_node = NULL;
 
-	//Si no se introduce un valor válido, se usa el item actual
+	//Si no se introduce un valor valido, se usa el item actual
 	if (nodo == NULL)
 		nodo = mapQTCOIN[Ui.sceneGraph->currentItem()];
 
@@ -1445,7 +1445,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
     //Leemos el numero de campos
     int num_fields=fields.getLength();
 
-    //Añadimos el SoBase::name, (que no es un campo real)
+    //Anadimos el SoBase::name, (que no es un campo real)
     //Leemos el nombre del nodo
     SbName name = nodo->getName();
 
@@ -1481,7 +1481,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
          //Escribimos el nombre del tipo y del campo
          //qDebug(".%s (%s)\n", nombre_campo, nombre_tipo);
 
-         //Añadimos una fila con el correspondiente campo
+         //Anadimos una fila con el correspondiente campo
          Ui.fieldTable->setRowCount (numRows+1);
 
          if(field->isOfType(SoMField::getClassTypeId()))
@@ -1502,7 +1502,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 				S="enableCompressedTexture";
 		}
 
-         //Añadimos una fila para este campo
+         //Anadimos una fila para este campo
          Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem (S));
          Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem ());
 
@@ -1580,7 +1580,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
          //Mapeamos el numero de fila con el field correspondiente
          map_fieldTable[numRows] = field;
 
-         //Rellenamos con el valor del campo, segÃºn el tipo
+         //Rellenamos con el valor del campo, segun el tipo
 
          //Actualizacion de cualquier campo tipo Basico
          bool campoRelleno=false;
@@ -1750,7 +1750,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             S.sprintf("%.3g", dist);
             Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem (S.setNum(dist)));
 
-            //Mapeamos el nÃºmero de fila con el field correspondiente
+            //Mapeamos el numero de fila con el field correspondiente
             map_fieldTable[numRows] = field;
          }
          else
@@ -1798,7 +1798,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             //Convertimos el tipo de field
             SoMFNode *soMFNode= (SoMFNode *)field;
 
-            //AÃ±adimos una fila por cada nodo
+            //Anadimos una fila por cada nodo
             for (int i=0; i<soMFNode->getNumNodes(); i++)
             {
               SoNode *node = soMFNode->getNode(i);
@@ -1881,7 +1881,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 			imageLabel->setBackgroundRole(QPalette::Base);
 			imageLabel->setPixmap(QPixmap::fromImage(*image));
 
-			//Añadimos una fila con una imagen para este campo
+			//Anadimos una fila con una imagen para este campo
 			Ui.fieldTable->setRowCount (numRows+1);
 			Ui.fieldTable->setVerticalHeaderItem(numRows, new QTableWidgetItem ("img"));
 			Ui.fieldTable->setCellWidget(numRows,0,imageLabel);
@@ -2390,17 +2390,17 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
         //Recorre todos los tipos derivados
         for (int j=0; j < tl.getLength(); j++) 
         {
-            //Añade los hijos directos de este nodo
+            //Anade los hijos directos de este nodo
             if (!tl[j].isBad() && tl[j].getParent() == t) 
             { 
                 QString tName(tl[j].getName().getString());
 
 				item = NULL;
 
-                //Añadimos el tipo a la lista de componentes
+                //Anadimos el tipo a la lista de componentes
                 if (plano)
                 { 
-                    //Evitamos añadir nodos que no podemos seleccionar
+                    //Evitamos anadir nodos que no podemos seleccionar
                     if (tl[j].canCreateInstance())
                     {
                         item = new QTreeWidgetItem(Ui.nodePalette, QStringList(tName));
@@ -2476,7 +2476,7 @@ bool MainWindow::setNodeIcon(QTreeWidgetItem *item)
     //Buscamos el tipo del nodo asociado a este item
     SoType t = mapQTCOIN[item]->getTypeId();
 
-    //Buscamos el icono más adecuado para este item
+    //Buscamos el icono mas adecuado para este item
     while (t != SoNode::getClassTypeId())
     {
         //Miramos si existe una imagen con el nombre del tipo
@@ -2484,14 +2484,14 @@ bool MainWindow::setNodeIcon(QTreeWidgetItem *item)
 
         if(QResource(imgName).isValid() )
         {
-            //Añadimos esta imagen como icono del elemento
+            //Anadimos esta imagen como icono del elemento
             item->setIcon (0, QIcon(imgName));
             return true;
         }
         //Miramos si es un manipulador
         if(imgName.endsWith("manip.png") )
         {
-            //Añadimos imagen manip.png como icono del elemento
+            //Anadimos imagen manip.png como icono del elemento
             item->setIcon (0, QIcon(":/icons/nodes/manip.png"));
             return true;
         }
@@ -2632,7 +2632,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
       }
     } //</Depuracion> */
 
-    //Si se ha indicado un nodo padre, añadimos el nodo hijo
+    //Si se ha indicado un nodo padre, anadimos el nodo hijo
     if (nodo_padre)
         nodo_padre->addChild(node);
 
@@ -2646,7 +2646,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
     if (node->getTypeId().isDerivedFrom(SoGroup::getClassTypeId())) 
     {
         SoGroup *group = (SoGroup*)node;
-        //Añadimos los hijos mediante recursividad
+        //Anadimos los hijos mediante recursividad
         for (int i=0; i<group->getNumChildren(); i++)
         {
             newSceneGraph(group->getChild(i), item, NULL);  
@@ -2663,7 +2663,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
 		//Leemos el numero de campos
 		int num_fields=fields.getLength();
 
-		//Recorremos todos los campos mirando si contiene algún SFNode o MFNode
+		//Recorremos todos los campos mirando si contiene algun SFNode o MFNode
 		for (int f=0; f < num_fields; f++)
 		{
 			//Leemos el tipo de este campo
@@ -2672,7 +2672,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
 			//Miramos si es un SFNode
 			if (tipo.isDerivedFrom(SoSFNode::getClassTypeId())) 
 			{
-				//Miramos si contiene un valor valido, y lo añadimos como hijo
+				//Miramos si contiene un valor valido, y lo anadimos como hijo
 				SoNode *f_node = ((SoSFNode *)fields[f])->getValue();
 				if (f_node != NULL)
 				{
@@ -2692,7 +2692,7 @@ void MainWindow::newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGrou
 			//Convertimos el tipo de field
 			SoMFNode *soMFNode= (SoMFNode *)fields[f];
 
-			//Añadimos una fila por cada nodo
+			//Anadimos una fila por cada nodo
 			for (int i=0; i<soMFNode->getNumNodes(); i++)
 			{
 			SoNode *i_node = soMFNode->getNode(i);
@@ -2933,7 +2933,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 
             yyGeometry= new SoSeparator();
 
-            //Añadimos un VolumeData+TransferFunction+VolumeRender
+            //Anadimos un VolumeData+TransferFunction+VolumeRender
             SoVolumeData *voldata = new SoVolumeData();
             voldata->fileName = strFilename;
             yyGeometry->addChild(voldata);
@@ -2965,7 +2965,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 
 		yyGeometry= new SoSeparator();
 
-		//Añadimos un SoTexture2
+		//Anadimos un SoTexture2
 		SoTexture2 *texture2= new SoTexture2();
 		texture2->filename = strFilename;
 		yyGeometry->addChild(texture2);
@@ -3003,7 +3003,7 @@ SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 
 	yyGeometry= new SoSeparator();
 
-	//Añadimos un VolumeData+TransferFunction+VolumeRender
+	//Anadimos un VolumeData+TransferFunction+VolumeRender
 	SoTransform *transform = new SoTransform();
 	yyGeometry->addChild(transform);
 	SoVolumeData *voldata = new SoVolumeData();
@@ -3344,7 +3344,7 @@ void MainWindow::on_actionTetgen_activated()
 }//void MainWindow::on_actionTetgen_activated()
 
 
-///Añade un mensaje a la consola de mensajes
+///Anade un mensaje a la consola de mensajes
 void MainWindow::addMessage(const QString &msg)
 {
 	Ui.messages->append(msg);
@@ -3449,7 +3449,7 @@ void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
 		//Mostramos el menu flotante y recogemos la opcion escogida
 		QAction *idx = popm.exec(QCursor::pos());
 
-		//Comprobamos que se ha seleccionado una opción válida.
+		//Comprobamos que se ha seleccionado una opcion valida.
 		if (idx)
 			soSFBool->setValue(idx == &actTrue);
 	}
@@ -3478,7 +3478,7 @@ void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
 		//Mostramos el menu flotante y recogemos la opcion escogida
 		QAction *acc = popm.exec(QCursor::pos());
 
-		//Comprobamos que se ha seleccionado una opción válida.
+		//Comprobamos que se ha seleccionado una opcion valida.
 		if (!acc)
 			return;
 
@@ -3583,7 +3583,7 @@ void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
              while(map_fieldTable[fila-pos-1] == field)
                pos++;
 
-             //Le damos el valor adecuado en la posiciÃ³n pos
+             //Le damos el valor adecuado en la posicion pos
             SoNode *node = ((SoMFNode *)field)->getNode(pos);
 
             if (node)
@@ -4321,7 +4321,7 @@ void MainWindow::on_Export_to_STL_activated()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
-    //Construimos un path  segun la informaciÃ³n del arbol de QT
+    //Construimos un path  segun la informacion del arbol de QT
 	SoNode *nodo = mapQTCOIN[item];
 
 	//Nombre del fichero donde escribir

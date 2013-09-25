@@ -206,7 +206,7 @@ public :
 
 		SOTYPEVIEWER::setSceneGraph(myRoot);
 
-		//Conecta la señal de cerrado de la ventana con unref, para liberar memoria
+		//connect close() with unref() to free the memory
 		connect(this, SIGNAL(close), this, SLOT(unref));
 
 		//Soporte para pick (picado con el raton)
