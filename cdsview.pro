@@ -32,9 +32,10 @@ unix {
 win32 {
   DEFINES += COIN_DLL SOWIN_DLL SIMAGE_DLL
   #CONFIG += embed_manifest_exe
+  CONFIG += console
   CONFIG -= qt
   INCLUDEPATH += "$(COIN3DDIR)/include"
-  LIBS += $(COIN3DDIR)\lib\simage1.lib $(COIN3DDIR)\lib\coin3.lib $(COIN3DDIR)\lib\sowin1.lib
+  LIBS += $(COIN3DDIR)/lib/simage1.lib $(COIN3DDIR)/lib/coin3.lib $(COIN3DDIR)/lib/sowin1.lib
   INSTALL+=Release/cdsview.exe
 }
 
