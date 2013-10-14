@@ -78,7 +78,7 @@ win32 {
   DEFINES += COIN_DLL SOQT_DLL SIMAGE_DLL
   CONFIG += embed_manifest_exe
   INCLUDEPATH += "$(COIN3DDIR)/include"
-  LIBS += $(COIN3DDIR)\lib\simage1.lib $(COIN3DDIR)\lib\coin2.lib $(COIN3DDIR)\lib\soqt1.lib
+  LIBS += $(COIN3DDIR)/lib/simage1.lib $(COIN3DDIR)/lib/coin3.lib $(COIN3DDIR)/lib/soqt1.lib
   INSTALL+=Release/coindesigner.exe
   RC_FILE = images/svg/coindesigner.rc
 }
