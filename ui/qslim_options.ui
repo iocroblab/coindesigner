@@ -1,0 +1,180 @@
+<ui version="4.0" >
+ <class>qslim_options</class>
+ <widget class="QDialog" name="qslim_options" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>386</width>
+    <height>147</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>QSlim options</string>
+  </property>
+  <property name="sizeGripEnabled" >
+   <bool>false</bool>
+  </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <layout class="QGridLayout" >
+     <item row="1" column="0" >
+      <widget class="QLabel" name="textLabel1_2" >
+       <property name="text" >
+        <string>Quadric weighting policy</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QComboBox" name="comboBox_W" >
+       <property name="currentIndex" >
+        <number>1</number>
+       </property>
+       <item>
+        <property name="text" >
+         <string>uniform</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>area</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>angle</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QComboBox" name="comboBox_O" >
+       <property name="currentIndex" >
+        <number>3</number>
+       </property>
+       <item>
+        <property name="text" >
+         <string>endpoints</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>endormid</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>line</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>optimal</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QSpinBox" name="spinBox_t" >
+       <property name="buttonSymbols" >
+        <enum>QAbstractSpinBox::UpDownArrows</enum>
+       </property>
+       <property name="minimum" >
+        <number>1</number>
+       </property>
+       <property name="maximum" >
+        <number>100000</number>
+       </property>
+       <property name="singleStep" >
+        <number>100</number>
+       </property>
+       <property name="value" >
+        <number>300</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="textLabel1_2_2" >
+       <property name="text" >
+        <string>Target number of faces</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="textLabel1" >
+       <property name="text" >
+        <string>Optimal placement policy:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="chkbox_F" >
+     <property name="text" >
+      <string>Use face contraction instead of edge contraction</string>
+     </property>
+     <property name="checked" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>qslim_options</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>330</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>382</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>qslim_options</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>279</x>
+     <y>120</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>381</x>
+     <y>79</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

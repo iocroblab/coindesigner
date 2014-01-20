@@ -1,0 +1,56 @@
+#Inventor V2.1 ascii
+
+
+DEF root Separator {
+
+    Info { string "This demo show how to use conections and engines to control some fields." }
+    Info { string "Engines are not showed on coindesigner GUI. You need to edit source code to see the engines." }
+
+  DEF engine1 Separator {
+
+    Info { string "This dragger may be manipulated by the user" }
+
+    DEF drg1+0 Scale2Dragger {
+      scaleFactor 1 1 1
+
+    }
+    Translation {
+      translation 2 0 0
+    }
+
+    Info { string "We connect the dragger output to fields in the cone using a SoDecomposeVec3f engine" }
+
+    Cone {
+      bottomRadius =
+        DEF decompose+1 DecomposeVec3f { vector = USE drg1+0 . scaleFactor } . x
+      height = USE decompose+1 . y
+
+    }
+  }
+  DEF text Separator {
+
+    Translation {
+      translation 1 -2 0
+
+    }
+
+    Info { string "We directly connect the dragger output to a SoText2 to show current values" }
+
+    DEF dragger_text Text2 {
+      string = USE drg1+0  . scaleFactor
+      justification CENTER
+
+    }
+    Translation {
+      translation 0 -0.5 0
+
+    }
+    Info { string "We use a SoElapsedTime engine to show an automatic counter" }
+
+    DEF timer_text Text2 {
+      string  = DEF timer ElapsedTime { speed 1 } . timeOut
+      justification CENTER
+
+    }
+  }
+}

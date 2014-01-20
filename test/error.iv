@@ -1,0 +1,7 @@
+#Inventor V2.0 ascii
+
+    Separator {
+      ErrorNode { axis	Z }
+      Cone { }
+    }
+

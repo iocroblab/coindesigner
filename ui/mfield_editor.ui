@@ -1,0 +1,125 @@
+<ui version="4.0" >
+ <class>MField_editor</class>
+ <widget class="QDialog" name="MField_editor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>416</width>
+    <height>509</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>MField Editor</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QTableWidget" name="table" >
+     <property name="contextMenuPolicy" >
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <row>
+      <property name="text" >
+       <string>0</string>
+      </property>
+     </row>
+     <row>
+      <property name="text" >
+       <string>new</string>
+      </property>
+     </row>
+     <column>
+      <property name="text" >
+       <string>X</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Y</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Z</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="sizeLabel" >
+       <property name="text" >
+        <string>Elements</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons" >
+        <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>MField_editor</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>326</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>MField_editor</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>326</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

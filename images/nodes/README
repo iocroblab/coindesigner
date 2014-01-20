@@ -1,0 +1,19 @@
+Dia Shapes for Open Inventor Scenegraphs
+
+
+Installation
+------------
+
+* Unpack tarball in ~/.dia
+
+This will put the shapes in ~/.dia/shapes/inventor and the file
+inventor.sheet to ~/.dia/sheets.
+
+To install it system wide, just unpack it in your local dia directory,
+usually /usr/share/dia.
+
+If you have questions or comments, or have made useful changes to the set,
+please send an email to <algsierra@gmail.com>.
+
+--
+Copyright 2006, Alejandro Sierra <algsierra@gmail.com>

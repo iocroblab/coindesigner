@@ -1,0 +1,974 @@
+<ui version="4.0" >
+ <author>Jose M. Espadero</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>834</width>
+    <height>607</height>
+   </rect>
+  </property>
+  <property name="acceptDrops" >
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle" >
+   <string>Coindesigner</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="../images/icons.qrc" >:/icons/svg/coindesigner.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QHBoxLayout" >
+    <property name="leftMargin" >
+     <number>3</number>
+    </property>
+    <property name="topMargin" >
+     <number>0</number>
+    </property>
+    <property name="rightMargin" >
+     <number>3</number>
+    </property>
+    <property name="bottomMargin" >
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QDockWidget" name="sceneGraph_dockWidget" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="features" >
+       <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable|QDockWidget::NoDockWidgetFeatures</set>
+      </property>
+      <property name="windowTitle" >
+       <string>Scene Graph</string>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_2" >
+       <layout class="QVBoxLayout" >
+        <item>
+         <widget class="QTreeWidget" name="sceneGraph" >
+          <property name="contextMenuPolicy" >
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="acceptDrops" >
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text" >
+            <string>Scene Graph</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>834</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuScene" >
+    <property name="title" >
+     <string>&amp;Scene</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_Files" >
+     <property name="title" >
+      <string>Recent Files</string>
+     </property>
+    </widget>
+    <addaction name="actionNew_Scene" />
+    <addaction name="actionLoad_Scene" />
+    <addaction name="actionReload_Scene" />
+    <addaction name="actionSave_Scene" />
+    <addaction name="menuRecent_Files" />
+    <addaction name="separator" />
+    <addaction name="actionImport_File" />
+    <addaction name="actionExport_C" />
+    <addaction name="actionExport_VRML2" />
+    <addaction name="actionExport_ASE" />
+    <addaction name="actionPrintSceneGraph" />
+    <addaction name="separator" />
+    <addaction name="actionQuit" />
+   </widget>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionExaminerViewer" />
+    <addaction name="actionFlyViewer" />
+    <addaction name="actionPlaneViewer" />
+    <addaction name="actionRenderArea" />
+    <addaction name="separator" />
+    <addaction name="actionShow_FPS" />
+    <addaction name="actionChange_BG_color" />
+    <addaction name="actionEnable_Antialias" />
+    <addaction name="actionHQ_transparency" />
+    <addaction name="actionFeedback_Visibility" />
+   </widget>
+   <widget class="QMenu" name="menuEdit" >
+    <property name="title" >
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionCut" />
+    <addaction name="actionCopy" />
+    <addaction name="actionPaste" />
+    <addaction name="actionDelete" />
+    <addaction name="actionLink" />
+    <addaction name="separator" />
+    <addaction name="actionMove_Up" />
+    <addaction name="actionMove_Down" />
+    <addaction name="actionWatch_node" />
+    <addaction name="separator" />
+    <addaction name="actionPreferences" />
+   </widget>
+   <widget class="QMenu" name="menuHelp" >
+    <property name="title" >
+     <string>&amp;Help</string>
+    </property>
+    <widget class="QMenu" name="menuTutorials" >
+     <property name="title" >
+      <string>&amp;Tutorials</string>
+     </property>
+     <addaction name="actionTutorial_1" />
+     <addaction name="actionTutorial_2" />
+    </widget>
+    <widget class="QMenu" name="menu_Demos" >
+     <property name="title" >
+      <string>&amp;Demos</string>
+     </property>
+     <addaction name="actionHello_Cone_demo" />
+     <addaction name="actionMirror_demo" />
+     <addaction name="actionPlanet_Earth_demo" />
+     <addaction name="actionEngine_demo" />
+    </widget>
+    <addaction name="actionCoin3D_Reference" />
+    <addaction name="actionShow_Node_Reference" />
+    <addaction name="menuTutorials" />
+    <addaction name="menu_Demos" />
+    <addaction name="separator" />
+    <addaction name="actionAbout" />
+   </widget>
+   <widget class="QMenu" name="menuTools" >
+    <property name="title" >
+     <string>&amp;Tools</string>
+    </property>
+    <widget class="QMenu" name="menuOptimize" >
+     <property name="title" >
+      <string>Optimize</string>
+     </property>
+     <addaction name="actionIvfix" />
+     <addaction name="actionEmbed_all_textures" />
+     <addaction name="actionSoReorganizeAction" />
+    </widget>
+    <addaction name="separator" />
+    <addaction name="actionExaminerViewer_Editor" />
+    <addaction name="actionPlaneViewer_Editor" />
+    <addaction name="actionEdit_Source" />
+    <addaction name="separator" />
+    <addaction name="menuOptimize" />
+   </widget>
+   <addaction name="menuScene" />
+   <addaction name="menuEdit" />
+   <addaction name="menuView" />
+   <addaction name="menuTools" />
+   <addaction name="menuHelp" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QToolBar" name="toolBar" >
+   <property name="windowTitle" >
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew_Scene" />
+   <addaction name="actionLoad_Scene" />
+   <addaction name="actionReload_Scene" />
+   <addaction name="actionSave_Scene" />
+   <addaction name="separator" />
+   <addaction name="actionCut" />
+   <addaction name="actionCopy" />
+   <addaction name="actionPaste" />
+   <addaction name="actionDelete" />
+   <addaction name="actionMove_Up" />
+   <addaction name="actionMove_Down" />
+   <addaction name="separator" />
+   <addaction name="actionWatch_node" />
+  </widget>
+  <widget class="QDockWidget" name="nodePalette_dockWidget" >
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize" >
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="windowTitle" >
+    <string>Node Palette</string>
+   </property>
+   <attribute name="dockWidgetArea" >
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QComboBox" name="paletteComboBox" >
+       <property name="maximumSize" >
+        <size>
+         <width>4000</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <item>
+        <property name="text" >
+         <string>Coin3D Hierarchy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Coin3D Alphabetical</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Simple Inventor Alphabetical</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>SGI OpenInventor</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTreeWidget" name="nodePalette" >
+       <property name="maximumSize" >
+        <size>
+         <width>4000</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <column>
+        <property name="text" >
+         <string>Node Palette</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="messages_dockWidget" >
+   <property name="features" >
+    <set>QDockWidget::DockWidgetFeatureMask</set>
+   </property>
+   <property name="windowTitle" >
+    <string>Messages</string>
+   </property>
+   <attribute name="dockWidgetArea" >
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_6" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QTextEdit" name="messages" >
+       <property name="undoRedoEnabled" >
+        <bool>false</bool>
+       </property>
+       <property name="readOnly" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="fieldTable_dockWidget" >
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle" >
+    <string>Field Editor</string>
+   </property>
+   <attribute name="dockWidgetArea" >
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QTableWidget" name="fieldTable" >
+       <property name="contextMenuPolicy" >
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <column>
+        <property name="text" >
+         <string>Value</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <action name="actionLoad_Scene" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/fileopen.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Load Scene</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionQuit" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/exit.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionExaminerViewer" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;ExaminerViewer</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actionFlyViewer" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;FlyViewer</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionPlaneViewer" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;PlaneViewer</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+3</string>
+   </property>
+  </action>
+  <action name="actionNew_Scene" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filenew.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;New Scene</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionSave_Scene" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesave.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Save Scene</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionImport_File" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/fileimport.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Import File</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionExport_C" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export &amp;C++</string>
+   </property>
+  </action>
+  <action name="actionExport_VRML2" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export &amp;VRML2</string>
+   </property>
+  </action>
+  <action name="actionIvfix" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Ivfix</string>
+   </property>
+  </action>
+  <action name="actionRenderArea" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Anaglyph.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;RenderArea</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="actionShow_FPS" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/clock.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Show FPS</string>
+   </property>
+   <property name="whatsThis" >
+    <string>Enable a Frames per second (FPS) counter in scene viewers</string>
+   </property>
+  </action>
+  <action name="actionCut" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editcut.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Cu&amp;t</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionCopy" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editcopy.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Copy</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editpaste.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Paste</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionDelete" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editdelete.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Delete</string>
+   </property>
+   <property name="shortcut" >
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionLink" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editpaste.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Paste as Link</string>
+   </property>
+  </action>
+  <action name="actionMove_Up" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/up.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Move Up</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Up</string>
+   </property>
+  </action>
+  <action name="actionMove_Down" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/down.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Move Down</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Down</string>
+   </property>
+  </action>
+  <action name="actionPreferences" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/editclear.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionCoin3D_Reference" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/toggle_log.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Coin3D &amp;Reference</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+F1</string>
+   </property>
+  </action>
+  <action name="actionTutorial_1" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/toggle_log.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Tutorial &amp;1</string>
+   </property>
+  </action>
+  <action name="actionTutorial_2" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/toggle_log.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Tutorial &amp;2</string>
+   </property>
+  </action>
+  <action name="actionAbout" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionEdit_Source" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/txt.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Edit Source</string>
+   </property>
+   <property name="whatsThis" >
+    <string>Show current scene source in OpenInventor file format</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionExaminerViewer_Editor" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;ExaminerViewer Editor</string>
+   </property>
+  </action>
+  <action name="actionPlaneViewer_Editor" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;PlaneViewer Editor</string>
+   </property>
+  </action>
+  <action name="actionMirror_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Mirror demo</string>
+   </property>
+  </action>
+  <action name="actionPromote_Children" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Promote Children</string>
+   </property>
+  </action>
+  <action name="actionEmbedTexture" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/warehause.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Embed Texture File</string>
+   </property>
+  </action>
+  <action name="actionPlanet_Earth_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Planet Earth demo</string>
+   </property>
+  </action>
+  <action name="Convert_Manip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to Manip</string>
+   </property>
+  </action>
+  <action name="IndexedFaceSet_to_IndexedLineSet" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to IndexedLineSet</string>
+   </property>
+  </action>
+  <action name="IndexedLineSet_to_IndexedFaceSet" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to IndexedFaceSet</string>
+   </property>
+  </action>
+  <action name="actionEmbed_all_textures" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/warehause.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Embed all textures</string>
+   </property>
+  </action>
+  <action name="Export_to_STL" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to STL</string>
+   </property>
+  </action>
+  <action name="Export_to_OFF" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to OFF</string>
+   </property>
+  </action>
+  <action name="Export_to_SMF" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to OBJ/SMF</string>
+   </property>
+  </action>
+  <action name="Export_to_XYZ" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export to XYZ</string>
+   </property>
+  </action>
+  <action name="Center_on_Origin" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Center on Origin</string>
+   </property>
+  </action>
+  <action name="actionChange_BG_color" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/colorize.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Change BG color</string>
+   </property>
+  </action>
+  <action name="actionQSlim" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Simplify with QSlim</string>
+   </property>
+  </action>
+  <action name="actionTetgen" >
+   <property name="enabled" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Tetrahedralize with tetgen</string>
+   </property>
+  </action>
+  <action name="actionCenter_XYZ" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/package_utilities.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Center XYZ</string>
+   </property>
+  </action>
+  <action name="actionEnable_Antialias" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Antialias_Icon.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Enable Antialias</string>
+   </property>
+  </action>
+  <action name="actionHQ_transparency" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>false</bool>
+   </property>
+   <property name="text" >
+    <string>HQ transparency</string>
+   </property>
+  </action>
+  <action name="actionFeedback_Visibility" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/xyz.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Feedback Visibility</string>
+   </property>
+  </action>
+  <action name="actionSoCenterballManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoCenterballManip</string>
+   </property>
+  </action>
+  <action name="actionSoHandleBoxManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoHandleBoxManip</string>
+   </property>
+  </action>
+  <action name="actionSoJackManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoJackManip</string>
+   </property>
+  </action>
+  <action name="actionSoTabBoxManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTabBoxManip</string>
+   </property>
+  </action>
+  <action name="actionSoTrackballManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTrackballManip</string>
+   </property>
+  </action>
+  <action name="actionSoTransformBoxManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTransformBoxManip</string>
+   </property>
+  </action>
+  <action name="actionSoTransformerManip" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoTransformerManip</string>
+   </property>
+  </action>
+  <action name="SoIndexedFaceSet_triangulate" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to triangle mesh</string>
+   </property>
+  </action>
+  <action name="SoIndexedFaceSet_change_orientation" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Change all faces orientation</string>
+   </property>
+  </action>
+  <action name="SoIndexedTriangleStripSet_to_SoIndexedFaceSet" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/rebuild.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Convert to SoIndexedFaceSet</string>
+   </property>
+  </action>
+  <action name="actionWatch_node" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filefind.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Watch node</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionShow_Node_Reference" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/help.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Node Reference</string>
+   </property>
+   <property name="shortcut" >
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionEngine_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Engine demo</string>
+   </property>
+  </action>
+  <action name="actionPrintSceneGraph" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/print.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Print Scene Graph</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionSoReorganizeAction" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
+   </property>
+   <property name="text" >
+    <string>SoReorganizeAction</string>
+   </property>
+  </action>
+  <action name="actionReload_Scene" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/reload.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Reload Scene</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionExport_ASE" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Export ASE</string>
+   </property>
+  </action>
+  <action name="actionHello_Cone_demo" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Cocotte_en_papier.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Hello Cone demo</string>
+   </property>
+  </action>
+  <action name="SoCoordinate3_to_qhull" >
+   <property name="icon" >
+    <iconset resource="../images/icons.qrc" >:/icons/svg/Icon_Mathematical_Plot.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Compute convex hull</string>
+   </property>
+  </action>
+ </widget>
+ <tabstops>
+  <tabstop>paletteComboBox</tabstop>
+  <tabstop>nodePalette</tabstop>
+  <tabstop>sceneGraph</tabstop>
+  <tabstop>fieldTable</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../images/icons.qrc" />
+ </resources>
+ <connections/>
+</ui>

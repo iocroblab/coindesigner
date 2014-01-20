@@ -1,0 +1,76 @@
+<ui version="4.0" >
+ <class>cds_editor</class>
+ <widget class="QMainWindow" name="cds_editor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>516</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" />
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>516</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuPick" >
+    <property name="title" >
+     <string>pick action</string>
+    </property>
+    <addaction name="actionNone" />
+    <addaction name="actionInfo" />
+    <addaction name="actionRemove_face" />
+    <addaction name="actionFlip_face" />
+   </widget>
+   <addaction name="menuPick" />
+    <addaction name="actionNone" />
+    <addaction name="actionInfo" />
+    <addaction name="actionRemove_face" />
+    <addaction name="actionFlip_face" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionNone" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>None</string>
+   </property>
+  </action>
+  <action name="actionInfo" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Info</string>
+   </property>
+  </action>
+  <action name="actionRemove_face" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Remove face</string>
+   </property>
+  </action>
+  <action name="actionFlip_face" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Flip face</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
