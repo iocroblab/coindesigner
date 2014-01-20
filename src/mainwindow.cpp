@@ -2455,13 +2455,8 @@ QTreeWidgetItem *MainWindow::newNodeItem(SoNode *node)
 /// Busca un tooltip adecuado a esta clase y lo asigna al item
 void MainWindow::setNodeToolTip(QTreeWidgetItem *item)
 {
-	//Asignamos un tooltip
-	QString tooltip;
-
-	//Leemos el nodo asociado a este item
-	SoNode *node = mapQTCOIN[item];
-	SoType nodeType = node->getTypeId();
-
+	SoType nodeType = mapQTCOIN[item]->getTypeId();
+	QString tooltip(nodeType.getName());
 	item->setToolTip(0, tooltip);
 
 }//void MainWindow::setNodeToolTip(QTreeWidgetItem *item)
