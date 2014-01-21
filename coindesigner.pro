@@ -5,7 +5,7 @@ DEFINES	+= CDS_VERSION='"2.0"'
 
 #Directorios donde buscar codigo fuente
 DEPENDPATH += . 
-INCLUDEPATH += ./include ./include/ivfix ./include/qhulllib
+INCLUDEPATH += ./src ./src/ivfix ./src/qhulllib
 VPATH += ./src ./src/ivfix ./src/qhulllib
 
 #Directorios donde almacenar codigo intermedio
@@ -49,10 +49,10 @@ SOURCES +=	main.cpp	mainwindow.cpp	mainwindow2.cpp	cds_util.cpp	cds_viewers.cpp 
 		qh_qset.cpp      qhull.cpp 
 
 
-HEADERS	+=	include/mainwindow.h include/cds_util.h include/cds_globals.h \
-		include/3dsLoader.h include/src_editor.h include/mfield_editor.h \
-		include/qslim_options.h include/cds_viewers.h include/cppexport_options.h \
-		include/ivfix_options.h include/settingsDialog.h include/tetgen_options.h
+HEADERS	+=	src/mainwindow.h src/cds_util.h src/cds_globals.h \
+		src/3dsLoader.h src/src_editor.h src/mfield_editor.h \
+		src/qslim_options.h src/cds_viewers.h src/cppexport_options.h \
+		src/ivfix_options.h src/settingsDialog.h src/tetgen_options.h
 
 FORMS	=	ui/mainwindow.ui ui/cds_editor.ui ui/src_view.ui ui/mfield_editor.ui \
 			ui/cppexport_options.ui ui/ivfix_options.ui ui/qslim_options.ui \

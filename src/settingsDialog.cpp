@@ -129,7 +129,7 @@ void settingsDialog::on_table_customContextMenuRequested(QPoint pos)
 	QAction actNavig("firefox", this);
 	#endif
 
-	//Añadimos acciones segun la variable
+	//Aï¿½adimos acciones segun la variable
     if (key == "reference_dir")
 	{
 		popm.addAction(&actRef);
@@ -275,7 +275,6 @@ void settingsDialog::setToDefault(bool reset)
 	  }
 	  else
 	  {
-		  //Ayuda en coindesigner.sf.net
 		  value = "http://coindesigner.sf.net/reference/";
 	  }
 
@@ -288,7 +287,6 @@ void settingsDialog::setToDefault(bool reset)
    value = settings->value(key).toString();
    if (reset || value.isEmpty())
    {
-      //Ayuda en coindesigner.sf.net
       value = "http://coindesigner.sf.net/tutorials/";
       qDebug() << "Setting: " << key << "=" << value;
       settings->setValue(key, value);

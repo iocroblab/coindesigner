@@ -1,5 +1,5 @@
 /*
-    This file is part of coindesigner. (http://coindesigner.sf.net)
+    This file is part of coindesigner. (https://github.com/jmespadero/coindesigner)
 
     coindesigner is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,12 +41,12 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
     const char*nombre_tipo = tipo.getName();  
 
     //Damos a la tabla el numero de filas adecuado
-    //Dejamos una fila libre para añadir nuevos valores
+    //Dejamos una fila libre para aï¿½adir nuevos valores
     int numFilas=field->getNum();
     Ui.table->setRowCount(numFilas+1);
     Ui.sizeLabel->setText(S.setNum(numFilas) + " " + tr("elements"));
 
-	//Numeramos las filas a partir de cero, y añadimos una fila para nuevos elementos
+	//Numeramos las filas a partir de cero, y aï¿½adimos una fila para nuevos elementos
 	QStringList vh, hh;
     for (int i=0; i<numFilas; i++)
 		vh << S.setNum(i);
@@ -199,7 +199,7 @@ MFieldEditor::MFieldEditor(SoMField *field, QWidget *p, Qt::WindowFlags f) : QDi
            Ui.table->setItem(Ui.table->rowCount()-1,j, new QTableWidgetItem());
 	}
 	
-	//Conectamos las señales de la tabla
+	//Conectamos las seï¿½ales de la tabla
 	//connect(Ui.table, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(on_table_customContextMenuRequested(QPoint)));
 	//connect(Ui.table, SIGNAL(cellChanged(int, int)), this, SLOT(on_table_cellChanged(int, int)));
 
@@ -217,7 +217,7 @@ void MFieldEditor::on_table_cellChanged(int row, int column)
 	QString S;
 	int numRows = Ui.table->rowCount();
 
-	//Si cambio algun valor de la última fila, aumentamos la tabla
+	//Si cambio algun valor de la ï¿½ltima fila, aumentamos la tabla
 	if (row+1 == numRows)
 	{
 		//Hacemos crecer la tabla una nueva fila
@@ -253,7 +253,7 @@ void MFieldEditor::on_buttonBox_clicked(QAbstractButton * button)
 
 		//Actualizamos el contenido del SoMField
 
-		//Si es necesario, ampliamos el tamaño del SoMField
+		//Si es necesario, ampliamos el tamaï¿½o del SoMField
 		field->setNum(Ui.table->rowCount()-1);
 
 		//Miramos cuantas columnas tiene la tabla
@@ -349,7 +349,7 @@ void MFieldEditor::on_table_customContextMenuRequested(QPoint pos)
 		//Mostramos el menu flotante y recogemos la opcion escogida
 		QAction *idx = popm.exec(QCursor::pos());
 
-		//Comprobamos que se ha seleccionado una opción válida.
+		//Comprobamos que se ha seleccionado una opciï¿½n vï¿½lida.
 		if (idx)
 			item->setText(idx->text());
 	}
@@ -378,7 +378,7 @@ void MFieldEditor::on_table_customContextMenuRequested(QPoint pos)
 		//Mostramos el menu flotante y recogemos la opcion escogida
 		QAction *acc = popm.exec(QCursor::pos());
 
-		//Comprobamos que se ha seleccionado una opción válida.
+		//Comprobamos que se ha seleccionado una opciï¿½n vï¿½lida.
 		if (!acc)
 			return;
 

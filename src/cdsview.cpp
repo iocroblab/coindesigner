@@ -87,7 +87,7 @@ int yylex (void);
 int yyparse (void);
 void yyrestart (FILE *input_file);
 
-/************** Variables de comunicación con el parser *******************/
+/************** Variables de comunicaciï¿½n con el parser *******************/
 
 /* Fichero del que se leeran los datos a cargar */
 extern FILE *yyin;
@@ -205,7 +205,7 @@ void ayuda()
         fprintf (stderr, 
   "\n"
   "cdsview is a 3D viewer for various file formats (mainly .iv  and .wrl)\n"
-  "This program is part of coindesigner (http://coindesigner.sf.net)\n"
+  "This program is part of coindesigner (https://github.com/jmespadero/coindesigner)\n"
   "Usage: cdsview [options] file [file ...]\n"
   "Options:\n"
   "  -e , --examiner : View on ExaminerViewer\n"
@@ -334,7 +334,7 @@ int main(int argc, char ** argv)
 				exit (-1);
 			}
 
-			//Comprobamos que es un fichero válido de openInventor
+			//Comprobamos que es un fichero vï¿½lido de openInventor
 			if (input->isValidFile ())
 			{
 				//Colgamos el fichero del nodo root

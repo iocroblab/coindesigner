@@ -1,5 +1,5 @@
 /*
-    This file is part of coindesigner. (http://coindesigner.sf.net)
+    This file is part of coindesigner. (https://github.com/jmespadero/coindesigner)
 
     coindesigner is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ SrcEditor::SrcEditor (SoSeparator *scene, bool readOnly, QWidget *p, Qt::WindowF
 	}
 	else
 	{
-		//Añadimos el boton Test
+		//Aï¿½adimos el boton Test
 		Ui.buttonBox->addButton(tr("Test"), QDialogButtonBox::ApplyRole);
 	}
 
@@ -101,7 +101,7 @@ SrcEditor::SrcEditor (SoSeparator *scene, bool readOnly, QWidget *p, Qt::WindowF
 	char *src = cds_export_string(scene);
 	Ui.textEdit->setText(src);
 
-	//Inicializamos highlight dependiendo del tamaño del fuente
+	//Inicializamos highlight dependiendo del tamaï¿½o del fuente
 	Ui.enableHL->setChecked(strlen(src) < 50000);
 
 	//hl.setDocument(Ui.textEdit->document());
@@ -163,7 +163,7 @@ void SrcEditor::accept()
 	result = SoDB::readAll(&input);
 	delete buf;
 
-	//Solo aceptamos el dialogo si se compiló correctamente
+	//Solo aceptamos el dialogo si se compilï¿½ correctamente
 	if (result)
 		QDialog::accept();
 }// void SrcEditor::accept()

@@ -1,5 +1,5 @@
 /*
-    This file is part of coindesigner. (http://coindesigner.sf.net)
+    This file is part of coindesigner. (https://github.com/jmespadero/coindesigner)
 
     coindesigner is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

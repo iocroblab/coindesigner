@@ -1,5 +1,5 @@
 /*
-    This file is part of coindesigner. (http://coindesigner.sf.net)
+    This file is part of coindesigner. (https://github.com/jmespadero/coindesigner)
 
     coindesigner is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -255,7 +255,7 @@ int ifs_patch_hole2(const SoPath *path, int f1, int f2)
    if (v1 < 0 )
 	   return -1;
 
-   //Añade una nueva faceta al final del indexedFaceSet
+   //Aï¿½ade una nueva faceta al final del indexedFaceSet
    ifs->coordIndex.set1Value(numIdx++, v1);
    ifs->coordIndex.set1Value(numIdx++, v2);
    ifs->coordIndex.set1Value(numIdx++, v3);
@@ -353,7 +353,7 @@ int ifs_patch_hole(const SoPath *path, int f1, int f2, int f3)
    if (idx1_2 < idx3_1)
 	   std::swap(v1_2, v3_1);
 
-   //Añade una nueva faceta al final del indexedFaceSet
+   //Aï¿½ade una nueva faceta al final del indexedFaceSet
    i = ifs->coordIndex.getNum();
    ifs->coordIndex.set1Value(i++, v1_2);
    ifs->coordIndex.set1Value(i++, v2_3);
@@ -486,7 +486,7 @@ SoSeparator *ifs_recubrimiento(const SoPath *path, const float r)
     if (!nodeCoord || !ifs->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId()) )
 	   return NULL;
 
-	//Contamos el número de vertices y de facetas
+	//Contamos el nï¿½mero de vertices y de facetas
 	int numVertex  = coords.getNum();
 	int numIdx = ifs->coordIndex.getNum();
 	int numFaces = numIdx / 4 ;
@@ -498,7 +498,7 @@ SoSeparator *ifs_recubrimiento(const SoPath *path, const float r)
 	rec_sep->addChild(rec_ver);
 	rec_sep->addChild(rec_fac);
 
-    //Calculamos las normales por cara y vértice de la malla original
+    //Calculamos las normales por cara y vï¿½rtice de la malla original
     SoMFVec3f normals_face;
 	SoMFVec3f normals_vertex;
 	ifs_normals(path, normals_face, normals_vertex);
@@ -521,8 +521,8 @@ SoSeparator *ifs_recubrimiento(const SoPath *path, const float r)
 	}
     normals_face.finishEditing();
 
-	//Hacemos una pasada sobre la lista de vertices, añadiendo un nuevo vertice 
-	//desplazado según la normal del vertice. 
+	//Hacemos una pasada sobre la lista de vertices, aï¿½adiendo un nuevo vertice 
+	//desplazado segï¿½n la normal del vertice. 
 	for (i=0; i < numVertex; i++)
 	{
 		rec_ver->point.set1Value(i, coords[i]+normals_vertex[i]);
@@ -544,10 +544,10 @@ SoSeparator *ifs_recubrimiento(const SoPath *path, const float r)
        int v2 = ifs->coordIndex[idx0+1];
        int v3 = ifs->coordIndex[idx0+2];
 
-	   //Comprobamos que es un triangulo válido
+	   //Comprobamos que es un triangulo vï¿½lido
 	   assert(v1>=0 && v2 >= 0 && v3 >= 0);
 
-	   //Almacenamos información de vecindad, dando a cada semiarista un numero
+	   //Almacenamos informaciï¿½n de vecindad, dando a cada semiarista un numero
 	   //y almacenando en un map la faceta que contiene la semiarista.
 	   mapAristas[arista(v1,v2)] = face;
 	   mapAristas[arista(v2,v3)] = face;
@@ -565,7 +565,7 @@ SoSeparator *ifs_recubrimiento(const SoPath *path, const float r)
 
     }//for (int face=0; face<numFaces; face++)
 
-	//Hacemos una segunda pasada a las facetas, añadiendo un triangulo por cada semiarista
+	//Hacemos una segunda pasada a las facetas, aï¿½adiendo un triangulo por cada semiarista
 	//para rellenar el hueco entre facetas del recubrimiento
 	i=rec_fac->coordIndex.getNum();
     for (int face=0; face<numFaces; face++)
@@ -734,7 +734,7 @@ SoSeparator *ifs_recubrimiento2(const SoPath *path, const float r)
     if (!nodeCoord || !ifs->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId()) )
 	   return NULL;
 
-	//Contamos el número de vertices y de facetas
+	//Contamos el nï¿½mero de vertices y de facetas
 	int numVertex  = coords.getNum();
 	//int numIdx = ifs->coordIndex.getNum();
 	//int numFaces = numIdx / 4 ;
@@ -747,7 +747,7 @@ SoSeparator *ifs_recubrimiento2(const SoPath *path, const float r)
 	rec_sep->addChild(rec_ver);
 	rec_sep->addChild(rec_fac);
 
-    //Calculamos las normales por cara y vértice de la malla original
+    //Calculamos las normales por cara y vï¿½rtice de la malla original
     SoMFVec3f normals_face;
 	SoMFVec3f normals_vertex;
 	ifs_normals(path, normals_face, normals_vertex);
@@ -761,8 +761,8 @@ SoSeparator *ifs_recubrimiento2(const SoPath *path, const float r)
 	}
     normals_vertex.finishEditing();
 
-	//Hacemos una pasada sobre la lista de vertices, añadiendo un nuevo vertice 
-	//desplazado según la normal del vertice. 
+	//Hacemos una pasada sobre la lista de vertices, aï¿½adiendo un nuevo vertice 
+	//desplazado segï¿½n la normal del vertice. 
 	for (i=0; i < numVertex; i++)
 	{
 		rec_ver->point.set1Value(i, coords[i]+normals_vertex[i]);
@@ -976,7 +976,7 @@ int IndexedFaceSet_to_SMF (SoPath *path, FILE *out, bool with_normals)
    //Volcado de las normales
    if (with_normals)
    {
-		//Calculamos las normales por cara y vértice de la malla original
+		//Calculamos las normales por cara y vï¿½rtice de la malla original
 		SoMFVec3f normals_face;
 		SoMFVec3f normals_vertex;
 		ifs_normals(path, normals_face, normals_vertex);
@@ -1043,7 +1043,7 @@ int IndexedFaceSet_to_SMF (SoPath *path, std::string &out, bool with_normals)
    //Volcado de las normales
    if (with_normals)
    {
-		//Calculamos las normales por cara y vértice de la malla original
+		//Calculamos las normales por cara y vï¿½rtice de la malla original
 		SoMFVec3f normals_face;
 		SoMFVec3f normals_vertex;
 		ifs_normals(path, normals_face, normals_vertex);
@@ -1318,7 +1318,7 @@ SoNode *buscaCoordenadas (const SoPath *path, SoMFVec3f &coords)
 }//SoNode *buscaCoordenadas (SoPath *path, SoMFVec3f &coords)
 
 
-//! Calcula la mímima BBox no orientada con los ejes
+//! Calcula la mï¿½mima BBox no orientada con los ejes
 SbXfBox3f measure_XfBBox(SoPath *path)
 {
   //Creamos un SoGetBoundingBoxAction con un viewport por defecto 
@@ -1434,7 +1434,7 @@ int IndexedFaceSet_triangulate (SoMFInt32 &coordIndex)
 
 } //int IndexedFaceSet_triangulate (SoMFInt32 &coordIndex)
 
-//! Cambia la orientación de todas las facetas de un IndexedFaceSet
+//! Cambia la orientaciï¿½n de todas las facetas de un IndexedFaceSet
 void IndexedFaceSet_change_orientation (SoMFInt32 &coordIndex)
 {
 
@@ -1556,7 +1556,7 @@ int convex_hull (const SoMFVec3f &coords, SoMFVec3f &ch_coords, SoMFInt32 &ch_co
                               result.mOutputVertices[3*v+2] );
     }
 
-    //Cambiamos el tamaño de ch_coordIndex
+    //Cambiamos el tamaï¿½o de ch_coordIndex
     ch_coordIndex.setNum(result.mNumIndices);
 
     //Copiamos las coordenadas de los indices, terminando cada faceta con -1
@@ -1750,7 +1750,7 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 	}
 	else
 	{
-		//Añadimos un indexedFaceSet para las facetas internas
+		//Aï¿½adimos un indexedFaceSet para las facetas internas
 		SoIndexedFaceSet *ifs = new SoIndexedFaceSet();
 		ifs->setName(eleFilename.c_str());
 		sep->addChild(ifs);
@@ -1812,7 +1812,7 @@ SoSeparator *import_tetgen (const char *nodeFilename)
 	}
 	else
 	{
-		//Añadimos un indexedFaceSet para las facetas externas
+		//Aï¿½adimos un indexedFaceSet para las facetas externas
 		SoIndexedFaceSet *ifs = new SoIndexedFaceSet();
 		ifs->setName(faceFilename.c_str());
 		sep->addChild(ifs);
@@ -1865,7 +1865,7 @@ char *cds_export_string (SoNode *node)
     SoWriteAction wa(&out);
     wa.apply(node);
 
-    //Leemos el buffer y reducimos su tamaño al minimo
+    //Leemos el buffer y reducimos su tamaï¿½o al minimo
     out.getBuffer(buffer, buffer_size);
     buffer = realloc(buffer, buffer_size+1);
     ((char *)buffer)[buffer_size]=0;
@@ -1949,7 +1949,7 @@ bool cds_export_hppFile (SoNode *node, const char *className, const char *filena
 	   if (line_end > 0)
 	   {
 
-                   //Aislamos la linea y "escapamos" los caracteres problemáticos
+                   //Aislamos la linea y "escapamos" los caracteres problemï¿½ticos
                    std::string line(s.getSubString(0, line_end-1).getString());
                    for (unsigned i=0; i < line.size(); i++)
                    {
@@ -1959,14 +1959,14 @@ bool cds_export_hppFile (SoNode *node, const char *className, const char *filena
                       }
                    }
 
-                   //Añadimos los codigos necesarios para la compilacion al principio y al final
+                   //Aï¿½adimos los codigos necesarios para la compilacion al principio y al final
                    line.insert(0,"    \"");
                    line.append("\\n\",\n");
 
 		   //Insertamos la linea en el fichero
 		   strTemplate.insert(pos, line );
 
-		   //Actualizamos la posición del punto de inserccion
+		   //Actualizamos la posiciï¿½n del punto de inserccion
 		   pos=strTemplate.find(code);
 	   }
 
@@ -1986,7 +1986,7 @@ bool cds_export_hppFile (SoNode *node, const char *className, const char *filena
     progress.setValue(s_size);
 #endif
 
-   //Añadimos codigo para cerrar la estructura y eliminamos el **scene_definition**
+   //Aï¿½adimos codigo para cerrar la estructura y eliminamos el **scene_definition**
    strTemplate.replace(pos, strlen(code), "    NULL\n");
 
    //Creamos el fichero de salida
@@ -2090,7 +2090,7 @@ bool cds_export_cppFile (const char *className, const char *filename)
 
 
 //!Exporta un subarbol de escena a formato .ase (ASCII Scene Exporter)
-//Esta funcion está pensada para mallas exportadas desde el vivid
+//Esta funcion estï¿½ pensada para mallas exportadas desde el vivid
 bool cds_export_ase (SoPath *path, const char *filename)
 {
 	assert (path != NULL);

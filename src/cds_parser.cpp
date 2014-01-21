@@ -91,7 +91,7 @@
    ficheros en los siguientes formatos:
      -Geomview: soporta ficheros OFF, COFF, NOFF, NCOFF, STOFF
      -SMF, OBJ
-     -XYZ : Nubes de puntos (3 coordenadas por línea de fichero)
+     -XYZ : Nubes de puntos (3 coordenadas por lï¿½nea de fichero)
      -SPH : Arboles de esferas 
 */
 
@@ -102,7 +102,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "../include/cds_globals.h"
+#include "cds_globals.h"
 
 /* Nodos de openInventor que necesitamos */
 #include <Inventor/nodes/SoSeparator.h>
@@ -121,7 +121,7 @@
 #include <Inventor/nodes/SoSphere.h>
 #include <Inventor/nodes/SoTranslation.h>
 
-/* Variables para almacenar la información */
+/* Variables para almacenar la informaciï¿½n */
 SoSeparator *yyGeometry;
 SoCoordinate3 *yyCoordinate3;
 SoIndexedPointSet *yyIndexedPointSet;
@@ -170,7 +170,7 @@ float LeeReal ();
 /* Funcion que lee un numero del fichero, obligatoriamente entero. */
 int LeeEntero ();
 
-/* Función que trata un bloque OFF/COFF/NOFF/NCOFF/STOFF */
+/* Funciï¿½n que trata un bloque OFF/COFF/NOFF/NCOFF/STOFF */
 void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF);
 
 /* Variable que indica al scanner si debe mostrar los saltos de linea */
@@ -1652,7 +1652,7 @@ yyreduce:
      yyGeometry = new SoSeparator();
      yyCoordinate3 = new SoCoordinate3();
 
-     /* Añadimos los puntos al resultado */
+     /* Aï¿½adimos los puntos al resultado */
      yyGeometry->addChild(yyCoordinate3);
      yyGeometry->addChild(new SoPointSet() );
 
@@ -1699,7 +1699,7 @@ yyreduce:
      yyGeometry->addChild(yyIndexedLineSet);
      yyGeometry->addChild(yyIndexedFaceSet);
 
-     //En ocasiones los fichero contienen información de textura
+     //En ocasiones los fichero contienen informaciï¿½n de textura
      //Pero los indices son diferentes a openInventor, por lo que
      //necesitamos una tabla auxiliar
      yy_texture_coord = new SoMFVec2f() ;
@@ -1735,7 +1735,7 @@ yyreduce:
      if (yyIndexedFaceSet->coordIndex.getNum() < 1)
        yyGeometry->removeChild(yyIndexedFaceSet);
 
-     //Liberamos espacio de información de textura
+     //Liberamos espacio de informaciï¿½n de textura
      delete yy_texture_coord;
   }
     break;
@@ -1867,7 +1867,7 @@ yyreduce:
      int k = yyIndexedPointSet->coordIndex.getNum();
      yyIndexedPointSet->coordIndex.set1Value(k++, (yyvsp[(2) - (2)].entero) -1);
 
-     //Miramos si hay más vertices en esta nube de puntos
+     //Miramos si hay mï¿½s vertices en esta nube de puntos
 
      //Indicamos al scanner que queremos ver los saltos de linea
      yy_ver_LF = 1;
@@ -1902,7 +1902,7 @@ yyreduce:
      yyIndexedLineSet->coordIndex.set1Value(k++, (yyvsp[(2) - (3)].entero) -1);
      yyIndexedLineSet->coordIndex.set1Value(k++, (yyvsp[(3) - (3)].entero) -1);
 
-     //Miramos si hay más vertices en esta polilinea
+     //Miramos si hay mï¿½s vertices en esta polilinea
 
      //Indicamos al scanner que queremos ver los saltos de linea
      yy_ver_LF = 1;
@@ -1941,7 +1941,7 @@ yyreduce:
      yyIndexedFaceSet->coordIndex.set1Value(k++, (yyvsp[(3) - (4)].entero) -1);
      yyIndexedFaceSet->coordIndex.set1Value(k++, (yyvsp[(4) - (4)].entero) -1);
 
-     //Miramos si hay más vertices en esta faceta
+     //Miramos si hay mï¿½s vertices en esta faceta
 
      //Indicamos al scanner que queremos ver los saltos de linea
      yy_ver_LF = 1;
@@ -1987,7 +1987,7 @@ yyreduce:
      yyIndexedFaceSet->normalIndex.set1Value(k-2, (yyvsp[(5) - (9)].entero) -1);
      yyIndexedFaceSet->normalIndex.set1Value(k-1, (yyvsp[(9) - (9)].entero) -1);
 
-     //Miramos si hay más vertices en esta faceta
+     //Miramos si hay mï¿½s vertices en esta faceta
 
      //Indicamos al scanner que queremos ver los saltos de linea
      yy_ver_LF = 1;
@@ -2033,7 +2033,7 @@ yyreduce:
      yyTextureCoordinate2->point.set1Value((yyvsp[(2) - (7)].entero)-1, (*yy_texture_coord)[(yyvsp[(4) - (7)].entero)-1] );
      yyTextureCoordinate2->point.set1Value((yyvsp[(5) - (7)].entero)-1, (*yy_texture_coord)[(yyvsp[(7) - (7)].entero)-1] );
 
-     //Miramos si hay más vertices en esta faceta
+     //Miramos si hay mï¿½s vertices en esta faceta
 
      //Indicamos al scanner que queremos ver los saltos de linea
      yy_ver_LF = 1;
@@ -2041,7 +2041,7 @@ yyreduce:
      //Leemos hasta el fin de linea
      while (yylex() == _ENTERO)
      {
-        //Salvamos el indice del vértice
+        //Salvamos el indice del vï¿½rtice
         int idx = yylval.entero-1;
         yyIndexedFaceSet->coordIndex.set1Value(k++, idx);
 
@@ -2083,7 +2083,7 @@ yyreduce:
      yyTextureCoordinate2->point.set1Value((yyvsp[(2) - (11)].entero)-1, (*yy_texture_coord)[(yyvsp[(4) - (11)].entero)-1] );
      yyTextureCoordinate2->point.set1Value((yyvsp[(7) - (11)].entero)-1, (*yy_texture_coord)[(yyvsp[(9) - (11)].entero)-1] );
 
-     //Miramos si hay más vertices en esta faceta
+     //Miramos si hay mï¿½s vertices en esta faceta
 
      //Indicamos al scanner que queremos ver los saltos de linea
      yy_ver_LF = 1;
@@ -2091,7 +2091,7 @@ yyreduce:
      //Leemos hasta el fin de linea
      while (yylex() == _ENTERO)
      {
-        //Salvamos el indice del vértice
+        //Salvamos el indice del vï¿½rtice
         int idx = yylval.entero-1;
         yyIndexedFaceSet->coordIndex.set1Value(k++, idx);
 
@@ -2287,7 +2287,7 @@ yyreduce:
     int i;
     //fprintf(stderr, "l=%d quedan=%d radio=%g\n",yy_sph_l,yy_sph_num,$4);
 
-    //Añadimos la esfera al nivel actual, con una traslacion a su sitio
+    //Aï¿½adimos la esfera al nivel actual, con una traslacion a su sitio
     SoSeparator *sep = new SoSeparator ();
     yy_sph_l_sep->addChild (sep);
 
@@ -2674,8 +2674,8 @@ int LeeEntero ()
 }
 
 
-/* Función que trata un bloque OFF/COFF/NOFF/NCOFF/STOFF ignorando la
-   información de color y normal. El tercer argumento indica
+/* Funciï¿½n que trata un bloque OFF/COFF/NOFF/NCOFF/STOFF ignorando la
+   informaciï¿½n de color y normal. El tercer argumento indica
    cuantos valores deben ignorarse despues de leer cada punto 3D */
 void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
 {
@@ -2685,11 +2685,11 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
    float nx, ny, nz;
    float tx, ty;
 
-   /* Reservamos espacio para las coordenadas de los vértices */
+   /* Reservamos espacio para las coordenadas de los vï¿½rtices */
    SoCoordinate3 *coordinate3 = new SoCoordinate3();
    yyGeometry->addChild(coordinate3);
 
-   /* Si hay información de color, creamos un material */
+   /* Si hay informaciï¿½n de color, creamos un material */
    if (tipoBloqueOFF == _COFF || tipoBloqueOFF == _NCOFF )
    {
      yyMaterialBinding=new SoMaterialBinding();
@@ -2700,21 +2700,21 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
      yyGeometry->addChild(yyMaterial);
    }
 
-   /* Si hay información de normales, creamos un SoNormal */
+   /* Si hay informaciï¿½n de normales, creamos un SoNormal */
    if (tipoBloqueOFF == _NOFF || tipoBloqueOFF == _NCOFF )
    {
      yyNormal=new SoNormal();
      yyGeometry->addChild(yyNormal);
    }
 
-   /* Si hay información de textura, creamos un SoTextureCoordinate2 */
+   /* Si hay informaciï¿½n de textura, creamos un SoTextureCoordinate2 */
    if (tipoBloqueOFF == _STOFF)
    {
      yyTextureCoordinate2 = new SoTextureCoordinate2;
      yyGeometry->addChild(yyTextureCoordinate2);
    }
 
-   /* Reservamos espacio para las facetas de los vértices */
+   /* Reservamos espacio para las facetas de los vï¿½rtices */
    SoIndexedPointSet *yyIndexedPointSet = new SoIndexedPointSet();
    yyGeometry->addChild(yyIndexedPointSet);
    SoIndexedLineSet *yyIndexedLineSet = new SoIndexedLineSet();
@@ -2733,7 +2733,7 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
      /* Almacenamos el punto. */
      coordinate3->point.set1Value(i,x,y,z);
 
-     /* Si hay información de normales, leemos la información */
+     /* Si hay informaciï¿½n de normales, leemos la informaciï¿½n */
      if (tipoBloqueOFF == _NOFF || tipoBloqueOFF == _NCOFF )
      {
 
@@ -2747,7 +2747,7 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
 
      }//if normal
 
-     /* Si hay información de color, leemos la información */
+     /* Si hay informaciï¿½n de color, leemos la informaciï¿½n */
      if (tipoBloqueOFF == _COFF || tipoBloqueOFF == _NCOFF )
      {
        r = LeeReal();
@@ -2763,7 +2763,7 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
 
      }//if color
 
-     /* Si hay información de textura, leemos la información */
+     /* Si hay informaciï¿½n de textura, leemos la informaciï¿½n */
      if (tipoBloqueOFF == _STOFF)
      {
        /* Leemos nx,ny,nz mediante yylex() */
@@ -2792,7 +2792,7 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
      /* Leemos el numero de vertices de esta faceta */
      nVertCara = LeeEntero();
 
-     /* Ignoramos facetas de menos de 3 vértices */
+     /* Ignoramos facetas de menos de 3 vï¿½rtices */
      if (nVertCara <= 0)
      {
        fprintf(stderr, "\nLine %u: Size of face cannot be %d\n", yylinenum, nVertCara);
@@ -2823,7 +2823,7 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
 
      for (j=0; j<nVertCara; j++)
      {
-       /* Leemos el índice del vértice */
+       /* Leemos el ï¿½ndice del vï¿½rtice */
        v = LeeEntero();
 
        /* Almacenamos la coordenada. */
@@ -2834,7 +2834,7 @@ void LeeBloqueOFF (int nPuntos, int nCaras, int tipoBloqueOFF)
      /* Almacenamos la marca de fin de faceta. */
      yyIndexedFaceSet->coordIndex.set1Value(k++, -1);
 
-     //Si hay información de color por faceta, la ignoramos
+     //Si hay informaciï¿½n de color por faceta, la ignoramos
      ignora_resto_linea();
 
      /* Aumentamos la cuenta de facetas */

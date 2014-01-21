@@ -21,7 +21,7 @@ RESOURCES=images/gui.qrc images/nodes.qrc
 
 all : coindesigner cdsview
 
-coindesigner : include/*.h src/*.cpp ui/*.ui images/* coindesigner.pro translations
+coindesigner : src/*.h src/*.cpp ui/*.ui images/* coindesigner.pro translations
 	$(QMAKE) -o - coindesigner.pro > Makefile
 	$(MAKE) -f Makefile 
 	#rm Makefile
@@ -39,12 +39,12 @@ tmp/%.o : %.o
 tmp/%.o : src/%.cpp coindesigner.pro
 	$(CXX) -c -o $@ $(CXXFLAGS) $< 
 
-src/cds_parser.cpp include/cds_parser.h : src/cds_parser.y
+src/cds_parser.cpp src/cds_parser.h : src/cds_parser.y
 	yacc $(YFLAGS) src/cds_parser.y
 	mv -f y.tab.c src/cds_parser.cpp
-	mv -f y.tab.h include/cds_parser.h
+	mv -f y.tab.h src/cds_parser.h
 
-src/cds_scanner.cpp : src/cds_scanner.l include/cds_parser.h
+src/cds_scanner.cpp : src/cds_scanner.l src/cds_parser.h
 	lex -i src/cds_scanner.l 
 	mv lex.yy.c src/cds_scanner.cpp
 

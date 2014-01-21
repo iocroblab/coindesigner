@@ -601,8 +601,8 @@ char *yytext;
 
 #include <string.h>
 #include <assert.h>
-#include "../include/cds_globals.h"
-#include "../include/cds_parser.h"
+#include "cds_globals.h"
+#include "cds_parser.h"
 
 #ifndef yylval
 extern YYSTYPE yylval;

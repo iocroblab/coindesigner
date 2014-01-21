@@ -1469,10 +1469,10 @@ p, li { white-space: pre-wrap; }
     <name>tetgen_options</name>
     <message>
         <location filename="../src/tetgen_options.cpp" line="73"/>
-        <location filename="../src/tetgen_options.cpp" line="91"/>
-        <location filename="../src/tetgen_options.cpp" line="118"/>
-        <location filename="../src/tetgen_options.cpp" line="130"/>
-        <location filename="../src/tetgen_options.cpp" line="144"/>
+        <location filename="../src/tetgen_options.cpp" line="92"/>
+        <location filename="../src/tetgen_options.cpp" line="119"/>
+        <location filename="../src/tetgen_options.cpp" line="131"/>
+        <location filename="../src/tetgen_options.cpp" line="145"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -1482,12 +1482,12 @@ p, li { white-space: pre-wrap; }
         <translation>No se ha definido el path a tetgen en preferencias</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="91"/>
+        <location filename="../src/tetgen_options.cpp" line="92"/>
         <source>Could not create file </source>
         <translation>Error al escribir fichero</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="116"/>
+        <location filename="../src/tetgen_options.cpp" line="117"/>
         <source>Error executing: </source>
         <translation>Error durante ejecución:</translation>
     </message>
@@ -1512,7 +1512,7 @@ p, li { white-space: pre-wrap; }
         <translation>Argumentos:</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="128"/>
+        <location filename="../src/tetgen_options.cpp" line="129"/>
         <source>tetgen returned an error</source>
         <translation>tetgen devolvió un error</translation>
     </message>
@@ -1522,8 +1522,8 @@ p, li { white-space: pre-wrap; }
         <translation>Guardar en</translation>
     </message>
     <message>
-        <location filename="../src/tetgen_options.cpp" line="137"/>
-        <location filename="../src/tetgen_options.cpp" line="149"/>
+        <location filename="../src/tetgen_options.cpp" line="138"/>
+        <location filename="../src/tetgen_options.cpp" line="150"/>
         <source>tetgen output</source>
         <translation>Resultado de tetgen</translation>
     </message>

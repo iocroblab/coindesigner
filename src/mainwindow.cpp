@@ -1,5 +1,5 @@
 /*
-    This file is part of coindesigner. (http://coindesigner.sf.net)
+    This file is part of coindesigner. (https://github.com/jmespadero/coindesigner)
 
     coindesigner is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1269,7 +1269,7 @@ void MainWindow::on_actionAbout_activated()
     msj.sprintf("<p>Coindesigner version %.1f (%s)<p>", CDS_VERSION, __DATE__ );
     msj += tr("Written by")+" Jose M. Espadero "+tr("and")+" Tomas Aguado";
     msj += "<br>         " + tr("with usefull contributions from") + " Manfred Kroehnert";
-    msj += "<p><a href=http://coindesigner.sf.net>http://coindesigner.sf.net</a>";
+    msj += "<p><a href=https://github.com/jmespadero/coindesigner>https://github.com/jmespadero/coindesigner)</a>";
 
     //System Info
     msj += "<hr><b>"+tr("System info:")+"</b>";
@@ -2455,13 +2455,8 @@ QTreeWidgetItem *MainWindow::newNodeItem(SoNode *node)
 /// Busca un tooltip adecuado a esta clase y lo asigna al item
 void MainWindow::setNodeToolTip(QTreeWidgetItem *item)
 {
-	//Asignamos un tooltip
-	QString tooltip;
-
-	//Leemos el nodo asociado a este item
-	SoNode *node = mapQTCOIN[item];
-	SoType nodeType = node->getTypeId();
-
+	SoType nodeType = mapQTCOIN[item]->getTypeId();
+	QString tooltip(nodeType.getName());
 	item->setToolTip(0, tooltip);
 
 }//void MainWindow::setNodeToolTip(QTreeWidgetItem *item)

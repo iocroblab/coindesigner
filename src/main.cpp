@@ -1,5 +1,5 @@
 /*
-    This file is part of coindesigner. (http://coindesigner.sf.net)
+    This file is part of coindesigner. (https://github.com/jmespadero/coindesigner)
 
     coindesigner is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <mainwindow.h>
 #include <settingsDialog.h>
 
-///Objeto para almacenar la configuración de coindesigner
+///Objeto para almacenar la configuraciï¿½n de coindesigner
 QSettings *settings;
 
 ///Puntero global a mainwindow
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	//Inicializamos el path de la aplicacion
 	cds_dir = strdup(qPrintable(QCoreApplication::applicationDirPath()));
 
-	//Abrimos fichero de configuración
+	//Abrimos fichero de configuraciï¿½n
 	settings = new QSettings("coindesigner.sf.net", "coindesigner");
 
 	//Cargamos la configuracion por defecto, sin sobreescribir valores
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 	//Mostramos la ventana principal 
 	mw->show();
 
-	//Entramos en el mainLoop de la aplicación
+	//Entramos en el mainLoop de la aplicaciï¿½n
 	SoQt::mainLoop();
 
 	//Liberamos memoria

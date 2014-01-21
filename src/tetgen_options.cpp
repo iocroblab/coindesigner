@@ -78,8 +78,9 @@ void tetgen_options::accept()
 	//Creacion de los argumentos
 	QString offFilename = Ui.outputDirectory->text() + "/tempfile.off";
 	QStringList args;
-	argsChanged();
-	args << tetgen_args << offFilename;
+    //argsChanged();//Allow user to override all args
+
+    args << Ui.tetgen_args->text() << offFilename;
 
 	qDebug() << tetgen_app << " " << args.join (" ");
 
