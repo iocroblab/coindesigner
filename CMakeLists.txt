@@ -6,16 +6,16 @@ include ( ${QT_USE_FILE} )
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR}
-	./include
-	./include/ivfix
-	./include/qhulllib
+	./src
+	./src/ivfix
+	./src/qhulllib
 	$$system(coin-config
 	--includedir)
 	$(COIN3DDIR)/include)
 set ( coindesigner_HDRS
-	include/cds_util.h
-	include/cds_globals.h
-	include/3dsLoader.h
+	src/cds_util.h
+	src/cds_globals.h
+	src/3dsLoader.h
 	)
 
 set ( coindesigner_SRCS
@@ -93,15 +93,15 @@ set ( coindesigner_TRS
 QT4_ADD_TRANSLATION(TRS ${coindesigner_TRS})
 
 set ( coindesigner_MOCS
-	include/mainwindow.h
-	include/src_editor.h
-	include/mfield_editor.h
-	include/qslim_options.h
-	include/cds_viewers.h
-	include/cppexport_options.h
-	include/ivfix_options.h
-	include/settingsDialog.h
-	include/tetgen_options.h
+	src/mainwindow.h
+	src/src_editor.h
+	src/mfield_editor.h
+	src/qslim_options.h
+	src/cds_viewers.h
+	src/cppexport_options.h
+	src/ivfix_options.h
+	src/settingsDialog.h
+	src/tetgen_options.h
 	)
 QT4_WRAP_CPP(MOCS ${coindesigner_MOCS})
 

@@ -1,10 +1,10 @@
 
 TEMPLATE = app
-TARGET = 
+TARGET =
 DEFINES	+= CDS_VERSION='"2.0"'
 
 #Directorios donde buscar codigo fuente
-DEPENDPATH += . 
+DEPENDPATH += .
 INCLUDEPATH += ./src ./src/ivfix ./src/qhulllib
 VPATH += ./src ./src/ivfix ./src/qhulllib
 
@@ -30,8 +30,8 @@ RCC_DIR = tmp
 #Coindesigner can show volumetrix data using the SIMVoleon library,
 #which you can download from http://dev.sim.no/SIM_Voleon/
 #To add support to SIMVoleon, uncoment next 3 lines.
-DEFINES += USE_VOLEON SIMVOLEON_DLL
-unix:LIBS += -lSimVoleon
+#DEFINES += USE_VOLEON SIMVOLEON_DLL
+#unix:LIBS += -lSimVoleon
 win32:LIBS += $(COIN3DDIR)\lib\simvoleon2.lib
 
 # Input
@@ -46,7 +46,7 @@ SOURCES +=	main.cpp	mainwindow.cpp	mainwindow2.cpp	cds_util.cpp	cds_viewers.cpp 
 		qh_geom.cpp      qh_io.cpp        qh_poly.cpp      qh_stat.cpp  \
 		qh_geom2.cpp     qh_mem.cpp       qh_poly2.cpp     qh_user.cpp  \
 		qhulllib.cpp     qh_global.cpp    qh_merge.cpp     qhull_interface.cpp \
-		qh_qset.cpp      qhull.cpp 
+		qh_qset.cpp      qhull.cpp
 
 
 HEADERS	+=	src/mainwindow.h src/cds_util.h src/cds_globals.h \
@@ -57,7 +57,7 @@ HEADERS	+=	src/mainwindow.h src/cds_util.h src/cds_globals.h \
 FORMS	=	ui/mainwindow.ui ui/cds_editor.ui ui/src_view.ui ui/mfield_editor.ui \
 			ui/cppexport_options.ui ui/ivfix_options.ui ui/qslim_options.ui \
 			ui/tetgen_options.ui ui/settingsDialog.ui
-			
+
 
 RESOURCES = images/icons.qrc demos/demos.qrc
 

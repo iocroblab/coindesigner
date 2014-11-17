@@ -1,7 +1,7 @@
 
 #Bison: Opcion -t para activar mensajes "Se esperaba xxx":1
 #Bison: Opcion -d para generar el fichero y.tab.h
-YFLAGS = -d -t 
+YFLAGS = -d -t
 #Flex:  Opcion -i para no distinguir entre mayusculas y minusculas
 LFLAGS = -i
 
@@ -23,21 +23,21 @@ all : coindesigner cdsview
 
 coindesigner : src/*.h src/*.cpp ui/*.ui images/* coindesigner.pro translations
 	$(QMAKE) -o - coindesigner.pro > Makefile
-	$(MAKE) -f Makefile 
+	$(MAKE) -f Makefile
 	#rm Makefile
 
 cdsview : src/cdsview.cpp tmp/cds_scanner.o tmp/cds_parser.o
 	$(CXX) -o $@ $+ `soqt-config --cppflags --ldflags --libs`
 
 rebuild: distclean
-	$(MAKE) -f coindesigner.make all 
+	$(MAKE) -f coindesigner.make all
 
 tmp/%.o : %.o
 	mkdir -p tmp
 	mv $< $@
 
 tmp/%.o : src/%.cpp coindesigner.pro
-	$(CXX) -c -o $@ $(CXXFLAGS) $< 
+	$(CXX) -c -o $@ $(CXXFLAGS) $<
 
 src/cds_parser.cpp src/cds_parser.h : src/cds_parser.y
 	yacc $(YFLAGS) src/cds_parser.y
@@ -45,24 +45,24 @@ src/cds_parser.cpp src/cds_parser.h : src/cds_parser.y
 	mv -f y.tab.h src/cds_parser.h
 
 src/cds_scanner.cpp : src/cds_scanner.l src/cds_parser.h
-	lex -i src/cds_scanner.l 
+	lex -i src/cds_scanner.l
 	mv lex.yy.c src/cds_scanner.cpp
 
 coindesigner.vcproj : coindesigner.pro
 	$(QMAKE) -t vcapp -o $@ coindesigner.pro
 
-translations : coindesigner.pro 
+translations : coindesigner.pro
 	lupdate-qt4 coindesigner.pro
 	lrelease-qt4 -compress coindesigner.pro
 
-clean : 
+clean :
 	$(QMAKE) coindesigner.pro
 	$(MAKE) -f Makefile clean
 	$(RM) -f src/cds_parser.o  src/cds_scanner.o  src/cdsview.o
 	#$(RM) -rf core Makefile tmp .qmake.internal.cache
 
-distclean : 
+distclean :
 	$(QMAKE) coindesigner.pro
 	$(MAKE) -f Makefile distclean
-	$(RM) -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache 
+	$(RM) -rf coindesigner cdsview core Makefile tmp .qmake.internal.cache
 
