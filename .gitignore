@@ -11,3 +11,9 @@
 *.lai
 *.la
 *.a
+
+# Backup files
+*~
+
+# build directories
+build*
