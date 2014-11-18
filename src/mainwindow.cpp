@@ -2773,8 +2773,10 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       if (!model.read(&in)) 
       {
         QString S;
-        S.sprintf(tr("%s: Error while reading DXF file on line %d\n"),
-                     strFilename, in.getFilePosition());
+        S += strFilename + QString(": ") + tr("Error while reading DXF file on line ") + in.getFilePosition();
+                              
+//        S.sprintf(tr("%s: Error while reading DXF file on line %d\n"),
+//                     strFilename, in.getFilePosition());
         QMessageBox::critical( this, tr("Error"), S, QMessageBox::Abort);
         return NULL;
       }
@@ -2786,8 +2788,9 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       if (!out) 
       {
          QString S;
-         S.sprintf(tr("%s: Error writting temporaly file"), 
-             strFilename );
+         S += strFilename + tr(": Error writting temporaly file");
+         //S.sprintf(tr("%s: Error writting temporaly file"), 
+         //    strFilename );
          QMessageBox::critical( this, tr("Error"), S, QMessageBox::Ok, 
          QMessageBox::NoButton, QMessageBox::NoButton);  
          return NULL;
@@ -2801,8 +2804,9 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       if (!converter.doConvert(model)) 
       {
           QString S;
-          S.sprintf(tr("%s: Error while converting from DXF to OpenInventor"), 
-             strFilename );
+          S += strFilename + tr(": Error while converting from DXF to OpenInventor");
+          //S.sprintf(tr("%s: Error while converting from DXF to OpenInventor"), 
+          //   strFilename );
           QMessageBox::critical( this, tr("Error"), S, QMessageBox::Ok, 
           QMessageBox::NoButton, QMessageBox::NoButton);  
     
@@ -2825,8 +2829,9 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       else
       {
           QString S;
-          S.sprintf(tr("%s: Error loading temporaly file"), 
-          strFilename );
+          S += strFilename + tr(": Error loading temporaly file");
+//          S.sprintf(tr("%s: Error loading temporaly file"), 
+//          strFilename );
           QMessageBox::critical( this, tr("Error"), S, QMessageBox::Ok, 
           QMessageBox::NoButton, QMessageBox::NoButton);  
       } 
