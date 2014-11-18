@@ -38,13 +38,24 @@ endif( SOQT_LIBRARY_FOUND )
 ##############################################################################
 
 ##############################################################################
-find_package( simage REQUIRED )
+find_package( Simage REQUIRED )
 if( Simage_FOUND )
    add_definitions( ${Simage_DEFINITIONS} )
    include_directories( ${Simage_INCLUDE_DIRS} )
 else ( Simage_FOUND )
    message(SEND_ERROR "coindesigner needs Simage library")
 endif( Simage_FOUND )
+
+##############################################################################
+find_package( Dime )
+if( Dime_FOUND )
+   add_definitions( ${Dime_DEFINITIONS} -DUSE_DIME )
+   include_directories( ${Dime_INCLUDE_DIRS} )
+   message(STATUS "Using the dime lib to import dxf files")
+else ( Dime_FOUND )
+   message(STATUS "Dime not found, could not work with dxf files")
+endif( Dime_FOUND )
+
 # END Required packages for GUI
 ##############################################################################
 
@@ -168,4 +179,6 @@ QT4_WRAP_CPP(MOCS ${coindesigner_MOCS})
 
 add_executable ( coindesigner ${coindesigner_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
 target_link_libraries ( coindesigner  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY}
-					${COIN_LIBRARY} ${SOQT_LIBRARY} ${Simage_LIBRARIES})
+					${COIN_LIBRARY} ${SOQT_LIBRARY} 
+					${Simage_LIBRARIES}
+${Dime_LIBRARIES})
