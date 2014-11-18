@@ -1,6 +1,7 @@
 cmake_minimum_required( VERSION 2.6 )
 set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
+add_definitions(-DCDS_VERSION="2.0")
 find_package ( Qt4 REQUIRED )
 include ( ${QT_USE_FILE} )
 include_directories (
@@ -19,53 +20,53 @@ set ( coindesigner_HDRS
 	)
 
 set ( coindesigner_SRCS
-	main.cpp
-	mainwindow.cpp
-	mainwindow2.cpp
-	cds_util.cpp
-	cds_viewers.cpp
-	cds_parser.cpp
-	cds_scanner.cpp
-	cds_globals.cpp
-	3dsLoader.cpp
-	settingsDialog.cpp
-	SoStream.cpp
-	src_editor.cpp
-	cppexport_options.cpp
-	mfield_editor.cpp
-	ivfix_options.cpp
-	qslim_options.cpp
-	tetgen_options.cpp
-	IfBuilder.cpp
-	IfFlattener.cpp
-	IfReplacer.cpp
-	IfSorter.cpp
-	IfCollector.cpp
-	IfHasher.cpp
-	IfReporter.cpp
-	IfStripper.cpp
-	IfCondenser.cpp
-	IfHolder.cpp
-	IfShape.cpp
-	IfTypes.cpp
-	IfFixer.cpp
-	IfMerger.cpp
-	IfShapeList.cpp
-	IfWeeder.cpp
-	qh_geom.cpp
-	qh_io.cpp
-	qh_poly.cpp
-	qh_stat.cpp
-	qh_geom2.cpp
-	qh_mem.cpp
-	qh_poly2.cpp
-	qh_user.cpp
-	qhulllib.cpp
-	qh_global.cpp
-	qh_merge.cpp
-	qhull_interface.cpp
-	qh_qset.cpp
-	qhull.cpp
+	src/main.cpp
+	src/mainwindow.cpp
+	src/mainwindow2.cpp
+	src/cds_util.cpp
+	src/cds_viewers.cpp
+	src/cds_parser.cpp
+	src/cds_scanner.cpp
+	src/cds_globals.cpp
+	src/3dsLoader.cpp
+	src/settingsDialog.cpp
+	src/SoStream.cpp
+	src/src_editor.cpp
+	src/cppexport_options.cpp
+	src/mfield_editor.cpp
+	src/ivfix_options.cpp
+	src/qslim_options.cpp
+	src/tetgen_options.cpp
+	src/ivfix/IfBuilder.cpp
+	src/ivfix/IfFlattener.cpp
+	src/ivfix/IfReplacer.cpp
+	src/ivfix/IfSorter.cpp
+	src/ivfix/IfCollector.cpp
+	src/ivfix/IfHasher.cpp
+	src/ivfix/IfReporter.cpp
+	src/ivfix/IfStripper.cpp
+	src/ivfix/IfCondenser.cpp
+	src/ivfix/IfHolder.cpp
+	src/ivfix/IfShape.cpp
+	src/ivfix/IfTypes.cpp
+	src/ivfix/IfFixer.cpp
+	src/ivfix/IfMerger.cpp
+	src/ivfix/IfShapeList.cpp
+	src/ivfix/IfWeeder.cpp
+	src/qhulllib/qh_geom.cpp
+	src/qhulllib/qh_io.cpp
+	src/qhulllib/qh_poly.cpp
+	src/qhulllib/qh_stat.cpp
+	src/qhulllib/qh_geom2.cpp
+	src/qhulllib/qh_mem.cpp
+	src/qhulllib/qh_poly2.cpp
+	src/qhulllib/qh_user.cpp
+	src/qhulllib/qhulllib.cpp
+	src/qhulllib/qh_global.cpp
+	src/qhulllib/qh_merge.cpp
+	src/qhulllib/qhull_interface.cpp
+	src/qhulllib/qh_qset.cpp
+	src/qhulllib/qhull.cpp
 	)
 
 set ( coindesigner_UIS
