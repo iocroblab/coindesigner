@@ -19,8 +19,8 @@
 
 #include "ivfix_options.h"
 #include "cds_util.h"
-#include "IfFixer.h"
-#include "IfReporter.h"
+#include "ivfix/IfFixer.h"
+#include "ivfix/IfReporter.h"
 
 ivfix_options::ivfix_options (SoNode *root, QWidget *p, Qt::WindowFlags f) : QDialog(p, f)
 {

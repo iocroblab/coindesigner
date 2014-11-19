@@ -22,7 +22,8 @@
 #endif
 
 #include "cds_util.h"
-#include "qhulllib.h"
+#include "qhulllib/qhulllib.h"
+
 #include <Inventor/nodes/SoNodes.h>
 #include <Inventor/actions/SoActions.h>
 #include <Inventor/VRMLnodes/SoVRMLNodes.h>
