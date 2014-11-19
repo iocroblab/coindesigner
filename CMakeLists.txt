@@ -5,6 +5,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 
 
+########### Options ####################
+option( CDS_GENERATE_FILES "Regenerate flex and bision/yacc files" ON )
+
+
 set(CDS_INCLUDES "")
 set(CDS_LIBRARIES "")
 #set(CDS_INCLUDES ${CDS_INCLUDES} ${})
@@ -70,6 +74,55 @@ else ( Dime_FOUND )
 endif( Dime_FOUND )
 ##############################################################################
 
+
+###Pending
+#Soporte para representar imagenes volumetricas con la libreria
+#SIMVoleon, disponible en http://dev.sim.no/SIM_Voleon/
+#Para dar soporte a SIMVoleon, decomentar las siguientes lineas.
+#Coindesigner can show volumetrix data using the SIMVoleon library,
+#which you can download from http://dev.sim.no/SIM_Voleon/
+#To add support to SIMVoleon, uncoment next 3 lines.
+#DEFINES += USE_VOLEON SIMVOLEON_DLL
+#unix:LIBS += -lSimVoleon
+#win32:LIBS += $(COIN3DDIR)\lib\simvoleon2.library
+
+if(CDS_GENERATE_FILES)
+   find_package(BISON )
+   if(BISON_FOUND)
+      set(BisonOutput ${CMAKE_BINARY_DIR}/cds_parser.cpp)
+      set(YFLAGS "-t")
+      add_custom_command(
+         OUTPUT ${BisonOutput}
+         COMMAND ${BISON_EXECUTABLE} ${YFLAGS}
+               --defines=${CMAKE_BINARY_DIR}/cds_parser.h
+               --output=${BisonOutput}
+               ${CMAKE_SOURCE_DIR}/src/cds_parser.y
+         COMMENT "Generating cds_parser.cpp")
+   else(BISON_FOUND)
+      set ( CDS_GENERATE_FILES OFF )
+      set ( BisonOutput src/cds_parser.cpp)
+   endif(BISON_FOUND)
+
+   find_package(FLEX )
+   if(FLEX_FOUND)
+      set(FlexOutput ${CMAKE_BINARY_DIR}/cds_scanner.cpp)
+      add_custom_command(
+         OUTPUT ${FlexOutput}
+         COMMAND ${FLEX_EXECUTABLE} -i
+               --outfile=${FlexOutput}
+               ${CMAKE_SOURCE_DIR}/src/cds_scanner.l
+         COMMENT "Generating cds_scanner.cpp")
+   else(FLEX_FOUND)
+      set ( CDS_GENERATE_FILES OFF )
+      set ( FlexOutput src/cds_scanner.cpp)
+   endif(FLEX_FOUND)
+else(CDS_GENERATE_FILES)
+   set ( FlexOutput src/cds_scanner.cpp)
+   set ( BisonOutput src/cds_parser.cpp)
+endif(CDS_GENERATE_FILES)
+
+add_library(cds_parser ${BisonOutput} ${FlexOutput})
+
 set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
 add_definitions(-DCDS_VERSION="2.0")
@@ -81,13 +134,12 @@ set ( CDS_HDRS src/cds_util.h
                src/cds_globals.h
                src/3dsLoader.h)
 
-set ( CDS_SRCS src/main.cpp
+set ( CDS_SRCS ${CDS_SRCS} src/main.cpp
                src/mainwindow.cpp
                src/mainwindow2.cpp
                src/cds_util.cpp
                src/cds_viewers.cpp
-               src/cds_parser.cpp
-               src/cds_scanner.cpp
+               #src/cds_scanner.cpp
                src/cds_globals.cpp
                src/3dsLoader.cpp
                src/settingsDialog.cpp
@@ -160,7 +212,7 @@ set ( CDS_MOCS src/mainwindow.h
 QT4_WRAP_CPP(MOCS ${CDS_MOCS})
 
 add_executable ( coindesigner ${CDS_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
-add_executable (cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp)
+add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp )
 
-target_link_libraries ( coindesigner ${CDS_LIBRARIES})
+target_link_libraries ( coindesigner ${CDS_LIBRARIES} cds_parser)
 target_link_libraries ( cdsview ${SOQT_LIBRARY} )
