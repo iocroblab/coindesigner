@@ -215,4 +215,4 @@ add_executable ( coindesigner ${CDS_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
 add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp )
 
 target_link_libraries ( coindesigner ${CDS_LIBRARIES} cds_parser)
-target_link_libraries ( cdsview ${SOQT_LIBRARY} )
+target_link_libraries ( cdsview ${SOQT_LIBRARY} ${COIN_LIBRARY} )
