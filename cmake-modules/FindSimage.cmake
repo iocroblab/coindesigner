@@ -95,29 +95,66 @@ ELSE(USE_SIM_FIND)
 
       ENDIF (MSVC)
       SET(Simage_LIBRARY ${Simage_LIBRARIES})
-
-    ELSE (Simage_FOUND)
-      IF (Simage_FIND_REQUIRED)
-        MESSAGE(FATAL_ERROR "Couldn't locate simage using pkg-config.")
-
-      ELSE (Simage_FIND_REQUIRED)
-        IF (NOT Simage_FIND_QUIETLY)
-          MESSAGE(STATUS "Couldn't locate simage using pkg-config.")
-        ENDIF (NOT Simage_FIND_QUIETLY)
-
-      ENDIF (Simage_FIND_REQUIRED)
-    ENDIF(Simage_FOUND)
-
-  ELSE (PKG_CONFIG_FOUND)
-    IF (Simage_FIND_REQUIRED)
-      MESSAGE(FATAL_ERROR "pkg-config required by FindSimage.cmake")
-
-    ELSE (Simage_FIND_REQUIRED)
-      IF (NOT Simage_FIND_QUIETLY)
-        MESSAGE(STATUS "pkg-config required by FindSimage.cmake")
-      ENDIF (NOT Simage_FIND_QUIETLY)
-
-    ENDIF (Simage_FIND_REQUIRED)
-
+   ELSE(Simage_FOUND)
+        MESSAGE(STATUS "Couldn't locate simage using pkg-config.")
+   ENDIF(Simage_FOUND)
+  ELSE(PKG_CONFIG_FOUND)
+     MESSAGE(STATUS "Couldn't locate pkg-config to locate simage.")
   ENDIF(PKG_CONFIG_FOUND)
+
+  IF(NOT Simage_FOUND)
+   #we don't have simage yet
+      MESSAGE(STATUS "Triying to find simage via simage-config.")
+      execute_process (COMMAND simage-config --libs
+                     OUTPUT_VARIABLE Simage_LIBRARIES
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+      IF(Simage_LIBRARIES)
+         message(STATUS "simage-config found: simage libs are ${Simage_LIBRARIES}")
+         # make sure all includes stays on one line
+         STRING(REGEX REPLACE "\n" " " Simage_LIBRARIES "${Simage_LIBRARIES}")
+         #  Simage_FOUND          - Set to true when Simage is found
+         #  Simage_LIBRARIES      - Libriaries that must be linked
+         #  Simage_LIBRARY        - Same as Simage_LIBRARIES
+         set(Simage_FOUND YES)
+         set(Simage_LIBRARY ${Simage_LIBRARIES})
+   ####### Simage_VERSION_STRING - The Simage version number
+         # convert unix style libdir paths to win libdir paths
+         execute_process (COMMAND simage-config --version
+                        OUTPUT_VARIABLE Simage_VERSION_STRING
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+   #######  Simage_INCLUDE_DIRS   - Include directories for Simage
+         execute_process (COMMAND simage-config --cflags
+                        OUTPUT_VARIABLE Simage_INCLUDE_DIRS
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+         # make sure all includes stays on one line
+         STRING(REGEX REPLACE "\n" " " Simage_INCLUDE_DIRS "${Simage_INCLUDE_DIRS}")
+
+   #######  Simage_LIBRARY_DIRS   - Link directories for Simage
+         # convert unix style libdir paths to win libdir paths
+         execute_process (COMMAND simage-config --ldflags
+                        OUTPUT_VARIABLE Simage_LIBRARY_DIRS
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+         # make sure all includes stays on one line
+         STRING(REGEX REPLACE "\n" " " Simage_LIBRARY_DIRS "${Simage_LIBRARY_DIRS}")
+
+   #######  Simage_DEFINITIONS    - Define flags to the compiler
+         execute_process (COMMAND simage-config --cppflags
+                        OUTPUT_VARIABLE Simage_DEFINITIONS
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+         # make sure all includes stays on one line
+         STRING(REGEX REPLACE "\n" " " Simage_DEFINITIONS "${Simage_DEFINITIONS}")
+      ELSE(Simage_LIBRARIES)
+         IF (Simage_FIND_REQUIRED)
+            MESSAGE(FATAL_ERROR "FindSimage.cmake couldn't find simage libs neither via pkg-config or simage-config")
+         ELSE (Simage_FIND_REQUIRED)
+            IF (NOT Simage_FIND_QUIETLY)
+               MESSAGE(STATUS "FindSimage.cmake couldn't find simage")
+            ENDIF (NOT Simage_FIND_QUIETLY)
+         ENDIF (Simage_FIND_REQUIRED)
+      ENDIF(Simage_LIBRARIES)
+   ENDIF(NOT Simage_FOUND)
 ENDIF(USE_SIM_FIND)
+
+
