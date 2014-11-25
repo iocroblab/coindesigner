@@ -146,13 +146,41 @@ ELSE(USE_SIM_FIND)
          # make sure all includes stays on one line
          STRING(REGEX REPLACE "\n" " " Simage_DEFINITIONS "${Simage_DEFINITIONS}")
       ELSE(Simage_LIBRARIES)
-         IF (Simage_FIND_REQUIRED)
-            MESSAGE(FATAL_ERROR "FindSimage.cmake couldn't find simage libs neither via pkg-config or simage-config")
-         ELSE (Simage_FIND_REQUIRED)
-            IF (NOT Simage_FIND_QUIETLY)
+### Trying another strategy
+         find_path(Simage_INCLUDE_DIRS simage.h
+               ${CMAKE_INCLUDE_PATH}
+               /usr/local/include
+               /usr/include
+               $ENV{ProgramFiles}/include)
+
+         if(Simage_INCLUDE_DIRS)
+            message(STATUS "Looking for Simage headers -- found " ${Simage_INCLUDE_DIRS}/simage.h)
+            find_library(Simage_LIBRARIES
+               NAMES simage simage1 simage20 simage40 libsimage
+               HINTS
+               ${CMAKE_LIBRARY_PATH}
+               $ENV{COIN3DDIR}/lib
+               /usr/local/lib
+               /usr/lib
+               $ENV{ProgramFiles}/lib
+               $ENV{COINDIR}/lib
+            )
+            if(Simage_LIBRARIES)
+               message(STATUS "simage lib found at ${Simage_LIBRARIES}")
+               set(Simage_FOUND YES)
+            else(Simage_LIBRARIES)
+               message(STATUS "CMake only has found the include. So, it guess that you can compile with -lsimage")
+               set(Simage_FOUND YES)
+               set(Simage_LIBRARIES -lsimage)
+            endif(Simage_LIBRARIES)
+            set(Simage_LIBRARY ${Simage_LIBRARIES})
+         else(Simage_INCLUDE_DIRS )
+            IF (Simage_FIND_REQUIRED)
+               MESSAGE(FATAL_ERROR "FindSimage.cmake couldn't find simage libs neither via pkg-config or simage-config")
+            ELSE (Simage_FIND_REQUIRED)
                MESSAGE(STATUS "FindSimage.cmake couldn't find simage")
-            ENDIF (NOT Simage_FIND_QUIETLY)
-         ENDIF (Simage_FIND_REQUIRED)
+            ENDIF (Simage_FIND_REQUIRED)
+         endif(Simage_INCLUDE_DIRS)
       ENDIF(Simage_LIBRARIES)
    ENDIF(NOT Simage_FOUND)
 ENDIF(USE_SIM_FIND)
