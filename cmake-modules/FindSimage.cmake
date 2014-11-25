@@ -104,7 +104,7 @@ ELSE(USE_SIM_FIND)
 
   IF(NOT Simage_FOUND)
    #we don't have simage yet
-      MESSAGE(STATUS "Triying to find simage via simage-config.")
+      MESSAGE(STATUS "Trying to find simage via simage-config.")
       execute_process (COMMAND simage-config --libs
                      OUTPUT_VARIABLE Simage_LIBRARIES
                      OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -163,15 +163,60 @@ ELSE(USE_SIM_FIND)
                /usr/local/lib
                /usr/lib
                $ENV{ProgramFiles}/lib
-               $ENV{COINDIR}/lib
-            )
+               $ENV{COINDIR}/lib)
             if(Simage_LIBRARIES)
                message(STATUS "simage lib found at ${Simage_LIBRARIES}")
                set(Simage_FOUND YES)
             else(Simage_LIBRARIES)
-               message(STATUS "CMake only has found the include. So, it guess that you can compile with -lsimage")
-               set(Simage_FOUND YES)
-               set(Simage_LIBRARIES -lsimage)
+               if(WIN32)
+                  find_path(Simage_LIB simage.dll
+                        ${CMAKE_BINARY_DIR}
+                        $ENV{ProgramFiles}/lib
+                        ${CMAKE_LIBRARY_PATH}
+                        $ENV{COIN3DDIR}/lib
+                        $ENV{ProgramFiles}/Coin3D-2/lib
+                        $ENV{COINDIR}/lib   )
+                  if(Simage_LIB)
+                     message(STATUS "Simage.dll found")
+                     set(Simage_FOUND YES)
+                     set(Simage_DEFINITIONS -DSIMAGE_DLL)
+                     set(Simage_LIBRARIES -lsimage.dll)
+                  else(Simage_LIB)
+                     find_path(Simage_LIB simage.lib
+                        ${CMAKE_BINARY_DIR}
+                        $ENV{ProgramFiles}/lib
+                        ${CMAKE_LIBRARY_PATH}
+                        $ENV{COIN3DDIR}/lib
+                        $ENV{ProgramFiles}/Coin3D-2/lib
+                        $ENV{COINDIR}/lib   )
+                     if(Simage_LIB)
+                        message(STATUS "Simage.lib found")
+                        set(Simage_FOUND YES)
+                        set(Simage_DEFINITIONS -DSIMAGE_NOT_DLL)
+                        set(Simage_LIBRARIES -lsimage.lib)
+                     endif(Simage_LIB)
+                  endif(Simage_LIB)
+               else(WIN32) # UNIX?
+                  find_path(Simage_LIB libsimage.a
+                        ${CMAKE_BINARY_DIR}
+                        /usr/lib
+                        /usr/local/lib)
+                  if(Simage_LIB)
+                     message(STATUS "Found simage at ${Simage_LIB}/libsimage.a")
+                     set(Simage_FOUND YES)
+                     set(Simage_LIBRARIES -lsimage)
+                  else(Simage_LIB)
+                     find_path(Simage_LIB libsimage.so
+                        ${CMAKE_BINARY_DIR}
+                        /usr/lib
+                        /usr/local/lib)
+                     if(Simage_LIB)
+                        message(STATUS "Found simage at ${Simage_LIB}/libsimage.so")
+                        set(Simage_FOUND YES)
+                        set(Simage_LIBRARIES -lsimage)
+                     endif(Simage_LIB)
+                  endif(Simage_LIB)
+               endif(WIN32) # UNIX?
             endif(Simage_LIBRARIES)
             set(Simage_LIBRARY ${Simage_LIBRARIES})
          else(Simage_INCLUDE_DIRS )
