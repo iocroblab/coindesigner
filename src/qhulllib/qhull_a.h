@@ -98,7 +98,7 @@ void 	qh_partitionall(setT *vertices, pointT *points,int npoints);
 void    qh_partitioncoplanar (pointT *point, facetT *facet, realT *dist);
 void    qh_partitionpoint (pointT *point, facetT *facet);
 void 	qh_partitionvisible(boolT allpoints, int *numpoints);
-void    qh_precision (char *reason);
+void    qh_precision (const char *reason);
 void	qh_printsummary(FILE *fp);
 
 /***** -global.c internal prototypes (alphabetical) ***********************/

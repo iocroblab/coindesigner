@@ -150,8 +150,8 @@ int     qh_mindiff (realT *vecA, realT *vecB, int dim);
 boolT   qh_orientoutside (facetT *facet);
 void    qh_outerinner (facetT *facet, realT *outerplane, realT *innerplane);
 coordT  qh_pointdist(pointT *point1, pointT *point2, int dim);
-void    qh_printmatrix (FILE *fp, char *string, realT **rows, int numrow, int numcol);
-void    qh_printpoints (FILE *fp, char *string, setT *points);
+void    qh_printmatrix (FILE *fp, const char*string, realT **rows, int numrow, int numcol);
+void    qh_printpoints (FILE *fp, const char*string, setT *points);
 void    qh_projectinput (void);
 void 	qh_projectpoints (signed char *project, int n, realT *points, 
              int numpoints, int dim, realT *newpoints, int newdim);

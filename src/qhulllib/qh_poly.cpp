@@ -1,4 +1,4 @@
-#pragma warning(disable:4311)  // TODO: Find a work-around for these warnings!
+//#pragma warning(disable:4311)  // TODO: Find a work-around for these warnings!
 #include "qinterface.h"
 /*<html><pre>  -<a                             href="qh-poly.htm"
   >-------------------------------</a><a name="TOP">-</a>
@@ -734,7 +734,7 @@ void qh_matchneighbor (facetT *newfacet, int newskip, int hashsize, int *hashcou
           facet->id, newfacet->id);
         qh_errexit2 (qh_ERRprec, facet, newfacet);
       }
-      ismatch= (same == (newfacet->toporient ^ facet->toporient));
+      ismatch= (same == ((unsigned int)(newfacet->toporient ^ facet->toporient)));
       matchfacet= SETelemt_(facet->neighbors, skip, facetT);
       if (ismatch && !matchfacet) {
         SETelem_(facet->neighbors, skip)= newfacet;

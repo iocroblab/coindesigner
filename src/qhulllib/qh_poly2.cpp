@@ -1793,12 +1793,13 @@ void qh_initialhull(setT *vertices) {
     if (minangle < qh_WARNnarrow && !qh RERUN && qh PRINTprecision)
       gInterface->HullIsNarrow(); // report that the hull is considered 'narrow'.
 
-//      gInterface->HullPrintf (qh ferr, "qhull precision warning: \n\
-//The initial hull is narrow (cosine of min. angle is %.16f).\n\
-//A coplanar point may lead to a wide facet.  Options 'QbB' (scale to unit box)\n\
-//or 'Qbb' (scale last coordinate) may remove this warning.  Use 'Pp' to skip\n\
-//this warning.  See 'Limitations' in qh-impre.htm.\n",
-//          -minangle);   /* convert from angle between normals to angle between facets */
+/*      gInterface->HullPrintf (qh ferr, "qhull precision warning: \n\
+The initial hull is narrow (cosine of min. angle is %.16f).\n\
+A coplanar point may lead to a wide facet.  Options 'QbB' (scale to unit box)\n\
+or 'Qbb' (scale last coordinate) may remove this warning.  Use 'Pp' to skip\n\
+this warning.  See 'Limitations' in qh-impre.htm.\n",
+          -minangle);*/
+//convert from angle between normals to angle between facets
 
   }
   zzval_(Zprocessed)= qh hull_dim+1;
@@ -2051,7 +2052,7 @@ void qh_matchduplicates (facetT *atfacet, int atskip, int hashsize, int *hashcou
 	  continue;
 	zinc_(Zhashtests);
 	if (qh_matchvertices (1, newfacet->vertices, newskip, facet->vertices, &skip, &same)) {
-	  ismatch= (same == (newfacet->toporient ^ facet->toporient));
+      ismatch= (same == ((unsigned int)(newfacet->toporient ^ facet->toporient)));
 	  if (SETelemt_(facet->neighbors, skip, facetT) != qh_DUPLICATEridge) {
 	    if (!makematch) {
 	      gInterface->HullPrintf (qh ferr, "qhull internal error (qh_matchduplicates): missing dupridge at f%d skip %d for new f%d skip %d hash %d\n",

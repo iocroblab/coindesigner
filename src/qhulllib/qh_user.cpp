@@ -261,7 +261,7 @@ void qh_errexit(int exitcode, facetT * /*facet*/ , ridgeT * /*ridge*/)
   notes:
     except for string, any parameter may be NULL
 */
-void qh_errprint(char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
+void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
   int i;
 
   if (atfacet) {

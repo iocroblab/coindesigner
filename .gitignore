@@ -17,3 +17,5 @@
 
 # build directories
 build*
+CMakeLists.txt.user
+

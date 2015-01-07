@@ -650,7 +650,7 @@ read3dsFile(SoStream *in, SoSeparator *&root,
 }
 
 
-
+uint32_t stopPos;
 
 #define CHUNK(_name_) CHUNK_DECL(_name_)
 
@@ -661,7 +661,7 @@ read3dsFile(SoStream *in, SoSeparator *&root,
   uint32_t size; \
   con->s >> size; \
   uint32_t cpos = (uint32_t)con->s.getPos(); \
-  uint32_t stopPos = cpos + size - 6;
+  stopPos = cpos + size - 6;
 
 
 #define READ_SUBCHUNKS(_subChunkSwitch_) \

@@ -1266,7 +1266,7 @@ void MainWindow::on_actionEngine_demo_activated()
 void MainWindow::on_actionAbout_activated()
 {
     QString msj;
-    msj.sprintf("<p>Coindesigner version %.1f (%s)<p>", CDS_VERSION, __DATE__ );
+    msj.sprintf("<p>Coindesigner version %s (%s)<p>", CDS_VERSION, __DATE__ );
     msj += tr("Written by")+" Jose M. Espadero "+tr("and")+" Tomas Aguado";
     msj += "<br>         " + tr("with usefull contributions from") + " Manfred Kroehnert";
     msj += "<p><a href=https://github.com/jmespadero/coindesigner>https://github.com/jmespadero/coindesigner)</a>";
@@ -2783,7 +2783,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 
       //
       // open output file
-      char *outfile = "tmp.iv";
+      const char *outfile = "tmp.iv";
       FILE *out = fopen(outfile, "wb");
       if (!out) 
       {

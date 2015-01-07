@@ -36,7 +36,7 @@
 
 
 
-int QhullMain(int argc, char *argv[],int numpoints,const float *verts)
+int QhullMain(int argc, char const *argv[],int numpoints,const float *verts)
 {
   int exitcode,dim;
   coordT *points;

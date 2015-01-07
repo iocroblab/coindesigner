@@ -983,7 +983,7 @@ private:
 
 
 
-int QhullMain(int argc, char *argv[],int numverts,const float *verts);
+int QhullMain(int argc, char const*argv[],int numverts,const float *verts);
 
 QhullError QhullLibrary::CreateConvexHull(const QhullDesc       &desc,           // describes the input request
                                           QhullResult           &result)         // contains the resulst
@@ -994,7 +994,7 @@ QhullError QhullLibrary::CreateConvexHull(const QhullDesc       &desc,          
   printf("Submitting %d vertices to Qhull\r\n", desc.mVcount );
   #endif
 
-  char *argv[16];
+  char const*argv[16];
 
   argv[0] = "qhull";
   argv[1] = "o";   // produce off file output...

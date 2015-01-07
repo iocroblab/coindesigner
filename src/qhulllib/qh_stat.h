@@ -482,7 +482,7 @@ extern qhstatT qh_qhstat;
 struct qhstatT {  
   intrealT   stats[ZEND];     /* integer and real statistics */
   unsigned   char id[ZEND+10]; /* id's in print order */
-  char      *doc[ZEND];       /* array of documentation strings */
+  char const      *doc[ZEND];       /* array of documentation strings */
   short int  count[ZEND];     /* -1 if none, else index of count to use */
   char       type[ZEND];      /* type, see ztypes above */
   char       printed[ZEND];   /* true, if statistic has been printed */
@@ -513,8 +513,8 @@ void	qh_freestatistics (void);
 void    qh_initstatistics (void);
 boolT 	qh_newstats (int index, int *nextindex);
 boolT 	qh_nostatistic (int i);
-void    qh_printallstatistics (FILE *fp, char *string);
-void    qh_printstatistics (FILE *fp, char *string);
+void    qh_printallstatistics (FILE *fp, char const*string);
+void    qh_printstatistics (FILE *fp, const char*string);
 void  	qh_printstatlevel (FILE *fp, int id, int start);
 void  	qh_printstats (FILE *fp, int index, int *nextindex);
 realT   qh_stddev (int num, realT tot, realT tot2, realT *ave);

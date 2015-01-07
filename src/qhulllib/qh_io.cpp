@@ -1573,7 +1573,7 @@ void qh_printbegin (FILE *fp, int format, facetT *facetlist, setT *facets, boolT
     defines facet->center if needed
     if format=PRINTgeom, adds a 0 if would otherwise be 2-d
 */
-void qh_printcenter (FILE *fp, int format, char *string, facetT *facet) {
+void qh_printcenter (FILE *fp, int format, const char*string, facetT *facet) {
   int k, num;
 
   if (qh CENTERtype != qh_ASvoronoi && qh CENTERtype != qh_AScentrum)
@@ -2010,7 +2010,7 @@ void qh_printfacet2geom_points(FILE *fp, pointT *point1, pointT *point2,
 void qh_printfacet2math(FILE *fp, facetT *facet, int format, int notfirst) {
   pointT *point0, *point1;
   realT mindist;
-  char *pointfmt;
+  char const *pointfmt;
   
   qh_facet2point (facet, &point0, &point1, &mindist);
   if (notfirst)
@@ -2199,7 +2199,7 @@ void qh_printfacet3math (FILE *fp, facetT *facet, int format, int notfirst) {
   pointT *point, **pointp;
   boolT firstpoint= True;
   realT dist;
-  char *pointfmt, *endfmt;
+  char const*pointfmt, *endfmt;
   
   if (notfirst)
     gInterface->HullPrintf(fp, ",\n");
@@ -3025,13 +3025,13 @@ void qh_printneighborhood (FILE *fp, int format, facetT *facetA, facetT *facetB,
     nop if point is NULL
     prints id unless it is undefined (-1)
 */
-void qh_printpoint(FILE *fp, char *string, pointT *point) {
+void qh_printpoint(FILE *fp, const char*string, pointT *point) {
   int id= qh_pointid( point);
 
   qh_printpointid( fp, string, qh hull_dim, point, id);
 } /* printpoint */
 
-void qh_printpointid(FILE *fp, char *string, int dim, pointT *point, int id) 
+void qh_printpointid(FILE *fp, const char*string, int dim, pointT *point, int id)
 {
   
   if (!point)
@@ -3445,7 +3445,7 @@ void qh_printvertex(FILE *fp, vertexT *vertex) {
     prints vertices used by a facetlist or facet set
     tests qh_skipfacet() if !printall
 */
-void qh_printvertexlist (FILE *fp, char* string, facetT *facetlist, 
+void qh_printvertexlist (FILE *fp, char const* string, facetT *facetlist,
                          setT *facets, boolT printall) {
   vertexT *vertex, **vertexp;
   setT *vertices;
@@ -3464,7 +3464,7 @@ void qh_printvertexlist (FILE *fp, char* string, facetT *facetlist,
   qh_printvertices( fp, string, vertices )
     prints vertices in a set
 */
-void qh_printvertices(FILE *fp, char* string, setT *vertices) {
+void qh_printvertices(FILE *fp, char const* string, setT *vertices) {
   vertexT *vertex, **vertexp;
   
   fputs (string, fp);

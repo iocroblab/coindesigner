@@ -40,7 +40,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
   int i;
 
   //Numero de facetas seleccionadas para parchear
-  static int numFacetasPatch = 0;
+  //static int numFacetasPatch = 0;
 
  //Identificamos la ventana, el visor y la barra de status
  QStatusBar *statusBar = this->statusBar();
@@ -72,7 +72,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 		statusBar->showMessage(QObject::tr("Nothing there."));
 
 		//Reseteamos el contador de facetas
-		numFacetasPatch=0;
+        //numFacetasPatch=0;
 
 		return;
     }

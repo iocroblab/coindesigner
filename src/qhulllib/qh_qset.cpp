@@ -225,7 +225,7 @@ void qh_setappend2ndlast(setT **setp, void *newelem) {
   design:
     checks that maxsize, actual size, and NULL terminator agree
 */
-void qh_setcheck(setT *set, char *tname, int id)
+void qh_setcheck(setT *set, char const*tname, int id)
 {
 
   int maxsize, size;
@@ -1020,7 +1020,7 @@ setT *qh_setnew_delnthsorted(setT *set, int size, int nth, int prepend) {
   notes:
     never errors
 */
-void qh_setprint(FILE *fp, char* string, setT *set) {
+void qh_setprint(FILE *fp, char const* string, setT *set) {
   int size, k;
 
   if (!set)

@@ -2075,6 +2075,6 @@ void yyfree (void * ptr )
 
 
 /* Esto solo sirve para eliminar un warning del compilador */
-void funcionQueNoSeEjecutaNunca(void) { yyunput(0,"");}
+void funcionQueNoSeEjecutaNunca(void) { yyunput(0,(char *)"");}
 
 

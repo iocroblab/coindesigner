@@ -430,7 +430,7 @@ int main(int argc, char ** argv)
       renderTimer->schedule();
 
       //Show FPS
-      putenv("COIN_SHOW_FPS_COUNTER=1");
+      putenv((char *)"COIN_SHOW_FPS_COUNTER=1");
   }
 
 

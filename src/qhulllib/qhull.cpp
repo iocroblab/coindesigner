@@ -1173,7 +1173,7 @@ void qh_partitionvisible(/*visible_list*/ boolT allpoints, int *numoutside) {
   qh_precision( reason )
     restart on precision errors if not merging and if 'QJn'
 */
-void qh_precision (char *reason) {
+void qh_precision (const char *reason) {
 
   if (qh ALLOWrestart && !qh PREmerge && !qh MERGEexact) {
     if (qh JOGGLEmax < REALmax/2) {
@@ -1203,7 +1203,7 @@ void qh_printsummary(FILE *fp) {
   int size, id, nummerged, numvertices, numcoplanars= 0, nonsimplicial=0;
   int goodused;
   facetT *facet;
-  char *s;
+  char const*s;
   int numdel= zzval_(Zdelvertextot);
   int numtricoplanars= 0;
 

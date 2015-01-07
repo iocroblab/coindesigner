@@ -53,7 +53,7 @@
 
 /*============ constants and basic types ====================*/
 
-extern char *qh_version; /* defined in global.c */
+extern char const *qh_version; /* defined in global.c */
 
 /*-<a                             href="qh-geom.htm#TOC"
   >--------------------------------</a><a name="coordT">-</a>
@@ -948,7 +948,7 @@ void	qh_printsummary(FILE *fp);
 /********* -user.c prototypes (alphabetical) **********************/
 
 void 	qh_errexit(int exitcode, facetT *facet, ridgeT *ridge);
-void 	qh_errprint(char* string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex);
+void 	qh_errprint(char const *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex);
 int     qh_new_qhull (int dim, int numpoints, coordT *points, boolT ismalloc,
 		char *qhull_cmd, FILE *outfile, FILE *errfile);
 void    qh_printfacetlist(facetT *facetlist, setT *facets, boolT printall);
@@ -977,9 +977,9 @@ unsigned long qh_clock (void);
 void 	qh_checkflags (char *command, char *hiddenflags);
 void 	qh_freebuffers (void);
 void    qh_freeqhull (boolT allmem);
-void    qh_init_A (FILE *infile, FILE *outfile, FILE *errfile, int argc, char *argv[]);
+void    qh_init_A (FILE *infile, FILE *outfile, FILE *errfile, int argc, const char *argv[]);
 void    qh_init_B (coordT *points, int numpoints, int dim, boolT ismalloc);
-void 	qh_init_qhull_command (int argc, char *argv[]);
+void 	qh_init_qhull_command (int argc, const char *argv[]);
 void    qh_initbuffers (coordT *points, int numpoints, int dim, boolT ismalloc);
 void 	qh_initflags (char *command);
 void 	qh_initqhull_buffers (void);
@@ -987,7 +987,7 @@ void 	qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismall
 void    qh_initqhull_mem (void);
 void 	qh_initqhull_start (FILE *infile, FILE *outfile, FILE *errfile);
 void 	qh_initthresholds (char *command);
-void    qh_option (char *option, int *i, realT *r);
+void    qh_option (char const *option, int *i, realT *r);
 #if qh_QHpointer
 void 	qh_restore_qhull (qhT **oldqh);
 qhT    *qh_save_qhull (void);

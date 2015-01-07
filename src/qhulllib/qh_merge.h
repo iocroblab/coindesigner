@@ -110,7 +110,7 @@ struct mergeT {		/* initialize in qh_appendmergeset */
 /*============ prototypes in alphabetical order after pre/postmerge =======*/
 
 void    qh_premerge (vertexT *apex, realT maxcentrum, realT maxangle);
-void    qh_postmerge (char *reason, realT maxcentrum, realT maxangle, 
+void    qh_postmerge (const char *reason, realT maxcentrum, realT maxangle,
              boolT vneighbors);
 void    qh_all_merges (boolT othermerge, boolT vneighbors);
 void    qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, realT *angle);

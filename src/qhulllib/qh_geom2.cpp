@@ -1331,7 +1331,7 @@ coordT qh_pointdist(pointT *point1, pointT *point2, int dim) {
   notes:
     print a vector by qh_printmatrix(fp, "", &vect, 1, len)
 */
-void qh_printmatrix (FILE *fp, char *string, realT **rows, int numrow, int numcol) {
+void qh_printmatrix (FILE *fp, const char*string, realT **rows, int numrow, int numcol) {
   realT *rowp;
   realT r; /*bug fix*/
   int i,k;
@@ -1355,7 +1355,7 @@ void qh_printmatrix (FILE *fp, char *string, realT **rows, int numrow, int numco
     print pointids to fp for a set of points
     if string, prints string and 'p' point ids
 */
-void qh_printpoints (FILE *fp, char *string, setT *points) {
+void qh_printpoints (FILE *fp, const char*string, setT *points) {
   pointT *point, **pointp;
 
   if (string) {
