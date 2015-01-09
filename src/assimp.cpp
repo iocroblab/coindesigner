@@ -28,10 +28,11 @@
 
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
+#include <assimp/importerdesc.h>
 #include <assimp/postprocess.h>
 
 #include <iostream>
-#include <vector>
+#include <algorithm>
 
 #include <Inventor/nodes/SoTransform.h>
 #include <Inventor/nodes/SoCoordinate3.h>
@@ -196,5 +197,73 @@ SoSeparator* ivFromAssimp(std::string file) {
     return NULL;
 }
 #endif
+
+vector<string> tokenize(string str, string token) {
+    vector<string> tokenized;
+    size_t from = 0, size = str.size();
+    for (size_t to = min(str.find(";",from),size);
+         from < to; to = min(str.find(";",from),size)) {
+        tokenized.push_back(str.substr(from,to-from));
+        from = to+1;
+    }
+    return tokenized;
+}
+
+vector<string> assimpSupportedExtensions() {
+#ifdef USE_ASSIMP
+    aiString tmp;
+    Assimp::Importer importer;
+    importer.GetExtensionList(tmp);
+    string extensions = tmp.C_Str();
+    return tokenize(extensions,";");
+#else
+    vector<string> supportedExtensions;
+    return supportedExtensions;
+#endif
+}
+
+vector< pair< string,vector<string> > > assimpSupportedFormats() {
+    vector< pair< string,vector<string> > > supportedFormats;
+#ifdef USE_ASSIMP
+    const aiImporterDesc* importerDesc;
+    Assimp::Importer importer;
+    string name;
+    vector<string> extensions;
+    unsigned int k;
+    size_t pos;
+    for (unsigned int i = 0; i < importer.GetImporterCount(); ++i) {
+        importerDesc = importer.GetImporterInfo(i);
+
+        name = importerDesc->mName;
+        pos = name.find(" Importer");
+        if (pos != string::npos) name.erase(pos,9);
+        pos = name.find(" Reader");
+        if (pos != string::npos) name.erase(pos,7);
+        pos = name.find("\n");
+        if (pos != string::npos) name.erase(pos,string::npos);
+        while (name.substr(name.size()-1) == " ") name.erase(name.size()-1,1);
+
+        extensions = tokenize(importerDesc->mFileExtensions," ");
+
+        k = 0;
+        while (k < supportedFormats.size() && supportedFormats.at(k).first != name) {
+            k++;
+        }
+        if (k < supportedFormats.size()) {
+            for (unsigned int j = 0; j < extensions.size(); ++j) {
+                supportedFormats.at(k).second.push_back(extensions.at(j));
+            }
+        } else {
+            pair< string,vector<string> > format;
+            format.first = name;
+            format.second = extensions;
+            supportedFormats.push_back(format);
+        }
+    }
+#endif
+    return supportedFormats;
+}
+
+
 
 
