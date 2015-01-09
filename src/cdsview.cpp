@@ -378,7 +378,7 @@ int main(int argc, char ** argv)
 
                         if (fileOk==false)
 			{
-				fprintf(stderr, "%s: Unknow file format.\n", argv[i]);
+                fprintf(stderr, "%s: Unknown file format.\n", argv[i]);
 				return -1;
 			}
 		}

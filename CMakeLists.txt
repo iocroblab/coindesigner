@@ -16,18 +16,28 @@ set(CDS_LIBRARIES "")
 #set(CDS_INCLUDES ${CDS_INCLUDES} ${})
 #set(CDS_LIBRARIES ${CDS_LIBRARIES} ${})
 
-#### Coin3D package ###############
 # graphics library
+#### Coin3D package ###############
 find_package( Coin REQUIRED )
 if( COIN_LIBRARY_FOUND )
    message( STATUS "Using Coin library")
    add_definitions( -DCOIN_DLL )
    set(CDS_INCLUDES ${CDS_INCLUDES} ${COIN_INCLUDE_DIR})
    set(CDS_LIBRARIES ${CDS_LIBRARIES} ${COIN_LIBRARY})
-#include_directories( ${COIN_INCLUDE_DIR} )
+   #include_directories( ${COIN_INCLUDE_DIR} )
 else( COIN_LIBRARY_FOUND )
    message(SEND_ERROR "coindesigner needs Coin library")
 endif(COIN_LIBRARY_FOUND )
+
+#### Assimp ######
+find_package( Assimp )
+if( ASSIMP_FOUND )
+   message( STATUS "assimp Package FOUND")
+   set(CDS_LIBRARIES ${CDS_LIBRARIES} ${ASSIMP_LIBRARIES} )
+   add_definitions( -DUSE_ASSIMP )
+else( ASSIMP_FOUND )
+   message( STATUS "assimp Package NOT FOUND")
+endif( ASSIMP_FOUND )
 
 
 ##############################################################################
@@ -143,6 +153,7 @@ set ( CDS_HDRS src/cds_util.h
 set ( CDS_SRCS ${CDS_SRCS} src/main.cpp
                src/mainwindow.cpp
                src/mainwindow2.cpp
+               src/assimp.cpp
                src/cds_util.cpp
                src/cds_viewers.cpp
                #src/cds_scanner.cpp

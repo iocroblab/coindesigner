@@ -28,6 +28,7 @@
 #include <settingsDialog.h>
 #include <qslim_options.h>
 #include <tetgen_options.h>
+#include "assimp.h"
 
 #include <QSettings>
 #include <QMessageBox>
@@ -312,16 +313,63 @@ bool MainWindow::load_Scene(QString filename)
     if (filename == "")
     {
         QString fileMasks;
-        fileMasks += tr("OpenInventor Files")+"(*.iv *.wrl);;";
-#ifdef USE_DIME
-        fileMasks += tr("3D Surface Files")+"(*.3ds *.dxf *.obj *off *.smf *.sph *.stl *.xyz);;";
+        fileMasks += tr("OpenInventor")+"(*.iv *.wrl);;";
+#ifdef USE_ASSIMP
+        fileMasks += tr("Collada")+"(*.dae *.xml);;";
+        fileMasks += tr("Blender")+"(*.blend);;";
+        fileMasks += tr("Biovision BVH")+"(*.bvh);;";
+        fileMasks += tr("3D Studio Max 3DS")+"(*.3ds);;";
+        fileMasks += tr("3D Studio Max ASE")+"(*.ase);;";
+        fileMasks += tr("Wavefront Object")+"(*.obj);;";
+        fileMasks += tr("Stanford Polygon Library")+"(*.ply);;";
+        fileMasks += tr("AutoCAD DXF")+"(*.dxf);;";
+        fileMasks += tr("IFC-STEP")+"(*.ifc);;";
+        fileMasks += tr("Neutral File Format")+"(*.nff);;";
+        fileMasks += tr("Sense8 WorldToolkit")+"(*.nff);;";
+        fileMasks += tr("Valve Model")+"(*.smd *.vta);;";
+        fileMasks += tr("Quake I")+"(*.mdl);;";
+        fileMasks += tr("Quake II")+"(*.md2);;";
+        fileMasks += tr("Quake III")+"(*.md3);;";
+        fileMasks += tr("Quake 3 BSP")+"(*.pk3);;";
+        fileMasks += tr("RtCW")+"(*.mdc);;";
+        fileMasks += tr("Doom 3")+"(*.md5mesh *.md5anim *.md5camera);;";
+        fileMasks += tr("DirectX X")+"(*.x);;";
+        fileMasks += tr("Quick3D")+"(*.q3o *.q3s);;";
+        fileMasks += tr("Raw Triangles")+"(*.raw);;";
+        fileMasks += tr("AC3D")+"(*.ac);;";
+        fileMasks += tr("Stereolithography")+"(*.stl);;";
+        fileMasks += tr("Autodesk DXF")+"(*.dxf);;";
+        fileMasks += tr("Irrlicht Mesh")+"(*.irrmesh *.xml);;";
+        fileMasks += tr("Irrlicht Scene")+"(*.irr *.xml);;";
+        fileMasks += tr("Object File Format")+"(*.off);;";
+        fileMasks += tr("Terragen Terrain")+"(*.ter);;";
+        fileMasks += tr("3D GameStudio Model")+"(*.mdl);;";
+        fileMasks += tr("3D GameStudio Terrain")+"(*.hmp);;";
+        fileMasks += tr("Ogre")+"(*.mesh *.skeleton *.material);;";
+        fileMasks += tr("Milkshape 3D")+"(*.ms3d);;";
+        fileMasks += tr("LightWave Model")+"(*.lwo);;";
+        fileMasks += tr("LightWave Scene")+"(*.lws);;";
+        fileMasks += tr("Modo Model")+"(*.lxo);;";
+        fileMasks += tr("CharacterStudio Motion")+"(*.csm);;";
+        fileMasks += tr("Stanford Ply")+"(*.ply);;";
+        fileMasks += tr("TrueSpace")+"(*.cob *.scn);;";
+        fileMasks += tr("XGL")+"(*.xgl *.zgl);;";
 #else
-        fileMasks += tr("3D Surface Files")+"(*.3ds *.obj *off *.smf *.sph *.stl *.xyz);;";
-#endif
+        fileMasks += tr("3D Studio Max 3DS")+"(*.3ds);;";
+        fileMasks += tr("Wavefront Object")+"(*.obj);;";
+  #if USE_DIME
+        fileMasks += tr("AutoCAD DXF")+"(*.dxf);;";
+  #endif
+        fileMasks += tr("Stereolithography")+"(*.stl);;";
+        fileMasks += tr("Object File Format")+"(*.off);;";
+#endif  
 #ifdef USE_VOLEON
-        fileMasks += tr("Volume Data Files")+"(*.mha *.vol);;";
+        fileMasks += tr("Volume Data")+"(*.mha *.vol);;";
 #endif
-        fileMasks += tr("All Files")+" (*)";
+        fileMasks += tr("Qslim")+"(*.smf);;";
+        fileMasks += tr("Sphere tree")+"(*.sph);;";
+        fileMasks += tr("XYZ point cloud")+"(*.xyz);;";
+        fileMasks += tr("All Files")+"(*)";
 
         filename = QFileDialog::getOpenFileName(this, tr("Load Scene"),
             nombreEscena, fileMasks);
@@ -338,7 +386,7 @@ bool MainWindow::load_Scene(QString filename)
     if (!scene)
     {
         QString S;
-        S=filename+tr(": Unknow file format");
+        S=filename+tr(": Unknown file format");
         QMessageBox::critical( this, tr("Error"), S);
         return false;
     }
@@ -349,8 +397,8 @@ bool MainWindow::load_Scene(QString filename)
     //Salvamos el nombre de la escena
     nombreEscena = filename;
 
-     //Actualiza la barra de titulo de la ventana
-     setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
+    //Actualiza la barra de titulo de la ventana
+    setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
 
     //Configuramos Ui y recentFiles para reflejar el nombre
     setRecentFile(filename);
@@ -2728,6 +2776,12 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
          QMessageBox::critical( this, tr("Error"), S, QMessageBox::Abort); 
          return NULL;
     }
+
+#ifdef USE_ASSIMP
+    //Try to open the file with the assimp library
+    SoSeparator *scene = ivFromAssimp(filename.toStdString());
+    if (scene != NULL) return scene;
+#endif
 
     //Convertimos el fichero a char *
     const char *strFilename = SbName(filename.toAscii()).getString();
