@@ -30,13 +30,15 @@
 #include <assimp/Importer.hpp>
 #include <assimp/importerdesc.h>
 #include <assimp/postprocess.h>
+#include <assimp/matrix4x4.h>
 
 #include <iostream>
 #include <algorithm>
 
 #include <Inventor/nodes/SoTransform.h>
-#include <Inventor/nodes/SoCoordinate3.h>
-#include <Inventor/nodes/SoIndexedFaceSet.h>
+#include <Inventor/nodes/SoIndexedPointSet.h>
+#include <Inventor/nodes/SoIndexedLineSet.h>
+#include <Inventor/nodes/SoIndexedTriangleStripSet.h>
 #include <Inventor/nodes/SoMaterial.h>
 
 using namespace std;
@@ -50,9 +52,16 @@ SoTransform *getTransform(aiMatrix4x4 matrix) {
     matrix.Decompose(scaling,rotation,position);
 
     SoTransform *transform = new SoTransform;
-    transform->translation.setValue((float)position[0],(float)position[1],(float)position[2]);
-    transform->rotation.setValue((float)rotation.x,(float)rotation.y,(float)rotation.z,(float)rotation.w);
-    transform->scaleFactor.setValue((float)scaling[0],(float)scaling[1],(float)scaling[2]);
+    transform->translation.setValue((float)position[0],
+                                    (float)position[1],
+                                    (float)position[2]);
+    transform->rotation.setValue((float)rotation.x,
+                                 (float)rotation.y,
+                                 (float)rotation.z,
+                                 (float)rotation.w);
+    transform->scaleFactor.setValue((float)scaling[0],
+                                    (float)scaling[1],
+                                    (float)scaling[2]);
 
     return transform;
 }
@@ -66,22 +75,30 @@ SoMaterial *getMaterial(aiMaterial *material) {
 
     //Add diffuse color
     if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE,color)) {
-        soMat->diffuseColor.setValue((float)color.r,(float)color.g,(float)color.b);
+        soMat->diffuseColor.setValue((float)color.r,
+                                     (float)color.g,
+                                     (float)color.b);
     }
 
     //Add specular color
     if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_SPECULAR,color)) {
-        soMat->specularColor.setValue((float)color.r,(float)color.g,(float)color.b);
+        soMat->specularColor.setValue((float)color.r,
+                                      (float)color.g,
+                                      (float)color.b);
     }
 
     //Add ambient color
     if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_SPECULAR,color)) {
-        soMat->ambientColor.setValue((float)color.r,(float)color.g,(float)color.b);
+        soMat->ambientColor.setValue((float)color.r,
+                                     (float)color.g,
+                                     (float)color.b);
     }
 
     //Add ambient color
     if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_EMISSIVE,color)) {
-        soMat->emissiveColor.setValue((float)color.r,(float)color.g,(float)color.b);
+        soMat->emissiveColor.setValue((float)color.r,
+                                      (float)color.g,
+                                      (float)color.b);
     }
 
     //Add transparency
@@ -98,78 +115,116 @@ SoMaterial *getMaterial(aiMaterial *material) {
 }
 
 
-SoCoordinate3 *getCoords(aiMesh *mesh) {
+SoIndexedShape *getShape(aiMesh *mesh) {
+    if (mesh->mNumVertices == 0 ||
+            mesh->mNumFaces == 0) return NULL;
+
+    SoIndexedShape *shape;
+    unsigned numIndices;
+    switch (mesh->mPrimitiveTypes) {
+    case aiPrimitiveType_POINT:
+        shape = new SoIndexedPointSet;
+        numIndices = 1;
+        break;
+    case aiPrimitiveType_LINE:
+        shape = new SoIndexedLineSet;
+        numIndices = 2;
+        break;
+    case aiPrimitiveType_TRIANGLE:
+        shape = new SoIndexedTriangleStripSet;
+        numIndices = 3;
+        break;
+    default:
+        return NULL;
+        break;
+    }
+
+    SoVertexProperty *vertexProperty = new SoVertexProperty;
+    shape->vertexProperty.setValue(vertexProperty);
+
     float vertices[mesh->mNumVertices][3];
-    for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-        for (int k = 0; k < 3; ++k) {
-            vertices[j][k] = (float)mesh->mVertices[j][k];
+    for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
+        for (unsigned j = 0; j < 3; ++j) {
+            vertices[i][j] = (float)mesh->mVertices[i][j];
         }
     }
+    vertexProperty->vertex.setValues(0,mesh->mNumVertices,vertices);
 
-    SoCoordinate3 *coords = new SoCoordinate3;
-    coords->point.setValues(0,mesh->mNumVertices,vertices);
-
-    return coords;
-}
-
-
-SoIndexedFaceSet *getFaceSet(aiMesh *mesh) {
-    vector<int> indices;
-    for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
-        if (mesh->mFaces[j].mNumIndices > 2) {
-            for (unsigned int k = 0; k < mesh->mFaces[j].mNumIndices; ++k) {
-                indices.push_back(mesh->mFaces[j].mIndices[k]);
+    int indices[mesh->mNumFaces*(numIndices+1)];
+    for (unsigned i = 0; i < mesh->mNumFaces; ++i) {
+            for (unsigned j = 0; j < numIndices; ++j) {
+                indices[i*(numIndices+1)+j] = mesh->mFaces[i].mIndices[j];
             }
-            indices.push_back(-1);
-        }
+            indices[i*(numIndices+1)+numIndices] = -1;
     }
+    shape->coordIndex.setValues(0,mesh->mNumFaces*(numIndices+1),indices);
 
-    int values[indices.size()];
-    for (unsigned int i = 0; i < indices.size(); ++i) {
-        values[i] = indices.at(i);
-    }
-    SoIndexedFaceSet *faceSet = new SoIndexedFaceSet;
-    faceSet->coordIndex.setValues(0,indices.size(),values);
-
-    return faceSet;
+    return shape;
 }
 
 
-SoSeparator *getMesh(aiMesh *mesh, aiMaterial *material) {
-    SoSeparator *meshSep = new SoSeparator;
-    meshSep->setName(SbName(mesh->mName.C_Str()));
+SoSeparator *getMesh(aiMesh *mesh, aiMaterial *material,
+                     SoSeparator *meshSep = NULL) {
+    if (!meshSep) {
+        meshSep = new SoSeparator;
+        meshSep->setName(SbName(mesh->mName.C_Str()));
+    }
 
     //Add material
     meshSep->addChild(getMaterial(material));
 
-    //Add vertices
-    if (mesh->HasPositions()) meshSep->addChild(getCoords(mesh));
-
-    //Add faces
-    if (mesh->HasFaces()) meshSep->addChild(getFaceSet(mesh));
+    //Add shape
+    SoIndexedShape* shape = getShape(mesh);
+    if (shape) meshSep->addChild(shape);
 
     return meshSep;
 }
 
 
-void addNode(SoSeparator *parent, aiNode *node, aiMaterial **materials, aiMesh **meshes) {
-    //Create separator
-    SoSeparator *nodeSep = new SoSeparator;
-    nodeSep->setName(SbName(node->mName.C_Str()));
-    parent->addChild(nodeSep);
-
-    //Add transform
-    if (node->mParent) nodeSep->addChild(getTransform(node->mTransformation));
-
-    //Add meshes
-    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-        nodeSep->addChild(getMesh(meshes[node->mMeshes[i]],
-                materials[meshes[node->mMeshes[i]]->mMaterialIndex]));
+bool hasMesh(aiNode *node) {
+    if (node->mNumMeshes > 0) return true;
+    for (unsigned i = 0; i < node->mNumChildren; ++i) {
+        if (hasMesh(node->mChildren[i])) return true;
     }
+    return false;
+}
 
-    //Add children nodes
-    for (unsigned int i = 0; i < node->mNumChildren; ++i) {
-        addNode(nodeSep,node->mChildren[i],materials,meshes);
+
+void addNode(SoSeparator *parent, aiNode *node,
+             aiMaterial **materials, aiMesh **meshes) {
+    if (hasMesh(node)) {
+        SoSeparator *nodeSep;
+        if ((!node->mParent || node->mTransformation.IsIdentity()) &&
+                node->mNumMeshes == 0) {
+            nodeSep = parent;
+        } else {
+            //Create separator
+            nodeSep = new SoSeparator;
+            nodeSep->setName(SbName(node->mName.C_Str()));
+            parent->addChild(nodeSep);
+
+            //Add transform
+            if (node->mParent && !node->mTransformation.IsIdentity())
+                nodeSep->addChild(getTransform(node->mTransformation));
+
+            //Add meshes
+            aiMesh *mesh;
+            if (node->mNumMeshes == 1 && node->mNumChildren == 0) {
+                getMesh(meshes[node->mMeshes[0]],
+                        materials[meshes[node->mMeshes[0]]->mMaterialIndex],
+                        nodeSep);
+            } else {
+                for (unsigned i = 0; i < node->mNumMeshes; ++i) {
+                    mesh = meshes[node->mMeshes[i]];
+                    nodeSep->addChild(getMesh(mesh,
+                                          materials[mesh->mMaterialIndex]));
+                }
+            }
+        }
+        //Add children nodes
+        for (unsigned i = 0; i < node->mNumChildren; ++i) {
+            addNode(nodeSep,node->mChildren[i],materials,meshes);
+        }
     }
 }
 
@@ -177,10 +232,24 @@ void addNode(SoSeparator *parent, aiNode *node, aiMaterial **materials, aiMesh *
 SoSeparator* ivFromAssimp(string file) {
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(file,
-                                             aiProcess_Triangulate |
-                                             aiProcess_JoinIdenticalVertices |
-                                             aiProcess_SortByPType);
-
+                                             aiProcess_Triangulate | //Everything will be triangles, lines or points
+                                             aiProcess_JoinIdenticalVertices | //No repeated vertices
+                                             aiProcess_RemoveRedundantMaterials | //Check for redundant materials
+                                             aiProcess_PreTransformVertices | //Pretransform vertices with the local transformation
+                                             aiProcess_OptimizeMeshes | //Reduce the number of meshes
+                                             aiProcess_OptimizeGraph | //Optimize the scene hierarchy
+                                             aiProcess_Debone | //Remove bones
+                                             aiProcess_SortByPType | //No meshes with more than one primitive
+                                             aiProcess_RemoveComponent | //Remove the following components
+                                             aiComponent_ANIMATIONS |
+                                             aiComponent_BONEWEIGHTS |
+                                             aiComponent_CAMERAS |
+                                             aiComponent_COLORS |
+                                             aiComponent_LIGHTS |
+                                             aiComponent_NORMALS |
+                                             //aiComponent_TANGENTS_AND_BITANGENTS |
+                                             aiComponent_TEXCOORDS |
+                                             aiComponent_TEXTURES);
     SoSeparator *root;
     if (scene) {
         root = new SoSeparator;
@@ -193,7 +262,7 @@ SoSeparator* ivFromAssimp(string file) {
     return root;
 }
 #else
-SoSeparator* ivFromAssimp(std::string file) {
+SoSeparator* ivFromAssimp(string file) {
     return NULL;
 }
 #endif
@@ -204,7 +273,7 @@ vector<string> tokenize(string str, string token) {
     for (size_t to = min(str.find(";",from),size);
          from < to; to = min(str.find(";",from),size)) {
         tokenized.push_back(str.substr(from,to-from));
-        from = to+1;
+        from = to + token.size();
     }
     return tokenized;
 }
@@ -215,23 +284,23 @@ vector<string> assimpSupportedExtensions() {
     Assimp::Importer importer;
     importer.GetExtensionList(tmp);
     string extensions = tmp.C_Str();
-    return tokenize(extensions,";");
+    return tokenize(extensions.substr(1,string::npos),";*");
 #else
     vector<string> supportedExtensions;
     return supportedExtensions;
 #endif
 }
 
-vector< pair< string,vector<string> > > assimpSupportedFormats() {
-    vector< pair< string,vector<string> > > supportedFormats;
+vector<pair<string,vector<string> > > assimpSupportedFormats() {
+    vector<pair<string,vector<string> > > supportedFormats;
 #ifdef USE_ASSIMP
     const aiImporterDesc* importerDesc;
     Assimp::Importer importer;
     string name;
     vector<string> extensions;
-    unsigned int k;
+    unsigned k;
     size_t pos;
-    for (unsigned int i = 0; i < importer.GetImporterCount(); ++i) {
+    for (unsigned i = 0; i < importer.GetImporterCount(); ++i) {
         importerDesc = importer.GetImporterInfo(i);
 
         name = importerDesc->mName;
@@ -241,16 +310,18 @@ vector< pair< string,vector<string> > > assimpSupportedFormats() {
         if (pos != string::npos) name.erase(pos,7);
         pos = name.find("\n");
         if (pos != string::npos) name.erase(pos,string::npos);
-        while (name.substr(name.size()-1) == " ") name.erase(name.size()-1,1);
-
+        while (name.substr(name.size()-1) == " ") {
+            name.erase(name.size()-1,1);
+        }
         extensions = tokenize(importerDesc->mFileExtensions," ");
 
         k = 0;
-        while (k < supportedFormats.size() && supportedFormats.at(k).first != name) {
+        while (k < supportedFormats.size() &&
+               supportedFormats.at(k).first != name) {
             k++;
         }
         if (k < supportedFormats.size()) {
-            for (unsigned int j = 0; j < extensions.size(); ++j) {
+            for (unsigned j = 0; j < extensions.size(); ++j) {
                 supportedFormats.at(k).second.push_back(extensions.at(j));
             }
         } else {

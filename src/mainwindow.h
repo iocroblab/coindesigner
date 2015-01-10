@@ -65,7 +65,7 @@ private:
 	///Nombre de la escena
 	QString nombreEscena;
 
-	//Mapa que relaciona cada QTreeWidgetItem con un SoNode
+    ///Mapa que relaciona cada QTreeWidgetItem con un SoNode
 	std::map<QTreeWidgetItem*,SoNode*>mapQTCOIN;
 
 	///Acciones del menu para ficheros recientes
@@ -77,6 +77,8 @@ private:
 	///Nivel de Antialias
 	unsigned antialias_level;
 
+    ///Supported file formats
+    QString fileMasks;
 public:
 
 	///The one and only.... root node!!!
