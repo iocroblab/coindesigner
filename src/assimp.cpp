@@ -144,9 +144,10 @@ SoIndexedShape *getShape(aiMesh *mesh) {
 
     float vertices[mesh->mNumVertices][3];
     for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
-        for (unsigned j = 0; j < 3; ++j) {
-            vertices[i][j] = (float)mesh->mVertices[i][j];
-        }
+        //A rotation of pi/2 rad around (1 0 0) is needed
+        vertices[i][0] = (float)mesh->mVertices[i][0];
+        vertices[i][1] = -(float)mesh->mVertices[i][2];
+        vertices[i][2] = (float)mesh->mVertices[i][1];
     }
     vertexProperty->vertex.setValues(0,mesh->mNumVertices,vertices);
 
