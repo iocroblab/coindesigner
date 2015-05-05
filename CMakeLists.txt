@@ -233,3 +233,5 @@ add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp 
 
 target_link_libraries ( coindesigner ${CDS_LIBRARIES} cds_parser)
 target_link_libraries ( cdsview ${SOQT_LIBRARY} ${COIN_LIBRARY} )
+
+install(TARGETS coindesigner cdsview DESTINATION bin)
