@@ -6,11 +6,10 @@ project(coindesigner)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 
-
 ########### Options ####################
 option( CDS_GENERATE_FILES "Regenerate flex and bision/yacc files" ON )
 
-
+set(PACKAGE coindesigner)
 set(CDS_INCLUDES "")
 set(CDS_LIBRARIES "")
 #set(CDS_INCLUDES ${CDS_INCLUDES} ${})
@@ -145,6 +144,7 @@ add_definitions(-DCDS_VERSION="2.0")
 include_directories ( ${CMAKE_SOURCE_DIR}/src ${CDS_INCLUDES}
                       ${CMAKE_BINARY_DIR})
 
+configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
 set ( CDS_HDRS src/cds_util.h
                src/cds_globals.h

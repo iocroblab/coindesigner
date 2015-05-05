@@ -24,6 +24,8 @@
 #include <QByteArray>
 #include <mainwindow.h>
 #include <settingsDialog.h>
+#include <QLibraryInfo>
+#include "config.h"
 
 ///Objeto para almacenar la configuraci�n de coindesigner
 QSettings *settings;
@@ -56,19 +58,42 @@ int main(int argc, char *argv[])
 	qDebug("Locale=%s",qPrintable(lang));
 
 	//Traduccion de cadenas de QT
-	QTranslator qtTranslator;
-	QString qtTranslationDir = QString("%1/translations").arg(getenv("QTDIR"));
-	if(qtTranslator.load("qt_" + lang, qtTranslationDir))
-		app.installTranslator(&qtTranslator);
-	else
-		qDebug("Can't load file qt_%s", qPrintable(lang));
+//	QTranslator qtTranslator;
+//	QString qtTranslationDir = QString("%1/translations").arg(getenv("QTDIR"));
+//	if(qtTranslator.load("qt_" + lang, qtTranslationDir))
+//		app.installTranslator(&qtTranslator);
+//	else
+//		qDebug("Can't load file qt_%s", qPrintable(lang));
 
 	//Traduccion de cadenas de coindesigner
-	QTranslator appTranslator;
-	if (appTranslator.load("coindesigner_" + lang, "translations"))
-		app.installTranslator(&appTranslator);
-	else
-		qDebug("Can't load file coindesigner_%s", qPrintable(lang));
+//	QTranslator appTranslator;
+//	if (appTranslator.load("coindesigner_" + lang, "translations"))
+//		app.installTranslator(&appTranslator);
+//	else
+//		qDebug("Can't load file coindesigner_%s", qPrintable(lang));
+
+
+        //Traduccion de cadenas de QT
+        QTranslator qtTranslator;
+        QString lang_country = QLocale::system().name();
+        if(qtTranslator.load("qt_" + lang_country, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+                app.installTranslator(&qtTranslator);
+        else{
+                if(!lang_country.isEmpty())
+                        QString lang = lang_country.left(2);
+                        
+                if(qtTranslator.load("qt_" + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))                   
+                        app.installTranslator(&qtTranslator);
+                else
+                        qDebug("Can't load file qt_%s", qPrintable(lang));
+        }                
+        //Traduccion de cadenas de coindesigner      
+        QTranslator appTranslator;
+        if( appTranslator.load("coindesigner_" + QLocale::system().name(), DATADIR "/i18n"))
+                app.installTranslator(&appTranslator);
+        else
+                qDebug("Can't load file coindesigner_%s", qPrintable(lang));
+
 
 	//Creamos la ventana principal (esto inicializa SoDB y SoQt)
 	MainWindow *mw = new MainWindow();
