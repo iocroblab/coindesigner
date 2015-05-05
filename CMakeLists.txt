@@ -215,7 +215,8 @@ set ( CDS_RSCS images/icons.qrc
 QT4_ADD_RESOURCES(RSCS ${CDS_RSCS})
 
 set ( CDS_TRS  i18n/coindesigner_es_ES.ts
-  		i18n/coindesigner_ca_ES.ts)
+  		i18n/coindesigner_ca_ES.ts
+		i18n/coindesigner_en_US.ts)
 QT4_ADD_TRANSLATION(TRS ${CDS_TRS})
 
 set ( CDS_MOCS src/mainwindow.h
