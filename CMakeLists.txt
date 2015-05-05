@@ -214,7 +214,8 @@ set ( CDS_RSCS images/icons.qrc
                demos/demos.qrc)
 QT4_ADD_RESOURCES(RSCS ${CDS_RSCS})
 
-set ( CDS_TRS  translations/coindesigner_es.ts)
+set ( CDS_TRS  i18n/coindesigner_es_ES.ts
+  		i18n/coindesigner_ca_ES.ts)
 QT4_ADD_TRANSLATION(TRS ${CDS_TRS})
 
 set ( CDS_MOCS src/mainwindow.h
@@ -229,9 +230,11 @@ set ( CDS_MOCS src/mainwindow.h
 QT4_WRAP_CPP(MOCS ${CDS_MOCS})
 
 add_executable ( coindesigner ${CDS_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
-add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp )
+add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp ${TRS})
 
 target_link_libraries ( coindesigner ${CDS_LIBRARIES} cds_parser)
 target_link_libraries ( cdsview ${SOQT_LIBRARY} ${COIN_LIBRARY} )
 
 install(TARGETS coindesigner cdsview DESTINATION bin)
+install(DIRECTORY demos test DESTINATION share/coindesigner)
+install(FILES ${TRS} DESTINATION share/coindesigner/i18n)
