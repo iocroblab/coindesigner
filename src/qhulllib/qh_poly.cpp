@@ -948,7 +948,7 @@ boolT qh_matchvertices (int firstindex, setT *verticesA, int skipA,
   *same= !(((ptr_intT)skipA & 0x1) ^ ((ptr_intT)*skipB & 0x1));
   trace4((qh ferr, "qh_matchvertices: matched by skip %d (v%d) and skip %d (v%d) same? %d\n",
 	  skipA, (*skipAp)->id, *skipB, (*(skipBp-1))->id, *same));
-  return (True);
+  return True;
 } /* matchvertices */
 
 /*-<a                             href="qh-poly.htm#TOC"
