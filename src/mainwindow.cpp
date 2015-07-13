@@ -137,7 +137,7 @@ static void refreshGUI_CB(void *data, SoSensor *)
 	if (data != NULL)
 		global_mw->updateFieldEditor((SoNode *)data);
 }
-
+#include <iostream>
 ///Constructor de la clase MainWindow
 MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 {
@@ -243,7 +243,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
             }
             fileMasks += formats.at(i).second.at(j).c_str();
         }
-        fileMasks += ";;";
+        fileMasks += ");;";
     }
 #else
     fileMasks += tr("3D Studio Max 3DS")+"(*.3ds);;";
@@ -261,7 +261,6 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     fileMasks += tr("Sphere tree")+"(*.sph);;";
     fileMasks += tr("XYZ point cloud")+"(*.xyz);;";
     fileMasks += tr("All Files")+"(*)";
-
 }// MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
 
 //Acciones al cerrar la ventana principal
@@ -567,12 +566,15 @@ void MainWindow::on_actionExport_VRML2_activated()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
             nombreEscena, 
-            tr("VRML Files")+"(*.wrl);;"+tr("All Files")+" (*)");
+            //tr("VRML Files")+"(*.wrl);;"+tr("All Files")+" (*)");
+            tr("VRML Files")+"(*.dae);;"+tr("All Files")+" (*)");
 
     //Miramos si se pulso el boton cancelar
     if (filename=="")
         return;
 
+    assimpExport(root,filename.toStdString());
+return;
     SoToVRML2Action wrlAction;
     wrlAction.apply(root);
 
