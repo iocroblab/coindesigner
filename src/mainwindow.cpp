@@ -567,15 +567,12 @@ void MainWindow::on_actionExport_VRML2_activated()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
             nombreEscena, 
-            //tr("VRML Files")+"(*.wrl);;"+tr("All Files")+" (*)");
-            tr("VRML Files")+"(*.dae);;"+tr("All Files")+" (*)");
+            tr("VRML Files")+"(*.wrl);;"+tr("All Files")+" (*)");
 
     //Miramos si se pulso el boton cancelar
     if (filename=="")
         return;
 
-    assimpExport(root,filename.toStdString());
-return;
     SoToVRML2Action wrlAction;
     wrlAction.apply(root);
 
