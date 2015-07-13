@@ -78,6 +78,7 @@ extern QSettings *settings;
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/errors/SoReadError.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <Inventor/SoPrimitiveVertex.h>
 //#include "Quarter/QuarterWidget.h"
 
 
@@ -609,6 +610,75 @@ void MainWindow::on_actionExport_ASE_activated()
 	path->unref();
 
 }//void MainWindow::on_actionExport_ASE_activated()
+
+
+struct GeomData {
+    std::vector<SbVec3f> vertices;
+    std::vector<SbVec3i32> triangles;
+    unsigned int addVertex(const float *point) {
+        SbVec3f vertex(point[0],point[1],point[2]);
+        std::map<SbVec3f,unsigned int>::const_iterator it = verticesMap.find(vertex);
+        if (it != verticesMap.end()) {
+            return it->second;
+        } else {
+            unsigned int index = vertices.size();
+            vertices.push_back(vertex);
+            verticesMap.insert(std::pair<SbVec3f,unsigned int>(vertex,index));
+            return index;
+        }
+    }
+private:
+    struct cmpVertex {
+        bool operator()(const SbVec3f& a, const SbVec3f& b) const {
+            return (a[0] < b[0]) ||
+                   (a[1] < b[1] && a[0] == b[0]) ||
+                   (a[2] < b[2] && a[1] == b[1] && a[0] == b[0]);
+        }
+    };
+    std::map<SbVec3f,unsigned int,cmpVertex> verticesMap;
+};
+
+void triangleCB(void *data, SoCallbackAction *action,
+                const SoPrimitiveVertex *vertex1,
+                const SoPrimitiveVertex *vertex2,
+                const SoPrimitiveVertex *vertex3) {
+    GeomData *geomData = (GeomData*)data;
+    SbVec3f point;
+    const SbVec3f vertex[] = {vertex1->getPoint(),
+                              vertex2->getPoint(),
+                              vertex3->getPoint()};
+    const SbMatrix  matrix = action->getModelMatrix();
+    unsigned int index[3];
+    for (int i = 0; i < 3; ++i) {
+        matrix.multVecMatrix(vertex[i],point);
+
+        index[i] = geomData->addVertex(point.getValue());
+    }
+
+    geomData->triangles.push_back(SbVec3i32(index[0],index[1],index[2]));
+}
+
+void MainWindow::on_actionExport_PCD_activated()
+{
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
+            nombreEscena,
+            tr("PCD Files")+"(*.pcd);;"+tr("All Files")+" (*)");
+
+    //Miramos si se pulso el boton cancelar
+    if (filename=="")
+        return;
+
+    SoCallbackAction triAction;
+    GeomData geomData;
+    triAction.addTriangleCallback(SoShape::getClassTypeId(),
+                                  triangleCB,(void*)&geomData);
+    triAction.apply(root);
+
+    //Convert to PCD
+    //Nom del fitxer: filename
+    //Vector de punts: geomData.vertices
+
+}//void MainWindow::on_actionExport_PCD_activated()
 
 
 ///Imprime el grafo de escena en un documento

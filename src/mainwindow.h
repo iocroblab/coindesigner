@@ -93,7 +93,7 @@ public:
 	///Salva la escena actual
 	void save_Scene (QString filename);
 
-	///Añade un archivo a la escena actual
+	///Aï¿½ade un archivo a la escena actual
 	bool import_File(QString filename);
 
 	///Carga una escena incrustada como resource
@@ -102,7 +102,7 @@ public:
 	///Busca el item correspondiente al nodo cola de un path
 	QTreeWidgetItem *getItemFromPath(const SoPath *path, bool setCurrentItem=true);
 
-	///Añade un mensaje a la consola de mensajes
+	///Aï¿½ade un mensaje a la consola de mensajes
 	void addMessage(const QString &msg);
 
 	///Aplica los parametros de render actuales a un viewer
@@ -123,6 +123,7 @@ public slots:
 	void on_actionExport_C_activated();
 	void on_actionExport_VRML2_activated();
 	void on_actionExport_ASE_activated();
+    void on_actionExport_PCD_activated();
 	void on_actionPrintSceneGraph_activated();
 	void on_actionQuit_activated();
 
@@ -237,7 +238,7 @@ private:
 	///Crea y configura un QTreeWidgetItem para representar un SoNode
 	QTreeWidgetItem *newNodeItem(SoNode *node);
 
-	///Añade un nodo a la escena y actualiza el sceneGraph 
+	///Aï¿½ade un nodo a la escena y actualiza el sceneGraph 
 	void newSceneGraph(SoNode *node, QTreeWidgetItem *item_padre, SoGroup *nodo_padre);
 
 	/// Busca un tooltip adecuado a esta clase y lo asigna al item
@@ -278,4 +279,5 @@ private:
 extern MainWindow *global_mw;
 
 #endif
+
 
