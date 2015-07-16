@@ -29,6 +29,9 @@
 #include <qslim_options.h>
 #include <tetgen_options.h>
 #include "assimp.h"
+#include <iostream>
+#include <fstream>
+
 
 #include <QSettings>
 #include <QMessageBox>
@@ -657,6 +660,9 @@ void triangleCB(void *data, SoCallbackAction *action,
 
 void MainWindow::on_actionExport_PCD_activated()
 {
+   
+    std::ofstream fs;
+    float x, y,z;
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
             nombreEscena,
             tr("PCD Files")+"(*.pcd);;"+tr("All Files")+" (*)");
@@ -670,7 +676,34 @@ void MainWindow::on_actionExport_PCD_activated()
     triAction.addTriangleCallback(SoShape::getClassTypeId(),
                                   triangleCB,(void*)&geomData);
     triAction.apply(root);
-
+    
+    // converting to std::string 
+    std::string file = filename.toLocal8Bit().constData();
+    fs.open(file.c_str());
+    
+    // Now we are saving the pcd data to visualize it
+    //
+    
+    std::cout<< "Creating the box cloud!" << std::endl;
+    
+    fs << "# .PCD v.7 - Point Cloud Data file format" << std::endl;
+    fs << "VERSION .7" << std::endl;
+    fs << "FIELDS x y z" << std::endl;
+    fs << "SIZE 4 4 4" << std::endl;
+    fs << "TYPE F F F" << std::endl;
+    fs << "COUNT 1 1 1" << std::endl;
+    fs << "WIDTH "<< geomData.vertices.size() << std::endl;
+    fs << "HEIGHT 1" << std::endl;
+    fs << "VIEWPOINT 0 0 0 1 0 0 0" << std::endl;
+    fs << "POINTS "<< geomData.vertices.size() << std::endl;
+    fs << "DATA ascii" << std::endl;
+    for (int i=0; i<geomData.vertices.size() ; i++){
+       geomData.vertices[i].getValue(x,y,z);
+       fs << x << " " <<  y << " " << z << std::endl;
+    }
+    fs.close();
+    
+    std::cout<< "Done!" << std::endl;
     //Convert to PCD
     //Nom del fitxer: filename
     //Vector de punts: geomData.vertices
