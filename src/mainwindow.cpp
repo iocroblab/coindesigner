@@ -697,7 +697,7 @@ void MainWindow::on_actionExport_PCD_activated()
     fs << "VIEWPOINT 0 0 0 1 0 0 0" << std::endl;
     fs << "POINTS "<< geomData.vertices.size() << std::endl;
     fs << "DATA ascii" << std::endl;
-    for (int i=0; i<geomData.vertices.size() ; i++){
+    for (unsigned int i=0; i<geomData.vertices.size() ; i++){
        geomData.vertices[i].getValue(x,y,z);
        fs << x << " " <<  y << " " << z << std::endl;
     }
