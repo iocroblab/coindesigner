@@ -64,7 +64,7 @@ endif( SOQT_LIBRARY_FOUND )
 ##############################################################################
 
 ##############################################################################
-find_package( Simage )
+find_package( Simage REQUIRED)
 if( Simage_FOUND )
    message(STATUS "Simage library found with ${Simage_INCLUDE_DIRS}")
    add_definitions( ${Simage_DEFINITIONS} )
@@ -73,8 +73,7 @@ if( Simage_FOUND )
 else ( Simage_FOUND )
    # We have not found a nice way to check simage in all the platforms.
    # We make a trial and error approach
-   message(STATUS "coindesigner needs Simage library. CMake has not been able to found it. It will try in a rude way.")
-   set(CDS_LIBRARIES ${CDS_LIBRARIES} -lsimage)
+   message(ERROR "coindesigner needs Simage library. CMake has not been able to found it.")
 endif( Simage_FOUND )
 
 ##############################################################################
