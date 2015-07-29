@@ -12,8 +12,10 @@ option( CDS_GENERATE_FILES "Regenerate flex and bision/yacc files" ON )
 set(PACKAGE coindesigner)
 set(CDS_INCLUDES "")
 set(CDS_LIBRARIES "")
-#set(CDS_INCLUDES ${CDS_INCLUDES} ${})
-#set(CDS_LIBRARIES ${CDS_LIBRARIES} ${})
+
+set(CDS_VERSION_MAJOR 2)
+set(CDS_VERSION_MINOR 1)
+set(CDS_VERSION "${CDS_VERSION_MAJOR}.${CDS_VERSION_MINOR}")
 
 # graphics library
 #### Coin3D package ###############
@@ -139,7 +141,7 @@ add_library(cds_parser ${BisonOutput} ${FlexOutput})
 
 set ( CMAKE_BUILD_TYPE Release )
 add_definitions ( -Wall )
-add_definitions(-DCDS_VERSION="2.0")
+add_definitions(-DCDS_VERSION=${CDS_VERSION})
 include_directories ( ${CMAKE_SOURCE_DIR}/src ${CDS_INCLUDES}
                       ${CMAKE_BINARY_DIR})
 
