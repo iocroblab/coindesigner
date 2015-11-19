@@ -236,7 +236,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     //Set filterMask
     fileMasks = tr("OpenInventor")+" (*.iv *.wrl);;";
 #ifdef USE_ASSIMP
-    std::vector<std::pair<std::string,std::vector<std::string> > > formats = assimpSupportedFormats();
+    std::vector<std::pair<std::string,std::vector<std::string> > > formats(assimpImportedFormats());
     for (unsigned int i = 0; i < formats.size(); ++i) {
         fileMasks += tr(formats.at(i).first.c_str())+" (";
         for (unsigned int j = 0; j < formats.at(i).second.size(); ++j) {
@@ -2843,10 +2843,10 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 
 #ifdef USE_ASSIMP
     //Try to open the file with the assimp library
-    std::vector<std::string> assimpExtensions = assimpSupportedExtensions();
+    std::vector<std::string> assimpExtensions = assimpImportedExtensions();
     for (unsigned i = 0; i < assimpExtensions.size(); ++i) {
         if (filename.endsWith(assimpExtensions.at(i).c_str(), Qt::CaseInsensitive)) {
-            return ivFromAssimp(filename.toStdString());
+            return importScene(filename.toStdString());
         }
     }
 #endif
