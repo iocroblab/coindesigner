@@ -124,6 +124,7 @@ public slots:
 	void on_actionExport_VRML2_activated();
 	void on_actionExport_ASE_activated();
     void on_actionExport_PCD_activated();
+    void on_actionExport_As_activated();
 	void on_actionPrintSceneGraph_activated();
 	void on_actionQuit_activated();
 

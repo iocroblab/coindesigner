@@ -81,30 +81,6 @@
      <height>27</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuScene">
-    <property name="title">
-     <string>&amp;Scene</string>
-    </property>
-    <widget class="QMenu" name="menuRecent_Files">
-     <property name="title">
-      <string>Recent Files</string>
-     </property>
-    </widget>
-    <addaction name="actionNew_Scene"/>
-    <addaction name="actionLoad_Scene"/>
-    <addaction name="actionReload_Scene"/>
-    <addaction name="actionSave_Scene"/>
-    <addaction name="menuRecent_Files"/>
-    <addaction name="separator"/>
-    <addaction name="actionImport_File"/>
-    <addaction name="actionExport_C"/>
-    <addaction name="actionExport_VRML2"/>
-    <addaction name="actionExport_ASE"/>
-    <addaction name="actionExport_PCD"/>
-    <addaction name="actionPrintSceneGraph"/>
-    <addaction name="separator"/>
-    <addaction name="actionQuit"/>
-   </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>&amp;View</string>
@@ -181,6 +157,31 @@
     <addaction name="actionEdit_Source"/>
     <addaction name="separator"/>
     <addaction name="menuOptimize"/>
+   </widget>
+   <widget class="QMenu" name="menuScene">
+    <property name="title">
+     <string>&amp;Scene</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_Files">
+     <property name="title">
+      <string>Recent Files</string>
+     </property>
+    </widget>
+    <addaction name="actionNew_Scene"/>
+    <addaction name="actionLoad_Scene"/>
+    <addaction name="actionReload_Scene"/>
+    <addaction name="actionSave_Scene"/>
+    <addaction name="menuRecent_Files"/>
+    <addaction name="separator"/>
+    <addaction name="actionImport_File"/>
+    <addaction name="actionExport_C"/>
+    <addaction name="actionExport_VRML2"/>
+    <addaction name="actionExport_ASE"/>
+    <addaction name="actionExport_PCD"/>
+    <addaction name="actionExport_As"/>
+    <addaction name="actionPrintSceneGraph"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuScene"/>
    <addaction name="menuEdit"/>
@@ -1039,6 +1040,18 @@
    </property>
    <property name="toolTip">
     <string>Export PCD</string>
+   </property>
+  </action>
+  <action name="actionExport_As">
+   <property name="icon">
+    <iconset resource="../images/icons.qrc">
+     <normaloff>:/icons/gui/filesaveas.png</normaloff>:/icons/gui/filesaveas.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export As...</string>
+   </property>
+   <property name="toolTip">
+    <string>Export As...</string>
    </property>
   </action>
  </widget>

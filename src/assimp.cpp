@@ -374,15 +374,12 @@ struct Geometry {
         //Add material
         Material material;
         action->getMaterial(material.ambient,material.diffuse,material.specular,
-                            material.emissive,material.shininess,material.transparency);
+                            material.emissive,material.shininess,material.transparency,
+                            vertices[0]->getMaterialIndex());//All vertices are supposed to have the same material index
         Mesh &mesh(addMaterial(material));
 
-        //Add face
-        aiFace face;
-        face.mNumIndices = numIndices;
-        face.mIndices = new unsigned int[numIndices];
-
         //Add position and normal of the vertices
+        std::size_t indices[numIndices];
         const SbMatrix &positionMatrix(action->getModelMatrix());
         const SbMatrix normalMatrix(positionMatrix.inverse().transpose());
         for (unsigned int i(0); i < numIndices; ++i) {
@@ -396,9 +393,33 @@ struct Geometry {
                 vertex.normal[j] = normal[j];
             }
 
-            face.mIndices[i] = mesh.addVertex(vertex);
+            indices[i] = mesh.addVertex(vertex);
         }
-        mesh.faces.push_back(face);
+
+        //Add face
+        SoShapeHints::VertexOrdering vertexOrdering(action->getVertexOrdering());
+        //In Assimp face vertices are specified in a counter-clockwise order.
+        //If the vertex ordering is unknwon, both sides of the face will be added to the mesh
+        if (vertexOrdering == SoShapeHints::COUNTERCLOCKWISE ||
+                vertexOrdering == SoShapeHints::UNKNOWN_ORDERING) {
+            aiFace face;
+            face.mNumIndices = numIndices;
+            face.mIndices = new unsigned int[numIndices];
+            for (unsigned int i = 0; i < numIndices; ++i) {
+                face.mIndices[i] = indices[i];
+            }
+            mesh.faces.push_back(face);
+        }
+        if (vertexOrdering == SoShapeHints::CLOCKWISE /*||
+                vertexOrdering == SoShapeHints::UNKNOWN_ORDERING*/) {
+            aiFace face;
+            face.mNumIndices = numIndices;
+            face.mIndices = new unsigned int[numIndices];
+            for (unsigned int i = 0; i < numIndices; ++i) {
+                face.mIndices[numIndices-1-i] = indices[i];
+            }
+            mesh.faces.push_back(face);
+        }
     }
 
     std::vector<Mesh> meshes;
@@ -734,43 +755,15 @@ std::vector<std::pair<std::string,std::vector<std::string> > > assimpImportedFor
 }
 
 
-std::vector<std::pair<std::string,std::vector<std::string> > > assimpExportedFormats() {
-    std::vector<std::pair<std::string,std::vector<std::string> > > exportedFormats;
-    const aiExportFormatDesc *exporterDesc;
+std::vector<std::pair<std::string,std::string> > assimpExportedFormats() {
+    std::vector<std::pair<std::string,std::string> > exportedFormats;
     Assimp::Exporter exporter;
-    std::string name;
-    std::vector<std::string> extensions;
-    std::size_t k, pos;
+    const aiExportFormatDesc *exporterDesc;
     for (std::size_t i(0); i < exporter.GetExportFormatCount(); ++i) {
         exporterDesc = exporter.GetExportFormatDescription(i);
 
-        name = exporterDesc->id;
-        /*pos = name.find(" Exporter");
-        if (pos != std::string::npos) name.erase(pos,9);
-        pos = name.find(" Reader");
-        if (pos != std::string::npos) name.erase(pos,7);
-        pos = name.find("\n");
-        if (pos != std::string::npos) name.erase(pos,std::string::npos);
-        while (name.substr(name.size()-1) == " ") {
-            name.erase(name.size()-1,1);
-        }*/
-        extensions = tokenize(exporterDesc->fileExtension," ");
-
-        k = 0;
-        while (k < exportedFormats.size() &&
-               exportedFormats.at(k).first != name) {
-            k++;
-        }
-        if (k < exportedFormats.size()) {
-            for (std::size_t j(0); j < extensions.size(); ++j) {
-                exportedFormats.at(k).second.push_back(extensions.at(j));
-            }
-        } else {
-            std::pair<std::string,std::vector<std::string> > format;
-            format.first = name;
-            format.second = extensions;
-            exportedFormats.push_back(format);
-        }
+        exportedFormats.push_back(std::make_pair(exporterDesc->id,
+                                                 exporterDesc->fileExtension));
     }
 
     return exportedFormats;

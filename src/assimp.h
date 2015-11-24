@@ -37,6 +37,6 @@ std::vector<std::string> assimpImportedExtensions();
 
 std::vector< std::pair< std::string,std::vector<std::string> > > assimpImportedFormats();
 
-std::vector< std::pair< std::string,std::vector<std::string> > > assimpExportedFormats();
+std::vector<std::pair<std::string,std::string> > assimpExportedFormats();
 
 #endif // ASSIMP_H

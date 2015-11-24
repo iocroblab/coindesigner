@@ -658,18 +658,12 @@ void triangleCB(void *data, SoCallbackAction *action,
     geomData->triangles.push_back(SbVec3i32(index[0],index[1],index[2]));
 }
 
-void MainWindow::on_actionExport_PCD_activated()
-{
-   
-    std::ofstream fs;
-    float x, y,z;
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
-            nombreEscena,
-            tr("PCD Files")+"(*.pcd);;"+tr("All Files")+" (*)");
 
-    //Miramos si se pulso el boton cancelar
-    if (filename=="")
-        return;
+void MainWindow::on_actionExport_PCD_activated() {
+    QString filename(QFileDialog::getSaveFileName(this, tr("Save File"),
+            nombreEscena,
+            tr("PCD Files")+"(*.pcd);;"+tr("All Files")+" (*)"));
+    if (filename.isEmpty()) return;
 
     SoCallbackAction triAction;
     GeomData geomData;
@@ -677,14 +671,12 @@ void MainWindow::on_actionExport_PCD_activated()
                                   triangleCB,(void*)&geomData);
     triAction.apply(root);
     
-    // converting to std::string 
-    std::string file = filename.toLocal8Bit().constData();
-    fs.open(file.c_str());
+    //converting to std::string
+    std::ofstream fs;
+    fs.open(filename.toStdString().c_str());
     
-    // Now we are saving the pcd data to visualize it
-    //
-    
-    std::cout<< "Creating the box cloud!" << std::endl;
+    // Now we are saving the pcd data to visualize it    
+    std::cout << "Creating the box cloud!" << std::endl;
     
     fs << "# .PCD v.7 - Point Cloud Data file format" << std::endl;
     fs << "VERSION .7" << std::endl;
@@ -697,24 +689,49 @@ void MainWindow::on_actionExport_PCD_activated()
     fs << "VIEWPOINT 0 0 0 1 0 0 0" << std::endl;
     fs << "POINTS "<< geomData.vertices.size() << std::endl;
     fs << "DATA ascii" << std::endl;
-    for (unsigned int i=0; i<geomData.vertices.size() ; i++){
-       geomData.vertices[i].getValue(x,y,z);
+
+    float x,y,z;
+    for (std::vector<SbVec3f>::const_iterator it(geomData.vertices.begin());
+         it != geomData.vertices.end(); ++it) {
+       it->getValue(x,y,z);
        fs << x << " " <<  y << " " << z << std::endl;
     }
     fs.close();
     
-    std::cout<< "Done!" << std::endl;
-    //Convert to PCD
-    //Nom del fitxer: filename
-    //Vector de punts: geomData.vertices
-
+    std::cout << "Done!" << std::endl;
 }//void MainWindow::on_actionExport_PCD_activated()
+
+
+void MainWindow::on_actionExport_As_activated() {
+    std::vector<std::pair<std::string,std::string> > formats(assimpExportedFormats());
+    QString filter, selectedFilter;
+    for (std::vector<std::pair<std::string,std::string> >::const_iterator it(formats.begin());
+            it != formats.end(); ++it) {
+        filter.append(tr(std::string(it->first+std::string(" Files")).c_str())).
+                append(" (*.").append(it->second.c_str()).append(");;");
+    }
+    filter.append(tr("All Files")+" (*)");
+    QString filename(QFileDialog::getSaveFileName(this,tr("Save File"),
+                                                  nombreEscena,filter,&selectedFilter));
+    if (filename.isEmpty()) return;
+
+    QString selectedExtension(selectedFilter.left(selectedFilter.length()-1).
+                              mid(selectedFilter.lastIndexOf("*")+2));
+    if (!selectedExtension.isEmpty()) {
+        filename = filename.left(filename.lastIndexOf(".")+1).append(selectedExtension);
+    }
+    std::string error;
+    if (exportScene(filename.toStdString(),root,&error)) {
+        addMessage(tr("Scene was successfully exported."));
+    } else {
+        addMessage(tr(error.c_str()));
+    }
+}//void MainWindow::on_actionExport_As_activated()
 
 
 ///Imprime el grafo de escena en un documento
 void MainWindow::on_actionPrintSceneGraph_activated()
 {
-
 	//Leemos la impresora destino
 	QPrinter printer;
 	//printer.setOutputFileName("print.pdf"); 
