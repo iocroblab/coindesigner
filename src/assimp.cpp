@@ -398,10 +398,21 @@ struct Geometry {
 
         //Add face
         SoShapeHints::VertexOrdering vertexOrdering(action->getVertexOrdering());
+        if (vertexOrdering == SoShapeHints::UNKNOWN_ORDERING) {
+            if (numIndices == 3) {
+                SbVec3f n = SbVec3f(vertices[1]->getPoint()-vertices[0]->getPoint()).
+                        cross(vertices[2]->getPoint()-vertices[0]->getPoint());
+                if (vertices[0]->getNormal().dot(n) > 0) {//All vertices are supposed to have the same normal
+                    vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
+                } else {
+                    vertexOrdering = SoShapeHints::CLOCKWISE;
+                }
+            } else {
+                vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
+            }
+        }
         //In Assimp face vertices are specified in a counter-clockwise order.
-        //If the vertex ordering is unknwon, both sides of the face will be added to the mesh
-        if (vertexOrdering == SoShapeHints::COUNTERCLOCKWISE ||
-                vertexOrdering == SoShapeHints::UNKNOWN_ORDERING) {
+        if (vertexOrdering == SoShapeHints::COUNTERCLOCKWISE) {
             aiFace face;
             face.mNumIndices = numIndices;
             face.mIndices = new unsigned int[numIndices];
@@ -409,9 +420,7 @@ struct Geometry {
                 face.mIndices[i] = indices[i];
             }
             mesh.faces.push_back(face);
-        }
-        if (vertexOrdering == SoShapeHints::CLOCKWISE /*||
-                vertexOrdering == SoShapeHints::UNKNOWN_ORDERING*/) {
+        } else {
             aiFace face;
             face.mNumIndices = numIndices;
             face.mIndices = new unsigned int[numIndices];
