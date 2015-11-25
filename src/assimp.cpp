@@ -222,31 +222,36 @@ SoSeparator *Assimp2Inventor(const aiScene *scene) {
 
 
 SoSeparator *importScene(const std::string &filename, std::string *const error) {
-    Assimp::Importer importer;
-    importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
-                                aiComponent_ANIMATIONS |
-                                aiComponent_BONEWEIGHTS |
-                                aiComponent_CAMERAS |
-                                aiComponent_COLORS |
-                                aiComponent_LIGHTS |
-                                aiComponent_TANGENTS_AND_BITANGENTS |
-                                aiComponent_TEXCOORDS |
-                                aiComponent_TEXTURES);
-    const aiScene *scene(importer.ReadFile(filename,
-                                           aiProcess_Triangulate | //Everything will be triangles, lines or points
-                                           aiProcess_JoinIdenticalVertices | //No repeated vertices
-                                           aiProcess_SortByPType | //Split meshes with more than one primitive
-                                           aiProcess_RemoveRedundantMaterials | //Check for redundant materials
-                                           aiProcess_OptimizeMeshes | //Reduce the number of meshes
-                                           aiProcess_OptimizeGraph | //Optimize the scene hierarchy
-                                           aiProcess_Debone | //Remove bones
-                                           aiProcess_RemoveComponent | //Remove the previously specified components
-                                           aiProcess_GenNormals | //Generate missing normals
-                                           aiProcess_FindInvalidData)); //Remove/Fix invalid data
-    if (scene) {
-        return Assimp2Inventor(scene);
-    } else {
-        if (error) *error = importer.GetErrorString();
+    try {
+        Assimp::Importer importer;
+        importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+                                    aiComponent_ANIMATIONS |
+                                    aiComponent_BONEWEIGHTS |
+                                    aiComponent_CAMERAS |
+                                    aiComponent_COLORS |
+                                    aiComponent_LIGHTS |
+                                    aiComponent_TANGENTS_AND_BITANGENTS |
+                                    aiComponent_TEXCOORDS |
+                                    aiComponent_TEXTURES);
+        const aiScene *scene(importer.ReadFile(filename,
+                                               aiProcess_Triangulate | //Everything will be triangles, lines or points
+                                               aiProcess_JoinIdenticalVertices | //No repeated vertices
+                                               aiProcess_SortByPType | //Split meshes with more than one primitive
+                                               aiProcess_RemoveRedundantMaterials | //Check for redundant materials
+                                               aiProcess_OptimizeMeshes | //Reduce the number of meshes
+                                               aiProcess_OptimizeGraph | //Optimize the scene hierarchy
+                                               aiProcess_Debone | //Remove bones
+                                               aiProcess_RemoveComponent | //Remove the previously specified components
+                                               aiProcess_GenNormals | //Generate missing normals
+                                               aiProcess_FindInvalidData)); //Remove/Fix invalid data
+        if (scene) {
+            return Assimp2Inventor(scene);
+        } else {
+            if (error) *error = importer.GetErrorString();
+            return NULL;
+        }
+    } catch (...) {
+        if (error) *error = "File could not be imported.";
         return NULL;
     }
 }
@@ -353,10 +358,10 @@ aiMaterial *getMaterial(const Material &material) {
     }
 
     //Add transparency
-    value = 1.0 - material.transparency;
-    if (AI_SUCCESS != aiMat->AddProperty(&value,1,AI_MATKEY_OPACITY)) {
-        std::cout << "Error at setting transparency" << std::endl;
-    }
+//    value = 1.0 - material.transparency;
+//    if (AI_SUCCESS != aiMat->AddProperty(&value,1,AI_MATKEY_OPACITY)) {
+//        std::cout << "Error at setting transparency" << std::endl;
+//    }
 
     //Add shininess
     value = material.shininess;
@@ -505,105 +510,6 @@ void getPoint(void *data, SoCallbackAction *action,
 }
 
 
-namespace Assimp	{
-
-    class Importer;
-
-    struct ScenePrivateData {
-
-        ScenePrivateData()
-            : mOrigImporter()
-            , mPPStepsApplied()
-            , mIsCopy()
-        {}
-
-        // Importer that originally loaded the scene though the C-API
-        // If set, this object is owned by this private data instance.
-        Assimp::Importer* mOrigImporter;
-
-        // List of postprocessing steps already applied to the scene.
-        unsigned int mPPStepsApplied;
-
-        // true if the scene is a copy made with aiCopyScene()
-        // or the corresponding C++ API. This means that user code
-        // may have made modifications to it, so mPPStepsApplied
-        // and mOrigImporter are no longer safe to rely on and only
-        // serve informative purposes.
-        bool mIsCopy;
-    };
-
-    // Access private data stored in the scene
-    inline ScenePrivateData* ScenePriv(aiScene* in) {
-        return static_cast<ScenePrivateData*>(in->mPrivate);
-    }
-
-    inline const ScenePrivateData* ScenePriv(const aiScene* in) {
-        return static_cast<const ScenePrivateData*>(in->mPrivate);
-    }
-
-}
-
-aiScene::aiScene()
-    : mFlags(0)
-    , mRootNode(NULL)
-    , mNumMeshes(0)
-    , mMeshes(NULL)
-    , mNumMaterials(0)
-    , mMaterials(NULL)
-    , mNumAnimations(0)
-    , mAnimations(NULL)
-    , mNumTextures(0)
-    , mTextures(NULL)
-    , mNumLights(0)
-    , mLights(NULL)
-    , mNumCameras(0)
-    , mCameras(NULL)
-    , mPrivate(new Assimp::ScenePrivateData())
-{
-}
-
-aiScene::~aiScene()
-{
-    // delete all sub-objects recursively
-    delete mRootNode;
-
-    // To make sure we won't crash if the data is invalid it's
-    // much better to check whether both mNumXXX and mXXX are
-    // valid instead of relying on just one of them.
-    if (mNumMeshes && mMeshes)
-        for( unsigned int a = 0; a < mNumMeshes; a++)
-            delete mMeshes[a];
-    delete [] mMeshes;
-
-    if (mNumMaterials && mMaterials)
-        for( unsigned int a = 0; a < mNumMaterials; a++)
-            delete mMaterials[a];
-    delete [] mMaterials;
-
-    if (mNumAnimations && mAnimations)
-        for( unsigned int a = 0; a < mNumAnimations; a++)
-            delete mAnimations[a];
-    delete [] mAnimations;
-
-    if (mNumTextures && mTextures)
-        for( unsigned int a = 0; a < mNumTextures; a++)
-            delete mTextures[a];
-    delete [] mTextures;
-
-    if (mNumLights && mLights)
-        for( unsigned int a = 0; a < mNumLights; a++)
-            delete mLights[a];
-    delete [] mLights;
-
-    if (mNumCameras && mCameras)
-        for( unsigned int a = 0; a < mNumCameras; a++)
-            delete mCameras[a];
-    delete [] mCameras;
-
-    delete static_cast<Assimp::ScenePrivateData*>( mPrivate );
-}
-
-
 aiScene *Inventor2Assimp(SoSeparator *root) {
     //Get geometry
     Geometry geometry;
@@ -667,33 +573,38 @@ aiScene *Inventor2Assimp(SoSeparator *root) {
 
 
 bool exportScene(const std::string &filename, SoSeparator *root, std::string *const error) {
-    //Check output format
-    Assimp::Exporter exporter;
-    std::string extension(filename.substr(filename.find_last_of(".")+1));
-    std::string formatID;
-    for (std::size_t i(0); i < exporter.GetExportFormatCount() && formatID.empty(); ++i) {
-        if (exporter.GetExportFormatDescription(i)->fileExtension == extension) {
-            formatID = exporter.GetExportFormatDescription(i)->id;
+    try {
+        //Check output format
+        Assimp::Exporter exporter;
+        std::string extension(filename.substr(filename.find_last_of(".")+1));
+        std::string formatID;
+        for (std::size_t i(0); i < exporter.GetExportFormatCount() && formatID.empty(); ++i) {
+            if (exporter.GetExportFormatDescription(i)->fileExtension == extension) {
+                formatID = exporter.GetExportFormatDescription(i)->id;
+            }
         }
-    }
-    if (formatID.empty()) return false;
+        if (formatID.empty()) return false;
 
-    //Convert Inventor to Assimp
-    const aiScene *scene(Inventor2Assimp(root));
+        //Convert Inventor to Assimp
+        const aiScene *scene(Inventor2Assimp(root));
 
-    if (AI_SUCCESS == exporter.Export(scene,formatID,filename,
-                                      aiProcess_JoinIdenticalVertices | //No repeated vertices
-                                      aiProcess_SortByPType | //Split meshes with more than one primitive
-                                      aiProcess_RemoveRedundantMaterials | //Check for redundant materials
-                                      aiProcess_OptimizeMeshes | //Reduce the number of meshes
-                                      aiProcess_OptimizeGraph | //Optimize the scene hierarchy
-                                      aiProcess_GenNormals | //Generate missing normals
-                                      aiProcess_FindInvalidData)) { //Remove/Fix invalid data
-        delete scene;
-        return true;
-    } else {
-        if (error) *error = exporter.GetErrorString();
-        delete scene;
+        if (AI_SUCCESS == exporter.Export(scene,formatID,filename,
+                                          aiProcess_JoinIdenticalVertices | //No repeated vertices
+                                          aiProcess_SortByPType | //Split meshes with more than one primitive
+                                          aiProcess_RemoveRedundantMaterials | //Check for redundant materials
+                                          aiProcess_OptimizeMeshes | //Reduce the number of meshes
+                                          aiProcess_OptimizeGraph | //Optimize the scene hierarchy
+                                          aiProcess_GenNormals | //Generate missing normals
+                                          aiProcess_FindInvalidData)) { //Remove/Fix invalid data
+            delete scene;
+            return true;
+        } else {
+            if (error) *error = exporter.GetErrorString();
+            delete scene;
+            return false;
+        }
+    } catch (...) {
+        if (error) *error = "File could not be exported.";
         return false;
     }
 }
