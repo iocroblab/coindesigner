@@ -348,8 +348,9 @@ bool MainWindow::load_Scene(QString filename)
     //Si no se ha pasado nombre de fichero, solicitamos uno
     if (filename == "")
     {
+        QString selectedFilter(tr("All Files")+"(*)");
         filename = QFileDialog::getOpenFileName(this, tr("Load Scene"),
-            nombreEscena, fileMasks);
+            nombreEscena, fileMasks, &selectedFilter);
         
         //Miramos si se pulso el boton cancelar
         if (filename=="")
@@ -461,8 +462,9 @@ bool MainWindow::import_File(QString filename)
     //Si no se ha pasado nombre de fichero, solicitamos uno
     if (filename == "")
     {
+        QString selectedFilter(tr("All Files")+"(*)");
         filename = QFileDialog::getOpenFileName(this, tr("Load Scene"),
-            nombreEscena, fileMasks);
+            nombreEscena, fileMasks,&selectedFilter);
         
         //Miramos si se pulso el boton cancelar
         if (filename=="")
@@ -704,13 +706,14 @@ void MainWindow::on_actionExport_PCD_activated() {
 
 void MainWindow::on_actionExport_As_activated() {
     std::vector<std::pair<std::string,std::string> > formats(assimpExportedFormats());
-    QString filter, selectedFilter;
+    QString filter;
     for (std::vector<std::pair<std::string,std::string> >::const_iterator it(formats.begin());
             it != formats.end(); ++it) {
         filter.append(tr(std::string(it->first+std::string(" Files")).c_str())).
                 append(" (*.").append(it->second.c_str()).append(");;");
     }
     filter.append(tr("All Files")+" (*)");
+    QString selectedFilter(tr("All Files")+"(*)");
     QString filename(QFileDialog::getSaveFileName(this,tr("Save File"),
                                                   nombreEscena,filter,&selectedFilter));
     if (filename.isEmpty()) return;
