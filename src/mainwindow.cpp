@@ -28,7 +28,8 @@
 #include <settingsDialog.h>
 #include <qslim_options.h>
 #include <tetgen_options.h>
-#include "assimp.h"
+#include "assimpImport.h"
+#include "assimpExport.h"
 #include <iostream>
 #include <fstream>
 

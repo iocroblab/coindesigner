@@ -154,7 +154,8 @@ set ( CDS_HDRS src/cds_util.h
 set ( CDS_SRCS ${CDS_SRCS} src/main.cpp
                src/mainwindow.cpp
                src/mainwindow2.cpp
-               src/assimp.cpp
+               src/assimpImport.cpp
+               src/assimpExport.cpp
                src/cds_util.cpp
                src/cds_viewers.cpp
                #src/cds_scanner.cpp
