@@ -31,7 +31,6 @@
 #include <assimp/importerdesc.h>
 #include <assimp/Exporter.hpp>
 #include <assimp/postprocess.h>
-#include <assimp/matrix4x4.h>
 
 #include <Inventor/nodes/SoTransform.h>
 #include <Inventor/nodes/SoIndexedPointSet.h>
@@ -46,11 +45,44 @@
 #include <map>
 
 
-SoMaterial *getMaterial(const aiMaterial *material) {
+SoTransform *getTransform(const aiMatrix4x4 &matrix) {
+    aiVector3D scaling;
+    aiQuaternion rotation;
+    aiVector3D position;
+    matrix.Decompose(scaling,rotation,position);
+
+    SoTransform *transform(new SoTransform);
+    transform->translation.setValue(position[0],
+                                    position[1],
+                                    position[2]);
+    transform->rotation.setValue(rotation.x,
+                                 rotation.y,
+                                 rotation.z,
+                                 rotation.w);
+    transform->scaleFactor.setValue(scaling[0],
+                                    scaling[1],
+                                    scaling[2]);
+
+    return transform;
+}
+
+
+SoNode *getTexture(const aiTexture *const texture) {
+    return NULL;
+}
+
+
+SoMaterial *getMaterial(const aiMaterial *const material) {
     SoMaterial *soMat(new SoMaterial);
 
+    aiString name;
     aiColor3D color;
     float value;
+
+    //Add name
+    if (AI_SUCCESS == material->Get(AI_MATKEY_NAME,name)) {
+        soMat->setName(SbName(name.C_Str()));
+    }
 
     //Add diffuse color
     if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE,color)) {
@@ -94,7 +126,7 @@ SoMaterial *getMaterial(const aiMaterial *material) {
 }
 
 
-SoIndexedShape *getShape(const aiMesh *mesh) {
+SoIndexedShape *getShape(const aiMesh *const mesh) {
     if (!mesh->HasPositions() ||
             !mesh->HasFaces()) return NULL;
 
@@ -152,7 +184,7 @@ SoIndexedShape *getShape(const aiMesh *mesh) {
 }
 
 
-SoSeparator *getMesh(const aiMesh *mesh, const aiMaterial *material,
+SoSeparator *getMesh(const aiMesh *const mesh, const aiMaterial *const material,
                      SoSeparator *meshSep = NULL) {
     if (!meshSep) {
         meshSep = new SoSeparator;
@@ -163,7 +195,7 @@ SoSeparator *getMesh(const aiMesh *mesh, const aiMaterial *material,
     meshSep->addChild(getMaterial(material));
 
     //Add shape
-    SoIndexedShape *shape = getShape(mesh);
+    SoIndexedShape *shape(getShape(mesh));
     if (shape) meshSep->addChild(shape);
 
     return meshSep;
@@ -179,8 +211,8 @@ bool hasMesh(const aiNode *node) {
 }
 
 
-void addNode(SoSeparator *parent, const aiNode *node,
-             aiMaterial **materials, aiMesh **meshes) {
+void addNode(SoSeparator *const parent, const aiNode *const node,
+             const aiMaterial *const *const materials, const aiMesh *const *const meshes) {
     if (hasMesh(node)) {
         SoSeparator *nodeSep;
         if ((!node->mParent || node->mTransformation.IsIdentity()) &&
@@ -192,17 +224,19 @@ void addNode(SoSeparator *parent, const aiNode *node,
             nodeSep->setName(SbName(node->mName.C_Str()));
             parent->addChild(nodeSep);
 
+            //Add transform
+            if (node->mParent && !node->mTransformation.IsIdentity())
+                nodeSep->addChild(getTransform(node->mTransformation));
+
             //Add meshes
-            aiMesh *mesh;
             if (node->mNumMeshes == 1 && node->mNumChildren == 0) {
                 getMesh(meshes[node->mMeshes[0]],
                         materials[meshes[node->mMeshes[0]]->mMaterialIndex],
                         nodeSep);
             } else {
                 for (std::size_t i(0); i < node->mNumMeshes; ++i) {
-                    mesh = meshes[node->mMeshes[i]];
-                    nodeSep->addChild(getMesh(mesh,
-                                              materials[mesh->mMaterialIndex]));
+                    nodeSep->addChild(getMesh(meshes[node->mMeshes[i]],
+                                              materials[meshes[node->mMeshes[i]]->mMaterialIndex]));
                 }
             }
         }
@@ -214,7 +248,7 @@ void addNode(SoSeparator *parent, const aiNode *node,
 }
 
 
-SoSeparator *Assimp2Inventor(const aiScene *scene) {
+SoSeparator *Assimp2Inventor(const aiScene *const scene) {
     SoSeparator *root(new SoSeparator);
     addNode(root,scene->mRootNode,scene->mMaterials,scene->mMeshes);
     return root;
@@ -224,26 +258,37 @@ SoSeparator *Assimp2Inventor(const aiScene *scene) {
 SoSeparator *importScene(const std::string &filename, std::string *const error) {
     try {
         Assimp::Importer importer;
+
+        //Specify the parts of the data structure to be removed
         importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
-                                    aiComponent_ANIMATIONS |
-                                    aiComponent_BONEWEIGHTS |
-                                    aiComponent_CAMERAS |
-                                    aiComponent_COLORS |
-                                    aiComponent_LIGHTS |
                                     aiComponent_TANGENTS_AND_BITANGENTS |
+                                    aiComponent_COLORS |
                                     aiComponent_TEXCOORDS |
-                                    aiComponent_TEXTURES);
-        const aiScene *scene(importer.ReadFile(filename,
-                                               aiProcess_Triangulate | //Everything will be triangles, lines or points
-                                               aiProcess_JoinIdenticalVertices | //No repeated vertices
-                                               aiProcess_SortByPType | //Split meshes with more than one primitive
-                                               aiProcess_RemoveRedundantMaterials | //Check for redundant materials
-                                               aiProcess_OptimizeMeshes | //Reduce the number of meshes
-                                               aiProcess_OptimizeGraph | //Optimize the scene hierarchy
-                                               aiProcess_Debone | //Remove bones
-                                               aiProcess_RemoveComponent | //Remove the previously specified components
-                                               aiProcess_GenNormals | //Generate missing normals
-                                               aiProcess_FindInvalidData)); //Remove/Fix invalid data
+                                    aiComponent_BONEWEIGHTS |
+                                    aiComponent_ANIMATIONS |
+                                    aiComponent_TEXTURES |
+                                    aiComponent_LIGHTS |
+                                    aiComponent_CAMERAS);
+
+        //Specify the post processing step to be applied
+        unsigned int postProcessSteps
+                (aiProcess_JoinIdenticalVertices | //Remove repeated vertices
+                 aiProcess_Triangulate | //Convert polygons to triangles
+                 aiProcess_RemoveComponent | //Remove the previously specified components
+                 aiProcess_GenNormals | //Generate missing normals
+                 aiProcess_ValidateDataStructure | //Make sure everything is OK
+                 aiProcess_RemoveRedundantMaterials | //Check for redundant materials
+                 aiProcess_FixInfacingNormals  | //Invert normals facing inwards
+                 aiProcess_SortByPType | //Split meshes with more than one primitive (i.e. points, lines, trinagles, polygons)
+                 aiProcess_FindDegenerates | //Convert degenerated primitives to proper ones
+                 aiProcess_FindInvalidData | //Remove/Fix invalid data
+                 aiProcess_OptimizeMeshes | //Reduce the number of meshes
+                 aiProcess_OptimizeGraph | //Optimize the scene hierarchy
+                 aiProcess_Debone); //Remove bones losslessly
+
+        //Import scene
+        const aiScene *const scene(importer.ReadFile(filename,postProcessSteps));
+
         if (scene) {
             return Assimp2Inventor(scene);
         } else {
