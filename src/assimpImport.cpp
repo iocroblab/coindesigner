@@ -40,6 +40,8 @@
 
 #include <iostream>
 
+#include <boost/algorithm/string/replace.hpp>
+
 
 SoTransform *getTransform(const aiMatrix4x4 &matrix) {
     aiVector3D scaling;
@@ -48,25 +50,27 @@ SoTransform *getTransform(const aiMatrix4x4 &matrix) {
     matrix.Decompose(scaling,rotation,position);
 
     SoTransform *transform(new SoTransform);
-    transform->translation.setValue(position[0],
-                                    position[1],
-                                    position[2]);
+    transform->translation.setValue(position.x,
+                                    position.y,
+                                    position.z);
     transform->rotation.setValue(rotation.x,
                                  rotation.y,
                                  rotation.z,
                                  rotation.w);
-    transform->scaleFactor.setValue(scaling[0],
-                                    scaling[1],
-                                    scaling[2]);
+    transform->scaleFactor.setValue(scaling.x,
+                                    scaling.y,
+                                    scaling.z);
 
     return transform;
 }
 
 
-SoNode *getTexture(const aiTexture *const texture) {
+SoTexture2 *getTexture(const aiTexture *const texture) {
     if (texture->mHeight == 0) {//Compressed texture
-        std::cout << "Found compressed texture" << std::endl;
-        //texture->pcData is a pointer to a memory buffer of size mWidth containing the compressed texture data
+        std::cout << "Found a compressed embedded texture. "
+                  << "It will be ignored." << std::endl;
+        ///texture->pcData is a pointer to a memory buffer of
+        ///size mWidth containing the compressed texture data
         return NULL;
     } else {//Uncompressed texture
         unsigned char pixels[texture->mWidth*texture->mHeight*4];
@@ -86,6 +90,110 @@ SoNode *getTexture(const aiTexture *const texture) {
 }
 
 
+SoTexture *getTexture(const aiMaterial * const material, const std::string &scenePath) {
+    std::vector<aiTextureType> types;
+    types.push_back(aiTextureType_NONE);
+    types.push_back(aiTextureType_DIFFUSE);
+    types.push_back(aiTextureType_SPECULAR);
+    types.push_back(aiTextureType_AMBIENT);
+    types.push_back(aiTextureType_EMISSIVE);
+    types.push_back(aiTextureType_HEIGHT);
+    types.push_back(aiTextureType_NORMALS);
+    types.push_back(aiTextureType_SHININESS);
+    types.push_back(aiTextureType_OPACITY);
+    types.push_back(aiTextureType_DISPLACEMENT);
+    types.push_back(aiTextureType_LIGHTMAP);
+    types.push_back(aiTextureType_REFLECTION);
+    types.push_back(aiTextureType_UNKNOWN);
+
+    SoTexture2 *texture(NULL);
+    for (std::vector<aiTextureType>::const_iterator type(types.begin());
+         type != types.end(); ++type) {
+        for (std::size_t i(0); i < material->GetTextureCount(*type); ++i) {
+            aiString path;
+            aiTextureMapping mapping;
+            unsigned int uvIndex;
+            float blendFactor;
+            aiTextureOp operation;
+            aiTextureMapMode mapMode[3];
+            if (aiReturn_SUCCESS == material->GetTexture(*type,i,&path,&mapping,&uvIndex,
+                                                   &blendFactor,&operation,mapMode)) {
+                std::cout << "The " << i << "th texture (out of "
+                          << material->GetTextureCount(*type) << ") is of type " << *type
+                          << " is stored in " << path.C_Str() << " and has mapping "
+                          << mapping << ", UV index " << uvIndex << ", blend factor "
+                          << blendFactor << ", operation " << operation
+                          << " and map mode [" << mapMode[0] << ", " << mapMode[1] << ", "
+                          << mapMode[2] << "]" << std::endl;
+
+                if (texture) {
+                    std::cout << "Found a material with more than one texture. "
+                              << "Only the first one will be used." << std::endl;
+                } else {
+                    ///I don't know what to do with uvIndex or blendFactor
+                    ///uvIndex only has a valid value if mapping == aiTextureMapping_UV
+                    ///Operation should have something related with SoTextureCombiner
+                    ///If mapMode[2] is valid then should I use SoTexture3?
+                    ///I don't know how to check if the image has been loaded correctly
+
+                    texture = new SoTexture2;
+                    std::string filename(scenePath);
+                    filename.append(path.C_Str());
+                    boost::replace_all(filename,"\\","/");
+                    texture->filename.setValue(filename.c_str());
+                    texture->setName(filename.substr(filename.find_last_of("/")+1).c_str());
+                    switch (mapping) {
+                    case aiTextureMapping_UV:
+                        switch (mapMode[0]) {
+                        case aiTextureMapMode_Wrap:
+                            texture->wrapS.setValue(SoTexture2::REPEAT);
+                            break;
+                        case aiTextureMapMode_Clamp:
+                            texture->wrapS.setValue(SoTexture2::CLAMP);
+                            break;
+                        case aiTextureMapMode_Decal:
+                        case aiTextureMapMode_Mirror:
+                        default:
+                            std::cout << "Wrong S texture mapping mode. "
+                                      << "Property will be ignored." << std::endl;
+                            break;
+                        }
+
+                        switch (mapMode[1]) {
+                        case aiTextureMapMode_Wrap:
+                            texture->wrapT.setValue(SoTexture2::REPEAT);
+                            break;
+                        case aiTextureMapMode_Clamp:
+                            texture->wrapT.setValue(SoTexture2::CLAMP);
+                            break;
+                        case aiTextureMapMode_Decal:
+                        case aiTextureMapMode_Mirror:
+                        default:
+                            std::cout << "Wrong T texture mapping mode. "
+                                      << "Property will be ignored." << std::endl;
+                            break;
+                        }
+                        break;
+                    case aiTextureMapping_SPHERE:
+                    case aiTextureMapping_CYLINDER:
+                    case aiTextureMapping_BOX:
+                    case aiTextureMapping_PLANE:
+                    case aiTextureMapping_OTHER:
+                    default:
+                        std::cout << "Wrong texture mapping. "
+                                  << "Property will be ignored." << std::endl;
+                        continue;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return texture;
+}
+
+
 SoMaterial *getMaterial(const aiMaterial *const material) {
     SoMaterial *soMat(new SoMaterial);
 
@@ -94,183 +202,133 @@ SoMaterial *getMaterial(const aiMaterial *const material) {
     float value;
 
     //Add name
-    if (AI_SUCCESS == material->Get(AI_MATKEY_NAME,name)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_NAME,name)) {
         soMat->setName(SbName(name.C_Str()));
     }
 
     //Add diffuse color
-    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE,color)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE,color)) {
         soMat->diffuseColor.setValue(color.r,
                                      color.g,
                                      color.b);
     }
 
     //Add specular color
-    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_SPECULAR,color)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_SPECULAR,color)) {
         soMat->specularColor.setValue(color.r,
                                       color.g,
                                       color.b);
     }
 
     //Add ambient color
-    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_AMBIENT,color)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_AMBIENT,color)) {
         soMat->ambientColor.setValue(color.r,
                                      color.g,
                                      color.b);
     }
 
     //Add emissive color
-    if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_EMISSIVE,color)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_EMISSIVE,color)) {
         soMat->emissiveColor.setValue(color.r,
                                       color.g,
                                       color.b);
     }
 
     //Add transparency
-    if (AI_SUCCESS == material->Get(AI_MATKEY_OPACITY,value)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_OPACITY,value)) {
         soMat->transparency.setValue(1.0-value);
     }
 
     //Add shininess
-    if (AI_SUCCESS == material->Get(AI_MATKEY_SHININESS_STRENGTH,value)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_SHININESS_STRENGTH,value)) {
         soMat->shininess.setValue(value);
     }
-
-
-    std::vector<std::pair<aiTextureType,std::string> > textureType;
-    textureType.push_back(std::make_pair(aiTextureType_NONE,"none"));
-    textureType.push_back(std::make_pair(aiTextureType_DIFFUSE,"diffuse"));
-    textureType.push_back(std::make_pair(aiTextureType_SPECULAR,"specular"));
-    textureType.push_back(std::make_pair(aiTextureType_AMBIENT,"ambient"));
-    textureType.push_back(std::make_pair(aiTextureType_EMISSIVE,"emissive"));
-    textureType.push_back(std::make_pair(aiTextureType_HEIGHT,"height"));
-    textureType.push_back(std::make_pair(aiTextureType_NORMALS,"normals"));
-    textureType.push_back(std::make_pair(aiTextureType_SHININESS,"shininess"));
-    textureType.push_back(std::make_pair(aiTextureType_OPACITY,"opacity"));
-    textureType.push_back(std::make_pair(aiTextureType_DISPLACEMENT,"displacement"));
-    textureType.push_back(std::make_pair(aiTextureType_LIGHTMAP,"lightmap"));
-    textureType.push_back(std::make_pair(aiTextureType_REFLECTION,"reflection"));
-    textureType.push_back(std::make_pair(aiTextureType_UNKNOWN,"unknwon"));
-
-    aiTextureMapping mappings[] = {aiTextureMapping_UV, //0
-                                   aiTextureMapping_SPHERE, //1
-                                   aiTextureMapping_CYLINDER, //2
-                                   aiTextureMapping_BOX, //3
-                                   aiTextureMapping_PLANE, //4
-                                   aiTextureMapping_OTHER}; //5
-
-    aiTextureOp operations[] = {aiTextureOp_Multiply, //0
-                                aiTextureOp_Add, //1
-                                aiTextureOp_Subtract, //2
-                                aiTextureOp_Divide, //3
-                                aiTextureOp_SmoothAdd, //4
-                                aiTextureOp_SignedAdd}; //5
-
-    aiTextureMapMode mapModes[] = {aiTextureMapMode_Wrap, //0
-                                   aiTextureMapMode_Clamp, //1
-                                   aiTextureMapMode_Mirror, //2
-                                   aiTextureMapMode_Decal}; //3
-
-
-    bool found(false);
-    std::vector<SoTexture2*> textures;
-    for (std::vector<std::pair<aiTextureType,std::string> >::const_iterator it(textureType.begin());
-         it != textureType.end(); ++it) {
-        for (std::size_t i(0); i < material->GetTextureCount(it->first); ++i) {
-            aiString path;
-            aiTextureMapping mapping;
-            unsigned int uvIndex;
-            float blendFactor;
-            aiTextureOp operation;
-            aiTextureMapMode mapMode[3];
-            if (AI_SUCCESS == material->GetTexture(it->first,i,&path,&mapping,&uvIndex,&blendFactor,&operation,mapMode)) {
-                found = true;
-                std::cout << it->second << ": " << path.C_Str() << " " << mapping << " " << uvIndex << " "
-                          << blendFactor << " " << operation << " " << mapMode[0] << " " << mapMode[1] << " " << mapMode[2];
-                std::cout << std::endl;
-                SoTexture2 *texture(new SoTexture2);
-                texture->filename.setValue(path.C_Str());
-                if (mapping == aiTextureMapping_UV) {
-                    switch (mappingMode[0]) {
-                        case aiTextureMapMode_Wrap:
-                            texture->wrapS.setValue(SoTexture2::REPEAT);
-                        break;
-                        case aiTextureMapMode_Clamp:
-                            texture->wrapS.setValue(SoTexture2::CLAMP);
-                        break;
-                    }
-                    switch (mappingMode[1]) {
-                        case aiTextureMapMode_Wrap:
-                            texture->wrapT.setValue(SoTexture2::REPEAT);
-                        break;
-                        case aiTextureMapMode_Clamp:
-                            texture->wrapT.setValue(SoTexture2::CLAMP);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (found) std::cout << std::endl;
 
     return soMat;
 }
 
 
 SoIndexedShape *getShape(const aiMesh *const mesh) {
-    if (!mesh->HasPositions() ||
-            !mesh->HasFaces()) return NULL;
+    if (!mesh->HasPositions() || !mesh->HasFaces()) return NULL; //Mesh is empty
+
+    SoVertexProperty *vertexProperty(new SoVertexProperty);
+
+    //Set vertices
+    float vertices[mesh->mNumVertices][3];
+    for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
+        vertices[i][0] = mesh->mVertices[i].x;
+        vertices[i][1] = mesh->mVertices[i].y;
+        vertices[i][2] = mesh->mVertices[i].z;
+    }
+    vertexProperty->vertex.setValues(0,mesh->mNumVertices,vertices);
+
+    if (mesh->HasNormals()) {
+        //Set normals
+        float normals[mesh->mNumVertices][3];
+        for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
+            normals[i][0] = mesh->mNormals[i].x;
+            normals[i][1] = mesh->mNormals[i].y;
+            normals[i][2] = mesh->mNormals[i].z;
+        }
+        vertexProperty->normal.setValues(0,mesh->mNumVertices,normals);
+    }
+
+    if (mesh->GetNumColorChannels() > 0) {
+        std::cout << "Mesh has " << mesh->GetNumColorChannels()
+                  << " vertex color channels. Property will be ignored." << std::endl;
+    }
 
     if (mesh->GetNumUVChannels() > 0) {
-        std::cout << "Mesh has " << mesh->GetNumUVChannels()
-                  << " uv channels with [" << mesh->mNumUVComponents[0];
-        for (unsigned int i(1); i < mesh->GetNumUVChannels(); ++i ) {
-            std::cout << mesh->mNumUVComponents[i] << " ";
+        if (mesh->GetNumUVChannels() > 1) {
+                std::cout << "Mesh has " << mesh->GetNumUVChannels()
+                          << " UV channels. Only the first one will be used." << std::endl;
         }
-        std::cout << "] components" << std::endl;
+
+        //Set texture coordinates
+        if (mesh->mNumUVComponents[0] == 2) {
+            float texCoords[mesh->mNumVertices][2];
+            for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
+                texCoords[i][0] = mesh->mTextureCoords[0][i].x;
+                texCoords[i][1] = mesh->mTextureCoords[0][i].y;
+            }
+            vertexProperty->texCoord.setValues(0,mesh->mNumVertices,texCoords);
+        } else if (mesh->mNumUVComponents[0] == 3) {
+            float texCoords3[mesh->mNumVertices][3];
+            for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
+                texCoords3[i][0] = mesh->mTextureCoords[0][i].x;
+                texCoords3[i][1] = mesh->mTextureCoords[0][i].y;
+                texCoords3[i][2] = mesh->mTextureCoords[0][i].z;
+            }
+            vertexProperty->texCoord3.setValues(0,mesh->mNumVertices,texCoords3);
+        } else {
+            std::cout << "Mesh has texture coordinates of " << mesh->mNumUVComponents[0]
+                      << " components. Property will be ignored." << std::endl;
+        }
     }
 
     SoIndexedShape *shape;
     std::size_t numIndices;
     switch (mesh->mPrimitiveTypes) {
-        case aiPrimitiveType_POINT:
-            shape = new SoIndexedPointSet;
-            numIndices = 1;
+    case aiPrimitiveType_POINT:
+        shape = new SoIndexedPointSet;
+        numIndices = 1;
         break;
-        case aiPrimitiveType_LINE:
-            shape = new SoIndexedLineSet;
-            numIndices = 2;
+    case aiPrimitiveType_LINE:
+        shape = new SoIndexedLineSet;
+        numIndices = 2;
         break;
-        case aiPrimitiveType_TRIANGLE:
-            shape = new SoIndexedTriangleStripSet;
-            numIndices = 3;
+    case aiPrimitiveType_TRIANGLE:
+        shape = new SoIndexedTriangleStripSet;
+        numIndices = 3;
         break;
-        default:
+    case aiPrimitiveType_POLYGON:
+    default:
+        std::cout << "Wrong primitive type. Mesh will be ignored." << std::endl;
         return NULL;
         break;
     }
 
-    SoVertexProperty *vertexProperty(new SoVertexProperty);
-    shape->vertexProperty.setValue(vertexProperty);
-
-    float vertices[mesh->mNumVertices][3];
-    for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
-        vertices[i][0] = mesh->mVertices[i][0];
-        vertices[i][1] = mesh->mVertices[i][1];
-        vertices[i][2] = mesh->mVertices[i][2];
-    }
-    vertexProperty->vertex.setValues(0,mesh->mNumVertices,vertices);
-
-    if (mesh->HasNormals()) {
-        float normals[mesh->mNumVertices][3];
-        for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
-            normals[i][0] = mesh->mNormals[i][0];
-            normals[i][1] = mesh->mNormals[i][1];
-            normals[i][2] = mesh->mNormals[i][2];
-        }
-        vertexProperty->normal.setValues(0,mesh->mNumVertices,normals);
-    }
-
+    //Set faces
     int indices[mesh->mNumFaces*(numIndices+1)];
     for (std::size_t i(0); i < mesh->mNumFaces; ++i) {
         for (std::size_t j(0); j < numIndices; ++j) {
@@ -279,26 +337,35 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
         indices[i*(numIndices+1)+numIndices] = -1;
     }
     shape->coordIndex.setValues(0,mesh->mNumFaces*(numIndices+1),indices);
+    shape->vertexProperty.setValue(vertexProperty);
 
     return shape;
 }
 
 
 SoSeparator *getMesh(const aiMesh *const mesh, const aiMaterial *const material,
-                     SoSeparator *meshSep = NULL) {
-    if (!meshSep) {
-        meshSep = new SoSeparator;
-        meshSep->setName(SbName(mesh->mName.C_Str()));
-    }
-
-    //Add material
-    meshSep->addChild(getMaterial(material));
-
-    //Add shape
+                     const std::string &path, SoSeparator *meshSep = NULL) {
     SoIndexedShape *shape(getShape(mesh));
-    if (shape) meshSep->addChild(shape);
+    if (shape) {
+        if (!meshSep) {
+            meshSep = new SoSeparator;
+            meshSep->setName(SbName(mesh->mName.C_Str()));
+        }
 
-    return meshSep;
+        //Add texture
+        SoTexture *texture(getTexture(material,path));
+        if (texture) meshSep->addChild(texture);
+
+        //Add material
+        meshSep->addChild(getMaterial(material));
+
+        //Add shape
+        meshSep->addChild(shape);
+
+        return meshSep;
+    } else {
+        return NULL;
+    }
 }
 
 
@@ -313,7 +380,7 @@ bool hasMesh(const aiNode *node) {
 
 void addNode(SoSeparator *const parent, const aiNode *const node,
              const aiMaterial *const *const materials, const aiMesh *const *const meshes,
-             const aiTexture *const *const textures) {
+             const aiTexture *const *const textures, const std::string &path) {
     if (hasMesh(node)) {
         SoSeparator *nodeSep;
         if ((!node->mParent || node->mTransformation.IsIdentity()) &&
@@ -333,26 +400,34 @@ void addNode(SoSeparator *const parent, const aiNode *const node,
             if (node->mNumMeshes == 1 && node->mNumChildren == 0) {
                 getMesh(meshes[node->mMeshes[0]],
                         materials[meshes[node->mMeshes[0]]->mMaterialIndex],
-                        nodeSep);
+                        path,nodeSep);
             } else {
                 for (std::size_t i(0); i < node->mNumMeshes; ++i) {
-                    nodeSep->addChild(getMesh(meshes[node->mMeshes[i]],
-                                              materials[meshes[node->mMeshes[i]]->mMaterialIndex]));
+                    SoNode *child(getMesh(meshes[node->mMeshes[i]],
+                                  materials[meshes[node->mMeshes[i]]->mMaterialIndex],path));
+                    if (child) nodeSep->addChild(child);
                 }
             }
         }
+
         //Add children nodes
         for (std::size_t i(0); i < node->mNumChildren; ++i) {
-            addNode(nodeSep,node->mChildren[i],materials,meshes,textures);
+            addNode(nodeSep,node->mChildren[i],materials,meshes,textures,path);
         }
     }
 }
 
 
-SoSeparator *Assimp2Inventor(const aiScene *const scene) {
+SoSeparator *Assimp2Inventor(const aiScene *const scene, const std::string &path) {
     SoSeparator *root(new SoSeparator);
-    std::cout << "I have " << scene->mNumTextures << " textures embedded" << std::endl;
-    addNode(root,scene->mRootNode,scene->mMaterials,scene->mMeshes,scene->mTextures);
+    std::cout << "I imported a scene with " << scene->mNumTextures << " embedded textures, "
+              << scene->mNumMaterials << " materials and "
+              << scene->mNumMeshes << " meshes." << std::endl;
+    if (scene->mNumTextures > 0) {
+        std::cout << "Found a scene with embedded textures. They will be ignored." << std::endl;
+    }
+    addNode(root,scene->mRootNode,scene->mMaterials,
+            scene->mMeshes,scene->mTextures,path);
     return root;
 }
 
@@ -362,7 +437,7 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
         Assimp::Importer importer;
 
         //Set the parts of the data structure to be removed
-        /*importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+        importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                                     aiComponent_TANGENTS_AND_BITANGENTS |
                                     aiComponent_COLORS |
                                     aiComponent_TEXCOORDS |
@@ -370,37 +445,66 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
                                     aiComponent_ANIMATIONS |
                                     aiComponent_TEXTURES |
                                     aiComponent_LIGHTS |
-                                    aiComponent_CAMERAS);*/
+                                    aiComponent_CAMERAS);
 
         //Set the post processing step to be applied
         unsigned int postProcessSteps
-                (//aiProcess_JoinIdenticalVertices | //Remove repeated vertices
-                 aiProcess_Triangulate | //Convert polygons to triangles
-                 //aiProcess_RemoveComponent | //Remove the previously specified components
-                 aiProcess_GenNormals | //Generate missing normals
-                 aiProcess_ValidateDataStructure | //Make sure everything is OK
-                 //aiProcess_RemoveRedundantMaterials | //Check for redundant materials
-                 //aiProcess_FixInfacingNormals  | //Invert normals facing inwards
-                 aiProcess_SortByPType | //Split meshes with more than one primitive (i.e. points, lines, trinagles, polygons)
-                 aiProcess_FindDegenerates | //Convert degenerated primitives to proper ones
-                 aiProcess_FindInvalidData //| //Remove/Fix invalid data
-                 //aiProcess_OptimizeMeshes | //Reduce the number of meshes
-                 //aiProcess_OptimizeGraph | //Optimize the scene hierarchy
-                 //aiProcess_Debone //Remove bones losslessly
-                 );
+                (//Remove repeated vertices
+                 //aiProcess_JoinIdenticalVertices |
+
+                 //Convert polygons to triangles
+                 aiProcess_Triangulate |
+
+                 //Remove the previously specified components
+                 //aiProcess_RemoveComponent |
+
+                 //Generate missing normals
+                 aiProcess_GenNormals |
+
+                 //Make sure everything is OK
+                 aiProcess_ValidateDataStructure |
+
+                 //Check for redundant materials
+                 /*aiProcess_RemoveRedundantMaterials |
+
+                 //Invert normals facing inwards
+                 aiProcess_FixInfacingNormals |*/
+
+                 //Split meshes with more than one primitive
+                 //(i.e. points, lines, trinagles, polygons)
+                 aiProcess_SortByPType |
+
+                 //Convert degenerated primitives to proper ones
+                 aiProcess_FindDegenerates |
+
+                 //Remove/Fix invalid data
+                 aiProcess_FindInvalidData /*|
+
+                 //Reduce the number of meshes
+                 aiProcess_OptimizeMeshes |
+
+                 //Optimize the scene hierarchy
+                 aiProcess_OptimizeGraph |
+
+                 //Remove bones losslessly
+                 aiProcess_Debone*/);
 
         //Import scene
         const aiScene *const scene(importer.ReadFile(filename,postProcessSteps));
 
         if (scene) {
             //Convert from Assimp to Inventor
-            return Assimp2Inventor(scene);
+            std::string path(filename.substr(0,filename.find_last_of("/")+1));
+            return Assimp2Inventor(scene,path);
         } else {
             if (error) *error = importer.GetErrorString();
             return NULL;
         }
-    } catch (...) {
-        if (error) *error = "File could not be imported.";
+    } catch (std::exception &excp) {
+        if (error) {
+            *error = "File could not be imported: ";
+            error->append(excp.what());
+        }
         return NULL;
     }
 }
