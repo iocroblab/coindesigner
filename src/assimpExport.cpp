@@ -110,7 +110,7 @@ aiMaterial *getMaterial(const Material &material) {
     color.r = material.diffuse[0];
     color.g = material.diffuse[1];
     color.b = material.diffuse[2];
-    if (AI_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_DIFFUSE)) {
+    if (aiReturn_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_DIFFUSE)) {
         std::cout << "Error at setting diffuse color" << std::endl;
     }
 
@@ -118,7 +118,7 @@ aiMaterial *getMaterial(const Material &material) {
     color.r = material.specular[0];
     color.g = material.specular[1];
     color.b = material.specular[2];
-    if (AI_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_SPECULAR)) {
+    if (aiReturn_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_SPECULAR)) {
         std::cout << "Error at setting specular color" << std::endl;
     }
 
@@ -126,7 +126,7 @@ aiMaterial *getMaterial(const Material &material) {
     color.r = material.ambient[0];
     color.g = material.ambient[1];
     color.b = material.ambient[2];
-    if (AI_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_AMBIENT)) {
+    if (aiReturn_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_AMBIENT)) {
         std::cout << "Error at setting ambient color" << std::endl;
     }
 
@@ -134,19 +134,19 @@ aiMaterial *getMaterial(const Material &material) {
     color.r = material.emissive[0];
     color.g = material.emissive[1];
     color.b = material.emissive[2];
-    if (AI_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_EMISSIVE)) {
+    if (aiReturn_SUCCESS != aiMat->AddProperty(&color,1,AI_MATKEY_COLOR_EMISSIVE)) {
         std::cout << "Error at setting emissive color" << std::endl;
     }
 
     //Add transparency
 //    value = 1.0 - material.transparency;
-//    if (AI_SUCCESS != aiMat->AddProperty(&value,1,AI_MATKEY_OPACITY)) {
+//    if (aiReturn_SUCCESS != aiMat->AddProperty(&value,1,AI_MATKEY_OPACITY)) {
 //        std::cout << "Error at setting transparency" << std::endl;
 //    }
 
     //Add shininess
     value = material.shininess;
-    if (AI_SUCCESS != aiMat->AddProperty(&value,1,AI_MATKEY_SHININESS_STRENGTH)) {
+    if (aiReturn_SUCCESS != aiMat->AddProperty(&value,1,AI_MATKEY_SHININESS_STRENGTH)) {
         std::cout << "Error at setting shininess" << std::endl;
     }
 
@@ -415,7 +415,7 @@ bool exportScene(const std::string &filename, SoSeparator *root, std::string *co
         //Convert from Inventor to Assimp
         const aiScene *const scene(Inventor2Assimp(root));
 
-        if (AI_SUCCESS == exporter.Export(scene,formatID,filename/*,
+        if (aiReturn_SUCCESS == exporter.Export(scene,formatID,filename/*,
                                           aiProcess_JoinIdenticalVertices | //No repeated vertices
                                           aiProcess_SortByPType | //Split meshes with more than one primitive
                                           aiProcess_RemoveRedundantMaterials | //Check for redundant materials
