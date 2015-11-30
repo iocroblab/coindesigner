@@ -107,6 +107,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
     types.push_back(aiTextureType_UNKNOWN);
 
     SoTexture2 *texture(NULL);
+    ///Am I really interested in all texture types or only in DIFFUSE?
     for (std::vector<aiTextureType>::const_iterator type(types.begin());
          type != types.end(); ++type) {
         for (std::size_t i(0); i < material->GetTextureCount(*type); ++i) {
@@ -120,11 +121,20 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
                                                    &blendFactor,&operation,mapMode)) {
                 std::cout << "The " << i << "th texture (out of "
                           << material->GetTextureCount(*type) << ") is of type " << *type
-                          << " is stored in " << path.C_Str() << " and has mapping "
-                          << mapping << ", UV index " << uvIndex << ", blend factor "
-                          << blendFactor << ", operation " << operation
-                          << " and map mode [" << mapMode[0] << ", " << mapMode[1] << ", "
-                          << mapMode[2] << "]" << std::endl;
+                          << " is stored in " << path.C_Str() << " and has UV index "
+                          << uvIndex << ", blend factor " << blendFactor << ", operation "
+                          << operation << " and map mode [" << mapMode[0] << ", "
+                          << mapMode[1] << ", " << mapMode[2] << "]" << std::endl;
+
+                //AI_MATKEY_UVTRANSFORM(type, N) => aiUVTransform => SoTexture2Transform
+                //AI_MATKEY_TEXFLAGS(type, N)
+
+                /*int index;
+                if (aiReturn_SUCCESS == material->Get(AI_MATKEY_UVWSRC(*type,i),index)) {
+                    std::cout << "I have uvIndex " << index << std::endl;
+                } else {
+                    std::cout << "I do not have uvIndex" << std::endl;
+                }*/
 
                 if (texture) {
                     std::cout << "Found a material with more than one texture. "
@@ -134,55 +144,53 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
                     ///uvIndex only has a valid value if mapping == aiTextureMapping_UV
                     ///Operation should have something related with SoTextureCombiner
                     ///If mapMode[2] is valid then should I use SoTexture3?
+                    ///How I know when I need to use SoTexture3 or Sotexture2?
                     ///I don't know how to check if the image has been loaded correctly
+                    ///texture->model is always set to DECAL, is that good?
+                    ///It should be related with the loaded info
+
+                    if (mapping != aiTextureMapping_UV) {
+                        std::cout << "Invalid texture mapping. Texture will be ignored." << std::endl;
+                        cointinue;
+                    }
 
                     texture = new SoTexture2;
+
                     std::string filename(scenePath);
                     filename.append(path.C_Str());
                     boost::replace_all(filename,"\\","/");
                     texture->filename.setValue(filename.c_str());
                     texture->setName(filename.substr(filename.find_last_of("/")+1).c_str());
-                    switch (mapping) {
-                    case aiTextureMapping_UV:
-                        switch (mapMode[0]) {
+
+                    texture->model.setValue(SoTexture2::DECAL);
+
+                    switch (mapMode[0]) {
                         case aiTextureMapMode_Wrap:
                             texture->wrapS.setValue(SoTexture2::REPEAT);
-                            break;
+                        break;
                         case aiTextureMapMode_Clamp:
                             texture->wrapS.setValue(SoTexture2::CLAMP);
-                            break;
+                        break;
                         case aiTextureMapMode_Decal:
                         case aiTextureMapMode_Mirror:
                         default:
                             std::cout << "Wrong S texture mapping mode. "
                                       << "Property will be ignored." << std::endl;
-                            break;
-                        }
+                        break;
+                    }
 
-                        switch (mapMode[1]) {
+                    switch (mapMode[1]) {
                         case aiTextureMapMode_Wrap:
                             texture->wrapT.setValue(SoTexture2::REPEAT);
-                            break;
+                        break;
                         case aiTextureMapMode_Clamp:
                             texture->wrapT.setValue(SoTexture2::CLAMP);
-                            break;
+                        break;
                         case aiTextureMapMode_Decal:
                         case aiTextureMapMode_Mirror:
                         default:
                             std::cout << "Wrong T texture mapping mode. "
                                       << "Property will be ignored." << std::endl;
-                            break;
-                        }
-                        break;
-                    case aiTextureMapping_SPHERE:
-                    case aiTextureMapping_CYLINDER:
-                    case aiTextureMapping_BOX:
-                    case aiTextureMapping_PLANE:
-                    case aiTextureMapping_OTHER:
-                    default:
-                        std::cout << "Wrong texture mapping. "
-                                  << "Property will be ignored." << std::endl;
-                        continue;
                         break;
                     }
                 }
@@ -282,6 +290,25 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
         if (mesh->GetNumUVChannels() > 1) {
                 std::cout << "Mesh has " << mesh->GetNumUVChannels()
                           << " UV channels. Only the first one will be used." << std::endl;
+                /*How to map UV channels to textures (MATKEY_UVWSRC)
+
+                The MATKEY_UVWSRC property is only present if the source format doesn't
+                specify an explicit mapping from textures to UV channels. Many formats
+                don't do this and assimp is not aware of a perfect rule either.
+
+                Your handling of UV channels needs to be flexible therefore.
+                Our recommendation is to use logic like this to handle most cases properly:
+
+                  have only one uv channel?
+                     assign channel 0 to all textures and break
+
+                  for all textures
+                     have uvwsrc for this texture?
+                        assign channel specified in uvwsrc
+                     else
+                        assign channels in ascending order for all texture stacks,
+                            i.e. diffuse1 gets channel 1, opacity0 gets channel 0.
+            */
         }
 
         //Set texture coordinates
@@ -425,6 +452,7 @@ SoSeparator *Assimp2Inventor(const aiScene *const scene, const std::string &path
               << scene->mNumMeshes << " meshes." << std::endl;
     if (scene->mNumTextures > 0) {
         std::cout << "Found a scene with embedded textures. They will be ignored." << std::endl;
+        ///I don't know how will be referenced inside the scene
     }
     addNode(root,scene->mRootNode,scene->mMaterials,
             scene->mMeshes,scene->mTextures,path);
@@ -478,7 +506,13 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
                  aiProcess_FindDegenerates |
 
                  //Remove/Fix invalid data
-                 aiProcess_FindInvalidData /*|
+                 aiProcess_FindInvalidData |
+
+                 //Convert non-UV mappings to proper texture coordinate channels
+                 aiProcess_GenUVCoords |
+
+                 //Apply per-texture UV transformations
+                 aiProcess_TransformUVCoords /*|
 
                  //Reduce the number of meshes
                  aiProcess_OptimizeMeshes |
