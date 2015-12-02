@@ -454,7 +454,7 @@ std::vector<std::pair<std::string,std::string> > assimpExportedFormats() {
 
 
 #else // USE_ASSIMP
-bool exportScene(std::string filename, SoSeparator *root, std::string *error) {
+bool exportScene(const std::string filename, SoSeparator *root, std::string *error) {
     if (error) *error = "Assimp not available";
     return false;
 }

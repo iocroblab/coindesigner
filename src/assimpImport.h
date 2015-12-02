@@ -33,6 +33,6 @@ SoSeparator* importScene(const std::string &filename, std::string *const error =
 
 std::vector<std::string> assimpImportedExtensions();
 
-std::vector< std::pair<std::string,std::vector<std::string> > > assimpImportedFormats();
+std::vector<std::pair<std::string,std::vector<std::string> > > assimpImportedFormats();
 
 #endif // ASSIMP_IMPORT_H

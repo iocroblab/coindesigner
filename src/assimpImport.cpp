@@ -468,10 +468,8 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
         importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
                                     aiComponent_TANGENTS_AND_BITANGENTS |
                                     aiComponent_COLORS |
-                                    aiComponent_TEXCOORDS |
                                     aiComponent_BONEWEIGHTS |
                                     aiComponent_ANIMATIONS |
-                                    aiComponent_TEXTURES |
                                     aiComponent_LIGHTS |
                                     aiComponent_CAMERAS);
 
@@ -484,7 +482,7 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
                  aiProcess_Triangulate |
 
                  //Remove the previously specified components
-                 //aiProcess_RemoveComponent |
+                 aiProcess_RemoveComponent |
 
                  //Generate missing normals
                  aiProcess_GenNormals |
@@ -493,10 +491,10 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
                  aiProcess_ValidateDataStructure |
 
                  //Check for redundant materials
-                 /*aiProcess_RemoveRedundantMaterials |
+                 //aiProcess_RemoveRedundantMaterials |
 
                  //Invert normals facing inwards
-                 aiProcess_FixInfacingNormals |*/
+                 //aiProcess_FixInfacingNormals |
 
                  //Split meshes with more than one primitive
                  //(i.e. points, lines, trinagles, polygons)
@@ -610,7 +608,7 @@ std::vector<std::pair<std::string,std::vector<std::string> > > assimpImportedFor
 
 
 #else // USE_ASSIMP
-SoSeparator *importScene(std::string filename, std::string *error) {
+SoSeparator *importScene(const std::string filename, std::string *error) {
     if (error) *error = "Assimp not available";
     return NULL;
 }
