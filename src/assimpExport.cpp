@@ -36,6 +36,7 @@
 #include <Inventor/SbMatrix.h>
 
 #include <iostream>
+#include <map>
 
 
 struct Vertex {

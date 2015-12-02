@@ -151,7 +151,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
 
                     if (mapping != aiTextureMapping_UV) {
                         std::cout << "Invalid texture mapping. Texture will be ignored." << std::endl;
-                        cointinue;
+                        continue;
                     }
 
                     texture = new SoTexture2;
