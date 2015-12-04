@@ -34,6 +34,9 @@
 #include <Inventor/actions/SoCallbackAction.h>
 #include <Inventor/SoPrimitiveVertex.h>
 #include <Inventor/SbMatrix.h>
+#ifdef __COIN__
+#include <Inventor/VRMLnodes/SoVRMLImageTexture.h>
+#endif
 
 #include <iostream>
 #include <map>
@@ -304,6 +307,77 @@ aiTexture *getTexture(const unsigned char *pixels, const SbVec2s &size, unsigned
     }
 
     return texture;
+}
+
+
+bool setTexture(aiMaterial *material, const SoNode* soNode,
+                SoCallbackAction* action) {
+    if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+        std::cout << "Material already has a texture." << std::endl;
+    }
+
+    int value;
+    static std::map<SoTexture2::Wrap,aiTextureMapMode> texWrapMap;
+    if (texWrapMap.size() == 0) {
+        texWrapMap[SoTexture2::CLAMP] = aiTextureMapMode_Clamp;
+        texWrapMap[SoTexture2::REPEAT] = aiTextureMapMode_Wrap;
+    }
+
+    //Get filename
+    std::string filename;
+    if (soNode->isOfType(SoTexture2::getClassTypeId())) {
+        filename = ((SoTexture2*)soNode)->filename.getValue().getString();
+#ifdef __COIN__
+    } else if (soNode->isOfType(SoVRMLImageTexture::getClassTypeId())) {
+        filename = ((SoVRMLImageTexture*)soNode)->url.getNum() >= 1 ?
+                   ((SoVRMLImageTexture*)soNode)->url.getValues(0)[0].getString() : "";
+#endif
+    } else {
+        std::cout << "Unsupported texture type: "
+                  << soNode->getTypeId().getName().getString() << std::endl;
+    }
+    std::cout << filename << " -> ";
+    if (filename[0] == '\"') filename.erase(filename.begin());
+    if (filename.size() > 0 && filename[filename.size()-1] == '\"') {
+        filename.erase(filename.begin()+filename.size()-1);
+    }
+    std::cout << filename << std::endl;
+    if (filename.empty()) {
+        std::cout << "Empty filename." << std::endl;
+        return false;
+    }
+
+    //Set texture
+    aiString path(filename);
+    if (aiReturn_SUCCESS != material->AddProperty(&path,1,
+                                                  AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE,0))) {
+        std::cout << "Error at setting the texture." << std::endl;
+        return false;
+    }
+
+    //Set mapping
+    value = aiTextureMapping_UV;
+    if (aiReturn_SUCCESS != material->AddProperty(&value,1,
+                                                  AI_MATKEY_MAPPING(aiTextureType_DIFFUSE,0))) {
+        std::cout << "Error at setting the texture mapping." << std::endl;
+        return false;
+    }
+
+    //Set mapping mode
+    value = texWrapMap[action->getTextureWrapS()];
+    if (aiReturn_SUCCESS != material->AddProperty(&value,1,
+                                                  AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,0))) {
+        std::cout << "Error at setting the texture mapping mode U." << std::endl;
+        return false;
+    }
+    value = texWrapMap[action->getTextureWrapT()];
+    if (aiReturn_SUCCESS != material->AddProperty(&value,1,
+                                                  AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,0))) {
+        std::cout << "Error at setting the texture mapping mode V." << std::endl;
+        return false;
+    }
+
+    return true;
 }
 
 
