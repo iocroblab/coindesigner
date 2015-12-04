@@ -39,8 +39,30 @@
 #include <Inventor/nodes/SoTexture2.h>
 
 #include <iostream>
+#include <sstream>
 
 #include <boost/algorithm/string/replace.hpp>
+
+
+SbName getName(const std::string &name) {
+    std::stringstream strs;
+    for (std::string::const_iterator it(name.begin());
+         it != name.end(); ++it) {
+        if (it == name.begin()) {
+            if (SbName::isBaseNameStartChar(*it) == TRUE) {
+                strs << *it;
+            }
+        } else {
+            if (SbName::isBaseNameChar(*it) == TRUE) {
+                strs << *it;
+            } else {
+                strs << "_";
+            }
+        }
+    }
+
+    return SbName(strs.str().c_str());
+}
 
 
 SoTransform *getTransform(const aiMatrix4x4 &matrix) {
@@ -160,7 +182,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
                     filename.append(path.C_Str());
                     boost::replace_all(filename,"\\","/");
                     texture->filename.setValue(filename.c_str());
-                    texture->setName(filename.substr(filename.find_last_of("/")+1).c_str());
+                    texture->setName(getName(filename.substr(filename.find_last_of("/")+1)));
 
                     texture->model.setValue(SoTexture2::DECAL);
 
@@ -211,7 +233,7 @@ SoMaterial *getMaterial(const aiMaterial *const material) {
 
     //Add name
     if (aiReturn_SUCCESS == material->Get(AI_MATKEY_NAME,name)) {
-        soMat->setName(SbName(name.C_Str()));
+        soMat->setName(getName(name.C_Str()));
     }
 
     //Add diffuse color
@@ -376,7 +398,7 @@ SoSeparator *getMesh(const aiMesh *const mesh, const aiMaterial *const material,
     if (shape) {
         if (!meshSep) {
             meshSep = new SoSeparator;
-            meshSep->setName(SbName(mesh->mName.C_Str()));
+            meshSep->setName(getName(mesh->mName.C_Str()));
         }
 
         //Add texture
@@ -416,7 +438,7 @@ void addNode(SoSeparator *const parent, const aiNode *const node,
         } else {
             //Create separator
             nodeSep = new SoSeparator;
-            nodeSep->setName(SbName(node->mName.C_Str()));
+            nodeSep->setName(getName(node->mName.C_Str()));
             parent->addChild(nodeSep);
 
             //Add transform
