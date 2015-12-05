@@ -95,6 +95,7 @@ SoTexture2 *getTexture(const aiTexture *const texture) {
                   << "It will be ignored." << std::endl;
         ///texture->pcData is a pointer to a memory buffer of
         ///size mWidth containing the compressed texture data
+        ///I do not know how to extract this information
         return NULL;
     } else {//Uncompressed texture
         unsigned char pixels[texture->mWidth*texture->mHeight*4];
@@ -157,7 +158,8 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
 
     //Check UV transform
     aiUVTransform transform;
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,0),transform)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,0),
+                                          transform)) {
         std::cout << "Error I did not expect a texture transform. " <<
                      "Property will be ignored." << std::endl;
     }
@@ -167,7 +169,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
     //Load image
     std::string filename(scenePath);
     filename.append(path.C_Str());
-    boost::replace_all(filename,"\\","/");///This should be done robustly, maybe better with QDir
+    boost::replace_all(filename,"\\","/");///This should be done robustly, may be with QDir
     texture->filename.setValue(filename.c_str());///How to check if image was loaded?
     texture->setName(getName(filename.substr(filename.find_last_of("/")+1)));
 
@@ -176,7 +178,8 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
 
     //Set wrap
     int mapMode;
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,0),mapMode)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,0),
+                                          mapMode)) {
         switch (mapMode) {
         case aiTextureMapMode_Wrap:
             texture->wrapS.setValue(SoTexture2::REPEAT);
@@ -192,7 +195,8 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
             break;
         }
     }
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,0),mapMode)) {
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,0),
+                                          mapMode)) {
         switch (mapMode) {
         case aiTextureMapMode_Wrap:
             texture->wrapT.setValue(SoTexture2::REPEAT);
@@ -270,7 +274,31 @@ SoMaterial *getMaterial(const aiMaterial *const material) {
 SoIndexedShape *getShape(const aiMesh *const mesh) {
     if (!mesh->HasPositions() || !mesh->HasFaces()) return NULL; //Mesh is empty
 
+    SoIndexedShape *shape;
+    std::size_t numIndices;
+    switch (mesh->mPrimitiveTypes) {
+    case aiPrimitiveType_POINT:
+        shape = new SoIndexedPointSet;
+        numIndices = 1;
+        break;
+    case aiPrimitiveType_LINE:
+        shape = new SoIndexedLineSet;
+        numIndices = 2;
+        break;
+    case aiPrimitiveType_TRIANGLE:
+        shape = new SoIndexedTriangleStripSet;
+        numIndices = 3;
+        break;
+    default:
+        //Or the faces are polygons or the shape contains more than one primitive
+        //This should have been solved by the triangulate and sort-by-type post processing steps
+        std::cout << "Wrong primitive type. Mesh will be ignored." << std::endl;
+        return NULL;
+        break;
+    }
+
     SoVertexProperty *vertexProperty(new SoVertexProperty);
+    shape->vertexProperty.setValue(vertexProperty);
 
     //Set vertices
     float vertices[mesh->mNumVertices][3];
@@ -301,25 +329,23 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
         if (mesh->GetNumUVChannels() > 1) {
                 std::cout << "Mesh has " << mesh->GetNumUVChannels()
                           << " UV channels. Only the first one will be used." << std::endl;
-                /*How to map UV channels to textures (MATKEY_UVWSRC)
-
-                The MATKEY_UVWSRC property is only present if the source format doesn't
-                specify an explicit mapping from textures to UV channels. Many formats
-                don't do this and assimp is not aware of a perfect rule either.
-
-                Your handling of UV channels needs to be flexible therefore.
-                Our recommendation is to use logic like this to handle most cases properly:
-
-                  have only one uv channel?
-                     assign channel 0 to all textures and break
-
-                  for all textures
-                     have uvwsrc for this texture?
-                        assign channel specified in uvwsrc
-                     else
-                        assign channels in ascending order for all texture stacks,
-                            i.e. diffuse1 gets channel 1, opacity0 gets channel 0.
-            */
+                ///How to map UV channels to textures (MATKEY_UVWSRC)?
+                ///The MATKEY_UVWSRC property is only present if the source format doesn't
+                ///specify an explicit mapping from textures to UV channels. Many formats
+                ///don't do this and assimp is not aware of a perfect rule either.
+                ///
+                ///Your handling of UV channels needs to be flexible therefore.
+                ///Our recommendation is to use logic like this to handle most cases properly:
+                ///
+                ///  have only one uv channel?
+                ///     assign channel 0 to all textures and break
+                ///
+                ///  for all textures
+                ///     have uvwsrc for this texture?
+                ///        assign channel specified in uvwsrc
+                ///     else
+                ///        assign channels in ascending order for all texture stacks,
+                ///            i.e. diffuse1 gets channel 1, opacity0 gets channel 0.
         }
 
         //Set texture coordinates
@@ -331,6 +357,9 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
             }
             vertexProperty->texCoord.setValues(0,mesh->mNumVertices,texCoords);
         } else if (mesh->mNumUVComponents[0] == 3) {
+            std::cout << "Setting texture coordinates of 3 components "
+                      << "but all the loaded textures will be of 2 components." << std::endl;
+
             float texCoords3[mesh->mNumVertices][3];
             for (std::size_t i(0); i < mesh->mNumVertices; ++i) {
                 texCoords3[i][0] = mesh->mTextureCoords[0][i].x;
@@ -344,28 +373,6 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
         }
     }
 
-    SoIndexedShape *shape;
-    std::size_t numIndices;
-    switch (mesh->mPrimitiveTypes) {
-    case aiPrimitiveType_POINT:
-        shape = new SoIndexedPointSet;
-        numIndices = 1;
-        break;
-    case aiPrimitiveType_LINE:
-        shape = new SoIndexedLineSet;
-        numIndices = 2;
-        break;
-    case aiPrimitiveType_TRIANGLE:
-        shape = new SoIndexedTriangleStripSet;
-        numIndices = 3;
-        break;
-    case aiPrimitiveType_POLYGON:
-    default:
-        std::cout << "Wrong primitive type. Mesh will be ignored." << std::endl;
-        return NULL;
-        break;
-    }
-
     //Set faces
     int indices[mesh->mNumFaces*(numIndices+1)];
     for (std::size_t i(0); i < mesh->mNumFaces; ++i) {
@@ -375,7 +382,6 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
         indices[i*(numIndices+1)+numIndices] = -1;
     }
     shape->coordIndex.setValues(0,mesh->mNumFaces*(numIndices+1),indices);
-    shape->vertexProperty.setValue(vertexProperty);
 
     return shape;
 }
