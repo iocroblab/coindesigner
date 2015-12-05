@@ -51,6 +51,8 @@ SbName getName(const std::string &name) {
         if (it == name.begin()) {
             if (SbName::isBaseNameStartChar(*it) == TRUE) {
                 strs << *it;
+            } else if (SbName::isBaseNameChar(*it) == TRUE) {
+                strs << "_" << *it;
             }
         } else {
             if (SbName::isBaseNameChar(*it) == TRUE) {
@@ -113,110 +115,97 @@ SoTexture2 *getTexture(const aiTexture *const texture) {
 
 
 SoTexture *getTexture(const aiMaterial * const material, const std::string &scenePath) {
-    std::vector<aiTextureType> types;
-    types.push_back(aiTextureType_NONE);
-    types.push_back(aiTextureType_DIFFUSE);
-    types.push_back(aiTextureType_SPECULAR);
-    types.push_back(aiTextureType_AMBIENT);
-    types.push_back(aiTextureType_EMISSIVE);
-    types.push_back(aiTextureType_HEIGHT);
-    types.push_back(aiTextureType_NORMALS);
-    types.push_back(aiTextureType_SHININESS);
-    types.push_back(aiTextureType_OPACITY);
-    types.push_back(aiTextureType_DISPLACEMENT);
-    types.push_back(aiTextureType_LIGHTMAP);
-    types.push_back(aiTextureType_REFLECTION);
-    types.push_back(aiTextureType_UNKNOWN);
+    ///I only know how to deal with aiTextureType_DIFFUSE textures
+    ///and with only one texture.
+    ///Other types and the other DIFFUSE texture but the first will be ignored.
+    ///A texture has a transformation, an UV index, a blend factor, an operation
+    ///and some flags but all these properties will also be ignored.
+    ///Transform should be removed by the post process step,
+    /// ut aiUVTransform => SoTexture2Transform ?
+    ///UV index only has a valid value if mapping == aiTextureMapping_UV
+    ///Operation should have something related with SoTextureCombiner
+    ///How I know when I need to use SoTexture3 or Sotexture2?
+    ///I don't know how to check if the image has been loaded correctly
+    ///texture->model is always set to DECAL, is that good?
+    ///It should be related with the loaded info
 
-    SoTexture2 *texture(NULL);
-    ///Am I really interested in all texture types or only in DIFFUSE?
-    for (std::vector<aiTextureType>::const_iterator type(types.begin());
-         type != types.end(); ++type) {
-        for (std::size_t i(0); i < material->GetTextureCount(*type); ++i) {
-            aiString path;
-            aiTextureMapping mapping;
-            unsigned int uvIndex;
-            float blendFactor;
-            aiTextureOp operation;
-            aiTextureMapMode mapMode[3];
-            if (aiReturn_SUCCESS == material->GetTexture(*type,i,&path,&mapping,&uvIndex,
-                                                   &blendFactor,&operation,mapMode)) {
-                std::cout << "The " << i << "th texture (out of "
-                          << material->GetTextureCount(*type) << ") is of type " << *type
-                          << " is stored in " << path.C_Str() << " and has UV index "
-                          << uvIndex << ", blend factor " << blendFactor << ", operation "
-                          << operation << " and map mode [" << mapMode[0] << ", "
-                          << mapMode[1] << ", " << mapMode[2] << "]" << std::endl;
+    //Check if there is a texture
+    unsigned int numTextures(material->GetTextureCount(aiTextureType_DIFFUSE));
+    if (numTextures == 0) return NULL;
+    if (numTextures > 1) {
+        std::cout << "Found a material with " << numTextures
+                  << " textures. Only the first one will be used." << std::endl;
+    }
 
-                //AI_MATKEY_UVTRANSFORM(type, N) => aiUVTransform => SoTexture2Transform
-                //AI_MATKEY_TEXFLAGS(type, N)
+    //Get path
+    aiString path;
+    if (aiReturn_SUCCESS != material->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE,0),path)) {
+        std::cout << "Error while getting the texture path. "
+                  << "Texture will be ignored." << std::endl;
+        return NULL;
+    }
 
-                /*int index;
-                if (aiReturn_SUCCESS == material->Get(AI_MATKEY_UVWSRC(*type,i),index)) {
-                    std::cout << "I have uvIndex " << index << std::endl;
-                } else {
-                    std::cout << "I do not have uvIndex" << std::endl;
-                }*/
+    //Check mapping
+    ///If it is not defined, suppose it is aiTextureMapping_UV
+    int mapping;
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPING(aiTextureType_DIFFUSE,0),mapping)) {
+        if (mapping != aiTextureMapping_UV) {
+            std::cout << "Invalid texture mapping. Texture will be ignored." << std::endl;
+            return NULL;
+        }
+    }
 
-                if (texture) {
-                    std::cout << "Found a material with more than one texture. "
-                              << "Only the first one will be used." << std::endl;
-                } else {
-                    ///I don't know what to do with uvIndex or blendFactor
-                    ///uvIndex only has a valid value if mapping == aiTextureMapping_UV
-                    ///Operation should have something related with SoTextureCombiner
-                    ///If mapMode[2] is valid then should I use SoTexture3?
-                    ///How I know when I need to use SoTexture3 or Sotexture2?
-                    ///I don't know how to check if the image has been loaded correctly
-                    ///texture->model is always set to DECAL, is that good?
-                    ///It should be related with the loaded info
+    //Check UV transform
+    aiUVTransform transform;
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,0),transform)) {
+        std::cout << "Error I did not expect a texture transform. " <<
+                     "Property will be ignored." << std::endl;
+    }
 
-                    if (mapping != aiTextureMapping_UV) {
-                        std::cout << "Invalid texture mapping. Texture will be ignored." << std::endl;
-                        continue;
-                    }
+    SoTexture2 *texture(new SoTexture2);
 
-                    texture = new SoTexture2;
+    //Load image
+    std::string filename(scenePath);
+    filename.append(path.C_Str());
+    boost::replace_all(filename,"\\","/");///This should be done robustly, maybe better with QDir
+    texture->filename.setValue(filename.c_str());///How to check if image was loaded?
+    texture->setName(getName(filename.substr(filename.find_last_of("/")+1)));
 
-                    std::string filename(scenePath);
-                    filename.append(path.C_Str());
-                    boost::replace_all(filename,"\\","/");
-                    texture->filename.setValue(filename.c_str());
-                    texture->setName(getName(filename.substr(filename.find_last_of("/")+1)));
+    //Set model
+    texture->model.setValue(SoTexture2::DECAL);
 
-                    texture->model.setValue(SoTexture2::DECAL);
-
-                    switch (mapMode[0]) {
-                        case aiTextureMapMode_Wrap:
-                            texture->wrapS.setValue(SoTexture2::REPEAT);
-                        break;
-                        case aiTextureMapMode_Clamp:
-                            texture->wrapS.setValue(SoTexture2::CLAMP);
-                        break;
-                        case aiTextureMapMode_Decal:
-                        case aiTextureMapMode_Mirror:
-                        default:
-                            std::cout << "Wrong S texture mapping mode. "
-                                      << "Property will be ignored." << std::endl;
-                        break;
-                    }
-
-                    switch (mapMode[1]) {
-                        case aiTextureMapMode_Wrap:
-                            texture->wrapT.setValue(SoTexture2::REPEAT);
-                        break;
-                        case aiTextureMapMode_Clamp:
-                            texture->wrapT.setValue(SoTexture2::CLAMP);
-                        break;
-                        case aiTextureMapMode_Decal:
-                        case aiTextureMapMode_Mirror:
-                        default:
-                            std::cout << "Wrong T texture mapping mode. "
-                                      << "Property will be ignored." << std::endl;
-                        break;
-                    }
-                }
-            }
+    //Set wrap
+    int mapMode;
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,0),mapMode)) {
+        switch (mapMode) {
+        case aiTextureMapMode_Wrap:
+            texture->wrapS.setValue(SoTexture2::REPEAT);
+            break;
+        case aiTextureMapMode_Clamp:
+            texture->wrapS.setValue(SoTexture2::CLAMP);
+            break;
+        case aiTextureMapMode_Decal:
+        case aiTextureMapMode_Mirror:
+        default:
+            std::cout << "Wrong S texture mapping mode. "
+                      << "Property will be ignored." << std::endl;
+            break;
+        }
+    }
+    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,0),mapMode)) {
+        switch (mapMode) {
+        case aiTextureMapMode_Wrap:
+            texture->wrapT.setValue(SoTexture2::REPEAT);
+            break;
+        case aiTextureMapMode_Clamp:
+            texture->wrapT.setValue(SoTexture2::CLAMP);
+            break;
+        case aiTextureMapMode_Decal:
+        case aiTextureMapMode_Mirror:
+        default:
+            std::cout << "Wrong T texture mapping mode. "
+                      << "Property will be ignored." << std::endl;
+            break;
         }
     }
 
