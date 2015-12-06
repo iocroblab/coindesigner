@@ -140,7 +140,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
 
     //Get path
     aiString path;
-    if (aiReturn_SUCCESS != material->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE,0),path)) {
+    if (material->Get(AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE,0),path) != aiReturn_SUCCESS) {
         std::cout << "Error while getting the texture path. "
                   << "Texture will be ignored." << std::endl;
         return NULL;
@@ -149,7 +149,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
     //Check mapping
     ///If it is not defined, suppose it is aiTextureMapping_UV
     int mapping;
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPING(aiTextureType_DIFFUSE,0),mapping)) {
+    if (material->Get(AI_MATKEY_MAPPING(aiTextureType_DIFFUSE,0),mapping) == aiReturn_SUCCESS) {
         if (mapping != aiTextureMapping_UV) {
             std::cout << "Invalid texture mapping. Texture will be ignored." << std::endl;
             return NULL;
@@ -158,8 +158,8 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
 
     //Check UV transform
     aiUVTransform transform;
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,0),
-                                          transform)) {
+    if (material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,0),
+                      transform) == aiReturn_SUCCESS) {
         std::cout << "Error I did not expect a texture transform. " <<
                      "Property will be ignored." << std::endl;
     }
@@ -169,7 +169,7 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
     //Load image
     std::string filename(scenePath);
     filename.append(path.C_Str());
-    boost::replace_all(filename,"\\","/");///This should be done robustly, may be with QDir
+    boost::replace_all(filename,"\\","/");///This should be done more robustly, maybe with QDir
     texture->filename.setValue(filename.c_str());///How to check if image was loaded?
     texture->setName(getName(filename.substr(filename.find_last_of("/")+1)));
 
@@ -178,8 +178,8 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
 
     //Set wrap
     int mapMode;
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,0),
-                                          mapMode)) {
+    if (material->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,0),
+                      mapMode) == aiReturn_SUCCESS) {
         switch (mapMode) {
         case aiTextureMapMode_Wrap:
             texture->wrapS.setValue(SoTexture2::REPEAT);
@@ -195,8 +195,8 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
             break;
         }
     }
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,0),
-                                          mapMode)) {
+    if (material->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,0),
+                      mapMode) == aiReturn_SUCCESS) {
         switch (mapMode) {
         case aiTextureMapMode_Wrap:
             texture->wrapT.setValue(SoTexture2::REPEAT);
@@ -225,45 +225,45 @@ SoMaterial *getMaterial(const aiMaterial *const material) {
     float value;
 
     //Add name
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_NAME,name)) {
+    if (material->Get(AI_MATKEY_NAME,name) == aiReturn_SUCCESS) {
         soMat->setName(getName(name.C_Str()));
     }
 
     //Add diffuse color
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE,color)) {
+    if (material->Get(AI_MATKEY_COLOR_DIFFUSE,color) == aiReturn_SUCCESS) {
         soMat->diffuseColor.setValue(color.r,
                                      color.g,
                                      color.b);
     }
 
     //Add specular color
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_SPECULAR,color)) {
+    if (material->Get(AI_MATKEY_COLOR_SPECULAR,color) == aiReturn_SUCCESS) {
         soMat->specularColor.setValue(color.r,
                                       color.g,
                                       color.b);
     }
 
     //Add ambient color
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_AMBIENT,color)) {
+    if (material->Get(AI_MATKEY_COLOR_AMBIENT,color) == aiReturn_SUCCESS) {
         soMat->ambientColor.setValue(color.r,
                                      color.g,
                                      color.b);
     }
 
     //Add emissive color
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_COLOR_EMISSIVE,color)) {
+    if (material->Get(AI_MATKEY_COLOR_EMISSIVE,color) == aiReturn_SUCCESS) {
         soMat->emissiveColor.setValue(color.r,
                                       color.g,
                                       color.b);
     }
 
     //Add transparency
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_OPACITY,value)) {
+    if (material->Get(AI_MATKEY_OPACITY,value) == aiReturn_SUCCESS) {
         soMat->transparency.setValue(1.0-value);
     }
 
     //Add shininess
-    if (aiReturn_SUCCESS == material->Get(AI_MATKEY_SHININESS_STRENGTH,value)) {
+    if (material->Get(AI_MATKEY_SHININESS_STRENGTH,value) == aiReturn_SUCCESS) {
         soMat->shininess.setValue(value);
     }
 
@@ -274,6 +274,7 @@ SoMaterial *getMaterial(const aiMaterial *const material) {
 SoIndexedShape *getShape(const aiMesh *const mesh) {
     if (!mesh->HasPositions() || !mesh->HasFaces()) return NULL; //Mesh is empty
 
+    //Get shape type
     SoIndexedShape *shape;
     std::size_t numIndices;
     switch (mesh->mPrimitiveTypes) {
@@ -296,6 +297,9 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
         return NULL;
         break;
     }
+
+    //Set name
+    shape->setName(getName(mesh->mName.C_Str()));
 
     SoVertexProperty *vertexProperty(new SoVertexProperty);
     shape->vertexProperty.setValue(vertexProperty);
@@ -391,10 +395,7 @@ SoSeparator *getMesh(const aiMesh *const mesh, const aiMaterial *const material,
                      const std::string &path, SoSeparator *meshSep = NULL) {
     SoIndexedShape *shape(getShape(mesh));
     if (shape) {
-        if (!meshSep) {
-            meshSep = new SoSeparator;
-            meshSep->setName(getName(mesh->mName.C_Str()));
-        }
+        if (!meshSep) meshSep = new SoSeparator;
 
         //Add texture
         SoTexture *texture(getTexture(material,path));
