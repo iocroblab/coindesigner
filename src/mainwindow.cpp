@@ -641,7 +641,7 @@ private:
     std::map<SbVec3f,unsigned int,cmpVertex> verticesMap;
 };
 
-void triangleCB(void *data, SoCallbackAction *action,
+void trianglePCD(void *data, SoCallbackAction *action,
                 const SoPrimitiveVertex *vertex1,
                 const SoPrimitiveVertex *vertex2,
                 const SoPrimitiveVertex *vertex3) {
@@ -671,7 +671,7 @@ void MainWindow::on_actionExport_PCD_activated() {
     SoCallbackAction triAction;
     GeomData geomData;
     triAction.addTriangleCallback(SoShape::getClassTypeId(),
-                                  triangleCB,(void*)&geomData);
+                                  trianglePCD,(void*)&geomData);
     triAction.apply(root);
     
     //converting to std::string
@@ -1398,9 +1398,9 @@ void MainWindow::on_actionEngine_demo_activated()
 void MainWindow::on_actionAbout_activated()
 {
     QString msj;
-    msj.sprintf("<p>Coindesigner version %s (%s)<p>", CDS_VERSION, __DATE__ );
+    msj.sprintf("<p>Coindesigner version %f (%s)<p>", CDS_VERSION, __DATE__ );
     msj += tr("Written by")+" Jose M. Espadero "+tr("and")+" Tomas Aguado";
-    msj += "<br>         " + tr("with usefull contributions from") + " Manfred Kroehnert";
+    msj += "<br>         " + tr("with useful contributions from") + " Manfred Kroehnert";
     msj += "<p><a href=https://github.com/jmespadero/coindesigner>https://github.com/jmespadero/coindesigner)</a>";
 
     //System Info
