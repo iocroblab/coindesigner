@@ -41,7 +41,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <boost/algorithm/string/replace.hpp>
+#include <QDir>
 
 
 SbName getName(const std::string &name) {
@@ -115,7 +115,7 @@ SoTexture2 *getTexture(const aiTexture *const texture) {
 }
 
 
-SoTexture *getTexture(const aiMaterial * const material, const std::string &scenePath) {
+SoTexture *getTexture(const aiMaterial *const material, const QDir &sceneDir) {
     ///I only know how to deal with aiTextureType_DIFFUSE textures
     ///and with only one texture.
     ///Other types and the other DIFFUSE texture but the first will be ignored.
@@ -167,11 +167,14 @@ SoTexture *getTexture(const aiMaterial * const material, const std::string &scen
     SoTexture2 *texture(new SoTexture2);
 
     //Load image
-    std::string filename(scenePath);
-    filename.append(path.C_Str());
-    boost::replace_all(filename,"\\","/");///This should be done more robustly, maybe with QDir
+    std::string filename;
+    if (sceneDir.isRelativePath(path.C_Str())) {
+        filename = QDir::cleanPath(sceneDir.absoluteFilePath(path.C_Str())).toStdString();
+    } else {
+        filename = QDir::cleanPath(path.C_Str()).toStdString();
+    }
     texture->filename.setValue(filename.c_str());///How to check if image was loaded?
-    texture->setName(getName(filename.substr(filename.find_last_of("/")+1)));
+    texture->setName(getName(QFileInfo(filename.c_str()).fileName().toStdString()));
 
     //Set model
     texture->model.setValue(SoTexture2::DECAL);
@@ -392,13 +395,13 @@ SoIndexedShape *getShape(const aiMesh *const mesh) {
 
 
 SoSeparator *getMesh(const aiMesh *const mesh, const aiMaterial *const material,
-                     const std::string &path, SoSeparator *meshSep = NULL) {
+                     const QDir sceneDir, SoSeparator *meshSep = NULL) {
     SoIndexedShape *shape(getShape(mesh));
     if (shape) {
         if (!meshSep) meshSep = new SoSeparator;
 
         //Add texture
-        SoTexture *texture(getTexture(material,path));
+        SoTexture *texture(getTexture(material,sceneDir));
         if (texture) meshSep->addChild(texture);
 
         //Add material
@@ -425,7 +428,7 @@ bool hasMesh(const aiNode *node) {
 
 void addNode(SoSeparator *const parent, const aiNode *const node,
              const aiMaterial *const *const materials, const aiMesh *const *const meshes,
-             const aiTexture *const *const textures, const std::string &path) {
+             const aiTexture *const *const textures, const QDir &sceneDir) {
     if (hasMesh(node)) {
         SoSeparator *nodeSep;
         if ((!node->mParent || node->mTransformation.IsIdentity()) &&
@@ -445,11 +448,11 @@ void addNode(SoSeparator *const parent, const aiNode *const node,
             if (node->mNumMeshes == 1 && node->mNumChildren == 0) {
                 getMesh(meshes[node->mMeshes[0]],
                         materials[meshes[node->mMeshes[0]]->mMaterialIndex],
-                        path,nodeSep);
+                        sceneDir,nodeSep);
             } else {
                 for (std::size_t i(0); i < node->mNumMeshes; ++i) {
                     SoNode *child(getMesh(meshes[node->mMeshes[i]],
-                                  materials[meshes[node->mMeshes[i]]->mMaterialIndex],path));
+                                  materials[meshes[node->mMeshes[i]]->mMaterialIndex],sceneDir));
                     if (child) nodeSep->addChild(child);
                 }
             }
@@ -457,23 +460,23 @@ void addNode(SoSeparator *const parent, const aiNode *const node,
 
         //Add children nodes
         for (std::size_t i(0); i < node->mNumChildren; ++i) {
-            addNode(nodeSep,node->mChildren[i],materials,meshes,textures,path);
+            addNode(nodeSep,node->mChildren[i],materials,meshes,textures,sceneDir);
         }
     }
 }
 
 
-SoSeparator *Assimp2Inventor(const aiScene *const scene, const std::string &path) {
+SoSeparator *Assimp2Inventor(const aiScene *const scene, const QDir &sceneDir) {
     SoSeparator *root(new SoSeparator);
     std::cout << "I imported a scene with " << scene->mNumTextures << " embedded textures, "
               << scene->mNumMaterials << " materials and "
               << scene->mNumMeshes << " meshes." << std::endl;
     if (scene->mNumTextures > 0) {
         std::cout << "Found a scene with embedded textures. They will be ignored." << std::endl;
-        ///I don't know how will be referenced inside the scene
+        ///I don't know how they will be referenced inside the scene
     }
     addNode(root,scene->mRootNode,scene->mMaterials,
-            scene->mMeshes,scene->mTextures,path);
+            scene->mMeshes,scene->mTextures,sceneDir);
     return root;
 }
 
@@ -544,8 +547,7 @@ SoSeparator *importScene(const std::string &filename, std::string *const error) 
 
         if (scene) {
             //Convert from Assimp to Inventor
-            std::string path(filename.substr(0,filename.find_last_of("/")+1));
-            return Assimp2Inventor(scene,path);
+            return Assimp2Inventor(scene,QFileInfo(filename.c_str()).absoluteDir());
         } else {
             if (error) *error = importer.GetErrorString();
             return NULL;
