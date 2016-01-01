@@ -156,6 +156,7 @@ set ( CDS_SRCS ${CDS_SRCS} src/main.cpp
                src/mainwindow2.cpp
                src/assimpImport.cpp
                src/assimpExport.cpp
+               src/converter.cpp
                src/cds_util.cpp
                src/cds_viewers.cpp
                #src/cds_scanner.cpp
