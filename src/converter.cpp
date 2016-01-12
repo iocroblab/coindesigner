@@ -265,22 +265,6 @@ void Converter::addFace(const SoCallbackAction *const action,
     material.texture = getTexture(textures_.top(),action);
     std::size_t materialIndex(addMaterial(material));
 
-    if (materialIndex == 1) {
-        const Material &a(material);
-        const Material &b(materialsMap_.begin()->first);
-        std::cout << cmpMaterial()(a.ambient,b.ambient) << " " << cmpMaterial()(b.ambient,a.ambient) << std::endl;
-        std::cout << cmpMaterial()(a.diffuse,b.diffuse) << " " << cmpMaterial()(b.diffuse,a.diffuse) << std::endl;
-        std::cout << cmpMaterial()(a.specular,b.specular) << " " << cmpMaterial()(b.specular,a.specular) << std::endl;
-        std::cout << cmpMaterial()(a.emissive,b.emissive) << " " << cmpMaterial()(b.emissive,a.emissive) << std::endl;
-        std::cout << (a.shininess < b.shininess) << " " << (b.shininess < a.shininess) << std::endl;
-        std::cout << (a.transparency < b.transparency) << " " << (b.transparency < a.transparency) << std::endl;
-        std::cout << (a.texture.filename < b.texture.filename) << " " << (b.texture.filename < a.texture.filename) << std::endl;
-        std::cout << (a.texture.wrapS < b.texture.wrapS) << " " << (b.texture.wrapS < a.texture.wrapS) << std::endl;
-        std::cout << (a.texture.wrapT < b.texture.wrapT) << " " << (b.texture.wrapT < a.texture.wrapT) << std::endl;
-        std::cout << (a.texture.image < b.texture.image) << " " << (b.texture.image < a.texture.image) << std::endl;
-        std::cout << std::endl;
-    }
-
     //Get mesh
     Mesh &mesh(getMesh(materialIndex));
 
@@ -331,11 +315,36 @@ void Converter::addFace(const SoCallbackAction *const action,
 std::size_t Converter::addMaterial(const Material &material) {
     std::map<Material,std::size_t>::const_iterator it(materialsMap_.find(material));
     if (it != materialsMap_.end()) {
+//        std::cout << "Already existing material" << std::endl;
         return it->second;
     } else {
+//        std::cout << "New material" << std::endl;
+//        it = materialsMap_.begin();
+//        for (unsigned int i(0); i < materials_.size(); ++i) {
+//            const Material &a(it->first);
+//            const Material &b(material);
+//            std::cout << cmpMaterial()(a.ambient,b.ambient) << " " << cmpMaterial()(b.ambient,a.ambient) << std::endl;
+//            std::cout << cmpMaterial()(a.diffuse,b.diffuse) << " " << cmpMaterial()(b.diffuse,a.diffuse) << std::endl;
+//            std::cout << cmpMaterial()(a.specular,b.specular) << " " << cmpMaterial()(b.specular,a.specular) << std::endl;
+//            std::cout << cmpMaterial()(a.emissive,b.emissive) << " " << cmpMaterial()(b.emissive,a.emissive) << std::endl;
+//            std::cout << (a.shininess < b.shininess) << " " << (b.shininess < a.shininess) << std::endl;
+//            std::cout << (a.transparency < b.transparency) << " " << (b.transparency < a.transparency) << std::endl;
+//            std::cout << (a.texture.filename < b.texture.filename) << " " << (b.texture.filename < a.texture.filename) << " "
+//                      << a.texture.filename << " " << b.texture.filename << std::endl;
+//            std::cout << (a.texture.wrapS < b.texture.wrapS) << " " << (b.texture.wrapS < a.texture.wrapS) << " "
+//                      << a.texture.wrapS << " " << b.texture.wrapS << std::endl;
+//            std::cout << (a.texture.wrapT < b.texture.wrapT) << " " << (b.texture.wrapT < a.texture.wrapT) << " "
+//                      << a.texture.wrapT << " " << b.texture.wrapT << std::endl;
+//            std::cout << (a.texture.image < b.texture.image) << " " << (b.texture.image < a.texture.image) << " "
+//                      << a.texture.image << " " << b.texture.image << std::endl;
+//            std::cout << std::endl;
+//            it++;
+//        }
+
         std::size_t index(materials_.size());
         materials_.push_back(getMaterial(material));
         materialsMap_.insert(std::make_pair(material,index));
+
         return index;
     }
 }
@@ -468,8 +477,6 @@ Texture Converter::getTexture(const SoNode* node, const SoCallbackAction* action
             return texture;
         }
         texture.image = getTextureImage(pixels,size,numComp);
-    } else {
-        texture.image = NULL;
     }
 
     //Get wrap

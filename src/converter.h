@@ -14,6 +14,7 @@
 
 
 struct Texture {
+    Texture() : image(NULL), wrapS(SoTexture2::REPEAT), wrapT(SoTexture2::REPEAT) {}
     std::string filename;
     aiTexture* image;
     SoTexture2::Wrap wrapS;
