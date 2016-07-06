@@ -632,7 +632,8 @@ read3dsFile(SoStream *in, SoSeparator *&root,
       m.multRight(m2);
     }
 
-    matrix->matrix.setValue(m);
+    if (matrix != NULL)
+        matrix->matrix.setValue(m);
   }
 
   // return root
