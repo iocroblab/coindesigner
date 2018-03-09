@@ -111,63 +111,66 @@ public:
 	///Lee un fichero de datos volumetrico en formato .mha
 	SoSeparator *read_mha_volume(const QString &filename);
 
+    ///Embed external texture image files into the node
+    void embedTexture(SoNode *node);
+
 public slots:
 
 	//Slots para menu Scene
-	void on_actionNew_Scene_activated();
-	void on_actionLoad_Scene_activated() {load_Scene("");};
-	void on_actionSave_Scene_activated() {save_Scene("");};
-	void on_actionReload_Scene_activated() {load_Scene(nombreEscena);};
+	void on_actionNew_Scene_triggered();
+    void on_actionLoad_Scene_triggered() {load_Scene("");}
+    void on_actionSave_Scene_triggered() {save_Scene("");}
+    void on_actionReload_Scene_triggered() {load_Scene(nombreEscena);}
 	void actionLoad_RecentFile_triggered(bool checked = false);
-	void on_actionImport_File_activated() {import_File("");};
-	void on_actionExport_C_activated();
-	void on_actionExport_VRML2_activated();
-	void on_actionExport_ASE_activated();
-    void on_actionExport_PCD_activated();
-    void on_actionExport_As_activated();
-	void on_actionPrintSceneGraph_activated();
-	void on_actionQuit_activated();
+    void on_actionImport_File_triggered() {import_File("");}
+	void on_actionExport_C_triggered();
+	void on_actionExport_VRML2_triggered();
+	void on_actionExport_ASE_triggered();
+    void on_actionExport_PCD_triggered();
+    void on_actionExport_As_triggered();
+	void on_actionPrintSceneGraph_triggered();
+	void on_actionQuit_triggered();
 
 	//Slots para menu Edit
-	void on_actionCut_activated();
-	void on_actionCopy_activated();
-	void on_actionPaste_activated();
-	void on_actionDelete_activated();
-	void on_actionLink_activated();
-	void on_actionMove_Up_activated();
-	void on_actionMove_Down_activated();
+	void on_actionCut_triggered();
+	void on_actionCopy_triggered();
+	void on_actionPaste_triggered();
+	void on_actionDelete_triggered();
+	void on_actionLink_triggered();
+	void on_actionMove_Up_triggered();
+	void on_actionMove_Down_triggered();
 	void on_actionWatch_node_toggled(bool on);
-	void on_actionPreferences_activated();
+	void on_actionPreferences_triggered();
 	
 
 	//Slots para menu View
-	void on_actionExaminerViewer_activated();
-	void on_actionFlyViewer_activated();
-	void on_actionPlaneViewer_activated();
-	void on_actionRenderArea_activated();
+	void on_actionExaminerViewer_triggered();
+	void on_actionFlyViewer_triggered();
+	void on_actionPlaneViewer_triggered();
+	void on_actionRenderArea_triggered();
 	///Configura la variable de entorno COIN_SHOW_FPS_COUNTER
 	void on_actionShow_FPS_toggled(bool on);
-	void on_actionChange_BG_color_activated();
+	void on_actionChange_BG_color_triggered();
 	///Configura el nivel de antialias
 	void on_actionEnable_Antialias_toggled(bool on);
 
 	//Slots para menu Tools
-	void on_actionExaminerViewer_Editor_activated();
-	void on_actionPlaneViewer_Editor_activated();
-	void on_actionEdit_Source_activated();
-	void on_actionIvfix_activated();
-	void on_actionSoReorganizeAction_activated();
+	void on_actionExaminerViewer_Editor_triggered();
+	void on_actionPlaneViewer_Editor_triggered();
+	void on_actionEdit_Source_triggered();
+	void on_actionIvfix_triggered();
+	void on_actionSoReorganizeAction_triggered();
 
 	//Slots para el menu Help
-	void on_actionCoin3D_Reference_activated();
-	void on_actionShow_Node_Reference_activated();
-	void on_actionTutorial_1_activated();
-	void on_actionTutorial_2_activated();
-	void on_actionHello_Cone_demo_activated();
-	void on_actionMirror_demo_activated();
-	void on_actionPlanet_Earth_demo_activated();
-	void on_actionEngine_demo_activated();
-	void on_actionAbout_activated();
+	void on_actionCoin3D_Reference_triggered();
+	void on_actionShow_Node_Reference_triggered();
+	void on_actionTutorial_1_triggered();
+	void on_actionTutorial_2_triggered();
+	void on_actionHello_Cone_demo_triggered();
+	void on_actionMirror_demo_triggered();
+	void on_actionPlanet_Earth_demo_triggered();
+	void on_actionEngine_demo_triggered();
+	void on_actionAbout_triggered();
 
 	//Working area slots
 
@@ -177,16 +180,16 @@ public slots:
 	void on_fieldTable_cellChanged(int row, int column);
 
 	///Put all children of a group node on the same level that its parent
-	void on_actionPromote_Children_activated();
+	void on_actionPromote_Children_triggered();
 
-	///Embed external texture image files into the node
-	void on_actionEmbedTexture_activated(SoNode *node=NULL);
+    ///Embed external texture image files into the cuurent node
+    void on_actionEmbedTexture_triggered();
 
 	///Embed all textures in the scene
-	void on_actionEmbed_all_textures_activated ();
+	void on_actionEmbed_all_textures_triggered ();
 
 	///Convert a light or clipPlane into its correspondent manip
-	void on_Convert_Manip_activated();
+	void on_Convert_Manip_triggered();
 
 	///Close mainwindow Event
 	void closeEvent(QCloseEvent *event);
@@ -197,33 +200,33 @@ public slots:
 	void on_fieldTable_customContextMenuRequested(QPoint pos);
 
 	///Convert a IndexedFaceSet to IndexedLineSet
-	void on_IndexedFaceSet_to_IndexedLineSet_activated();
+	void on_IndexedFaceSet_to_IndexedLineSet_triggered();
 	///Convert a IndexedLineSet to IndexedFaceSet
-	void on_IndexedLineSet_to_IndexedFaceSet_activated();
+	void on_IndexedLineSet_to_IndexedFaceSet_triggered();
 	///Cambia la orientacion de todas las facetas
-	void on_SoIndexedFaceSet_change_orientation_activated();
+	void on_SoIndexedFaceSet_change_orientation_triggered();
 	///Convert a SoIndexedTriangleStripSet to SoIndexedFaceSet
-	void on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated();
+	void on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_triggered();
 	///Create the convex hull of a points cloud
-	void on_SoCoordinate3_to_qhull_activated();
+	void on_SoCoordinate3_to_qhull_triggered();
 
 
-	void on_Export_to_SMF_activated();
-	void on_Export_to_OFF_activated();
-	void on_Export_to_STL_activated();
-	void on_Export_to_XYZ_activated();
+	void on_Export_to_SMF_triggered();
+	void on_Export_to_OFF_triggered();
+	void on_Export_to_STL_triggered();
+	void on_Export_to_XYZ_triggered();
 
 	///Callback to simplify a shape with QSlim
-	void on_actionQSlim_activated();
+	void on_actionQSlim_triggered();
 
 	///Callback to tetrahedralize with tetgen
-	void on_actionTetgen_activated();
+	void on_actionTetgen_triggered();
 
 	///Callback to centre XYZ data in the origin
-	void on_Center_on_Origin_activated();
+	void on_Center_on_Origin_triggered();
 
 	///Triangula las facetas de mas de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
-	void on_SoIndexedFaceSet_triangulate_activated();
+	void on_SoIndexedFaceSet_triangulate_triggered();
 
 	///Rellena el contenido del fieldEditor con los datos de un SoNode
 	void updateFieldEditor(SoNode *nodo);

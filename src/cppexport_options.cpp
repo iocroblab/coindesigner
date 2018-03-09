@@ -102,8 +102,8 @@ void cppexport_options::on_classnameLineEdit_textChanged( const QString &classna
 {
     //Extrae el directorio actual
     QFileInfo hppFilename(Ui.filenameLineEdit->text());
-    QString hppDirname = QDir::convertSeparators(hppFilename.absolutePath()+"/");
-    
+    QString hppDirname = QDir::toNativeSeparators(hppFilename.absolutePath()+"/");
+
     //Cambiamos el nombre del fichero de salida
     Ui.filenameLineEdit->setText(hppDirname+classname+".h");
  

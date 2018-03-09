@@ -43,25 +43,26 @@ endif( ASSIMP_FOUND )
 
 ##############################################################################
 # START Required packages for GUI
-find_package( Qt4 REQUIRED QtCore QtGui QtXml )
-if( QT4_FOUND )
-   include(${QT_USE_FILE})
-   add_definitions( ${QT_DEFINITIONS} )
-   set(CDS_INCLUDES ${CDS_INCLUDES} ${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
-   set(CDS_LIBRARIES ${CDS_LIBRARIES} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} )
-else ( QT4_FOUND )
-   message(SEND_ERROR "coindesigner needs Qt4 library")
-endif( QT4_FOUND )
+find_package( Qt5 COMPONENTS Core Gui OpenGL Widgets Xml LinguistTools PrintSupport REQUIRED)
+if( Qt5_FOUND )
+   add_definitions( ${Qt5_DEFINITIONS} )
+   set(CDS_INCLUDES ${CDS_INCLUDES} ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS}
+       ${Qt5OpenGL_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS} ${Qt5PrintSupport_INCLUDE_DIRS})
+   set(CDS_LIBRARIES ${CDS_LIBRARIES} ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES}
+       ${Qt5OpenGL_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Xml_LIBRARIES} ${Qt5PrintSupport_LIBRARIES})
+else( Qt5_FOUND )
+   message(SEND_ERROR "coindesigner needs Qt5 library")
+endif( Qt5_FOUND)
 
 ##############################################################################
-find_package( SoQt4 REQUIRED )
-if( SOQT_LIBRARY_FOUND )
-   add_definitions( -DSOQT_DLL -DCOIN_DLL )
-   set(CDS_INCLUDES ${CDS_INCLUDES} ${SOQT_INCLUDE_DIR})
-   set(CDS_LIBRARIES ${CDS_LIBRARIES} ${SOQT_LIBRARY})
-else ( SOQT_LIBRARY_FOUND )
-   message(SEND_ERROR "coindesigner needs SoQt4 library")
-endif( SOQT_LIBRARY_FOUND )
+find_package( SoQt REQUIRED CONFIG )
+if( SoQt_FOUND )
+   add_definitions(-DSOQT_DLL -DCOIN_DLL ${SoQt_DEFINITIONS})
+   set(CDS_INCLUDES ${CDS_INCLUDES} ${SoQt_INCLUDE_DIRS})
+   set(CDS_LIBRARIES ${CDS_LIBRARIES} ${SoQt_LIBRARIES})
+else( SoQt_FOUND )
+   message(SEND_ERROR "coindesigner needs SoQt5 library")
+endif( SoQt_FOUND )
 # END Required packages for GUI
 ##############################################################################
 
@@ -211,16 +212,16 @@ set ( CDS_UIS  ui/mainwindow.ui
                ui/tetgen_options.ui
                ui/settingsDialog.ui )
 
-QT4_WRAP_UI(UIS ${CDS_UIS})
+QT5_WRAP_UI(UIS ${CDS_UIS})
 
 set ( CDS_RSCS images/icons.qrc
                demos/demos.qrc)
-QT4_ADD_RESOURCES(RSCS ${CDS_RSCS})
+QT5_ADD_RESOURCES(RSCS ${CDS_RSCS})
 
 set ( CDS_TRS  i18n/coindesigner_es_ES.ts
   		i18n/coindesigner_ca_ES.ts
 		i18n/coindesigner_en_US.ts)
-QT4_ADD_TRANSLATION(TRS ${CDS_TRS})
+QT5_ADD_TRANSLATION(TRS ${CDS_TRS})
 
 set ( CDS_MOCS src/mainwindow.h
                src/src_editor.h
@@ -231,13 +232,13 @@ set ( CDS_MOCS src/mainwindow.h
                src/ivfix_options.h
                src/settingsDialog.h
                src/tetgen_options.h)
-QT4_WRAP_CPP(MOCS ${CDS_MOCS})
+QT5_WRAP_CPP(MOCS ${CDS_MOCS})
 
 add_executable ( coindesigner ${CDS_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
 add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp ${TRS})
 
 target_link_libraries ( coindesigner ${CDS_LIBRARIES} cds_parser)
-target_link_libraries ( cdsview ${SOQT_LIBRARY} ${COIN_LIBRARY} )
+target_link_libraries ( cdsview ${SoQt_LIBRARIES} ${COIN_LIBRARY} )
 
 install(TARGETS coindesigner cdsview DESTINATION bin)
 install(DIRECTORY demos test DESTINATION share/coindesigner)

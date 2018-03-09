@@ -52,6 +52,7 @@
 #include <QScrollBar>
 #include <QHeaderView>
 #include <QtDebug>
+#include <QMimeData>
 
 extern QSettings *settings;
 
@@ -178,13 +179,13 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     updateRecentFileActions();
 
 	//Conexiones de las acciones de conversion para nodos SoTransform a manip
-	connect(Ui.actionSoCenterballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoHandleBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoJackManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTabBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTrackballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTransformBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
-	connect(Ui.actionSoTransformerManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_activated()));
+	connect(Ui.actionSoCenterballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
+	connect(Ui.actionSoHandleBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
+	connect(Ui.actionSoJackManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
+	connect(Ui.actionSoTabBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
+	connect(Ui.actionSoTrackballManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
+	connect(Ui.actionSoTransformBoxManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
+	connect(Ui.actionSoTransformerManip, SIGNAL(triggered()), this, SLOT(on_Convert_Manip_triggered()));
 
 	//Anadimos las opciones para ocultar/mostrar los docks
 	QAction *firstAction = Ui.menuTools->actions().first();
@@ -216,7 +217,7 @@ MainWindow::MainWindow (QWidget *p, Qt::WindowFlags f) : QMainWindow(p, f)
     root = new SoSeparator();
     root->ref ();
     root->setName("root");
-    on_actionNew_Scene_activated();
+    on_actionNew_Scene_triggered();
 
     //Inicializacion del buffer para cut/copy/paste/link
     node_buffer = NULL;
@@ -282,7 +283,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
             0, 2 )
             ) 
         {
-        case 0: on_actionSave_Scene_activated(); break;
+        case 0: on_actionSave_Scene_triggered(); break;
         case 1: break;
         case 2:    event->ignore(); return;
         }
@@ -306,7 +307,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }// void MainWindow::closeEvent(QCloseEvent *event)
 
 
-void MainWindow::on_actionNew_Scene_activated()
+void MainWindow::on_actionNew_Scene_triggered()
 {
     //Borramos todos los nodos de la escena 
     if (!root)
@@ -340,7 +341,7 @@ void MainWindow::on_actionNew_Scene_activated()
     //Indicamos que la escena no ha sido modificada
     escena_modificada = false;
 
-}//void MainWindow::on_actionNew_Scene_activated()
+}//void MainWindow::on_actionNew_Scene_triggered()
 
 
 
@@ -383,7 +384,7 @@ bool MainWindow::load_Scene(QString filename)
     setRecentFile(filename);
 
     //Destruimos la escena actual y creamos una nueva
-    on_actionNew_Scene_activated();
+    on_actionNew_Scene_triggered();
 
     //Colgamos el nodo del grafo de escena
     QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
@@ -404,7 +405,7 @@ bool MainWindow::load_Scene(QString filename)
     escena_modificada = false;
 
     return true; 
-}// int MainWindow::on_actionLoad_Scene_activated(QString filename)
+}// int MainWindow::on_actionLoad_Scene_triggered(QString filename)
 
 
 void MainWindow::save_Scene(QString filename)
@@ -455,7 +456,7 @@ void MainWindow::save_Scene(QString filename)
 
     //Indicamos que la escena ha sido salvada
     escena_modificada = false;
-}//void MainWindow::on_actionSave_Scene_activated(QString filename)
+}//void MainWindow::on_actionSave_Scene_triggered(QString filename)
 
 
 bool MainWindow::import_File(QString filename)
@@ -488,7 +489,7 @@ bool MainWindow::import_File(QString filename)
 	this->setRecentFile(filename);
 
     //Asignamos el nombre del fichero al separator scene
-    SoBase_name->setValue(QFileInfo(filename).baseName().toAscii());
+    SoBase_name->setValue(QFileInfo(filename).baseName().toLatin1());
     scene->setName(SoBase_name->getValue());
 
     //Buscamos el item donde colgar la escena
@@ -508,16 +509,16 @@ bool MainWindow::import_File(QString filename)
     escena_modificada = true;
 
     return true; 
-} //bool MainWindow::on_actionImport_File_activated(QString filename)
+} //bool MainWindow::on_actionImport_File_triggered(QString filename)
 
 
 ///Export to c++ action
-void MainWindow::on_actionExport_C_activated()
+void MainWindow::on_actionExport_C_triggered()
 {
     cppexport_options cppexportDialog(root);
     cppexportDialog.exec();
 
-}// void MainWindow::on_actionExport_C_activated()
+}// void MainWindow::on_actionExport_C_triggered()
 
 ///Carga una escena incrustada como resource
 void MainWindow::load_Scene_Demo(const QString &filename)
@@ -550,7 +551,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
     setWindowTitle(QFileInfo(filename).fileName() + " - Coindesigner");
 
     //Destruimos la escena actual y creamos una nueva
-    on_actionNew_Scene_activated();
+    on_actionNew_Scene_triggered();
 
     //Colgamos el nodo del grafo de escena
     QTreeWidgetItem *qroot = Ui.sceneGraph->currentItem();
@@ -569,7 +570,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
 
 
 ///Exporta la escena en formato VRML2
-void MainWindow::on_actionExport_VRML2_activated()
+void MainWindow::on_actionExport_VRML2_triggered()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
             nombreEscena, 
@@ -587,17 +588,17 @@ void MainWindow::on_actionExport_VRML2_activated()
 
     SoWriteAction action;
 
-    action.getOutput()->openFile(SbName(filename.toAscii()).getString());
+    action.getOutput()->openFile(SbName(filename.toLatin1()).getString());
     action.getOutput()->setHeaderString("#VRML V2.0 utf8");
     action.apply(wrl2);
     action.getOutput()->closeFile();
 
     wrl2->unref();
 
-}// void MainWindow::on_actionExport_VRML2_activated()
+}// void MainWindow::on_actionExport_VRML2_triggered()
 
 
-void MainWindow::on_actionExport_ASE_activated()
+void MainWindow::on_actionExport_ASE_triggered()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save File"),
             nombreEscena, 
@@ -609,10 +610,10 @@ void MainWindow::on_actionExport_ASE_activated()
 
     SoPath *path = new SoPath(root);
     path->ref();
-	cds_export_ase(path, filename.toAscii());
+    cds_export_ase(path, filename.toLatin1());
 	path->unref();
 
-}//void MainWindow::on_actionExport_ASE_activated()
+}//void MainWindow::on_actionExport_ASE_triggered()
 
 
 struct GeomData {
@@ -662,7 +663,7 @@ void trianglePCD(void *data, SoCallbackAction *action,
 }
 
 
-void MainWindow::on_actionExport_PCD_activated() {
+void MainWindow::on_actionExport_PCD_triggered() {
     QString filename(QFileDialog::getSaveFileName(this, tr("Save File"),
             nombreEscena,
             tr("PCD Files")+"(*.pcd);;"+tr("All Files")+" (*)"));
@@ -702,10 +703,10 @@ void MainWindow::on_actionExport_PCD_activated() {
     fs.close();
     
     std::cout << "Done!" << std::endl;
-}//void MainWindow::on_actionExport_PCD_activated()
+}//void MainWindow::on_actionExport_PCD_triggered()
 
 
-void MainWindow::on_actionExport_As_activated() {
+void MainWindow::on_actionExport_As_triggered() {
     std::vector<std::pair<std::string,std::string> > formats(assimpExportedFormats());
     QString filter;
     for (std::vector<std::pair<std::string,std::string> >::const_iterator it(formats.begin());
@@ -730,11 +731,11 @@ void MainWindow::on_actionExport_As_activated() {
     } else {
         addMessage(tr(error.c_str()));
     }
-}//void MainWindow::on_actionExport_As_activated()
+}//void MainWindow::on_actionExport_As_triggered()
 
 
 ///Imprime el grafo de escena en un documento
-void MainWindow::on_actionPrintSceneGraph_activated()
+void MainWindow::on_actionPrintSceneGraph_triggered()
 {
 	//Leemos la impresora destino
 	QPrinter printer;
@@ -857,11 +858,11 @@ void MainWindow::on_actionPrintSceneGraph_activated()
 
 	//Una pausa para depurar / ver el arbol
 	//scn.show();QDialog dlg; dlg.exec();
-}// void MainWindow::on_actionPrintSceneGraph_activated()
+}// void MainWindow::on_actionPrintSceneGraph_triggered()
 
 
 ///Muestra un dialogo donde visualizar el codigo fuente de la escena
-void MainWindow::on_actionEdit_Source_activated()
+void MainWindow::on_actionEdit_Source_triggered()
 {
     SrcEditor srcEditor(root);
     srcEditor.exec();
@@ -874,7 +875,7 @@ void MainWindow::on_actionEdit_Source_activated()
     srcEditor.result->ref();
 
     //Destruimos la escena actual y creamos una nueva
-    on_actionNew_Scene_activated();
+    on_actionNew_Scene_triggered();
 
     //Colgamos el nodo del grafo de escena
     QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
@@ -894,10 +895,10 @@ void MainWindow::on_actionEdit_Source_activated()
     //Indicamos que la escena no ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionView_Source_activated()
+}//void MainWindow::on_actionView_Source_triggered()
 
 
-void MainWindow::on_actionQuit_activated()
+void MainWindow::on_actionQuit_triggered()
 {
     //Cerramos la ventana principal, lo que produce salir de la aplicacion
     close();
@@ -907,7 +908,7 @@ void MainWindow::on_actionQuit_activated()
 //Slots para menu Edit
 ///////////////////////
 
-void MainWindow::on_actionCut_activated()
+void MainWindow::on_actionCut_triggered()
 {
    //Identificamos el nodo seleccionado
     QTreeWidgetItem *item = Ui.sceneGraph->currentItem(); 
@@ -934,16 +935,16 @@ void MainWindow::on_actionCut_activated()
     node_buffer->ref();
 
     //Simulamos que se ha solicitado eliminar el nodo del grafo de escena
-    on_actionDelete_activated();
+    on_actionDelete_triggered();
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionCut_activated()
+}//void MainWindow::on_actionCut_triggered()
 
 
 ///Copia un nodo al buffer para cut/copy/paste/link
-void MainWindow::on_actionCopy_activated()
+void MainWindow::on_actionCopy_triggered()
 {
     //Buscamos el item seleccionado
     QTreeWidgetItem * item = Ui.sceneGraph->currentItem();
@@ -965,7 +966,7 @@ void MainWindow::on_actionCopy_activated()
    node_buffer_link = mapQTCOIN[item];
 }
 
-void MainWindow::on_actionPaste_activated()
+void MainWindow::on_actionPaste_triggered()
 {
     //Comprobamos que hay algo en el buffer
     if (!node_buffer)
@@ -987,11 +988,11 @@ void MainWindow::on_actionPaste_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionPaste_activated()
+}//void MainWindow::on_actionPaste_triggered()
 
 
 ///Borra el nodo actual de la escena
-void MainWindow::on_actionDelete_activated()
+void MainWindow::on_actionDelete_triggered()
 {
    //Identificamos el nodo seleccionado
     QTreeWidgetItem *item = Ui.sceneGraph->currentItem(); 
@@ -1021,9 +1022,9 @@ void MainWindow::on_actionDelete_activated()
 
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
-}// void MainWindow::on_actionDelete_activated()
+}// void MainWindow::on_actionDelete_triggered()
 
-void MainWindow::on_actionLink_activated()
+void MainWindow::on_actionLink_triggered()
 {
     //Comprobamos que hay algo en el buffer
     if (!node_buffer_link)
@@ -1057,10 +1058,10 @@ void MainWindow::on_actionLink_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionLink_activated()
+}//void MainWindow::on_actionLink_triggered()
 
 
-void MainWindow::on_actionMove_Up_activated()
+void MainWindow::on_actionMove_Up_triggered()
 {
    //Identificamos el nodo seleccionado
     QTreeWidgetItem *item = Ui.sceneGraph->currentItem(); 
@@ -1102,7 +1103,7 @@ void MainWindow::on_actionMove_Up_activated()
     escena_modificada = true;
 }
 
-void MainWindow::on_actionMove_Down_activated()
+void MainWindow::on_actionMove_Down_triggered()
 {
    //Identificamos el nodo seleccionado
     QTreeWidgetItem *item = Ui.sceneGraph->currentItem(); 
@@ -1142,14 +1143,14 @@ void MainWindow::on_actionMove_Down_activated()
     escena_modificada = true;
 }
 
-void MainWindow::on_actionPreferences_activated()
+void MainWindow::on_actionPreferences_triggered()
 {
 	settingsDialog settinsDlg;
 	settinsDlg.exec();
 }
 
 
-void MainWindow::on_actionExaminerViewer_activated()
+void MainWindow::on_actionExaminerViewer_triggered()
 {
     //Creacion del QDockWidget
     QDockWidget *dockWidget = new QDockWidget(this);
@@ -1189,10 +1190,10 @@ void MainWindow::on_actionExaminerViewer_activated()
 
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
 
-}//void MainWindow::on_actionExaminerViewer_activated()
+}//void MainWindow::on_actionExaminerViewer_triggered()
 
 
-void MainWindow::on_actionFlyViewer_activated()
+void MainWindow::on_actionFlyViewer_triggered()
 {
     //Creacion del QDockWidget
     QDockWidget *dockWidget = new QDockWidget(this);
@@ -1214,10 +1215,10 @@ void MainWindow::on_actionFlyViewer_activated()
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
 
-}//void MainWindow::on_actionFlyViewer_activated()
+}//void MainWindow::on_actionFlyViewer_triggered()
 
 
-void MainWindow::on_actionPlaneViewer_activated()
+void MainWindow::on_actionPlaneViewer_triggered()
 {
     //Creacion del QDockWidget
     QDockWidget *dockWidget = new QDockWidget(this);
@@ -1239,10 +1240,10 @@ void MainWindow::on_actionPlaneViewer_activated()
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
 
-}//void MainWindow::on_actionPlaneViewer_activated()
+}//void MainWindow::on_actionPlaneViewer_triggered()
 
 
-void MainWindow::on_actionRenderArea_activated()
+void MainWindow::on_actionRenderArea_triggered()
 {
     //Creacion del QDockWidget
     QDockWidget *dockWidget = new QDockWidget(this);
@@ -1263,7 +1264,7 @@ void MainWindow::on_actionRenderArea_activated()
 
     dockWidget->setWidget(viewWidget);
     this->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidget);
-}//void MainWindow::on_actionRenderArea_activated()
+}//void MainWindow::on_actionRenderArea_triggered()
 
 
 ///Configura la variable de entorno COIN_SHOW_FPS_COUNTER
@@ -1275,7 +1276,7 @@ void MainWindow::on_actionShow_FPS_toggled(bool on)
         setenv("COIN_SHOW_FPS_COUNTER", on?"1":"0", 1);
 
 #endif
-}//void MainWindow::on_actionShow_FPS_activated()
+}//void MainWindow::on_actionShow_FPS_triggered()
 
 
 ///Configura el nivel de antialias
@@ -1313,7 +1314,7 @@ void MainWindow::configureViewer(SoQtRenderArea *viewer)
 }
 
 ///Crea un nuevo ExaminerViewer_Editor
-void MainWindow::on_actionExaminerViewer_Editor_activated()
+void MainWindow::on_actionExaminerViewer_Editor_triggered()
 {
     CdsExaminerEditor *viewer = new CdsExaminerEditor(root);
 	configureViewer(viewer);
@@ -1325,7 +1326,7 @@ void MainWindow::on_actionExaminerViewer_Editor_activated()
 }
 
 ///Crea un nuevo PlaneViewer_Editor
-void MainWindow::on_actionPlaneViewer_Editor_activated()
+void MainWindow::on_actionPlaneViewer_Editor_triggered()
 {
     CdsPlaneEditor *viewer = new CdsPlaneEditor(root);
 	configureViewer(viewer);
@@ -1334,14 +1335,14 @@ void MainWindow::on_actionPlaneViewer_Editor_activated()
 
 
 ///Abre la pagina principal de la referencia de Coin3D
-void MainWindow::on_actionCoin3D_Reference_activated()
+void MainWindow::on_actionCoin3D_Reference_triggered()
 {
     QString url = settings->value("reference_dir").toString()+"/hierarchy.html";
     this->open_html_viewer(url);
 }
 
 ///Abre la pagina de referencia de la clase seleccionada en Ui.nodePalette
-void MainWindow::on_actionShow_Node_Reference_activated()
+void MainWindow::on_actionShow_Node_Reference_triggered()
 {
 
     if (Ui.nodePalette->currentItem() == NULL)
@@ -1357,45 +1358,45 @@ void MainWindow::on_actionShow_Node_Reference_activated()
 }
 
 ///Abre la pagina del tutorial1
-void MainWindow::on_actionTutorial_1_activated()
+void MainWindow::on_actionTutorial_1_triggered()
 {
     QString url = settings->value("tutorial_dir").toString()+"/tut01/index.html";
     this->open_html_viewer(url);
 }
 
 ///Abre la pagina del tutorial2
-void MainWindow::on_actionTutorial_2_activated()
+void MainWindow::on_actionTutorial_2_triggered()
 {
     QString url = settings->value("tutorial_dir").toString()+"/tut02/index.html";
     this->open_html_viewer(url);
 }
 
 ///Carga la demo helloCone.iv
-void MainWindow::on_actionHello_Cone_demo_activated()
+void MainWindow::on_actionHello_Cone_demo_triggered()
 {
 	load_Scene_Demo(":/demos/helloCone.iv");
 }
 
 ///Carga la demo mirror.iv
-void MainWindow::on_actionMirror_demo_activated()
+void MainWindow::on_actionMirror_demo_triggered()
 {
 	load_Scene_Demo(":/demos/mirror.iv");
 }
 
 ///Carga la demo planetEarth.iv.gz
-void MainWindow::on_actionPlanet_Earth_demo_activated()
+void MainWindow::on_actionPlanet_Earth_demo_triggered()
 {
 	load_Scene_Demo(":/demos/planetEarth.iv.gz");
 }
 
 ///Carga la demo engine.iv
-void MainWindow::on_actionEngine_demo_activated()
+void MainWindow::on_actionEngine_demo_triggered()
 {
 	load_Scene_Demo(":/demos/engine.iv");
 }
 
 ///Dialogo About
-void MainWindow::on_actionAbout_activated()
+void MainWindow::on_actionAbout_triggered()
 {
     QString msj;
     msj.sprintf("<p>Coindesigner version %f (%s)<p>", CDS_VERSION, __DATE__ );
@@ -1451,7 +1452,7 @@ void MainWindow::on_actionAbout_activated()
     //Mostramos el dialogo
     QMessageBox::about( this, "Coindesigner", msj );
 
-}//void MainWindow::on_actionAbout_activated()
+}//void MainWindow::on_actionAbout_triggered()
 
 ///Cambia el contenido de la paleta de nodos
 void MainWindow::on_paletteComboBox_activated(int idx)
@@ -1489,7 +1490,7 @@ void MainWindow::on_paletteComboBox_activated(int idx)
 void MainWindow::on_nodePalette_itemDoubleClicked(QTreeWidgetItem * item, int)
 {
     //Leemos el tipo de nodo seleccionado a partir del texto del item
-    SoType tipo = SoType::fromName (SbName(item->text(0).toAscii()));
+    SoType tipo = SoType::fromName (SbName(item->text(0).toLatin1()));
 
     //Miramos si el tipo se pudo crear correctamente
     if (tipo == SoType::badType() )
@@ -2353,7 +2354,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
         {
             //Mostramos un mensaje de aviso
             QString S;
-            S.sprintf(tr("There are %d nodes with the name:").toAscii(), num);
+            S.sprintf(tr("There are %d nodes with the name:").toLatin1(), num);
             S+=item_txt;
             QMessageBox::warning( this, tr("Warning"), S);
 
@@ -2873,7 +2874,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
 #endif
 
     //Convertimos el fichero a char *
-    const char *strFilename = SbName(filename.toAscii()).getString();
+    const char *strFilename = SbName(filename.toLatin1()).getString();
 
 	//Miramos si tiene pinta de ser un fichero de tetgen
     if (filename.endsWith(".node", Qt::CaseInsensitive))
@@ -3255,7 +3256,7 @@ SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 	yyGeometry->setName(qPrintable(filename));
 	voldata->setName(qPrintable(dataFilename));
 
-	//const char *strFilename = SbName(dataFilename.toAscii()).getString();
+    //const char *strFilename = SbName(dataFilename.toLatin1()).getString();
 	//voldata->fileName = strFilename;
 
 	transform->translation.setValue(0.5*dimension[0],0.5*dimension[1],0.5*dimension[2]);
@@ -3327,7 +3328,7 @@ void MainWindow::actionLoad_RecentFile_triggered(bool)
 }
 
 //Incrusta todas las texturas de la escena
-void MainWindow::on_actionEmbed_all_textures_activated ()
+void MainWindow::on_actionEmbed_all_textures_triggered()
 {
 	if (QMessageBox::question( this, tr("Warning"), 
 		tr("Embed all textures of the scene will increase the size of the scene file "
@@ -3348,7 +3349,7 @@ void MainWindow::on_actionEmbed_all_textures_activated ()
     for (int i=0; i < sa.getPaths().getLength(); i++) 
 	{
       SoFullPath * fp = (SoFullPath *)sa.getPaths()[i];
-	  on_actionEmbedTexture_activated(fp->getTail());
+      embedTexture(fp->getTail());
     }
 
 	//Buscamos todos los nodos de tipo SoBumpMap
@@ -3361,16 +3362,16 @@ void MainWindow::on_actionEmbed_all_textures_activated ()
     for (int i=0; i < sa.getPaths().getLength(); i++) 
 	{
       SoFullPath * fp = (SoFullPath *)sa.getPaths()[i];
-	  on_actionEmbedTexture_activated(fp->getTail());
+      embedTexture(fp->getTail());
     }
 
 	//Refrescamos el editor de campos
 	updateFieldEditor(mapQTCOIN[Ui.sceneGraph->currentItem()]);
 
-}//int MainWindow::on_actionEmbed_all_textures_activated ()
+}//int MainWindow::on_actionEmbed_all_textures_triggered ()
 
 ///Callback to change background color in the viewers
-void MainWindow::on_actionChange_BG_color_activated()
+void MainWindow::on_actionChange_BG_color_triggered()
 {
    //Lo convertimos en valores RGB y en un QColor
    const float*rgb = bgColor_viewer.getValue();
@@ -3383,10 +3384,10 @@ void MainWindow::on_actionChange_BG_color_activated()
        //Modificamos el field
        bgColor_viewer.setValue(c.red()/255.0, c.green()/255.0, c.blue()/255.0);
    }
-}//void MainWindow::on_actionChange_BG_color_activated()
+}//void MainWindow::on_actionChange_BG_color_triggered()
 
 ///Callback to simplify a shape with QSlim
-void MainWindow::on_actionQSlim_activated()
+void MainWindow::on_actionQSlim_triggered()
 {
 	//Leemos el path del nodo actual y lo pasamos a qslim_options
     SoPath *path=getPathFromItem(Ui.sceneGraph->currentItem());
@@ -3433,11 +3434,11 @@ void MainWindow::on_actionQSlim_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionQSlim_activated()
+}//void MainWindow::on_actionQSlim_triggered()
 
 
 ///Callback to tetrahedralize with tetgen
-void MainWindow::on_actionTetgen_activated()
+void MainWindow::on_actionTetgen_triggered()
 {
 	//Leemos el path del nodo actual y lo pasamos a tetgen_options
     SoPath *path=getPathFromItem(Ui.sceneGraph->currentItem());
@@ -3484,7 +3485,7 @@ void MainWindow::on_actionTetgen_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionTetgen_activated()
+}//void MainWindow::on_actionTetgen_triggered()
 
 
 ///Anade un mensaje a la consola de mensajes
@@ -3673,7 +3674,7 @@ void MainWindow::on_fieldTable_customContextMenuRequested(QPoint pos)
 				tr("All Files")+" (*)");
 
 			//Asignamos el valor escogido
-			soSFString->setValue(filename.toAscii());
+            soSFString->setValue(filename.toLatin1());
 		}
 	}
 
@@ -3981,7 +3982,7 @@ void MainWindow::on_sceneGraph_customContextMenuRequested(QPoint pos)
 
 
 ///Put all children of a group node on the same level that its parent
-void MainWindow::on_actionPromote_Children_activated()
+void MainWindow::on_actionPromote_Children_triggered()
 {
 	QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
 
@@ -4038,14 +4039,41 @@ void MainWindow::on_actionPromote_Children_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
     
-}// void MainWindow::on_actionPromote_Children_activated()
-
+}// void MainWindow::on_actionPromote_Children_triggered()
 
 ///Embed external texture image files into the node
-void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
+void MainWindow::on_actionEmbedTexture_triggered()
+{
+    SoNode *node;
+
+    //Comienza por intentar usar el item actual
+    QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
+
+    //Trata de leer el argumento del sender()->data
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+    {
+        bool ok = false;
+        QTreeWidgetItem *item2 = (QTreeWidgetItem *)action->data().toULongLong(&ok);
+        if (ok && item2)
+            item = item2;
+
+        //Borramos el contenido del action->data(), por si acaso acaba en otra parte
+        action->setData(0);
+    }
+
+    //Usa el node del item actual, o el pasado como sender()->data()
+    node = mapQTCOIN[item];
+
+    embedTexture(node);
+}//void MainWindow::on_actionEmbedTexture_triggered()
+
+
+///Embed external texture image files into the current node
+void MainWindow::embedTexture(SoNode *node)
 {
   //Miramos si nos han pasado algun nodo o debemos usar el item actual 
-	if (node == NULL)
+    if (node == NULL)
 	{
 		//Comienza por intentar usar el item actual
 		QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
@@ -4064,7 +4092,7 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
 		}
 
 		//Usa el node del item actual, o el pasado como sender()->data()
-		node = mapQTCOIN[item];
+        node = mapQTCOIN[item];
 	}
 
   SoType tipo = node->getTypeId();
@@ -4072,7 +4100,7 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
   if (tipo == SoTexture2::getClassTypeId())
   {
 	//Convertimos en un nodo SoTexture2
-	SoTexture2 *tex= (SoTexture2 *)node;
+    SoTexture2 *tex= (SoTexture2 *)node;
 
 	//Miramos si este nodo tiene algun nombre de fichero asociado
 	if (tex->filename.getValue().getLength() == 0)
@@ -4087,7 +4115,7 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
   else if (tipo == SoBumpMap::getClassTypeId())
   {
 	//Convertimos en un nodo SoTexture2
-	SoBumpMap *tex= (SoBumpMap *)node;
+    SoBumpMap *tex= (SoBumpMap *)node;
 
 	//Miramos si este nodo tiene algun nombre de fichero asociado
 	if (tex->filename.getValue().getLength() == 0)
@@ -4103,7 +4131,7 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
   {
 	  __chivato__
 	  QString S;
-	  S.sprintf("No puedo incrustar en %s", node->getTypeId().getName().getString() );
+      S.sprintf("No puedo incrustar en %s", node->getTypeId().getName().getString() );
 	  QMessageBox::warning( this, tr("Error"), S);
 	  return;
   }
@@ -4114,11 +4142,11 @@ void MainWindow::on_actionEmbedTexture_activated(SoNode *node)
   //Indicamos que la escena ha sido modificada
   escena_modificada = true;
 
-}//void MainWindow::on_actionEmbedTexture_activated()
+}//void MainWindow::embedTexture()
 
 
 ///Convert a light or clipPlane into its correspondent manip 
-void MainWindow::on_Convert_Manip_activated()
+void MainWindow::on_Convert_Manip_triggered()
 {
 	//Comienza por intentar usar el item actual
 	QTreeWidgetItem *item=Ui.sceneGraph->currentItem();
@@ -4300,11 +4328,11 @@ void MainWindow::on_Convert_Manip_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}//void MainWindow::on_actionConvert_Manip_activated()
+}//void MainWindow::on_actionConvert_Manip_triggered()
 
 
 
-void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_activated()
+void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_triggered()
 {    
 	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 	SoIndexedFaceSet *oldNode= (SoIndexedFaceSet*)mapQTCOIN[item];
@@ -4330,9 +4358,9 @@ void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_activated()
 	//Indicamos que la escena ha sido modificada
 	escena_modificada = true;
 
-} // void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_activated()
+} // void MainWindow::on_IndexedFaceSet_to_IndexedLineSet_triggered()
 
-void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_activated()
+void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_triggered()
 {    
 	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 	SoIndexedLineSet *oldNode= (SoIndexedLineSet*)mapQTCOIN[item];
@@ -4358,10 +4386,10 @@ void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_activated()
 	//Indicamos que la escena ha sido modificada
 	escena_modificada = true;
 
-} // void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_activated()
+} // void MainWindow::on_IndexedLineSet_to_IndexedFaceSet_triggered()
 
 ///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero SMF
-void MainWindow::on_Export_to_SMF_activated()
+void MainWindow::on_Export_to_SMF_triggered()
 {
 	//Nombre del fichero donde escribir
     QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
@@ -4394,9 +4422,9 @@ void MainWindow::on_Export_to_SMF_activated()
     //Abrimos el fichero de salida
 #ifdef _MSC_VER
     FILE *file;
-	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+    fopen_s(&file, SbName(filename.toLatin1()).getString(), "w");
 #else
-    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+    FILE *file = fopen(SbName(filename.toLatin1()).getString(), "w");
 #endif
 
     //Escribimos el contenido en el fichero SMF
@@ -4415,10 +4443,10 @@ void MainWindow::on_Export_to_SMF_activated()
     //Cerramos el fichero
     fclose(file);
 
-}// void MainWindow::on_Export_to_SMF_activated()
+}// void MainWindow::on_Export_to_SMF_triggered()
 
 ///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero OFF
-void MainWindow::on_Export_to_OFF_activated()
+void MainWindow::on_Export_to_OFF_triggered()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
@@ -4436,9 +4464,9 @@ void MainWindow::on_Export_to_OFF_activated()
     //Abrimos el fichero de salida
 #ifdef _MSC_VER
     FILE *file;
-	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+    fopen_s(&file, SbName(filename.toLatin1()).getString(), "w");
 #else
-    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+    FILE *file = fopen(SbName(filename.toLatin1()).getString(), "w");
 #endif
 
     //Escribimos el contenido en el fichero OFF
@@ -4456,11 +4484,11 @@ void MainWindow::on_Export_to_OFF_activated()
     //Cerramos el fichero
     fclose(file);
 
-}// void MainWindow::on_Export_to_OFF_activated()
+}// void MainWindow::on_Export_to_OFF_triggered()
 
 
 ///Exporta un SoIndexedFaceSet o SoVRMLIndexedFaceSet a un fichero STL
-void MainWindow::on_Export_to_STL_activated()
+void MainWindow::on_Export_to_STL_triggered()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 
@@ -4478,9 +4506,9 @@ void MainWindow::on_Export_to_STL_activated()
     //Abrimos el fichero de salida
 #ifdef _MSC_VER
     FILE *file;
-	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+    fopen_s(&file, SbName(filename.toLatin1()).getString(), "w");
 #else
-    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+    FILE *file = fopen(SbName(filename.toLatin1()).getString(), "w");
 #endif
 
     //Escribimos el contenido en el fichero OFF
@@ -4498,9 +4526,9 @@ void MainWindow::on_Export_to_STL_activated()
     //Cerramos el fichero
     fclose(file);
 
-}// void MainWindow::on_Export_to_STL_activated()
+}// void MainWindow::on_Export_to_STL_triggered()
 
-void MainWindow::on_Export_to_XYZ_activated()
+void MainWindow::on_Export_to_XYZ_triggered()
 {
 	//Nombre del fichero donde escribir
     QString filename = QFileDialog::getSaveFileName(this, tr("Export File"), "",
@@ -4513,9 +4541,9 @@ void MainWindow::on_Export_to_XYZ_activated()
     //Abrimos el fichero de salida
 #ifdef _MSC_VER
     FILE *file;
-	fopen_s(&file, SbName(filename.toAscii()).getString(), "w");
+    fopen_s(&file, SbName(filename.toLatin1()).getString(), "w");
 #else
-    FILE *file = fopen(SbName(filename.toAscii()).getString(), "w");
+    FILE *file = fopen(SbName(filename.toLatin1()).getString(), "w");
 #endif
 
     //Identificamos el item actual
@@ -4536,9 +4564,9 @@ void MainWindow::on_Export_to_XYZ_activated()
     //Cerramos el fichero
     fclose(file);
 
-}// void MainWindow::on_Export_to_XYZ_activated()
+}// void MainWindow::on_Export_to_XYZ_triggered()
 
-void MainWindow::on_Center_on_Origin_activated()
+void MainWindow::on_Center_on_Origin_triggered()
 {
     //Identificamos el item actual
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem();
@@ -4570,9 +4598,9 @@ void MainWindow::on_Center_on_Origin_activated()
 	//Indicamos que la escena ha sido modificada
 	escena_modificada = true;
 
-}// void MainWindow::on_Center_on_Origin_activated()
+}// void MainWindow::on_Center_on_Origin_triggered()
 
-void MainWindow::on_actionIvfix_activated()
+void MainWindow::on_actionIvfix_triggered()
 {
 	ivfix_options ivfixDialog(root);
 	ivfixDialog.exec();
@@ -4582,7 +4610,7 @@ void MainWindow::on_actionIvfix_activated()
 	if (ivfix_result != NULL)
 	{
 		//Destruimos la escena actual y creamos una nueva
-		on_actionNew_Scene_activated();
+		on_actionNew_Scene_triggered();
 
 		//Colgamos el nodo del grafo de escena
 		QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
@@ -4601,11 +4629,11 @@ void MainWindow::on_actionIvfix_activated()
 		escena_modificada = true;
 	}
 
-}//void MainWindow::on_actionIvfix_activated()
+}//void MainWindow::on_actionIvfix_triggered()
 
 
 ///Triangula las facetas de mas de tres lados de un SoIndexedFaceSet o SoVRMLIndexedFaceSet
-void MainWindow::on_SoIndexedFaceSet_triangulate_activated()
+void MainWindow::on_SoIndexedFaceSet_triangulate_triggered()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
     SoNode *nodo = mapQTCOIN[item];
@@ -4628,11 +4656,11 @@ void MainWindow::on_SoIndexedFaceSet_triangulate_activated()
     }
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
-}//void MainWindow::on_SoIndexedFaceSet_triangulate_activated()
+}//void MainWindow::on_SoIndexedFaceSet_triangulate_triggered()
 
 
 ///Cambia la orientacion de todas las facetas
-void MainWindow::on_SoIndexedFaceSet_change_orientation_activated()
+void MainWindow::on_SoIndexedFaceSet_change_orientation_triggered()
 {
     QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 	assert(mapQTCOIN[item]->getTypeId().isDerivedFrom(SoIndexedFaceSet::getClassTypeId()));
@@ -4646,10 +4674,10 @@ void MainWindow::on_SoIndexedFaceSet_change_orientation_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}// void MainWindow::on_SoIndexedFaceSet_change_orientation_activated()
+}// void MainWindow::on_SoIndexedFaceSet_change_orientation_triggered()
 
 
-void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
+void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_triggered()
 {
 	QTreeWidgetItem * item=Ui.sceneGraph->currentItem(); 
 	SoIndexedTriangleStripSet *oldNode= (SoIndexedTriangleStripSet*)mapQTCOIN[item];
@@ -4672,9 +4700,9 @@ void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
 	//Indicamos que la escena ha sido modificada
 	escena_modificada = true;
 
-}//void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_activated()
+}//void MainWindow::on_SoIndexedTriangleStripSet_to_SoIndexedFaceSet_triggered()
 
-void MainWindow::on_SoCoordinate3_to_qhull_activated()
+void MainWindow::on_SoCoordinate3_to_qhull_triggered()
 {
     //Identificamos el item actual
     QTreeWidgetItem *item_current = Ui.sceneGraph->currentItem();
@@ -4718,13 +4746,13 @@ void MainWindow::on_SoCoordinate3_to_qhull_activated()
     //Indicamos que la escena ha sido modificada
     escena_modificada = true;
 
-}// void MainWindow::on_SoCoordinate3_to_qhull_activated()
+}// void MainWindow::on_SoCoordinate3_to_qhull_triggered()
 
 
 /*! Apply SoReorganizeAction to the scene 
 	Example taken from SoReorganizeAction help page
 */
-void MainWindow::on_actionSoReorganizeAction_activated()
+void MainWindow::on_actionSoReorganizeAction_triggered()
 {
 	//Reorganize the whole scene
     SoReorganizeAction reorg;
@@ -4742,7 +4770,7 @@ void MainWindow::on_actionSoReorganizeAction_activated()
 	tmpNode->ref();
 
 	//Destruimos la escena actual y creamos una nueva
-	on_actionNew_Scene_activated();
+	on_actionNew_Scene_triggered();
 
 	//Colgamos el nodo del grafo de escena
 	QTreeWidgetItem *qroot=Ui.sceneGraph->currentItem();
@@ -4761,5 +4789,5 @@ void MainWindow::on_actionSoReorganizeAction_activated()
 	//Indicamos que la escena ha sido modificada
 	escena_modificada = true;
 
-}//void MainWindow::on_actionSoReorganizeAction_activated()
+}//void MainWindow::on_actionSoReorganizeAction_triggered()
 

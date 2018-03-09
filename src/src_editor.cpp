@@ -127,7 +127,7 @@ void SrcEditor::on_buttonBox_clicked(QAbstractButton * button)
 		//Copia el src a un buffer de memoria
 		QString src = Ui.textEdit->toPlainText();
 		char *buf = new char[src.size()];
-		memcpy(buf, src.toAscii(), src.size() );
+		memcpy(buf, src.toLatin1(), src.size() );
 
 		//Leemos la escena desde el buffer de memoria
 		SoInput input;
@@ -155,7 +155,7 @@ void SrcEditor::accept()
 	//Copia el src a un buffer de memoria
 	QString src = Ui.textEdit->toPlainText();
 	char *buf = new char[src.size()];
-	memcpy(buf, src.toAscii(), src.size() );
+	memcpy(buf, src.toLatin1(), src.size() );
 
 	//Leemos la escena desde el buffer de memoria
 	SoInput input;
