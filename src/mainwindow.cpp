@@ -1794,10 +1794,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             //Actualizamos el campo segun el contenido
             Ui.fieldTable->item(numRows,0)->setText(nombre.getString() );
          }
-         else
-
-         //Actualizacion de cualquier campo tipo SoSFName
-         if (!strcmp(nombre_tipo, "SFName") )
+         //Actualizacion de cualquier campo tipo SoSFName 
+         else if (!strcmp(nombre_tipo, "SFName") )
          {
             //Convertimos el tipo de field
             SoSFName *str= (SoSFName *)field;
@@ -1805,10 +1803,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             //Actualizamos el campo segun el contenido
             Ui.fieldTable->item(numRows,0)->setText(str->getValue().getString() );
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoSFColor
-         if (!strcmp(nombre_tipo, "SFColor") )
+         else if (!strcmp(nombre_tipo, "SFColor") )
          {
             //Convertimos el tipo de field
             SoSFColor *color= (SoSFColor *)field;
@@ -1820,10 +1816,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             //Actualizamos el campo segun el contenido
             Ui.fieldTable->item(numRows,0)->setText(S);
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoSFRotation
-         if (!strcmp(nombre_tipo, "SFRotation") )
+         else if (!strcmp(nombre_tipo, "SFRotation") )
          {
             //Convertimos el tipo de field
             SoSFRotation *rot= (SoSFRotation *)field;
@@ -1855,10 +1849,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             //Mapeamos el numero de fila con el field correspondiente
             map_fieldTable[numRows] = field;
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoSFPlane
-         if (!strcmp(nombre_tipo, "SFPlane") )
+         else if (!strcmp(nombre_tipo, "SFPlane") )
          {
             //Convertimos el tipo de field
             SoSFPlane *plane= (SoSFPlane *)field;
@@ -1886,10 +1878,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             //Mapeamos el numero de fila con el field correspondiente
             map_fieldTable[numRows] = field;
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoSFImage
-         if (!strcmp(nombre_tipo, "SFImage") )
+         else if (!strcmp(nombre_tipo, "SFImage") )
          {
             //Convertimos el tipo de field
             SoSFImage *img= (SoSFImage *)field;
@@ -1903,10 +1893,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             S.sprintf("%dx%dx%d", size[0], size[1], nc);
             Ui.fieldTable->item(numRows,0)->setText(S);
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoSFNode
-         if (!strcmp(nombre_tipo, "SFNode") )
+         else if (!strcmp(nombre_tipo, "SFNode") )
          {
             //Convertimos el tipo de field
             SoSFNode *soSFNode= (SoSFNode *)field;
@@ -1923,10 +1911,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             Ui.fieldTable->item(numRows,0)->setText(name.getString());
             
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoMFNode
-         if (!strcmp(nombre_tipo, "MFNode") )
+         else if (!strcmp(nombre_tipo, "MFNode") )
          {
             //Convertimos el tipo de field
             SoMFNode *soMFNode= (SoMFNode *)field;
@@ -1965,10 +1951,8 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             }//for
   
          }
-         else
-
          //Actualizacion de cualquier campo tipo SoMFColor
-		 if (!strcmp(nombre_tipo, "MFColor") )
+         else if (!strcmp(nombre_tipo, "MFColor") )
          {
             //Convertimos el tipo de field
             SoMFColor *color= (SoMFColor *)field;
@@ -1984,21 +1968,19 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             }
 
 		 }
-         else
-
          //Edicion de cualquier campo tipo SoSFMatrix
-		 if (!strcmp(nombre_tipo, "SFMatrix") )
-		 {
-			 Ui.fieldTable->item(numRows,0)->setText(tr("Edit"));
-		 }
+        else if (!strcmp(nombre_tipo, "SFMatrix") )
+	 {
+		 Ui.fieldTable->item(numRows,0)->setText(tr("Edit"));
+	 }
 
-		 else
-		 {
+	 else
+	 {
 			 QMessageBox::warning( this, tr("Error"), tr("No support for type: ")+nombre_tipo);
-		 }
+	 }
 
-		 //Aumentamos el numero de filas
-		 numRows++;
+	 //Aumentamos el numero de filas
+	 numRows++;
 
     } // for (int f=0; f < num_fields; f++)
 
@@ -2037,9 +2019,9 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
     if (strlen(name.getString()) > 0)
       M += QString(" <> ") + tr("Name=") + QString(name.getString());
 
-	//Refcount
-	int refcount = nodo->getRefCount(); 
-	if (refcount != 1)
+    //Refcount
+    int refcount = nodo->getRefCount(); 
+    if (refcount != 1)
     	M += QString(" <> ") + tr("rc=") + QString::number(refcount);
 
     //Si es un indexedFaceset, numero de facetas
@@ -2170,7 +2152,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
         return;
     }
     else
-
+    {
         //Recorremos los tipos basicos que pueden leerse con una llamada a .set()
         for (unsigned i=0; tipoBasicoSF[i]; i++)
         {
@@ -2253,10 +2235,8 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
                 QMessageBox::warning( this, tr("Warning"), S);
             }
         }
-        else
-
         //Edicion de cualquier campo SFPlane
-        if (!strcmp(nombre_tipo, "SFPlane") )
+        else if (!strcmp(nombre_tipo, "SFPlane") )
         {
             //Este es un poco especial, porque hemos dividido el
             //campo en dos filas (normal y distancia). Tenemos que deshacer
@@ -2383,7 +2363,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
 
         //Indicamos que la escena ha sido modificada
         escena_modificada = true;
-
+    }
 }//void on_fieldTable_cellChanged(int row, int column)
 
 ///Genera la paleta de componentes mediante una lista predefinida
