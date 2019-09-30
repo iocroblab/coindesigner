@@ -13,15 +13,13 @@ set(PACKAGE coindesigner)
 set(CDS_INCLUDES "")
 set(CDS_LIBRARIES "")
 
-set(CDS_VERSION_MAJOR 2)
-set(CDS_VERSION_MINOR 1)
+set(CDS_VERSION_MAJOR 3)
+set(CDS_VERSION_MINOR 0)
 set(CDS_VERSION "${CDS_VERSION_MAJOR}.${CDS_VERSION_MINOR}")
 
-# graphics library
-#### Coin3D package ###############
 #### Coin3D package ###############
 # graphics library
-find_package(Coin REQUIRED CONFIG)
+find_package(Coin CONFIG REQUIRED)
 if(Coin_FOUND)
   set(EXTRA_LIBS ${EXTRA_LIBS} ${Coin_LIBRARIES})
   include_directories(${Coin_INCLUDE_DIR})
@@ -29,7 +27,6 @@ if(Coin_FOUND)
 else( Coin_FOUND )
    message(SEND_ERROR "coindesigner needs Coin library")
 endif(Coin_FOUND )
-
 
 #### Assimp ######
 find_package( Assimp )
