@@ -397,7 +397,8 @@ void qh_freeqhull (boolT allmem) {
     called before error handling initialized
     qh_errexit() may not be used
 */
-void qh_init_A (FILE *infile, FILE *outfile, FILE *errfile, int argc, char const*argv[]) {
+
+void qh_init_A (FILE *infile, FILE *outfile, FILE *errfile, int argc, char *argv[]) {
   qh_meminit (errfile);
   qh_initqhull_start (infile, outfile, errfile);
   qh_init_qhull_command (argc, argv);
@@ -484,9 +485,10 @@ void qh_init_B (coordT *points, int numpoints, int dim, boolT ismalloc) {
 
     argc/argv may be 0/NULL
 */
-void qh_init_qhull_command(int argc, char const*argv[]) {
+
+void qh_init_qhull_command(int argc, char *argv[]) {
   int i;
-  char const*s;
+  char *s;
 
   if (argc) {
     if ((s= strrchr( argv[0], '\\'))) /* Borland gives full path */
@@ -495,7 +497,7 @@ void qh_init_qhull_command(int argc, char const*argv[]) {
       strcpy (qh qhull_command, argv[0]);
     if ((s= strstr (qh qhull_command, ".EXE"))
     ||  (s= strstr (qh qhull_command, ".exe")))
-      s= '\0';
+      *s= '\0';
   }
   for (i=1; i < argc; i++) {
     if (strlen (qh qhull_command) + strlen(argv[i]) + 1 < sizeof(qh qhull_command)) {

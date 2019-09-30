@@ -26,7 +26,7 @@
 -----------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <assert.h>
 #include <math.h>
 #include <float.h>
@@ -35,6 +35,7 @@
 #endif
 #include <stdarg.h>
 #include <setjmp.h>
+#include <cstring>
 
 #define USE_PRINTF 0 // true if we want to print some info to the console.
 #include "qhulllib.h"
@@ -487,8 +488,8 @@ public:
     mVolume = volume;
   }
 
-  float GetArea(void)   const { return mArea; };
-  float GetVolume(void) const { return mVolume; };
+  inline float GetArea(void)   const { return mArea; };
+  inline float GetVolume(void) const { return mVolume; };
 
 
   void AddPoint(unsigned int &vcount,float *p,float x,float y,float z)
@@ -983,7 +984,7 @@ private:
 
 
 
-int QhullMain(int argc, char const*argv[],int numverts,const float *verts);
+int QhullMain(int argc, char *argv[],int numverts,const float *verts);
 
 QhullError QhullLibrary::CreateConvexHull(const QhullDesc       &desc,           // describes the input request
                                           QhullResult           &result)         // contains the resulst
@@ -994,10 +995,12 @@ QhullError QhullLibrary::CreateConvexHull(const QhullDesc       &desc,          
   printf("Submitting %d vertices to Qhull\r\n", desc.mVcount );
   #endif
 
-  char const*argv[16];
+  char *argv[16];
 
-  argv[0] = "qhull";
-  argv[1] = "o";   // produce off file output...
+  std::strcpy (argv[0], std::string("qhull").c_str());
+  std::strcpy(argv[1], std::string("o").c_str());   // produce off file output...
+  //argv[0] = (const *)std::string("qhull").c_str();
+  //argv[1] = std::string("o").c_str();   // produce off file output...
 
   QhullParser qp(mAllocator);
 
