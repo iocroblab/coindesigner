@@ -14,7 +14,7 @@ set(CDS_INCLUDES "")
 set(CDS_LIBRARIES "")
 
 set(CDS_VERSION_MAJOR 3)
-set(CDS_VERSION_MINOR 0)
+set(CDS_VERSION_MINOR 1)
 set(CDS_VERSION "${CDS_VERSION_MAJOR}.${CDS_VERSION_MINOR}")
 
 #### Coin3D package ###############
