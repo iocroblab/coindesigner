@@ -15,8 +15,13 @@
 #include <sstream>
 
 
-#define SSTR(x) dynamic_cast<std::ostringstream&>((std::ostringstream() << std::dec << x)).str()
-
+//#define SSTR(x) dynamic_cast<std::ostringstream&>((std::ostringstream() << std::dec << x)).str()
+template <typename T>
+inline std::string SSTR(const T& x) {
+    std::ostringstream oss;
+    oss << std::dec << x;
+    return oss.str();
+}
 
 SoCallbackAction::Response
 preGroupCB(void *data, SoCallbackAction*, const SoNode *node) {
