@@ -52,7 +52,7 @@ tetgen_options::tetgen_options(SoPath *path, QWidget *p, Qt::WindowFlags f) : QD
 ///Recalcula los argumentos a pasar a tetgen
 void tetgen_options::argsChanged()
 {
-	tetgen_args.sprintf("-pOq%.2fa%.2f", Ui.spinBox_q->value(), Ui.spinBox_a->value() );
+	tetgen_args.asprintf("-pOq%.2fa%.2f", Ui.spinBox_q->value(), Ui.spinBox_a->value() );
 	Ui.tetgen_args->setText(tetgen_args);
 }
 
