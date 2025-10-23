@@ -85,7 +85,7 @@ public:
 	SoSeparator *root;
 
 	///Constructor de la clase MainWindow
-	MainWindow (QWidget *p=0, Qt::WindowFlags f=0);
+	MainWindow (QWidget* p = nullptr, Qt::WindowFlags f = {}) ;
 
     ///Carga una escena 
 	bool load_Scene (QString filename);
