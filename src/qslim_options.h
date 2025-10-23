@@ -33,7 +33,7 @@ public:
 	SoSeparator *output;
 
 	///Constructor
-	qslim_options (SoPath *path, QWidget *p=0, Qt::WindowFlags f=0);
+	qslim_options (SoPath *path, QWidget* p = nullptr, Qt::WindowFlags f = {});
 
  private slots:
 

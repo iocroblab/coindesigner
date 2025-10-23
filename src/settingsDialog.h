@@ -28,7 +28,7 @@ class settingsDialog : public QDialog
 
 public:
 	///Constructor
-	settingsDialog (QWidget *p=0, Qt::WindowFlags f=0);
+	settingsDialog (QWidget* p = nullptr, Qt::WindowFlags f = {});
 	void setToDefault(bool reset=false);
 	void updateTable();
 

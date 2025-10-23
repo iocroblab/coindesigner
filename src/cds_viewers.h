@@ -117,7 +117,7 @@ public:
 	SoSeparator *mark_sep;
 
 	///Constructor
-	cds_editor (QWidget *p=0, Qt::WindowFlags f=0) : QMainWindow(p, f)
+	cds_editor (QWidget* p = nullptr, Qt::WindowFlags f = {}) : QMainWindow(p, f)
 	{
 		//Inicializamos el UI
 		Ui.setupUi(this);

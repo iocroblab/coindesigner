@@ -30,7 +30,7 @@ class MFieldEditor : public QDialog
 
 public:
 	///Constructor
-	MFieldEditor (SoMField *field, QWidget *p=0, Qt::WindowFlags f=0);
+	MFieldEditor (SoMField *field, QWidget* p = nullptr, Qt::WindowFlags f = {});
 
 public slots:
 	void on_table_cellChanged(int row, int column);

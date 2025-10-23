@@ -91,10 +91,10 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 	QString M, S;
 
     //Imprimimos las coordenadas del punto 
-	S.sprintf("<b>Pick XYZ=</b> %f %f %f", v[0], v[1], v[2]);
+	S.asprintf("<b>Pick XYZ=</b> %f %f %f", v[0], v[1], v[2]);
 
     //Imprimimos las coordenadas del punto en la barra del estado y en consola de mensajes
-	M.sprintf("XYZ= %f %f %f", v[0], v[1], v[2]);
+	M.asprintf("XYZ= %f %f %f", v[0], v[1], v[2]);
 
 	if (infoAction)
 		global_mw->addMessage(S);
@@ -110,7 +110,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 	global_mw->getItemFromPath(path);
 
     //Mostramos el path, salvo el ultimo nodo
-	S.sprintf("<b>Node path=</b>");
+	S.asprintf("<b>Node path=</b>");
     for (i=0; i < path->getLength()-1; i++)
     {
       const char *nombre_tipo = path->getNode(i)->getTypeId().getName(); 
@@ -150,7 +150,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoFaceDetail *facDetail = (SoFaceDetail *) pickDetail;
 
         //Mostramos el indice de la faceta y la lista de vertices
-	S.sprintf("Face index=%d; Vertex list=",facDetail->getFaceIndex());
+	S.asprintf("Face index=%d; Vertex list=",facDetail->getFaceIndex());
 
         //Mostramos informacion sobre todos sus vertices
         for (i=0; i < facDetail->getNumPoints(); i++)
@@ -174,14 +174,14 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 		  if (infoAction)
 		  {
-			  S.sprintf("%s coordinates node; Coordinate node name=%s", nombre_tipo, nombre_nodo);
+			  S.asprintf("%s coordinates node; Coordinate node name=%s", nombre_tipo, nombre_nodo);
 			  global_mw->addMessage(S);
 
 			  //Mostramos informacion sobre todos sus vertices
 			  for (i=0; i < facDetail->getNumPoints(); i++)
 			  {
 				  int idx = facDetail->getPoint(i)->getCoordinateIndex();
-				  S.sprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
+				  S.asprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
 				  global_mw->addMessage(S);
 			  }//for
 		  }
@@ -207,9 +207,9 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 			facetasPatch[numFacetasPatch++] = facDetail->getFaceIndex();
 
 			//Mostramos las facetas seleccionadas
-			M.sprintf("Parcheando facetas:");
+			M.asprintf("Parcheando facetas:");
 			for (int i=0; i<numFacetasPatch; i++)
-				M.append(S.sprintf(" %d", facetasPatch[i]));
+				M.append(S.asprintf(" %d", facetasPatch[i]));
 			statusBar->message(M);
 			statusBar->show();
 
@@ -232,7 +232,7 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoLineDetail *lineDetail = (SoLineDetail *) pickDetail;
 
         //Mostramos el indice de la faceta y la lista de vertices
-	S.sprintf("Line index=%d; Vertex= [",lineDetail->getLineIndex());
+	S.asprintf("Line index=%d; Vertex= [",lineDetail->getLineIndex());
 
         //Mostramos informacion sobre todos sus vertices
         const SoPointDetail *pointDetail0 = lineDetail->getPoint0();
@@ -255,14 +255,14 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 		  if (infoAction)
 		  {
-			  S.sprintf("%s coordinates node; Coordinate node name=%s", nombre_tipo, nombre_nodo);
+			  S.asprintf("%s coordinates node; Coordinate node name=%s", nombre_tipo, nombre_nodo);
 			  global_mw->addMessage(S);
 
 			  //Mostramos informacion sobre todos sus vertices
 			  int idx = pointDetail0->getCoordinateIndex();
-			  S.sprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
+			  S.asprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
 			  idx = pointDetail1->getCoordinateIndex();
-			  S.sprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
+			  S.asprintf("Vertex %d = %10f %10f %10f", idx, coords[idx][0],coords[idx][1],coords[idx][2]);
 			  global_mw->addMessage(S);
 		  }
 
@@ -283,10 +283,10 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
 		//Preparamos un mensaje para la consola de mensajes
 		if (infoAction)
-			S.sprintf("Point index=%d", idx);
+			S.asprintf("Point index=%d", idx);
 
 		//Mostramos informacion en barra de status
-		M.append(S.sprintf(" <> Point index=%d", idx));
+		M.append(S.asprintf(" <> Point index=%d", idx));
         SoMFVec3f coords;
         SoNode *nodeCoord = buscaCoordenadas (path, coords);
         if (nodeCoord)
@@ -295,10 +295,10 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
           const char *nombre_nodo = nodeCoord->getName().getString();
 
 		  //Mostramos informacion en barra de status
-		  M.append(S.sprintf(" of %s node name=%s", nombre_tipo, nombre_nodo));
+		  M.append(S.asprintf(" of %s node name=%s", nombre_tipo, nombre_nodo));
 
 		  //Mejoramos el mensaje para la consola de mensajes
-		  S.sprintf("%s node; Name=%s; Index=%d; XYZ = %10f %10f %10f",
+		  S.asprintf("%s node; Name=%s; Index=%d; XYZ = %10f %10f %10f",
 			  nombre_tipo, nombre_nodo, idx, coords[idx][0],coords[idx][1],coords[idx][2]);
         }// if (nodeCoord)
 
@@ -314,13 +314,13 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
         SoTextDetail *textDetail = (SoTextDetail *) pickDetail;
 
         //Mostramos el indice del texto
-		S.sprintf("Char index=[%d][%d]",textDetail->getStringIndex(),
+		S.asprintf("Char index=[%d][%d]",textDetail->getStringIndex(),
                                         textDetail->getCharacterIndex());
 		if (infoAction)
 			global_mw->addMessage(S);
 
 	    //Mostramos informacion en barra de status
-		M.append(S.sprintf(" <> Char index=[%d][%d]",textDetail->getStringIndex(),
+		M.append(S.asprintf(" <> Char index=[%d][%d]",textDetail->getStringIndex(),
                                                textDetail->getCharacterIndex()));
       }
       else
@@ -333,12 +333,12 @@ void CdsEditorTemplate<SOTYPEVIEWER>::pickCallback (SoEventCallback * n)
 
         //Mostramos la cara pinchada
         int part = cubeDetail->getPart();
-        S.sprintf("Face index = %d (%s)", part, parts[part]);
+        S.asprintf("Face index = %d (%s)", part, parts[part]);
 		if (infoAction)
 			global_mw->addMessage(S);
 
 		//Mostramos informacion en barra de status
-		M.append(S.sprintf(" <> Face index = %d (%s)", part, parts[part]));
+		M.append(S.asprintf(" <> Face index = %d (%s)", part, parts[part]));
       }
       else
 

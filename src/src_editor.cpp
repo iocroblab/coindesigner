@@ -144,7 +144,7 @@ void SrcEditor::on_buttonBox_clicked(QAbstractButton * button)
 			QMessageBox::information(this, tr("Test"), tr("The scene is valid")); 
 		}
 
-		delete buf;
+		delete[] buf;
 
 	}//if (Ui.buttonBox->buttonRole(button) == QDialogButtonBox::ApplyRole)
 
@@ -161,7 +161,7 @@ void SrcEditor::accept()
 	SoInput input;
 	input.setBuffer(buf, src.size() ) ;
 	result = SoDB::readAll(&input);
-	delete buf;
+	delete[] buf;
 
 	//Solo aceptamos el dialogo si se compil� correctamente
 	if (result)

@@ -310,10 +310,10 @@ void settingsDialog::setToDefault(bool reset)
 	   {
 		   //Buscamos qslim en el directorio de coindesigner
 #ifdef _WIN32
-		   qslim_app.sprintf("%s/qslim.exe", cds_dir);
+		   qslim_app.asprintf("%s/qslim.exe", cds_dir);
 		   qslim_app.replace( QChar('/'), "\\" );
 #else
-		   qslim_app.sprintf("%s/qslim", cds_dir);
+		   qslim_app.asprintf("%s/qslim", cds_dir);
 #endif
 
 		   if (QFile::exists(qslim_app) && !QFileInfo(qslim_app).isDir() && QFileInfo(qslim_app).isExecutable())
@@ -365,10 +365,10 @@ void settingsDialog::setToDefault(bool reset)
 	   {
 		   //Buscamos tetgen en el directorio de coindesigner
 #ifdef _WIN32
-		   tetgen_app.sprintf("%s/tetgen.exe", cds_dir);
+		   tetgen_app.asprintf("%s/tetgen.exe", cds_dir);
 		   tetgen_app.replace( QChar('/'), "\\" );
 #else
-		   tetgen_app.sprintf("%s/tetgen", cds_dir);
+		   tetgen_app.asprintf("%s/tetgen", cds_dir);
 #endif
 
 		   if (QFile::exists(tetgen_app) && !QFileInfo(tetgen_app).isDir() && QFileInfo(tetgen_app).isExecutable())

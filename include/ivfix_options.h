@@ -31,7 +31,7 @@ public:
 	SoNode *output;
 
 	///Constructor
-	ivfix_options (SoNode *root, QWidget *p=0, Qt::WindowFlags f=0);
+	ivfix_options (SoNode *root, QWidget* p = nullptr, Qt::WindowFlags f = {});
 
  private slots:
 	void accept();

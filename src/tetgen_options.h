@@ -36,7 +36,7 @@ public:
 	QString tetgen_args;
 
 	///Constructor
-	tetgen_options (SoPath *path, QWidget *p=0, Qt::WindowFlags f=0);
+	tetgen_options (SoPath *path, QWidget* p = nullptr, Qt::WindowFlags f = {});
 
  private slots:
 

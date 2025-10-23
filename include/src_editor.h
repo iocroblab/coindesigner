@@ -57,7 +57,7 @@ public:
 	SoSeparator *result;
 
 	///Constructor
-	SrcEditor (SoSeparator *scene, bool readOnly=false, QWidget *p=0, Qt::WindowFlags f=0);
+	SrcEditor (SoSeparator *scene, bool readOnly=false, QWidget* p = nullptr, Qt::WindowFlags f = {});
 
 private slots:
 	void on_enableHL_stateChanged(int state);

@@ -467,7 +467,7 @@ void ifs_normals(const SoPath *path, SoMFVec3f &normals_face, SoMFVec3f &normals
    }
 
    //Limpiamos memoria
-   delete cardinalidad;
+   delete[] cardinalidad;
 
 }
 

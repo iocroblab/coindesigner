@@ -28,7 +28,7 @@ class cppexport_options : public QDialog
 public:
 
 	///Constructor
-	cppexport_options (SoNode *root, QWidget *p=0, Qt::WindowFlags f=0);
+	cppexport_options (SoNode *root, QWidget* p = nullptr, Qt::WindowFlags f = {});
 
  private slots:
 	void accept();
