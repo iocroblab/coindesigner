@@ -114,8 +114,7 @@ static void readError_CB(const class SoError *error, void *)
 {
 	assert(error && error->getTypeId() == SoReadError::getClassTypeId() );
 
-	QString S;
-	S.sprintf("%s", error->getDebugString().getString() );
+	QString S; S.asprintf("%s", error->getDebugString().getString() );
 
 	//anade mensaje a la consola de mensajes
 	global_mw->addMessage(S);
@@ -125,8 +124,7 @@ static void readError_CB(const class SoError *error, void *)
 /// Callback que vuelca errores de depuracion de COIN a la consola de mensajes
 static void debugError_CB(const class SoError *error, void *)
 {
-	QString S;
-	S.sprintf("%s", error->getDebugString().getString() );
+	QString S; S.asprintf("%s", error->getDebugString().getString() );
 	//anade mensaje a la consola de mensajes
 	global_mw->addMessage(error->getDebugString().getString());
 }
@@ -531,7 +529,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
 
     char *buf =  new char[size];
 
-    if(demoRsrc.isCompressed())
+    if(demoRsrc.compressionAlgorithm() != QResource::NoCompression)
     {
         memcpy(buf, qUncompress(demoRsrc.data(), size).data(), size);
     }
@@ -563,7 +561,7 @@ void MainWindow::load_Scene_Demo(const QString &filename)
 	scene->unref();
     escena_modificada = false;
 
-    delete buf;
+    delete[] buf;
 
 }//void MainWindow::load_Scene_Demo(const QString &filename)
 
@@ -795,63 +793,65 @@ void MainWindow::on_actionPrintSceneGraph_triggered()
 	for (int i=0; i< scn.columnCount(); i++)
 		scn.resizeColumnToContents(i);
 
-	int headerHeight = scn.header()->height();
-    int heightPage = printer.pageRect().height();
-	int itemsPerPage = (heightPage-headerHeight) / (scn.visualItemRect(qroot).height()+1); 
-	//qDebug("heightPage=%d headerHeight=%d numItems=%d itemsPerPage=%d ", heightPage, headerHeight, numItems, itemsPerPage);
+    // compute the printable area in device pixels (matches QPixmap/QImage pixels)
+    const QRect paintRect = printer.pageLayout().paintRectPixels(printer.resolution());
 
-	//Primer elemento de cada pagina
-	QTreeWidgetItem *topItem = NULL;
-	QTreeWidgetItem *lastItem = NULL;
-	scn.resize(printer.pageRect().size());
+    int headerHeight = scn.header()->height();
+    int heightPage   = paintRect.height();
+    int itemsPerPage = (heightPage - headerHeight) / (scn.visualItemRect(qroot).height() + 1);
 
-	//Renderiza las paginas en bloques de itemsPerPage elementos
-	QPainter painter;
-	painter.begin(&printer);
-	int page=0;
-	do
-	{
-		//Calcula el proximo item que sera cabecera de pagina
-		topItem = scnItemList.at(page*itemsPerPage);
+    // first item of each page
+    QTreeWidgetItem* topItem  = nullptr;
+    QTreeWidgetItem* lastItem = nullptr;
 
-		//Calcula el proximo item que sera fin de pagina
-		int lastItemIdx = page*itemsPerPage+itemsPerPage-1;
-		if (lastItemIdx >= numItems)
-			lastItemIdx = numItems - 1;
-		lastItem = scnItemList.at(lastItemIdx);
+    // make the tree widget match the printable area
+    scn.resize(paintRect.size());
 
-		//qDebug("page=%d topItem=%d lastItem=%d", page, page*itemsPerPage, lastItemIdx); 
+    // render pages in blocks of itemsPerPage items
+    QPainter painter(&printer);
+    int page = 0;
 
-		//Calculamos la posicion del primer y ultimo item de la pagina
-		scn.scrollToItem(topItem,QAbstractItemView::PositionAtTop);
+    do {
+        // page head/tail items
+        topItem = scnItemList.at(page * itemsPerPage);
 
-		QRect topRect = scn.visualItemRect(topItem);
-		QRect lastRect = scn.visualItemRect(lastItem);
-		heightPage = lastRect.bottom() - topRect.top();
-		//qDebug("topRect.top=%d lastRect.bottom=%d heightPage=%d",topRect.top(), lastRect.bottom(), heightPage); 
+        int lastItemIdx = page * itemsPerPage + itemsPerPage - 1;
+        if (lastItemIdx >= numItems) lastItemIdx = numItems - 1;
+        lastItem = scnItemList.at(lastItemIdx);
 
- 		QPixmap pixmap(printer.pageRect().size());
-		pixmap.fill();
+        // position first/last rects of the page
+        scn.scrollToItem(topItem, QAbstractItemView::PositionAtTop);
 
-		//Renderiza la cabecera al principio de la pagina
-		scn.header()->render(&pixmap);
+        const QRect topRect  = scn.visualItemRect(topItem);
+        const QRect lastRect = scn.visualItemRect(lastItem);
+        heightPage           = lastRect.bottom() - topRect.top();
 
-		//Renderiza los items de la pagina
-		scn.viewport()->render(&pixmap, QPoint(0,headerHeight-topRect.top()), QRegion(0, topRect.top(), pixmap.width(), heightPage));
+        // draw into a raster surface sized exactly to the printable area
+        QPixmap pixmap(paintRect.size());
+        pixmap.fill();
 
-		//Manda el pixmap a la impresora
-		//pixmap.save(QString("print_%1.png").arg(page));
-		painter.drawPixmap(printer.pageRect(), pixmap);
+        // header at top
+        scn.header()->render(&pixmap);
 
-		//Miramos si hace falta alguna otra pagina
-		if (lastItemIdx < numItems - 1)
-			printer.newPage();
-		else
-			break;
+        // items for the page
+        scn.viewport()->render(
+            &pixmap,
+            QPoint(0, headerHeight - topRect.top()),
+            QRegion(0, topRect.top(), pixmap.width(), heightPage)
+        );
 
-		page++;
+        // send to printer: target is the printable area
+        painter.drawPixmap(paintRect, pixmap);
 
-	} while (true);
+        // next page?
+        if (lastItemIdx < numItems - 1)
+            printer.newPage();
+        else
+            break;
+
+        ++page;
+
+    } while (true);
 
 	//Finaliza y envia el documento a la impresora
 	painter.end();
@@ -1399,7 +1399,8 @@ void MainWindow::on_actionEngine_demo_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     QString msj;
-    msj.sprintf("<p>Coindesigner version %f (%s)<p>", CDS_VERSION, __DATE__ );
+    msj = QString("<p>Coindesigner %1 (%2)<p>").arg(CDS_VERSION).arg(CDS_BUILD_DESC);
+    //msj .asprintf("<p>Coindesigner version %f (%s)<p>", CDS_VERSION, __DATE__ );
     msj += tr("Written by")+" Jose M. Espadero "+tr("and")+" Tomas Aguado";
     msj += "<br>         " + tr("with useful contributions from") + " Manfred Kroehnert";
     msj += "<p><a href=https://github.com/jmespadero/coindesigner>https://github.com/jmespadero/coindesigner)</a>";
@@ -1620,7 +1621,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
          if(field->isOfType(SoMField::getClassTypeId()))
          {
              //Cambiamos la cabecera para indicar que es un MF...
-             S.sprintf("%s[%d]", nombre_campo, ((SoMField *)field)->getNum() );
+             S.asprintf("%s[%d]", nombre_campo, ((SoMField *)field)->getNum() );
          }
          else
          {
@@ -1664,7 +1665,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 				 	SbName mName;
 					QString masterName(mfc->getName().getString());
 					if (masterName.isEmpty())
-						masterName.sprintf("%p", mfc);
+						masterName.asprintf("%p", mfc);
 				 	mfc->getFieldName(mf, mName);
 				 	S+= QString("<-") + masterName + QString(".")+ QString(mName.getString())+"\n";
 			 	}//for
@@ -1681,7 +1682,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 				 mfc->getOutputName(mf, mName);
 				 QString masterName(mfc->getName().getString());
 				 if (masterName.isEmpty())
-					 masterName.sprintf("%p", mfc);
+					 masterName.asprintf("%p", mfc);
 				 S+= QString("<-")+QString("Engine:") + masterName + QString(".")+ QString(mName.getString())+"\n";
 			 }
 
@@ -1696,7 +1697,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 					SoFieldContainer *mfc = mf->getContainer();
 					QString slaveName(mfc->getName().getString());
 					if (slaveName.isEmpty())
-						slaveName.sprintf("%p", mfc);
+						slaveName.asprintf("%p", mfc);
 					SbName mName;
 					mfc->getFieldName(mf, mName);
 					S+= QString("->")+tr("Slave Field:") + slaveName
@@ -1811,7 +1812,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
             //Lo convertimos en valores RGB
             const float*rgb = color->getValue().getValue();
-            S.sprintf("%.02g %.2g %.02g", rgb[0], rgb[1], rgb[2]);
+            S.asprintf("%.02g %.2g %.02g", rgb[0], rgb[1], rgb[2]);
            
             //Actualizamos el campo segun el contenido
             Ui.fieldTable->item(numRows,0)->setText(S);
@@ -1828,11 +1829,11 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             rot->getValue(axis, angle);
 
             //Lo mostramos como campos separados. Primero el eje
-            S.sprintf("%s.axis", nombre_campo);
+            S.asprintf("%s.axis", nombre_campo);
             Ui.fieldTable->verticalHeaderItem(numRows)->setText(S);
 
             const float*xyz = axis.getValue();
-            S.sprintf("%.3g %.3g %.3g", xyz[0], xyz[1], xyz[2]);
+            S.asprintf("%.3g %.3g %.3g", xyz[0], xyz[1], xyz[2]);
             Ui.fieldTable->item(numRows,0)->setText(S);
 
             //Ahora el angulo
@@ -1841,9 +1842,9 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             Ui.fieldTable->setVerticalHeaderItem(numRows,new QTableWidgetItem ());
             Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem ());
 
-            S.sprintf("%s.angle", nombre_campo);
+            S.asprintf("%s.angle", nombre_campo);
             Ui.fieldTable->verticalHeaderItem(numRows)->setText(S);
-            S.sprintf("%.3g", angle);
+            S.asprintf("%.3g", angle);
             Ui.fieldTable->item(numRows,0)->setText(S.setNum(angle));
 
             //Mapeamos el numero de fila con el field correspondiente
@@ -1860,19 +1861,19 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             const float dist = plane->getValue().getDistanceFromOrigin();
 
             //Lo mostramos como campos separados. Primero el eje
-            S.sprintf("%s.norm", nombre_campo);
+            S.asprintf("%s.norm", nombre_campo);
             Ui.fieldTable->verticalHeaderItem(numRows)->setText(S);
             const float*xyz = norm.getValue();
-            S.sprintf("%.3g %.3g %.3g", xyz[0], xyz[1], xyz[2]);
+            S.asprintf("%.3g %.3g %.3g", xyz[0], xyz[1], xyz[2]);
             Ui.fieldTable->item(numRows,0)->setText(S);
 
             //Ahora el angulo
             numRows++;
             Ui.fieldTable->setRowCount (numRows+1);
 
-            S.sprintf("%s.dist", nombre_campo);
+            S.asprintf("%s.dist", nombre_campo);
             Ui.fieldTable->setVerticalHeaderItem(numRows,new QTableWidgetItem (S));
-            S.sprintf("%.3g", dist);
+            S.asprintf("%.3g", dist);
             Ui.fieldTable->setItem(numRows,0,new QTableWidgetItem (S.setNum(dist)));
 
             //Mapeamos el numero de fila con el field correspondiente
@@ -1890,7 +1891,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             img->getValue(size, nc);
 
             //Actualizamos el campo segun el contenido
-            S.sprintf("%dx%dx%d", size[0], size[1], nc);
+            S.asprintf("%dx%dx%d", size[0], size[1], nc);
             Ui.fieldTable->item(numRows,0)->setText(S);
          }
          //Actualizacion de cualquier campo tipo SoSFNode
@@ -1930,7 +1931,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
               }
 
               //Cambiamos la cabecera para indicar que es un MF...
-              S.sprintf("%s[%d]", nombre_campo, i);
+              S.asprintf("%s[%d]", nombre_campo, i);
               Ui.fieldTable->verticalHeaderItem(numRows)->setText(S);
 
               //Mostramos el nombre del nodo
@@ -1961,7 +1962,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
             if(color->getNum() > 0)
             {   
                 const float*rgb = (*color)[0].getValue();
-                S.sprintf("%.02g %.2g %.02g", rgb[0], rgb[1], rgb[2]);
+                S.asprintf("%.02g %.2g %.02g", rgb[0], rgb[1], rgb[2]);
 
                 //Actualizamos el campo segun el contenido
                 Ui.fieldTable->item(numRows,0)->setText(S);
@@ -2051,7 +2052,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
         //Centroide
         SbVec3f centro = centroid (n2->point);
-        M += QString(" <> ") + tr("Center:") + S.sprintf("(%.3f,%.3f,%.3f)", centro[0], centro[1], centro[2]);
+        M += QString(" <> ") + tr("Center:") + S.asprintf("(%.3f,%.3f,%.3f)", centro[0], centro[1], centro[2]);
     }
 
     else if (tipo.isDerivedFrom(SoVertexProperty::getClassTypeId())) 
@@ -2063,7 +2064,7 @@ void MainWindow::updateFieldEditor(SoNode *nodo)
 
         //Centroide
         SbVec3f centro = centroid (n2->vertex);
-        M += QString(" <> ") + tr("Center:") + S.sprintf("(%.3f,%.3f,%.3f)", centro[0], centro[1], centro[2]);
+        M += QString(" <> ") + tr("Center:") + S.asprintf("(%.3f,%.3f,%.3f)", centro[0], centro[1], centro[2]);
     }
 
     //Mostramos el mensaje M en la barra de status
@@ -2334,7 +2335,7 @@ void MainWindow::on_fieldTable_userChanged(int row, int column)
         {
             //Mostramos un mensaje de aviso
             QString S;
-            S.sprintf(tr("There are %d nodes with the name:").toLatin1(), num);
+            S.asprintf(tr("There are %d nodes with the name:").toLatin1(), num);
             S+=item_txt;
             QMessageBox::warning( this, tr("Warning"), S);
 
@@ -2444,7 +2445,7 @@ void MainWindow::generarListaComponentes(SoType t, bool plano, QTreeWidgetItem *
     if (t.isBad())
     {
         QString S;
-        S.sprintf("type.isBad()");
+        S.asprintf("type.isBad()");
         QMessageBox::critical(this, tr("Critical Error"), S, QMessageBox::Abort);
         assert (!t.isBad());
     }
@@ -2899,7 +2900,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
         QString S;
         S += strFilename + QString(": ") + tr("Error while reading DXF file on line ") + in.getFilePosition();
                               
-//        S.sprintf(tr("%s: Error while reading DXF file on line %d\n"),
+//        S.asprintf(tr("%s: Error while reading DXF file on line %d\n"),
 //                     strFilename, in.getFilePosition());
         QMessageBox::critical( this, tr("Error"), S, QMessageBox::Abort);
         return NULL;
@@ -2913,7 +2914,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       {
          QString S;
          S += strFilename + tr(": Error writting temporaly file");
-         //S.sprintf(tr("%s: Error writting temporaly file"), 
+         //S.asprintf(tr("%s: Error writting temporaly file"), 
          //    strFilename );
          QMessageBox::critical( this, tr("Error"), S, QMessageBox::Ok, 
          QMessageBox::NoButton, QMessageBox::NoButton);  
@@ -2929,7 +2930,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       {
           QString S;
           S += strFilename + tr(": Error while converting from DXF to OpenInventor");
-          //S.sprintf(tr("%s: Error while converting from DXF to OpenInventor"), 
+          //S.asprintf(tr("%s: Error while converting from DXF to OpenInventor"), 
           //   strFilename );
           QMessageBox::critical( this, tr("Error"), S, QMessageBox::Ok, 
           QMessageBox::NoButton, QMessageBox::NoButton);  
@@ -2954,7 +2955,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
       {
           QString S;
           S += strFilename + tr(": Error loading temporaly file");
-//          S.sprintf(tr("%s: Error loading temporaly file"), 
+//          S.asprintf(tr("%s: Error loading temporaly file"), 
 //          strFilename );
           QMessageBox::critical( this, tr("Error"), S, QMessageBox::Ok, 
           QMessageBox::NoButton, QMessageBox::NoButton);  
@@ -3102,7 +3103,7 @@ SoSeparator * MainWindow::cargarFichero3D(QString filename)
     //Lo siento, pero ha fallado todo lo anterior
     /*
     QString S;
-    S.sprintf(tr("%s: No puedo cargar este formato de datos"), 
+    S.asprintf(tr("%s: No puedo cargar este formato de datos"), 
              strFilename );
     QMessageBox::critical( this, tr("Error"), S);
     */
@@ -3227,7 +3228,7 @@ SoSeparator *MainWindow::read_mha_volume(const QString &filename)
 	else
 	{
 		QString S;
-		S.sprintf("dimension: [%d %d %d] ;; spacing: [%f %f %f]",
+		S.asprintf("dimension: [%d %d %d] ;; spacing: [%f %f %f]",
 			dimension[0], dimension[1], dimension[2], elementSpacing[0], elementSpacing[1], elementSpacing[2]);
 		addMessage(S);
 	}
@@ -4111,7 +4112,7 @@ void MainWindow::embedTexture(SoNode *node)
   {
 	  __chivato__
 	  QString S;
-      S.sprintf("No puedo incrustar en %s", node->getTypeId().getName().getString() );
+      S.asprintf("No puedo incrustar en %s", node->getTypeId().getName().getString() );
 	  QMessageBox::warning( this, tr("Error"), S);
 	  return;
   }
@@ -4219,7 +4220,7 @@ void MainWindow::on_Convert_Manip_triggered()
 		{
 			//Me han pasado un nodo no soportado
 			QString S;
-			S.sprintf("Wrong action. Blame developper!!");
+			S.asprintf("Wrong action. Blame developper!!");
 			QMessageBox::warning( this, tr("Warning"), S);
 
 			return;
@@ -4262,7 +4263,7 @@ void MainWindow::on_Convert_Manip_triggered()
 	{
 		//Me han pasado un nodo no soportado
 		QString S;
-		S.sprintf("Can't convert %s into a manip", node->getTypeId().getName().getString());
+		S.asprintf("Can't convert %s into a manip", node->getTypeId().getName().getString());
 		QMessageBox::warning( this, tr("Warning"), S);
 
 		return;
