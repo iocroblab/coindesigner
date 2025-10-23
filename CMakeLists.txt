@@ -232,6 +232,11 @@ set ( CDS_MOCS src/mainwindow.h
                src/tetgen_options.h)
 QT5_WRAP_CPP(MOCS ${CDS_MOCS})
 
+execute_process(COMMAND git describe --tags --dirty --always
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                OUTPUT_VARIABLE GIT_DESC OUTPUT_STRIP_TRAILING_WHITESPACE)
+add_definitions(-DCDS_BUILD_DESC=\"${GIT_DESC}\")
+
 add_executable ( coindesigner ${CDS_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
 add_executable ( cdsview src/cdsview.cpp src/cds_scanner.cpp src/cds_parser.cpp ${TRS})
 
