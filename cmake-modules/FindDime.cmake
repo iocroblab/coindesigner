@@ -40,8 +40,11 @@ IF(USE_SIM_FIND)
                   DEBUGLIBNAMES dime1d dimed
                   INCLUDEFILE dime.h)
 ELSE(USE_SIM_FIND)
-  INCLUDE(FindPkgConfig)
+  find_package(PkgConfig QUIET)
 
+  if(PKG_CONFIG_FOUND)
+    pkg_check_modules(SIMAGE QUIET simage)
+  endif()
   IF (PKG_CONFIG_FOUND)
     IF (Dime_DIR)
       SET(Dime_OLD_PKG_CONFIG_PATH $ENV{PKG_CONFIG_PATH})
