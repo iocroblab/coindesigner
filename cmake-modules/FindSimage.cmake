@@ -40,7 +40,11 @@ IF(USE_SIM_FIND)
                   DEBUGLIBNAMES simage1d simaged
                   INCLUDEFILE simage.h)
 ELSE(USE_SIM_FIND)
-  INCLUDE(FindPkgConfig)
+  find_package(PkgConfig QUIET)
+
+  if(PKG_CONFIG_FOUND)
+     pkg_check_modules(SIMAGE QUIET simage)
+  endif()
 
   IF (PKG_CONFIG_FOUND)
     IF (Simage_DIR)
