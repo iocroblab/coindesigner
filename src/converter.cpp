@@ -14,12 +14,14 @@
 #include <iostream>
 #include <sstream>
 
-
+// this fails
 //#define SSTR(x) dynamic_cast<std::ostringstream&>((std::ostringstream() << std::dec << x)).str()
-template <typename T>
-inline std::string SSTR(const T& x) {
+// this NO fails, but only integrers
+//#define SSTR(x) std::to_string(x)
+template <class T>
+static inline std::string sstr(const T& v) {
     std::ostringstream oss;
-    oss << std::dec << x;
+    oss << std::dec << v;   // keep any manipulators you need
     return oss.str();
 }
 
@@ -117,7 +119,7 @@ postShapeCB(void *data, SoCallbackAction *action, const SoNode *node) {
             //Set name
             mesh->mName.Set(node->getName().getString());
             if (converter->shapeMeshes_.size() > 0) {
-                mesh->mName.Append(SSTR(i).c_str());
+                mesh->mName.Append(sstr(i).c_str());
             }
             i++;
 
